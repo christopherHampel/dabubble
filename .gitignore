@@ -42,4 +42,8 @@ testem.log
 Thumbs.db
 
 # API key
+<<<<<<< Updated upstream
 /src/app/environments/environments.ts
+=======
+src/app/environments/environments.ts
+>>>>>>> Stashed changes
