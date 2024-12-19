@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create-account',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule ],
   templateUrl: './create-account.component.html',
   styleUrl: './create-account.component.scss'
 })
