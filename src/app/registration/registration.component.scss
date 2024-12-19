@@ -1,0 +1,42 @@
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+    width: 100vw;
+    background-color: #ECEEFE;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 75px;
+
+    width: 100%;
+
+    position: absolute;
+    top: 0;
+
+    & > .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+    }
+
+    & > .to_signup {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: center;
+    }
+}
+
+input {
+    width: 100px;
+    height: 18px;
+    background-color: greenyellow;
+}
