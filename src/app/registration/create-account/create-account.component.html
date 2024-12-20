@@ -1,6 +1,7 @@
 <section class="registration-card">
     <h2>Konto erstellen</h2>
     <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
+    <a [routerLink]="'/register/login'">zurück</a>
     
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="input-container">

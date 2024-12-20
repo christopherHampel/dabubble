@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { LoginComponent } from './login/login.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
   imports: [
-    LoginComponent
+    RouterOutlet, RouterLink
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'
