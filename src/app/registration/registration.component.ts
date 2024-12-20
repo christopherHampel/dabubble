@@ -7,7 +7,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     RouterOutlet, RouterLink
   ],
   templateUrl: './registration.component.html',
-  styleUrl: './registration.component.scss'
+  styleUrl: './registration.component.scss',
+  standalone: true
 })
 export class RegistrationComponent {
 
