@@ -7,7 +7,8 @@ import { LoginComponent } from './login/login.component';
     LoginComponent
   ],
   templateUrl: './registration.component.html',
-  styleUrl: './registration.component.scss'
+  styleUrl: './registration.component.scss',
+  standalone: true
 })
 export class RegistrationComponent {
 
