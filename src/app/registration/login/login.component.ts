@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [ ReactiveFormsModule, CommonModule, RouterLink ],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   standalone: true
@@ -15,6 +15,7 @@ import { AuthService } from '../../services/auth/auth.service';
 export class LoginComponent {
 
   loginForm: FormGroup;
+  signOut = false;
 
   constructor(private fb: FormBuilder, private auth: AuthService) {
     this.loginForm = this.fb.group({
@@ -27,17 +28,16 @@ export class LoginComponent {
 
   async register() {
     await this.auth.register("test@yahoo.com", "test123");
-    console.log('Register: ', this.auth.userCredential.user.email);
   }
 
   async login() {
     await this.auth.login("test@yahoo.com", "test123");
-    console.log('Login: ', this.auth.userCredential.user.uid);
+    console.log(this.auth.userSignal);
   }
 
   async logout() {
     await this.auth.logout();
-    console.log('Logout: ', this.auth.userCredential.user.email);
+    this.signOut = true;
   }
 
   onSubmit() {

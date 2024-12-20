@@ -6,47 +6,50 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
   providedIn: 'root'
 })
 export class AuthService {
-  auth = inject(Auth);
-  userSignal = signal<any | null>(null);
-  userCredential: any = null;
+  private auth: Auth = inject(Auth);
+  private _userSignal = signal<any | null>(null);
 
-  constructor() { 
+  constructor() {
     user(this.auth).subscribe((currentUser) => {
-      this.userSignal.set(currentUser);
+      this._userSignal.set(currentUser);
     });
+  }
+
+  get userSignal() {
+    return this._userSignal();
   }
 
   async register(email: string, password: string) {
-    return await createUserWithEmailAndPassword(this.auth, email, password)
-    .then((userCredential) => {
-      this.userSignal.set(userCredential);
-      this.userCredential = userCredential;
-    })
-    .catch((error) => {
-      console.log('Fehler bei der Registrierung: ', error);
-    });
+    return createUserWithEmailAndPassword(this.auth, email, password)
+      .then((userCredential) => {
+        this._userSignal.set(userCredential);
+        console.info('Registriert: ', userCredential.user.email);
+      })
+      .catch((error) => {
+        console.log('Fehler bei der Registrierung: ', error);
+      });
   }
 
   async login(email: string, password: string) {
-    return await signInWithEmailAndPassword(this.auth, email, password)
-    .then((userCredential) => {
-      this.userSignal.set(userCredential.user);
-      this.userCredential = userCredential;
-    })
-    .catch((error) => {
-      console.log('Fehler bei der Anmeldung: ', error);
-    });
+    return signInWithEmailAndPassword(this.auth, email, password)
+      .then((userCredential) => {
+        this._userSignal.set(userCredential.user);
+        console.info('Login: ', userCredential.user.email);
+      })
+      .catch((error) => {
+        console.log('Fehler bei der Anmeldung: ', error);
+      });
   }
 
   async logout() {
-    return await signOut(this.auth)
-    .then(() => {
-      this.userSignal.set(null)
-      console.log(this.userCredential.user.email);
-    })
-    .catch((error) => {
-      console.log('Fehler beim ausloggen: ', error);
-    })
+    return signOut(this.auth)
+      .then(() => {
+        this._userSignal.set(null)
+        console.log('Logout!');
+      })
+      .catch((error) => {
+        console.log('Fehler beim ausloggen: ', error);
+      });
   }
 
 }
