@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { interval, map, take } from 'rxjs';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-registration',
   imports: [
-    RouterOutlet, RouterLink, AsyncPipe, CommonModule
+    RouterOutlet, RouterLink, CommonModule
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
@@ -14,16 +14,32 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 })
 export class RegistrationComponent {
 
+  images: string[] = [
+    '/img/D.png',
+    '/img/A.png',
+    '/img/B.png',
+    '/img/u.png',
+    '/img/small_b1.png',
+    '/img/small_b2.png',
+    '/img/l.png',
+    '/img/e.png',
+  ];
+
+  currentImages: string[] = [];
+
+
   constructor(private router: Router) {}
 
-  typedText$ = this.getTypewriterEffect('DABubble', 200).pipe(
-    map((text) => text)
-  );
+  ngOnInit() {
+    this.getTypewriterEffect(this.images, 200).subscribe((images) => {
+      this.currentImages = images;
+    });
+  }
 
-  getTypewriterEffect(word: string, speed: number = 200) {
+  getTypewriterEffect(images: string[], speed: number = 200) {
     return interval(speed).pipe(
-      map((x) => word.substring(0, x + 1)),
-      take(word.length)
+      map((index) => images.slice(0, index + 1)),
+      take(images.length)
     );
   }
 

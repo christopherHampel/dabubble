@@ -2,7 +2,9 @@
     <div class="logo-bg">
         <div class="logo">
             <img src="/img/dabubblelogo.svg" alt="DAbubble_logo">
-            <span>{{ typedText$ | async }}</span>
+            <div class="typewriter">
+                <img *ngFor="let image of currentImages" [src]="image" alt="">
+              </div>
         </div>
     </div>
 
