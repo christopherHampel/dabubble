@@ -1,13 +1,14 @@
 <section>
-    <header class="login_header">
+    <div class="logo-bg">
         <div class="logo">
             <img src="/img/dabubblelogo.svg" alt="DAbubble_logo">
-            <span>DABubble</span>
+            <span>{{ typedText$ | async }}</span>
         </div>
-        <div class="to_signup">
-            <span>Neu bei DABubble?</span>
-            <a [routerLink]="['/register/create-account']" class="signup-link">Konto erstellen</a>
-        </div>
-    </header>
+    </div>
+
+    <div class="to-signup">
+        <span>Neu bei DABubble?</span>
+        <a [routerLink]="['/register/create-account']" class="signup-link">Konto erstellen</a>
+    </div>
     <router-outlet></router-outlet>
 </section>
