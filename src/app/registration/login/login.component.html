@@ -21,6 +21,10 @@
             <small *ngIf="loginForm.get('password')?.hasError('minlength')">Passwort muss mindestens 6 Zeichen lang sein.</small>
           </div>
         </div>
+
+        <div class="reset-password" [routerLink]="'/register/reset-password'">
+          <span>Passwort vergessen?</span>
+        </div>
     
         <button type="submit" [disabled]="loginForm.invalid">Login</button>
         <button  [disabled]="loginForm.invalid">Logout</button>
