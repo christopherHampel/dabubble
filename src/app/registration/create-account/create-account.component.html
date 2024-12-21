@@ -2,7 +2,10 @@
     <h2>Konto erstellen</h2>
     <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
     <a [routerLink]="'/register/login'">zurück</a>
-    
+
+    @if(errorMessage) {
+      <p>{{errorMessage}}</p>
+    }
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="input-container">
             <label for="email">Email</label>

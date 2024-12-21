@@ -3,6 +3,9 @@
     <h2>Anmeldung</h2>
     <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
 
+    @if(errorMessage) {
+      <p>{{errorMessage}}</p>
+    }
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div>
         <label for="email">Email</label>
@@ -22,12 +25,9 @@
             sein.</small>
         </div>
       </div>
-
       <button type="submit" [disabled]="loginForm.invalid">Login</button>
+      <button (click)="onLogout()">Logout</button>
+      <button (click)="onLoginWithGoogle()">Google</button>
     </form>
   </div>
-  <button (click)="logout()">Logout</button>
-  @if(signOut == true) {
-  <p>Signout</p>
-  }
 </section>

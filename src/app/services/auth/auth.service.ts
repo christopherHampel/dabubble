@@ -1,55 +1,45 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signOut, user } from '@angular/fire/auth';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, user } from '@angular/fire/auth';
+import { UserInterface } from '../../interfaces/userInterface';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private auth: Auth = inject(Auth);
-  private _userSignal = signal<any | null>(null);
+  private auth = inject(Auth);
+  user$ = user(this.auth);
+  currentUserSig = signal<UserInterface | null | undefined>(undefined);
 
-  constructor() {
-    user(this.auth).subscribe((currentUser) => {
-      this._userSignal.set(currentUser);
-    });
+  constructor() { }
+
+  register(userName: string, email: string, password: string): Observable<void> {
+    const promise = createUserWithEmailAndPassword(this.auth, email, password)
+    .then((response) => {
+      updateProfile(response.user, { displayName: userName });
+    })
+
+    return from(promise);
   }
 
-  get userSignal() {
-    return this._userSignal();
+  login(email: string, password: string): Observable<void> {
+    const promise = signInWithEmailAndPassword(this.auth, email, password)
+    .then(() => {});
+
+    return from(promise);
   }
 
-  async register(email: string, password: string) {
-    return createUserWithEmailAndPassword(this.auth, email, password)
-      .then((userCredential) => {
-        this._userSignal.set(userCredential);
-        console.info('Registriert: ', userCredential.user.email);
-      })
-      .catch((error) => {
-        console.log('Fehler bei der Registrierung: ', error);
-      });
+  loginWithGoogle(): Observable<void> {
+    const provider = new GoogleAuthProvider();
+    const promise = signInWithPopup(this.auth, provider)
+    .then(() => {});
+
+    return from(promise);
   }
 
-  async login(email: string, password: string) {
-    return signInWithEmailAndPassword(this.auth, email, password)
-      .then((userCredential) => {
-        this._userSignal.set(userCredential.user);
-        console.info('Login: ', userCredential.user.email);
-      })
-      .catch((error) => {
-        console.log('Fehler bei der Anmeldung: ', error);
-      });
-  }
-
-  async logout() {
-    return signOut(this.auth)
-      .then(() => {
-        this._userSignal.set(null)
-        console.log('Logout!');
-      })
-      .catch((error) => {
-        console.log('Fehler beim ausloggen: ', error);
-      });
+  logout(): Observable<void> {
+    const promise = signOut(this.auth);
+    return from(promise);
   }
 
 }
