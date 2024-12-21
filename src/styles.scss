@@ -16,10 +16,21 @@ body {
 }
 
 .registration-card {
+  position: relative;
   background-color: #FFFF;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 30px;
+}
+
+.back-link {
+  position: absolute;
+  top: 45px;
+  left: 32px;
+
+  &:hover {
+      cursor: pointer;
+  }
 }

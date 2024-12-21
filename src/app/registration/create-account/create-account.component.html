@@ -1,9 +1,13 @@
 <section class="registration-card">
+
+    <div class="back-link">
+      <a [routerLink]="'/register/login'"><img src="/img/arrow_back.png"></a>
+    </div>
+
     <h2>Konto erstellen</h2>
     <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
-    <a [routerLink]="'/register/login'">zurück</a>
     
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" (ngSubmit)="getUser()">
         <div class="input-container">
             <label for="email">Email</label>
             <div class="input-wrapper">
@@ -46,6 +50,10 @@
             </div>
           </div>
     
-        <button type="submit" [disabled]="loginForm.invalid">Login</button>
+        <!-- <button type="submit" [disabled]="loginForm.invalid">Login</button> -->
       </form>
-</section>
+      <div class="further-button">
+        <button 
+            (click)="getUser()"
+            [disabled]="loginForm.invalid">Weiter</button>
+    </div></section>

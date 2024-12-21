@@ -22,13 +22,13 @@ export class CreateAccountComponent {
     });
   }
 
-  onSubmit() {
+  getUser() {
     if (this.loginForm.valid) {
       console.log('Formularwert:', this.loginForm.value);
     } else {
       console.log('Formular ist ungültig');
     }
-    this.router.navigate(['/register/login']);
+    this.router.navigate(['/register/choose-avatar']);
   }
 
 }
