@@ -1,33 +1,47 @@
-<section class="registration-card">
-    <div class="registration-card">
-    <h2>Anmeldung</h2>
-    <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
-    
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div>
-          <label for="email">Email</label>
-          <input id="email" formControlName="email" type="email" />
-          <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-            <small *ngIf="loginForm.get('email')?.hasError('required')">Email ist erforderlich.</small>
-            <small *ngIf="loginForm.get('email')?.hasError('email')">Bitte eine gültige Email eingeben.</small>
+<section class="input-card">
+    <div class="input-card-container">
+      <h2>Anmeldung</h2>
+      <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="input-container">
+            <div class="input-field">
+              <img class="input-icon" src="/img/mail-icon.svg" alt="">
+              <input id="email" placeholder="YourEmail@email.com" formControlName="email" type="email" />
+            </div>
+            <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+              <small *ngIf="loginForm.get('email')?.hasError('required')">Email ist erforderlich.</small>
+              <small *ngIf="loginForm.get('email')?.hasError('email')">Bitte eine gültige Email eingeben.</small>
+            </div>
           </div>
-        </div>
-    
-        <div>
-          <label for="password">Passwort</label>
-          <input id="password" formControlName="password" type="password" />
-          <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-            <small *ngIf="loginForm.get('password')?.hasError('required')">Passwort ist erforderlich.</small>
-            <small *ngIf="loginForm.get('password')?.hasError('minlength')">Passwort muss mindestens 6 Zeichen lang sein.</small>
+      
+          <div class="input-container">
+            <div class="input-field">
+              <img class="input-icon" src="/img/lock-icon.svg" alt="">
+              <input id="password" placeholder="password" formControlName="password" type="password" />
+            </div>
+            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+              <small *ngIf="loginForm.get('password')?.hasError('required')">Passwort ist erforderlich.</small>
+              <small *ngIf="loginForm.get('password')?.hasError('minlength')">Passwort muss mindestens 6 Zeichen lang sein.</small>
+            </div>
           </div>
-        </div>
-
-        <div class="reset-password" [routerLink]="'/register/reset-password'">
-          <span>Passwort vergessen?</span>
-        </div>
-    
-        <button type="submit" [disabled]="loginForm.invalid">Login</button>
-        <button  [disabled]="loginForm.invalid">Logout</button>
-      </form>
+          <div class="login-options">
+            <a href="/password-reset">Passwort vergessen?</a>
+            <div class="divider">
+              <span>ODER</span>
+            </div>
+            <div class="google-login-container">
+            <button class="google-login">
+              <img src="/img/Google-icon.svg" alt="Google Icon" />
+              Anmelden mit Google
+            </button>
+          </div>
+          </div>
+          <div class="btn-container login-btn-container">
+            <button class="main-btn" type="submit" [disabled]="loginForm.invalid">Login</button>
+            <button class="gast-login-btn" type="submit" [disabled]="loginForm.invalid">Guest Login</button>
+          </div>
+          
+        </form>
     </div>
 </section>
