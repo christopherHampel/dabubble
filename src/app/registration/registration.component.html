@@ -1,13 +1,15 @@
-<section class="header-container">
-    <header class="login_header">
         <div class="logo">
             <img src="/img/dabubblelogo.svg" alt="DAbubble_logo">
-            <span>DABubble</span>
+            <div class="typewriter">
+                <img *ngFor="let image of currentImages" [src]="image" alt="">
+              </div>
         </div>
-        <div class="to_signup">
-            <span>Neu bei DABubble?</span>
-            <a routerLink="/createNewAccount" class="signup-link">Konto erstellen</a>
-        </div>
-    </header>
-    <app-login />
+
+    </div>
+
+    <div class="to-signup" *ngIf="currentRoute()">
+        <span>Neu bei DABubble?</span>
+        <a [routerLink]="['/register/create-account']" class="signup-link">Konto erstellen</a>
+    </div>
+    <router-outlet></router-outlet>
 </section>
