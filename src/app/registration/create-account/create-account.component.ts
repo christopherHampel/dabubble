@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { UserRegister } from '../../interfaces/userRegister';
 
 @Component({
   selector: 'app-create-account',
@@ -25,27 +26,25 @@ export class CreateAccountComponent {
     });
   }
 
-  onRegister() {
+  goToAvatar() {
     const rawForm = this.loginForm.getRawValue();
-    this.auth.register(rawForm.name, rawForm.email, rawForm.password)
-      .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/register/login');
-        },
-        error: (err) => {
-          this.errorMessage = err.code;
-        }
-      });
+    const state: UserRegister = {
+        userName: rawForm.name,
+        email: rawForm.email,
+        password: rawForm.password,
+        avatar: null
+    }
+    console.log('Create account: ', state);
+    this.router.navigate(['/register/choose-avatar'], { state });
   }
 
   getUser() {
     if (this.loginForm.valid) {
       console.log('Formularwert:', this.loginForm.value);
-      this.onRegister();
+      this.goToAvatar();
     } else {
       console.log('Formular ist ungültig');
     }
-    this.router.navigate(['/register/choose-avatar']);
   }
 
 }

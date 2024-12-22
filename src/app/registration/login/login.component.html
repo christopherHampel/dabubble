@@ -39,7 +39,7 @@
           </div>
           <div class="btn-container login-btn-container">
             <button class="main-btn" type="submit" [disabled]="loginForm.invalid">Login</button>
-            <button class="gast-login-btn" type="submit" [disabled]="loginForm.invalid">Guest Login</button>
+            <button (click)="onGaestLogin()" class="gast-login-btn" type="submit">Guest Login</button>
           </div>
           
         </form>

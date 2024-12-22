@@ -25,8 +25,6 @@
         </div>
     </div>
     <div class="further-button">
-        <button 
-            [routerLink]="'/register/login'"
-            [disabled]="currentAvatar === '/img/empty_profile.png'">Weiter</button>
+        <button (click)="onRegister()" [disabled]="currentAvatar === '/img/empty_profile.png'">Weiter</button>
     </div>
 </section>

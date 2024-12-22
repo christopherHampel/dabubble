@@ -30,7 +30,9 @@ export class LoginComponent implements OnInit {
       if (user) {
         this.auth.currentUserSig.set({
           userName: user.displayName!,
-          email: user.email!
+          email: user.email!,
+          password: '',
+          avatar: user.photoURL
         });
         console.log(this.auth.currentUserSig()?.email + ' Login!');
       } else {
@@ -43,6 +45,18 @@ export class LoginComponent implements OnInit {
   onLogin() {
     const rawForm = this.loginForm.getRawValue();
     this.auth.login(rawForm.email, rawForm.password)
+      .subscribe({
+        next: () => {
+          this.router.navigateByUrl('/');
+        },
+        error: (err) => {
+          this.errorMessage = err.code;
+        }
+      });
+  }
+
+  onGaestLogin() {
+    this.auth.login('gaest@gaest.com', '123456')
       .subscribe({
         next: () => {
           this.router.navigateByUrl('/');

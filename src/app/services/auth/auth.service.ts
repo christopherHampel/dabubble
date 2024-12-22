@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, user } from '@angular/fire/auth';
-import { UserInterface } from '../../interfaces/userInterface';
+import { UserRegister } from '../../interfaces/userRegister';
 import { from, Observable } from 'rxjs';
 
 @Injectable({
@@ -9,14 +9,17 @@ import { from, Observable } from 'rxjs';
 export class AuthService {
   private auth = inject(Auth);
   user$ = user(this.auth);
-  currentUserSig = signal<UserInterface | null | undefined>(undefined);
+  currentUserSig = signal<UserRegister | null | undefined>(undefined);
 
   constructor() { }
 
-  register(userName: string, email: string, password: string): Observable<void> {
+  register(userName: string, email: string, password: string, avatar: string): Observable<void> {
     const promise = createUserWithEmailAndPassword(this.auth, email, password)
     .then((response) => {
-      updateProfile(response.user, { displayName: userName });
+      updateProfile(response.user, { 
+        displayName: userName,
+        photoURL: avatar
+      });
     })
 
     return from(promise);
