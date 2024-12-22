@@ -1,50 +1,50 @@
-<section class="registration-card">
-    <h2>Konto erstellen</h2>
-    <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
-    
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<section class="header-container">
+  <header class="login_header">
+      <div class="logo">
+          <img src="/img/dabubblelogo.svg" alt="DAbubble_logo">
+          <span>DABubble</span>
+      </div>
+  </header>
+  <section class="input-card">
+    <div class="input-card-container">
+      <h2>Konto erstellen</h2>
+      <span>Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.</span>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="input-container">
-            <label for="email">Email</label>
-            <div class="input-wrapper">
-              <span class="input-icon">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-              </span>
-              <input id="name" formControlName="name" type="text" class="input-field" placeholder="Name und Nachname" />
-            </div>
-            <div *ngIf="loginForm.get('name')?.touched && loginForm.get('name')?.invalid">
-              <small *ngIf="loginForm.get('name')?.hasError('required')">Email ist erforderlich.</small>
-              <small *ngIf="loginForm.get('name')?.hasError('name')">Bitte eine gültige Email eingeben.</small>
-            </div>
+          <div class="input-field">
+            <img class="input-icon" src="/img/mail-icon.svg" alt="">
+            <input id="name" placeholder="Name und Nachname" formControlName="name" type="name" />
           </div>
-    
+  
+        </div>
           <div class="input-container">
-            <label for="email">Email</label>
-            <div class="input-wrapper">
-              <span class="input-icon">
-                <i class="icon" aria-hidden="true">:e_mail:</i>
-              </span>
-              <input id="email" formControlName="email" type="email" class="input-field" placeholder="beispielname@email.com" />
+            <div class="input-field">
+              <img class="input-icon" src="/img/mail-icon.svg" alt="">
+              <input id="email" placeholder="YourEmail@email.com" formControlName="email" type="email" />
             </div>
-            <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-              <small *ngIf="loginForm.get('email')?.hasError('required')">Email ist erforderlich.</small>
-              <small *ngIf="loginForm.get('email')?.hasError('email')">Bitte eine gültige Email eingeben.</small>
-            </div>
+            
           </div>
-
+      
           <div class="input-container">
-            <label for="email">Email</label>
-            <div class="input-wrapper">
-              <span class="input-icon">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-              </span>
-              <input id="password" formControlName="password" type="text" class="input-field" placeholder="Passwort" />
+            <div class="input-field">
+              <img class="input-icon" src="/img/lock-icon.svg" alt="">
+              <input id="password" placeholder="password" formControlName="password" type="password" />
             </div>
-            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-              <small *ngIf="loginForm.get('password')?.hasError('required')">Email ist erforderlich.</small>
-              <small *ngIf="loginForm.get('password')?.hasError('password')">Bitte eine gültige Email eingeben.</small>
-            </div>
+            
           </div>
-    
-        <button type="submit" [disabled]="loginForm.invalid">Login</button>
-      </form>
+          <div class="privacy-agreement">
+            <input type="checkbox" id="privacy" />
+            <label for="privacy">
+              Ich stimme der <a href="/datenschutzerklaerung" target="_blank">Datenschutzerklärung</a> zu.
+            </label>
+          </div>
+          <div class="btn-container login-btn-container">
+            <button class="main-btn" type="submit" [disabled]="loginForm.invalid">Weiter</button>
+          </div>
+        </form>
+    </div>
+  </section>
 </section>
+<div>
+

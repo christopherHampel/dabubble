@@ -1,1 +1,60 @@
 @use '../registration.component.scss';
+
+h2 {
+    text-align: center;
+    color: rgba(68, 77, 242, 1);
+    font-size: 2.8rem;
+    font-weight: 700;
+    padding-top: 3.3rem;
+    font-family: 'Nunito';
+}
+
+span {
+    font-size: 1.25rem;
+    font-weight: 400;
+    text-align: center;
+    padding: 2rem;
+}
+
+.input-icon {
+    position: absolute;
+    margin-left: 30px;
+    margin-top: 18px;
+  }
+
+.privacy-agreement {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 60px;
+    margin-bottom: 25px;
+  
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #646cff;
+      cursor: pointer;
+    }
+  
+    label {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #4a4a4a;
+      cursor: pointer;
+  
+      a {
+        color: #646cff;
+        text-decoration: none;
+        font-weight: 500;
+  
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  
+  .register-btn {
+    display: flex;
+    align-items: flex-end;
+  }
