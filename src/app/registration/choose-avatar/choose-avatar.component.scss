@@ -1,0 +1,61 @@
+.select-avatar {
+    display: flex;
+    flex-direction: column;
+
+    >.name {
+        text-align: center;
+    }
+}
+
+.flexbox-avatar {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.avatar {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.current-avatar {
+    display: flex;
+    justify-content: center;
+    >img {
+        width: 168px;
+        height: 168px;
+        border-radius: 100px;
+    }
+}
+
+.select-avatar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    >div {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        >.name {
+            text-align: center
+        }
+    };
+}
+
+.avatar-image {
+    >img {
+        height: 64px;
+        width: 64px;
+        border-radius: 41px;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.avatar-list {
+    display: flex;
+    gap: 8px;
+}
