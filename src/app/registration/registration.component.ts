@@ -1,15 +1,11 @@
 import { Component } from '@angular/core';
-import { LoginComponent } from './login/login.component';
-import { RouterLink } from '@angular/router';
-=======
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { interval, map, take } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-registration',
-  imports: [
-  ],
+  imports: [ RouterOutlet, CommonModule, RouterLink ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
   standalone: true
