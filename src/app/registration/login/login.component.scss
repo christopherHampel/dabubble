@@ -1,67 +1,121 @@
-.login_container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+@use '../registration.component.scss';
 
-  .login_header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    position: absolute;
-    top: 35px;
-    
-
-    .logo {
-      display: flex;
-      align-items: center;
-      
-      img {
-        width: 40px;
-        margin-right: 0.5rem;
-      }
-      
-      span {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #232946;
-      }
-    }
-    .to_signup {
-      height: 42px;
-      width: 110px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .signup-link {
-        font-size: 0.9rem;
-        font-weight: 400;
-        color: rgba(121, 126, 243, 1);
-        text-decoration: none;
-        padding: 8px;
-
-        &:hover {
-        color: blue;
-        border: solid 1px #313030;
-        border-radius: 18px;
-        }
-      }
-    }
-  }   
-
-  .registration-card {
-    width: max-content;
-    background-color: #FFFF;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 30px;
-    margin-top: 20px;
+h2{
+    text-align: center;
+    color: rgba(68, 77, 242, 1);
+    font-size: 2.8rem;
+    font-weight: 700;
+    padding-top: 3.3rem;
+    font-family: 'Nunito';
   }
 
+  span {
+    font-size: 1.25rem;
+    font-weight: 400;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .login-btn-container {
+    gap: 30px;
+  }
+
+.gast-login-btn {
+  width: 8.5rem;
+  height: 3.1rem;
+  border: 1px solid rgba(68, 77, 242, 1);
+  border-radius: 25px;
+  background: white;
+  color: rgba(68, 77, 242, 1);
+  font-family: 'Nunito';
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+
+  &:hover {
+    background: rgba(68, 77, 242, 1);
+    color: white;
+  }
 }
+
+.input-icon {
+  position: absolute;
+  margin-left: 30px;
+  margin-top: 18px;
+}
+
+.login-options {
+  text-align: center;
+
+  a{
+    color: rgba(121, 126, 243, 1);
+    font-family: 'Nunito';
+    font-size: 18px;
+    font-weight: 400;
+    text-decoration: none;
+    padding: 5px 15px;
+
+    &:hover {
+      font-weight: 500;
+      color: rgba(68, 77, 242, 1);
+      background: rgba(236, 238, 254, 1);
+      border-radius: 30px;
+    }
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    padding: 0 60px;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background-color: #ddd;
+    }
+
+    span {
+      color: rgba(0, 0, 0, 1);
+      font-family: 'Nunito';
+      font-size: 18px;
+      font-weight: 400;
+
+    }
+  }
+ .google-login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+  .google-login {
+    width: 31.2rem;
+    height: 3.3rem;
+    background: rgba(236, 238, 254, 1);
+    border-radius: 100px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Nunito';
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: rgba(68, 77, 242, 1);
+    margin: 40px;
+    cursor: pointer;
+
+    &:hover {
+      color: rgba(68, 77, 242, 1);
+      font-weight: 700;
+      border: 1px solid rgba(68, 77, 242, 1);
+    }
+  }
+}
+}
+
+
