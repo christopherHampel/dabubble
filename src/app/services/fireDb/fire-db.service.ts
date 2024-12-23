@@ -25,10 +25,7 @@ export class FireDbService {
     try {
       const userRef = doc(this.getUserRef(), user.id);
       await setDoc(userRef, user);
-      this.addSubcollecionsToUser(userRef);
       this.currentUId = user.id;
-      this.getUser(userRef);
-      console.log(userRef);
       console.log('User addes successfully with ID: ', user.id);
     } catch (err) {
       console.log('Error during add user: ', err);
