@@ -1,0 +1,17 @@
+<section>
+    <img src="/img/logo_complete.png">
+    <div class="card mg-top-20">
+
+        <div class="devspace-head">
+            <div>
+                <img src="/img/workspace_logo.png" alt="">
+                <span>Devspace</span>
+            </div>
+            <img src="/img/edit_square.png" alt="">
+        </div>
+
+        <app-devspace-channels></app-devspace-channels>
+
+        <app-devspace-directmessages (userSelected)="onUserSelected($event)"></app-devspace-directmessages>
+    </div>
+</section>
