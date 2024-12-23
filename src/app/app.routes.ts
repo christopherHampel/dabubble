@@ -5,21 +5,23 @@ import { ResetPasswordComponent } from './registration/reset-password/reset-pass
 import { RegistrationComponent } from './registration/registration.component';
 import { ChooseAvatarComponent } from './registration/choose-avatar/choose-avatar.component';
 import { NgModule } from '@angular/core';
+import { ChatroomComponent } from './chatroom/chatroom.component';
 
 export const routes: Routes = [
     {
-        path: 'register',
-        component: RegistrationComponent,
-        children: [
-          { path: 'login', component: LoginComponent },
-          { path: 'create-account', component: CreateAccountComponent },
-          { path: 'choose-avatar', component: ChooseAvatarComponent },
-          { path: 'reset-password', component: ResetPasswordComponent },
-          { path: '', redirectTo: 'login', pathMatch: 'full' }
-        ]
-      },
-      { path: '', redirectTo: 'register', pathMatch: 'full' },
-      { path: '**', redirectTo: 'register' }
+      path: 'register',
+      component: RegistrationComponent,
+      children: [
+        { path: 'login', component: LoginComponent },
+        { path: 'create-account', component: CreateAccountComponent },
+        { path: 'choose-avatar', component: ChooseAvatarComponent },
+        { path: 'reset-password', component: ResetPasswordComponent },
+        { path: '', redirectTo: 'login', pathMatch: 'full' }
+      ]
+    },
+    { path: 'chatroom', component: ChatroomComponent },
+    { path: '', redirectTo: 'register', pathMatch: 'full' },
+    { path: '**', redirectTo: 'register' }
     ];
   
   @NgModule({
