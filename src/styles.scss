@@ -173,11 +173,14 @@ body {
 }
 
 .card {
-  margin-top: 20px;
   background-color: #FFFF;
   padding: 32px 30px;
   display: flex;
   flex-direction: column;
   gap: 25px;
   border-radius: 30px;
+}
+
+.mg-top-20 {
+  margin-top: 20px;
 }
