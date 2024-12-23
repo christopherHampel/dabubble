@@ -1,0 +1,26 @@
+section {
+    >.channels-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 306px;
+    }
+}
+
+.open-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    >div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+.channels {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

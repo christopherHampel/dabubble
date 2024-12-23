@@ -1,0 +1,27 @@
+section {
+    margin-left: 20px;
+    width: 366px;
+
+    >img{
+        padding-left: 45px;
+        padding-top: 25px;
+    }
+}
+
+.devspace-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    >div {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        >span {
+            font-family: 'Nunito';
+            font-size: 24px;
+            font-weight: 700;
+        }
+    }
+}

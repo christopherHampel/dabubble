@@ -1,0 +1,22 @@
+section {
+    display: flex;
+    flex-direction: column;
+}
+
+.messages-head {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    >div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+.direct-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
