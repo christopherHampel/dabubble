@@ -1,7 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { FireDbService } from '../../services/fireDb/fire-db.service';
 import { UserRegister } from '../../interfaces/userRegister';
+import { UserProfile } from '../../interfaces/userProfile';
 
 @Component({
   selector: 'app-choose-avatar',
@@ -10,8 +12,9 @@ import { UserRegister } from '../../interfaces/userRegister';
   styleUrl: './choose-avatar.component.scss'
 })
 export class ChooseAvatarComponent {
-  currentAvatar:string = '/img/empty_profile.png';
   auth = inject(AuthService);
+  fireDb = inject(FireDbService);
+  currentAvatar:string = '/img/empty_profile.png';
   userName: string = '';
   email: string = '';
   password: string = '';
@@ -49,13 +52,25 @@ export class ChooseAvatarComponent {
   onRegister() {
     this.auth.register(this.userName, this.email, this.password, this.currentAvatar)
       .subscribe({
-        next: () => {
+        next: (uid) => {
           this.router.navigateByUrl('/register/login');
+          this.saveUser(uid);
         },
         error: (err) => {
           this.router.navigateByUrl('/register/create-account');
         }
       });
+  }
+
+  saveUser(uid: string) {
+    let user: UserProfile = {
+      id: uid,
+      userName: this.userName,
+      email: this.email,
+      avatar: this.currentAvatar,
+      active: false
+    }
+    this.fireDb.addUser(user);
   }
 
 }

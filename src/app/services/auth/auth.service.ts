@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, user } from '@angular/fire/auth';
 import { UserRegister } from '../../interfaces/userRegister';
 import { from, Observable } from 'rxjs';
+import { sendPasswordResetEmail } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -13,21 +14,22 @@ export class AuthService {
 
   constructor() { }
 
-  register(userName: string, email: string, password: string, avatar: string): Observable<void> {
+  register(userName: string, email: string, password: string, avatar: string): Observable<string> {
     const promise = createUserWithEmailAndPassword(this.auth, email, password)
-    .then((response) => {
-      updateProfile(response.user, { 
-        displayName: userName,
-        photoURL: avatar
+      .then((response) => {
+        updateProfile(response.user, {
+          displayName: userName,
+          photoURL: avatar
+        })
+        return response.user.uid;
       });
-    })
 
     return from(promise);
   }
 
   login(email: string, password: string): Observable<void> {
     const promise = signInWithEmailAndPassword(this.auth, email, password)
-    .then(() => {});
+      .then(() => { });
 
     return from(promise);
   }
@@ -35,8 +37,13 @@ export class AuthService {
   loginWithGoogle(): Observable<void> {
     const provider = new GoogleAuthProvider();
     const promise = signInWithPopup(this.auth, provider)
-    .then(() => {});
+      .then(() => { });
 
+    return from(promise);
+  }
+
+  resetPassword(email: string): Observable<void> {
+    const promise = sendPasswordResetEmail(this.auth, email);
     return from(promise);
   }
 
