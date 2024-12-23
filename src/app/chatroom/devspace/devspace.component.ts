@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { DevspaceChannelsComponent } from './devspace-channels/devspace-channels.component';
 import { DevspaceDirectmessagesComponent } from './devspace-directmessages/devspace-directmessages.component';
 
@@ -9,5 +9,9 @@ import { DevspaceDirectmessagesComponent } from './devspace-directmessages/devsp
   styleUrl: './devspace.component.scss'
 })
 export class DevspaceComponent {
+  @Output() userSelected = new EventEmitter<string>();
 
+  onUserSelected(username: string): void {
+    this.userSelected.emit(username);
+  }
 }

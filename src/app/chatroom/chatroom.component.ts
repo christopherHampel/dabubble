@@ -10,5 +10,10 @@ import { ThreadsComponent } from './threads/threads.component';
   styleUrl: './chatroom.component.scss'
 })
 export class ChatroomComponent {
+  currentUser: string = '';
 
+  onUserSelected(username: string): void {
+    this.currentUser = username;
+    console.log('Aktueller Benutzer:', this.currentUser);
+  }
 }

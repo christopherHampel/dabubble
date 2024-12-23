@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-devspace-directmessages',
@@ -7,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrl: './devspace-directmessages.component.scss'
 })
 export class DevspaceDirectmessagesComponent {
+
+  @Output() userSelected = new EventEmitter<string>();
+
+  onUserClick(username: string): void {
+    this.userSelected.emit(username);
+  }
 
 }

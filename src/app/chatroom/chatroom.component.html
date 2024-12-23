@@ -1,7 +1,7 @@
 <section class="chatroom color">
 
     <div class="devspace-area">
-        <app-devspace></app-devspace>
+        <app-devspace (userSelected)="onUserSelected($event)"></app-devspace>
     </div>
     <div class="channel-messages">
         <app-messages></app-messages>
