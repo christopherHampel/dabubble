@@ -10,9 +10,8 @@
     </div>
 
     <div class="direct-messages">
-        <i>Friends</i>
-        <span (click)="onUserClick('Theo')">Theo</span>
-        <span (click)="onUserClick('Stephan')">Stephan</span>
-        <span (click)="onUserClick('Christopher')">Christopher (DU)</span>
+        <ul>
+            <li *ngFor="let name of names" (click)="selectName(name)">{{ name }}</li>
+        </ul>
     </div>
 </section>

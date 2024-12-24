@@ -4,7 +4,7 @@
         <app-devspace (userSelected)="onUserSelected($event)"></app-devspace>
     </div>
     <div class="channel-messages">
-        <app-messages></app-messages>
+        <app-messages [currentUser]="currentUser"></app-messages>
     </div>
     <div class="threads-area">
         <app-threads></app-threads>

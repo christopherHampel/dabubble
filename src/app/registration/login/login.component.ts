@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     this.auth.login(rawForm.email, rawForm.password)
       .subscribe({
         next: () => {
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/chatroom');
         },
         error: (err) => {
           this.errorMessage = err.code;

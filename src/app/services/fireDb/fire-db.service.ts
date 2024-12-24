@@ -7,7 +7,7 @@ import { UserProfile } from '../../interfaces/userProfile';
 })
 export class FireDbService {
   fireDb = inject(Firestore)
-  currentUId: string = '';
+  currentUId: string | undefined = '';
 
   constructor() { }
 
@@ -21,7 +21,7 @@ export class FireDbService {
     }
   }
 
-  async addUser(user: any) {
+  async addUser(user: UserProfile) {
     try {
       const userRef = doc(this.getUserRef(), user.id);
       await setDoc(userRef, user);

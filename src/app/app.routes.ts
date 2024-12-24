@@ -6,6 +6,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ChooseAvatarComponent } from './registration/choose-avatar/choose-avatar.component';
 import { NgModule } from '@angular/core';
 import { ChatroomComponent } from './chatroom/chatroom.component';
+import { DirectMessageComponent } from './chatroom/messages/direct-message/direct-message.component';
+import { MessagesComponent } from './chatroom/messages/messages.component';
 
 export const routes: Routes = [
     {
@@ -19,7 +21,11 @@ export const routes: Routes = [
         { path: '', redirectTo: 'login', pathMatch: 'full' }
       ]
     },
-    { path: 'chatroom', component: ChatroomComponent },
+    { path: 'chatroom', component: ChatroomComponent,
+      children: [
+        { path: 'direct-message/:id', component: DirectMessageComponent }
+      ]
+     },
     { path: '', redirectTo: 'register', pathMatch: 'full' },
     { path: '**', redirectTo: 'register' }
     ];
