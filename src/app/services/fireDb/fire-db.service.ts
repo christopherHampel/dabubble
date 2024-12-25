@@ -1,13 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { setDoc, collection, Firestore, doc, writeBatch, getDoc } from '@angular/fire/firestore';
 import { UserProfile } from '../../interfaces/userProfile';
+import { onSnapshot } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FireDbService {
   fireDb = inject(Firestore)
-  currentUId: string = '';
+  currentUser: UserProfile | null = null;
 
   constructor() { }
 
@@ -25,7 +26,7 @@ export class FireDbService {
     try {
       const userRef = doc(this.getUserRef(), user.id);
       await setDoc(userRef, user);
-      this.currentUId = user.id;
+      this.subScribeToUser(user.id);
       console.log('User addes successfully with ID: ', user.id);
     } catch (err) {
       console.log('Error during add user: ', err);
@@ -45,12 +46,23 @@ export class FireDbService {
     await batch.commit();
   }
 
-  async getUser(userRef: any) {
-    const userDoc = await getDoc(userRef);
-    console.log('Get userdoc: ', userDoc)
-  }
-
   getUserRef() {
     return collection(this.fireDb, 'users');
+  }
+
+  getSingleDocRef(colId: string, docId: string) {
+    return doc(collection(this.fireDb, colId), docId);
+  }
+
+  subScribeToUser(id: string) {
+    onSnapshot(this.getSingleDocRef('users', id), (doc) => {
+      if (doc.exists()) {
+        this.currentUser = doc.data() as UserProfile;
+        console.log(this.currentUser);
+      } else {
+        console.log('User does not exist!');
+        this.currentUser = null;
+      }
+    });
   }
 }

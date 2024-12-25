@@ -6,9 +6,9 @@
   <form action="">
     <div>
       <input [(ngModel)]="userName" name="userName" type="text" placeholder="Name eingeben" autocomplete="off">
-      <div class="dropdown">
+      <div *ngIf="userName" class="dropdown">
         @for(user of users; track user) {
-        <div>
+        <div *ngIf="filterUserName(user)">
           <img src="/img/elias_neumann.png" alt="">
           <span>{{user}}</span>
         </div>

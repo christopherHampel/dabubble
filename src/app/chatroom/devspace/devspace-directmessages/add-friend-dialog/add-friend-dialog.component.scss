@@ -1,3 +1,7 @@
+section {
+    overflow: hidden;
+}
+
 .add-friend-dialog {
     display: flex;
     flex-direction: column;
@@ -13,8 +17,6 @@
     background-color: #FFFFFF;
 
     z-index: 0;
-
-    overflow: hidden !important;
 }
 
 header {
@@ -137,9 +139,14 @@ form {
         background-color: #686868;
         border: none;
 
+        &:enabled {
+            background-color: #444DF2;
+        }
+
         &:enabled:hover {
             cursor: pointer;
-            background-color: #444DF2;
+
+            background-color: #797FF3;
         }
     }
 }
