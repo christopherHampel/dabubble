@@ -19,7 +19,7 @@ export const routes: Routes = [
         { path: '', redirectTo: 'login', pathMatch: 'full' }
       ]
     },
-    { path: 'chatroom', component: ChatroomComponent },
+    { path: 'chatroom/:id', component: ChatroomComponent },
     { path: '', redirectTo: 'register', pathMatch: 'full' },
     { path: '**', redirectTo: 'register' }
     ];

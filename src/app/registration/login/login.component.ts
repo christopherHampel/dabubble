@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
           password: '',
           avatar: user.photoURL
         });
+        //this.router.navigateByUrl('/chatroom/' + user.uid);
         console.log(this.auth.currentUserSig()?.email + ' Login!');
       } else {
         console.log(this.auth.currentUserSig()?.email + ' Logout!');
@@ -46,8 +47,8 @@ export class LoginComponent implements OnInit {
     const rawForm = this.loginForm.getRawValue();
     this.auth.login(rawForm.email, rawForm.password)
       .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/');
+        next: (uid) => {
+          this.router.navigateByUrl('/chatroom/' + uid);
         },
         error: (err) => {
           this.errorMessage = err.code;
@@ -58,8 +59,8 @@ export class LoginComponent implements OnInit {
   onGaestLogin() {
     this.auth.login('gaest@gaest.com', '123456')
       .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/');
+        next: (uid) => {
+          this.router.navigateByUrl('/chatroom/' + uid);
         },
         error: (err) => {
           this.errorMessage = err.code;
@@ -70,8 +71,8 @@ export class LoginComponent implements OnInit {
   onLoginWithGoogle() {
     this.auth.loginWithGoogle()
       .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/');
+        next: (uid) => {
+          this.router.navigateByUrl('/chatroom/' + uid);
         },
         error: (err) => {
           this.errorMessage = err.code;

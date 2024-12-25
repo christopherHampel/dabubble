@@ -53,6 +53,7 @@ export class ChooseAvatarComponent {
     this.auth.register(this.userName, this.email, this.password, this.currentAvatar)
       .subscribe({
         next: (uid) => {
+          this.auth.logout();
           this.router.navigateByUrl('/register/login');
           this.saveUser(uid);
         },
