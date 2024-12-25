@@ -1,0 +1,145 @@
+.add-friend-dialog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    width: 514px;
+    height: 294px;
+
+    padding: 40px 20px;
+
+    background-color: #FFFFFF;
+
+    z-index: 0;
+
+    overflow: hidden !important;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+
+    font-family: 'Nunito';
+    font-weight: 700;
+
+    .close-icon {
+        width: 40px;
+        height: 40px;
+        background-image: url('../../../../../../public/img/close_icon.svg');
+
+        &:hover {
+            cursor: pointer;
+            background-image: url('../../../../../../public/img/close_hover_icon.svg');
+        }
+    }
+}
+
+form {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 20px;
+
+    z-index: 99;
+
+    &>div:nth-child(1) {
+        width: 100%;
+
+        input {
+            width: 100%;
+
+            padding: 15px 20px;
+
+            border: 1px solid #ADB0D9;
+            border-radius: 30px;
+
+            font-family: 'Nunito';
+            font-size: 18px;
+            font-weight: 400;
+
+            outline: none;
+
+            &:focus {
+                border-color: #444DF2;
+            }
+        }
+
+        &>.dropdown {
+            position: fixed;
+            transform: translate(20px, -12px);
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 15px;
+
+            width: 335px;
+
+            padding: 20px 21px;
+
+            background-color: #FFFFFF;
+
+            border: 1px solid #ADB0D9;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+
+            z-index: 99 !important;
+
+            div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 15px;
+
+                padding: 4px 20px;
+
+                &:hover {
+                    cursor: pointer;
+
+                    border-radius: 35px;
+
+                    background-color: #ECEEFE;
+                }
+            }
+
+            img {
+                width: 50px;
+                height: 50px;
+
+                border-radius: 50%;
+            }
+
+            span {
+
+                font-size: 18px;
+            }
+        }
+    }
+
+    button {
+        padding: 12px 25px;
+
+        border-radius: 25px;
+
+        font-size: 18px;
+
+        color: white;
+        background-color: #686868;
+        border: none;
+
+        &:enabled:hover {
+            cursor: pointer;
+            background-color: #444DF2;
+        }
+    }
+}
