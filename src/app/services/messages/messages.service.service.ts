@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { collection, doc, setDoc, addDoc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from 'firebase/firestore';
+import { collection, doc, setDoc, addDoc, updateDoc, getDoc, query, where, getDocs, arrayUnion, onSnapshot } from 'firebase/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -41,25 +42,59 @@ export class MessagesServiceService {
     
   }
 
-  async getChatData(chatId: string) {
-    const docRef = doc(this.getPrivateChatCollection(), chatId);
-    const docSnap = await getDoc(docRef);
-  
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      console.error('Kein Dokument gefunden!');
-      return null;
-    }
+  getChatData(chatId: string): Observable<any> {
+    return new Observable(observer => {
+      const docRef = doc(this.firestore, 'messages', chatId);
+
+      // Abonniere die Änderungen mit onSnapshot
+      const unsubscribe = onSnapshot(docRef, docSnap => {
+        if (docSnap.exists()) {
+          observer.next(docSnap.data()); // Sende die Daten an den Observable
+        } else {
+          observer.error('Kein Dokument gefunden!'); // Fehler, wenn kein Dokument existiert
+        }
+      }, error => {
+        observer.error(error); // Fehler beim Abrufen
+      });
+
+      // Bereinigen des Abonnements
+      return () => unsubscribe();
+    });
   }
 
-  async addTextToChat(text:string, chatId:any) {
+  // async getChatData(chatId: string) {
+  //   const docRef = doc(this.getPrivateChatCollection(), chatId);
+  //   const docSnap = await getDoc(docRef);
+  
+  //   if (docSnap.exists()) {
+  //     return docSnap.data();
+  //   } else {
+  //     console.error('Kein Dokument gefunden!');
+  //     return null;
+  //   }
+  // }
+
+  // async addTextToChat(text:string, chatId:any) {
+  //   const chatRef = doc(this.getPrivateChatCollection(), chatId);
+  //   await updateDoc(chatRef, {
+  //     messages: arrayUnion({
+  //       // userId: this.uid,
+  //       text: text,
+  //       timestamp: new Date(),
+  //     })
+  //   });
+  // }
+
+  async addTextToChat(text: string, chatId: string): Promise<void> {
+    if (!chatId) {
+      throw new Error('Ungültige Chat-ID');
+    }
+  
     const chatRef = doc(this.getPrivateChatCollection(), chatId);
     await updateDoc(chatRef, {
       messages: arrayUnion({
-        // userId: this.uid,
         text: text,
-        timestamp: new Date(), // Optionale Zeitstempelung
+        timestamp: new Date(),
       })
     });
   }
