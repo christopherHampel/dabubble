@@ -3,18 +3,30 @@
     <h2>Direktnachricht an</h2>
     <div (click)="closeDialog()" class="close-icon"></div>
   </header>
+
   <form action="">
     <div>
-      <input [(ngModel)]="userName" name="userName" type="text" placeholder="Name eingeben" autocomplete="off">
+      <div class="input-added-user">
+        <div class="user-view-small">
+          <img src="/img/steffen_hoffmann.png" alt="">
+          <span>Steffen Hoffmann</span>
+          <div class="close-icon"></div>
+        </div>
+      </div>
+
+      <input class="input-text" [(ngModel)]="userName" name="userName" type="text" placeholder="Name eingeben" autocomplete="off">
+
       <div *ngIf="userName" class="dropdown">
-        @for(user of users; track user) {
-        <div *ngIf="filterUserName(user)">
-          <img src="/img/elias_neumann.png" alt="">
-          <span>{{user}}</span>
+        @for(user of getUserList(); track user) {
+        <div class="user-view-medium" *ngIf="filterUserName(user.userName)">
+          <img src="{{user.avatar}}" alt="">
+          <span>{{user.userName}}</span>
         </div>
         }
       </div>
+
     </div>
     <button [disabled]="!userName">Chat starten</button>
   </form>
+
 </section>

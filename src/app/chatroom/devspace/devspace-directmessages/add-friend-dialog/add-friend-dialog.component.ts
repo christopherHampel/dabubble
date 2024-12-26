@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { DevspaceDirectmessagesComponent } from '../devspace-directmessages.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { UsersDbService } from '../../../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-add-friend-dialog',
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AddFriendDialogComponent {
   readonly dialogRef = inject(MatDialogRef<DevspaceDirectmessagesComponent>);
+  usersDb = inject(UsersDbService)
   userName: string = '';
   users: string[] = [
     'Christopher',
@@ -23,6 +25,10 @@ export class AddFriendDialogComponent {
     'Sabine',
     'Helga'
   ]
+
+  getUserList() {
+    return this.usersDb.userListSig();
+  }
 
   filterUserName(currentUser: string): boolean {
     if (!this.userName) {

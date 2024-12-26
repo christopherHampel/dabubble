@@ -7,3 +7,79 @@
 .channel-messages {
     flex: 1;
 }
+
+.user-view-medium {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    padding: 4px 20px;
+
+    &:hover {
+        cursor: pointer;
+
+        border-radius: 35px;
+
+        background-color: #ECEEFE;
+    }
+
+    img {
+        width: 50px;
+        height: 50px;
+
+        border-radius: 50%;
+    }
+
+    span {
+
+        font-size: 18px;
+    }
+}
+
+.dropdown {
+    position: fixed;
+    transform: translate(20px, -12px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 15px;
+
+    width: 335px;
+
+    padding: 20px 21px;
+
+    background-color: #FFFFFF;
+
+    border: 1px solid #ADB0D9;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+    z-index: 99 !important;
+
+}
+
+button {
+    padding: 12px 25px;
+
+    border-radius: 25px;
+
+    font-size: 18px;
+
+    color: white;
+    background-color: #686868;
+    border: none;
+
+    &:enabled {
+        background-color: #444DF2;
+    }
+
+    &:enabled:hover {
+        cursor: pointer;
+
+        background-color: #797FF3;
+    }
+}
