@@ -4,10 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { ChatsService } from '../../../services/messages/chats.service';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 
 @Component({
   selector: 'app-direct-message',
-  imports: [ CommonModule, FormsModule ],
+  imports: [ CommonModule, FormsModule, TextareaComponent ],
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss'
 })
@@ -38,12 +39,12 @@ export class DirectMessageComponent {
     });
   }
 
-  async sendText() {
-    if(this.message.length > 0) {
-      await this.chatService.addTextToChat(this.message, this.chatService.chatId!);
-      this.message = '';
-    }
-  }
+  // async sendText() {
+  //   if(this.message.length > 0) {
+  //     await this.chatService.addTextToChat(this.message, this.chatService.chatId!);
+  //     this.message = '';
+  //   }
+  // }
 
   deleteMessage(i:number) {
     this.chatService.deleteMessage(i);

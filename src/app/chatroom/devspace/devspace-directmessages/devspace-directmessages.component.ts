@@ -15,8 +15,6 @@ export class DevspaceDirectmessagesComponent {
   dialog = inject(MatDialog);
   @Output() userSelected = new EventEmitter<string>();
 
-  readonly dialog = inject(MatDialog);
-
   constructor(private chatService: ChatsService, private router: Router) {  }
 
   names = ['Alice', 'Bob', 'Charlie', 'Max'];

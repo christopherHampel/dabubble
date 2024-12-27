@@ -1,6 +1,6 @@
 <section>
 
-    <div *ngIf="chatData" class="card height-100vh">
+    <div *ngIf="chatData" class="card">
         <div>
             <div class="message-head">
                 <img src="/img/empty_profile.png" alt="">
@@ -23,13 +23,8 @@
                 </div>
                 <span>Diese Unterhaltung findet nur zwischen (at){{ chatData.name }} und dir statt.</span>
             </div>
-    
-            <div>
-                <div class="textarea">
-                    <textarea [(ngModel)]="message" placeholder="Nachricht an {{ chatData.name }}"></textarea>
-                </div>
-                <button (click)="sendText()">Senden</button>
-            </div>
+            
+            <app-textarea [chatData]="chatData"></app-textarea>
         </div>
     </div>
 

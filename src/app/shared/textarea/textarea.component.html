@@ -1,1 +1,10 @@
-<p>textarea works!</p>
+<div class="send-text">
+    <textarea [(ngModel)]="message" name="" placeholder="Nachricht an {{ chatData.name }}" id=""></textarea>
+    <div class="reactions">
+        <div>
+            <img class="icon" src="/img/sentiment_satisfied.png" alt="">
+            <img class="icon" src="/img/alternate_email.png" alt="">
+        </div>
+        <a (click)="sendText()"><img src="/img/send.png" alt="send"></a>
+    </div>
+</div>
