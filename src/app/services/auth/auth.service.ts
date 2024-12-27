@@ -27,17 +27,21 @@ export class AuthService {
     return from(promise);
   }
 
-  login(email: string, password: string): Observable<void> {
+  login(email: string, password: string): Observable<string> {
     const promise = signInWithEmailAndPassword(this.auth, email, password)
-      .then(() => { });
+      .then((response) => {
+        return response.user.uid;
+      });
 
     return from(promise);
   }
 
-  loginWithGoogle(): Observable<void> {
+  loginWithGoogle(): Observable<string> {
     const provider = new GoogleAuthProvider();
     const promise = signInWithPopup(this.auth, provider)
-      .then(() => { });
+      .then((response) => { 
+        return response.user.uid;
+      });
 
     return from(promise);
   }

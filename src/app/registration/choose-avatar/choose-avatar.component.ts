@@ -1,20 +1,20 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
-import { FireDbService } from '../../services/fireDb/fire-db.service';
+import { UsersDbService } from '../../services/usersDb/users-db.service';
 import { UserRegister } from '../../interfaces/userRegister';
 import { UserProfile } from '../../interfaces/userProfile';
 
 @Component({
   selector: 'app-choose-avatar',
-  imports: [ RouterLink ],
+  imports: [RouterLink],
   templateUrl: './choose-avatar.component.html',
   styleUrl: './choose-avatar.component.scss'
 })
 export class ChooseAvatarComponent {
   auth = inject(AuthService);
-  fireDb = inject(FireDbService);
-  currentAvatar:string = '/img/empty_profile.png';
+  usersDb = inject(UsersDbService);
+  currentAvatar: string = '/img/empty_profile.png';
   userName: string = '';
   email: string = '';
   password: string = '';
@@ -28,11 +28,11 @@ export class ChooseAvatarComponent {
     '/img/steffen_hoffmann.png',
   ];
 
-  constructor(private router: Router) { 
+  constructor(private router: Router) {
     this.setNavParam();
   }
 
-  chooseAvatar(index:number) {
+  chooseAvatar(index: number) {
     this.currentAvatar = this.avatars[index];
   }
 
@@ -40,10 +40,10 @@ export class ChooseAvatarComponent {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as UserRegister | undefined;
 
-    if(state) {
+    if (state) {
       this.userName = state.userName,
-      this.email = state.email,
-      this.password = state.password
+        this.email = state.email,
+        this.password = state.password
     } else {
       this.router.navigateByUrl('/register/create-account');
     }
@@ -52,9 +52,10 @@ export class ChooseAvatarComponent {
   onRegister() {
     this.auth.register(this.userName, this.email, this.password, this.currentAvatar)
       .subscribe({
-        next: (uid) => {
+        next: async (uid) => {
+          await this.saveUser(uid);
+          this.auth.logout();
           this.router.navigateByUrl('/register/login');
-          this.saveUser(uid);
         },
         error: (err) => {
           this.router.navigateByUrl('/register/create-account');
@@ -62,7 +63,7 @@ export class ChooseAvatarComponent {
       });
   }
 
-  saveUser(uid: string) {
+  async saveUser(uid: string) {
     let user: UserProfile = {
       id: uid,
       userName: this.userName,
@@ -70,7 +71,7 @@ export class ChooseAvatarComponent {
       avatar: this.currentAvatar,
       active: false
     }
-    this.fireDb.addUser(user);
+    await this.usersDb.addUser(user);
   }
 
 }

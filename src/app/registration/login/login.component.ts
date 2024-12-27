@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { UsersDbService } from '../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   signOut = false;
   errorMessage: string | null = null;
   auth = inject(AuthService);
+  usersDb = inject(UsersDbService);
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
@@ -34,6 +36,7 @@ export class LoginComponent implements OnInit {
           password: '',
           avatar: user.photoURL
         });
+        //this.router.navigateByUrl('/chatroom/' + user.uid);
         console.log(this.auth.currentUserSig()?.email + ' Login!');
       } else {
         console.log(this.auth.currentUserSig()?.email + ' Logout!');
@@ -46,8 +49,9 @@ export class LoginComponent implements OnInit {
     const rawForm = this.loginForm.getRawValue();
     this.auth.login(rawForm.email, rawForm.password)
       .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/chatroom');
+        next: (uid) => {
+          this.usersDb.subScribeToUser(uid);
+          this.router.navigateByUrl('/chatroom/' + uid);
         },
         error: (err) => {
           this.errorMessage = err.code;
@@ -58,8 +62,8 @@ export class LoginComponent implements OnInit {
   onGaestLogin() {
     this.auth.login('gaest@gaest.com', '123456')
       .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/');
+        next: (uid) => {
+          this.router.navigateByUrl('/chatroom/' + uid);
         },
         error: (err) => {
           this.errorMessage = err.code;
@@ -70,8 +74,8 @@ export class LoginComponent implements OnInit {
   onLoginWithGoogle() {
     this.auth.loginWithGoogle()
       .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/');
+        next: (uid) => {
+          this.router.navigateByUrl('/chatroom/' + uid);
         },
         error: (err) => {
           this.errorMessage = err.code;

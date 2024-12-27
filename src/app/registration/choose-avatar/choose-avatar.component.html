@@ -1,9 +1,10 @@
 <section class="registration-card flexbox-avatar">
-
-    <div class="back-link">
         <a [routerLink]="'/register/create-account'"><img src="/img/arrow_back.png"></a>
-    </div>
-
+    <div class="card-container">
+        <a class="back-link" [routerLink]="'/register/create-account'">
+            <div class="back-arrow">
+            </div>
+        </a>
     <h2>Wähle deinen Avatar</h2>
     <div class="avatar">
         <div class="current-avatar">
@@ -13,8 +14,12 @@
         <div class="select-avatar">
             <div>
                 <span class="name">Max Mustermann</span>
-                <span>Aus der Liste wählen</span>
+                <h4>Max Mustermann</h4>
+                
             </div>
+            <div>
+                <span>Aus der Liste wählen</span>
+            
             <article class="avatar-list">
                 @for (avatar of avatars; track $index) {
                     <div class="avatar-image" (click)="chooseAvatar($index)">
@@ -23,8 +28,10 @@
                 }
             </article>
         </div>
+        </div>
     </div>
     <div class="further-button">
         <button (click)="onRegister()" [disabled]="currentAvatar === '/img/empty_profile.png'">Weiter</button>
     </div>
+</div>
 </section>
