@@ -10,17 +10,8 @@
     </div>
 
     <div class="direct-messages">
-        <div class="user-view-medium">
-            <img src="/img/steffen_hoffmann.png" alt="">
-            <span (click)="onUserClick('Theo')">Theo</span>
-        </div>
-        <div class="user-view-medium">
-            <img src="/img/steffen_hoffmann.png" alt="">
-            <span (click)="onUserClick('Stephan')">Stephan</span>
-        </div>
-        <div class="user-view-medium">
-            <img src="/img/steffen_hoffmann.png" alt="">
-            <span (click)="onUserClick('Christopher')">Christopher (Du)</span>
-        </div>
+        <ul>
+            <li *ngFor="let name of names" (click)="selectName(name)">{{ name }}</li>
+        </ul>
     </div>
 </section>
