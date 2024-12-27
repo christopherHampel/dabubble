@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { UsersDbService } from '../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   signOut = false;
   errorMessage: string | null = null;
   auth = inject(AuthService);
+  usersDb = inject(UsersDbService);
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
@@ -48,6 +50,7 @@ export class LoginComponent implements OnInit {
     this.auth.login(rawForm.email, rawForm.password)
       .subscribe({
         next: (uid) => {
+          this.usersDb.subScribeToUser(uid);
           this.router.navigateByUrl('/chatroom/' + uid);
         },
         error: (err) => {

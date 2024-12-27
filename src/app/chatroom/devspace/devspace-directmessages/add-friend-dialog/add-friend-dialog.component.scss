@@ -1,0 +1,52 @@
+@use '../../../chatroom.component.scss';
+
+.add-friend-dialog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    width: 514px;
+    height: 294px;
+
+    padding: 40px 20px;
+
+    background-color: #FFFFFF;
+
+    z-index: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+
+    font-family: 'Nunito';
+    font-weight: 700;
+
+}
+
+form {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 20px;
+
+    z-index: 99;
+
+    &>div:nth-child(1) {
+        width: 100%;
+
+        &:focus-within {
+            * {
+                border-color: #444DF2;
+            }
+        }
+    }
+}
