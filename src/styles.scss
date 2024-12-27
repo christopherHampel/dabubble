@@ -157,12 +157,24 @@ body {
 }
 
 .back-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
-  top: 45px;
+  top: 65px;
   left: 32px;
+ 
 
-  &:hover {
+  .back-arrow {
+    background-image: url('../public/img/arrow_back.svg');
+    width: 40px;
+    height: 40px;
+
+    &:hover {
       cursor: pointer;
+      border-radius: 50%;
+      background-image: url('../public/img/arrow_back_hover.svg');
+  }
   }
 }
 
@@ -186,3 +198,4 @@ body {
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
