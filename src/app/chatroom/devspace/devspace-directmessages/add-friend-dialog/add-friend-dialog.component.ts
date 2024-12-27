@@ -27,6 +27,7 @@ export class AddFriendDialogComponent {
   ]
 
   getUserList() {
+    console.log(this.usersDb.currentUserSig());
     return this.usersDb.userListSig();
   }
 

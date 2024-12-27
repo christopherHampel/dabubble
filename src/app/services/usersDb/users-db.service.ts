@@ -68,7 +68,7 @@ export class UsersDbService {
     onSnapshot(this.getSingleDocRef('users', id), (doc) => {
       if (doc.exists()) {
         this.currentUserSig.set(doc.data() as UserProfile);
-        console.log(this.currentUserSig);
+        console.log(this.currentUserSig());
       } else {
         console.log('User does not exist!');
         this.currentUserSig.set(null);
