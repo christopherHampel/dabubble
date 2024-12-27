@@ -14,15 +14,24 @@ import { Subscription } from 'rxjs';
 export class DirectMessageComponent {
   private chatSubscription: Subscription | null = null;
 
+  chatData: any = null; // Lokale Variable für Chat-Daten
+
   @Input() message:string = '';
 
   constructor(private route: ActivatedRoute, public chatService: ChatsService) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.chatService.chatId = params.get('id') || undefined;
+
       if (this.chatService.chatId) {
+        // Starte das Abrufen der Chat-Daten
         this.chatService.getChatData(this.chatService.chatId);
+
+        // Abonniere die Chat-Daten
+        this.chatSubscription = this.chatService.chatData$.subscribe((data) => {
+          this.chatData = data; // Lokale Variable aktualisieren
+        });
       } else {
         console.error('Keine gültige Chat-ID gefunden!');
       }
@@ -44,9 +53,7 @@ export class DirectMessageComponent {
     }
   }
 
-  messagesAvailable() {
-    return !this.chatService.chatData.messages;
+  messagesAvailable(): boolean {
+    return this.chatData?.messages?.length > 0;
   }
-
-
 }

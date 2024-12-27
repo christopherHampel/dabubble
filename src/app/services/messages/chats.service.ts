@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { collection, doc, addDoc, updateDoc, query, where, getDocs, arrayUnion, onSnapshot, deleteDoc, deleteField, getDoc } from 'firebase/firestore';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,9 @@ export class ChatsService {
 
   firestore = inject(Firestore);
   currentChatId:string = '';
-  chatData: any = null;
+  // chatData: any = null;
+  private chatDataSubject = new BehaviorSubject<any>(null); // Initialisiere mit null
+  chatData$ = this.chatDataSubject.asObservable();  
   chatId?: string;;
 
   getPrivateChatCollection() {
@@ -63,16 +65,29 @@ export class ChatsService {
     });
   }
 
-  getChatData(chatId: string) {
-    this.getData(chatId).subscribe({
-      next: (data) => {
-        this.chatData = data;
-      },
-      error: (err) => {
-        console.error('Fehler beim Abrufen der Chat-Daten:', err);
+  getChatData(chatId: string): void {
+    const docRef = doc(this.firestore, 'messages', chatId);
+
+    onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        this.chatDataSubject.next(docSnap.data()); // Aktualisiere die BehaviorSubject
+      } else {
+        console.error('Kein Dokument gefunden!');
+        this.chatDataSubject.next(null); // Setze null, wenn keine Daten gefunden werden
       }
     });
   }
+
+  // getChatData(chatId: string) {
+  //   this.getData(chatId).subscribe({
+  //     next: (data) => {
+  //       this.chatData = data;
+  //     },
+  //     error: (err) => {
+  //       console.error('Fehler beim Abrufen der Chat-Daten:', err);
+  //     }
+  //   });
+  // }
 
   async addTextToChat(text: string, chatId: string): Promise<void> {
     if (!chatId) {
@@ -92,17 +107,17 @@ async deleteMessage(i: number) {
   const messageField = doc(this.getPrivateChatCollection(), this.chatId);
   const docSnap = await getDoc(messageField);
 
-  if (docSnap.exists()) {
-    const data = docSnap.data();
-    const messages = data['messages'] || [];
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      const messages = data['messages'] || [];
 
-    if (i >= 0 && i < messages.length) {
-      messages.splice(i, 1);
+      if (i >= 0 && i < messages.length) {
+        messages.splice(i, 1);
 
-      await updateDoc(messageField, {
-        messages: messages,
-      });
-    }
-  } 
-}
+        await updateDoc(messageField, {
+          messages: messages,
+        });
+      }
+    } 
+  }
 }
