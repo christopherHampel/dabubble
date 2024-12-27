@@ -29,17 +29,6 @@ header {
 
 }
 
-.close-icon {
-    width: 40px;
-    height: 40px;
-    background-image: url('../../../../../../public/img/close_icon.svg');
-
-    &:hover {
-        cursor: pointer;
-        background-image: url('../../../../../../public/img/close_hover_icon.svg');
-    }
-}
-
 form {
     width: 100%;
 
@@ -59,59 +48,5 @@ form {
                 border-color: #444DF2;
             }
         }
-    }
-
-    input {
-        border-top: none;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-    }
-}
-
-.input-text {
-    width: 100%;
-
-    padding: 15px 20px;
-
-    border: 1px solid #ADB0D9;
-    border-radius: 30px;
-
-    font-family: 'Nunito';
-    font-size: 18px;
-    font-weight: 400;
-
-    outline: none;
-}
-
-.input-added-user {
-    display: flex;
-
-    padding: 7.5px 20px;
-
-    border: 1px solid #ADB0D9;
-    border-bottom: none;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-}
-
-.user-view-small {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-
-    width: max-content;
-
-    padding: 3px 10px !important;
-
-    border-radius: 35px;
-
-    background-color: #ECEEFE;
-
-    img {
-        width: 34px;
-        height: 34px;
-
-        border-radius: 50%;
     }
 }

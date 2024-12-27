@@ -4,29 +4,32 @@
     <div (click)="closeDialog()" class="close-icon"></div>
   </header>
 
-  <form action="">
+  <form (ngSubmit)="closeDialog()">
     <div>
-      <div class="input-added-user">
+      <!-- View selected user -->
+      <div *ngIf="selectedUser['id']" class="input-added-user">
         <div class="user-view-small">
-          <img src="/img/steffen_hoffmann.png" alt="">
-          <span>Steffen Hoffmann</span>
-          <div class="close-icon"></div>
+          <img src="{{selectedUser['avatar']}}" alt="">
+          <span>{{selectedUser['userName']}}</span>
+          <div (click)="removeUser()" class="close-icon"></div>
         </div>
       </div>
 
-      <input class="input-text" [(ngModel)]="userName" name="userName" type="text" placeholder="Name eingeben" autocomplete="off">
+      <input *ngIf="!selectedUser['id']" class="input-text" [(ngModel)]="userName" name="userName" type="text" placeholder="Name eingeben"
+        autocomplete="off">
 
-      <div *ngIf="userName" class="dropdown">
-        @for(user of getUserList(); track user) {
-        <div class="user-view-medium" *ngIf="filterUserName(user.userName)">
-          <img src="{{user.avatar}}" alt="">
-          <span>{{user.userName}}</span>
-        </div>
-        }
+        <!-- Dropdown existed user after input -->
+      <div *ngIf="filteredUsersAfterInput().length > 0 && !selectedUser['id']" class="dropdown">
+        <ng-container *ngFor="let user of getUserList()">
+          <div *ngIf="filterUserExist(user.userName)" (click)="selectUser(user.id)" class="user-view-medium">
+            <img src="{{user.avatar}}" alt="">
+            <span>{{user.userName}}</span>
+          </div>
+        </ng-container>
       </div>
 
     </div>
-    <button [disabled]="!userName">Chat starten</button>
+    <button type="submit" [disabled]="!selectedUser['id']">Chat starten</button>
   </form>
 
 </section>
