@@ -93,7 +93,9 @@
         color: #535Af1;
         background-color: #ECEEFE;
 
-        background-image: url('/img/hashtag_icon.svg');
+        &>div {
+            background-image: url('/img/hashtag_hover_icon.svg');
+        }
     }
 }
 
