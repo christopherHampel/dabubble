@@ -1,8 +1,8 @@
 <section>
 
     <div class="messages-head">
-        <img src="/img/arrow_drop_down.png" alt="">
         <div>
+        <img src="/img/arrow_drop_down.png" alt="">
             <img src="/img/account_circle.png" alt="">
             <span>Direktnachrichten</span>
         </div>
@@ -10,9 +10,17 @@
     </div>
 
     <div class="direct-messages">
-        <i>Friends</i>
-        <span (click)="onUserClick('Theo')">Theo</span>
-        <span (click)="onUserClick('Stephan')">Stephan</span>
-        <span (click)="onUserClick('Christopher')">Christopher (DU)</span>
+        <div class="user-view-medium">
+            <img src="/img/steffen_hoffmann.png" alt="">
+            <span (click)="onUserClick('Theo')">Theo</span>
+        </div>
+        <div class="user-view-medium">
+            <img src="/img/steffen_hoffmann.png" alt="">
+            <span (click)="onUserClick('Stephan')">Stephan</span>
+        </div>
+        <div class="user-view-medium">
+            <img src="/img/steffen_hoffmann.png" alt="">
+            <span (click)="onUserClick('Christopher')">Christopher (Du)</span>
+        </div>
     </div>
 </section>

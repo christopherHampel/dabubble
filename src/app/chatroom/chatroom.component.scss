@@ -10,9 +10,11 @@
 
 .user-view-medium {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 15px;
+
+    width: max-content;
 
     padding: 4px 20px;
 
@@ -57,6 +59,41 @@
         height: 34px;
 
         border-radius: 50%;
+    }
+}
+
+.channel-view-small {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    width: max-content;
+
+    padding: 4px 20px;
+
+    span {
+        font-size: 18px;
+    }
+
+    &>div {
+        width: 24px;
+        height: 24px;
+        background-image: url('/img/hashtag_icon.svg');
+        background-repeat: no-repeat;
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        font-weight: 700;
+
+        border-radius: 35px;
+
+        color: #535Af1;
+        background-color: #ECEEFE;
+
+        background-image: url('/img/hashtag_icon.svg');
     }
 }
 
