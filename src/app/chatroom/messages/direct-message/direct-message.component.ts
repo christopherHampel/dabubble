@@ -39,8 +39,10 @@ export class DirectMessageComponent {
   }
 
   async sendText() {
-    await this.chatService.addTextToChat(this.message, this.chatService.chatId!);
-    this.message = '';
+    if(this.message.length > 0) {
+      await this.chatService.addTextToChat(this.message, this.chatService.chatId!);
+      this.message = '';
+    }
   }
 
   deleteMessage(i:number) {

@@ -11,8 +11,7 @@ export class ChatsService {
 
   firestore = inject(Firestore);
   currentChatId:string = '';
-  // chatData: any = null;
-  private chatDataSubject = new BehaviorSubject<any>(null); // Initialisiere mit null
+  private chatDataSubject = new BehaviorSubject<any>(null);
   chatData$ = this.chatDataSubject.asObservable();  
   chatId?: string;;
 
