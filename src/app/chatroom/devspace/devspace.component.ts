@@ -9,9 +9,5 @@ import { DevspaceDirectmessagesComponent } from './devspace-directmessages/devsp
   styleUrl: './devspace.component.scss'
 })
 export class DevspaceComponent {
-  @Output() userSelected = new EventEmitter<string>();
 
-  onUserSelected(username: string): void {
-    this.userSelected.emit(username);
-  }
 }

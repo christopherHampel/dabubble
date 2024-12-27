@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.component';
 import { CommonModule } from '@angular/common';
-import { MessagesServiceService } from '../../../services/messages/messages.service.service';
+import { ChatsService } from '../../../services/messages/chats.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,15 +14,10 @@ import { Router } from '@angular/router';
 export class DevspaceDirectmessagesComponent {
 
   readonly dialog = inject(MatDialog);
-  @Output() userSelected = new EventEmitter<string>();
 
-  constructor(private chatService: MessagesServiceService, private router: Router) {}
+  constructor(private chatService: ChatsService, private router: Router) {  }
 
-  names = ['Alice', 'Bob', 'Charlie'];
-
-  onUserClick(username: string): void {
-    this.userSelected.emit(username);
-  }
+  names = ['Alice', 'Bob', 'Charlie', 'Max'];
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AddFriendDialogComponent, {
