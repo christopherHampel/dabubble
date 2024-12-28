@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
           avatar: user.photoURL!,
           active: true
         });
-        this.router.navigateByUrl('/chatroom');
+        //this.router.navigateByUrl('/chatroom');
         console.log(this.usersDb.currentUserSig()?.email + ' Login!');
       } else {
         console.log(this.usersDb.currentUserSig()?.email + ' Logout!');
