@@ -5,10 +5,11 @@ import { ChatsService } from '../../../services/messages/chats.service';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { TextareaComponent } from '../../../shared/textarea/textarea.component';
+import { SingleMessageComponent } from '../single-message/single-message.component';
 
 @Component({
   selector: 'app-direct-message',
-  imports: [ CommonModule, FormsModule, TextareaComponent ],
+  imports: [ CommonModule, FormsModule, TextareaComponent, SingleMessageComponent ],
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss'
 })
@@ -17,7 +18,8 @@ export class DirectMessageComponent {
 
   chatData: any = null; // Lokale Variable für Chat-Daten
 
-  @Input() message:string = '';
+
+  // @Input() message:string = '';
 
   constructor(private route: ActivatedRoute, public chatService: ChatsService) {}
 
@@ -31,7 +33,7 @@ export class DirectMessageComponent {
 
         // Abonniere die Chat-Daten
         this.chatSubscription = this.chatService.chatData$.subscribe((data) => {
-          this.chatData = data; // Lokale Variable aktualisieren
+          this.chatData = data;
         });
       } else {
         console.error('Keine gültige Chat-ID gefunden!');
@@ -39,12 +41,9 @@ export class DirectMessageComponent {
     });
   }
 
-  // async sendText() {
-  //   if(this.message.length > 0) {
-  //     await this.chatService.addTextToChat(this.message, this.chatService.chatId!);
-  //     this.message = '';
-  //   }
-  // }
+  trackByMessageId(index: number, message: { id: number }): number {
+    return message.id;
+  }  
 
   deleteMessage(i:number) {
     this.chatService.deleteMessage(i);

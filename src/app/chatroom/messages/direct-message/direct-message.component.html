@@ -4,24 +4,23 @@
         <div>
             <div class="message-head">
                 <img src="/img/empty_profile.png" alt="">
-                <span>{{ chatData.name }}</span>
+                <span>{{ chatData.participant }}</span>
             </div>
     
             <div class="dividing-line"></div>
         </div>
 
         <div>
-            <div *ngFor="let message of chatData.messages; let  i = index" class="message-item">
-                <span>{{ message.text }}</span>
-                <span (click)="deleteMessage(i)"> {{ i }}</span>
+            <div *ngFor="let message of chatData.messages; let i = index; trackBy: trackByMessageId" class="message-item">
+                <app-single-message [currentMessage]="message" [index]="i"></app-single-message>
             </div>
     
             <div class="messages-field" *ngIf="!messagesAvailable()">
                 <div class="communication-with">
                     <img src="/img/empty_profile.png" alt="">
-                    <span>{{ chatData.name }}</span>
+                    <span>{{ chatData.participant }}</span>
                 </div>
-                <span>Diese Unterhaltung findet nur zwischen (at){{ chatData.name }} und dir statt.</span>
+                <span>Diese Unterhaltung findet nur zwischen (at){{ chatData.participant }} und dir statt.</span>
             </div>
             
             <app-textarea [chatData]="chatData"></app-textarea>

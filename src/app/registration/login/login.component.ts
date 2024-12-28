@@ -51,7 +51,8 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (uid) => {
           this.usersDb.subScribeToUser(uid);
-          this.router.navigateByUrl('/chatroom/' + uid);
+          debugger;
+          this.router.navigateByUrl('/chatroom/');
         },
         error: (err) => {
           this.errorMessage = err.code;
