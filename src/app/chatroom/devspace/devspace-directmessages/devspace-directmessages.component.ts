@@ -4,20 +4,25 @@ import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { ChatsService } from '../../../services/messages/chats.service';
 import { Router } from '@angular/router';
+import { UsersDbService } from '../../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-devspace-directmessages',
-  imports: [ CommonModule ],
+  imports: [CommonModule],
   templateUrl: './devspace-directmessages.component.html',
   styleUrl: './devspace-directmessages.component.scss'
 })
 export class DevspaceDirectmessagesComponent {
-  dialog = inject(MatDialog);
+  readonly dialog = inject(MatDialog);
+  private usersDb = inject(UsersDbService);
   @Output() userSelected = new EventEmitter<string>();
+  online: boolean = false;
 
-  constructor(private chatService: ChatsService, private router: Router) {  }
+  constructor(private chatService: ChatsService, private router: Router) { }
 
-  names = ['Alice', 'Bob', 'Charlie', 'Max'];
+  getUserList() {
+    return this.usersDb.userListSig().filter(user => user.id != this.usersDb.currentUserSig()?.id);
+  }
 
   openDialog(): void {
     this.dialog.open(AddFriendDialogComponent);

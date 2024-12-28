@@ -8,7 +8,7 @@
     <div>
       <!-- View selected user -->
       <div *ngIf="selectedUser['id']" class="input-added-user">
-        <div class="user-view-small">
+        <div class="user-view-input">
           <img src="{{selectedUser['avatar']}}" alt="">
           <span>{{selectedUser['userName']}}</span>
           <div (click)="removeUser()" class="close-icon"></div>
@@ -19,17 +19,20 @@
         autocomplete="off">
 
         <!-- Dropdown existed user after input -->
-      <div *ngIf="filteredUsersAfterInput().length > 0 && !selectedUser['id']" class="dropdown">
+      <ul *ngIf="filteredUsersAfterInput().length > 0 && !selectedUser['id']" class="dropdown">
         <ng-container *ngFor="let user of getUserList()">
-          <div *ngIf="filterUserExist(user.userName)" (click)="selectUser(user.id)" class="user-view-medium">
-            <img src="{{user.avatar}}" alt="">
+          <li *ngIf="filteredUserForDropdown(user.userName)" (click)="selectUser(user.id)" class="user-view-small">
+            <div>
+                <img src="{{user.avatar}}" alt="">
+                <div class="active-status" [ngClass]="{'online': user.active, 'offline': !user.active}"></div>
+            </div>
             <span>{{user.userName}}</span>
-          </div>
+          </li>
         </ng-container>
-      </div>
+      </ul>
 
     </div>
-    <button type="submit" [disabled]="!selectedUser['id']">Chat starten</button>
+    <button class="primary-button" type="submit" [disabled]="!selectedUser['id']">Chat starten</button>
   </form>
 
 </section>

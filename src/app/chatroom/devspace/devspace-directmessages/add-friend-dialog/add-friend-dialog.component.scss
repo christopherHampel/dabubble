@@ -1,5 +1,9 @@
 @use '../../../chatroom.component.scss';
 
+* {
+    transition: all 75ms;
+}
+
 .add-friend-dialog {
     display: flex;
     flex-direction: column;
@@ -38,15 +42,7 @@ form {
     justify-content: center;
     gap: 20px;
 
-    z-index: 99;
-
     &>div:nth-child(1) {
         width: 100%;
-
-        &:focus-within {
-            * {
-                border-color: #444DF2;
-            }
-        }
     }
 }
