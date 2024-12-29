@@ -19,6 +19,13 @@ export class SingleMessageComponent {
     // this.chatService.deleteMessage(this.index);
   }
 
+  updateMessage(currentMessage:CurrentMessage) {
+    const messageTimestamp = currentMessage.createdAt;
+
+    this.chatService.updateMessage(messageTimestamp, newText);
+    // console.log(currentMessage, this.chatService.chatId);
+  }
+
   getTime(): string | null {
     if (!this.currentMessage?.createdAt) return null;
     const messageTime = this.currentMessage.createdAt.toDate();

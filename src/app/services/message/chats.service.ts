@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
+import { collectionData, Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { collection, doc, addDoc, updateDoc, query, where, getDocs, arrayUnion, onSnapshot, deleteDoc, deleteField, getDoc, serverTimestamp, orderBy } from 'firebase/firestore';
+import { collection, doc, addDoc, updateDoc, query, where, getDocs, arrayUnion, onSnapshot, deleteDoc, deleteField, getDoc, serverTimestamp, orderBy, Timestamp } from 'firebase/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 // import { UsersDbService } from '../usersDb/users-db.service';
@@ -61,7 +61,24 @@ export class ChatsService {
         uid: nameLogedinUser,
         text: text,
         createdAt: serverTimestamp(),
+        
     })
+  }
+
+  async updateMessage(messageTimestamp:Timestamp, newText:string) {
+    if(this.chatId) {
+      const chatRef = collection(this.getPrivateChatCollection(), this.chatId, 'messages');
+      const chatQuery = query(chatRef, where('createdAt', '==', messageTimestamp));
+      const querySnapshot = await getDocs(chatQuery);
+
+      if(!querySnapshot.empty) {
+        const messageDoc = querySnapshot.docs[0];
+        await updateDoc(messageDoc.ref, { text: newText });
+
+      } else {
+        return console.error('Keine Nachricht gefunden');
+      }
+    }
   }
 
   // async deleteMessage(chatId: string, text: string): Promise<void> {

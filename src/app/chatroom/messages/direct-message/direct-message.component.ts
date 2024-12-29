@@ -28,7 +28,7 @@ export class DirectMessageComponent {
         this.chatService.getMessageData(this.chatService.chatId);
         this.chatSubscription = this.chatService.chatData$.subscribe((data) => {
           this.chatData = data;
-          // console.log(this.chatData);
+          // console.log(this.chatData.messages);
         });
       } else {
         console.error('Keine gültige Chat-ID gefunden!');
