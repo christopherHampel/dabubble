@@ -72,5 +72,4 @@ export class AuthService {
     const userRef = this.usersDb.getSingleDocRef('users', userId);
     setDoc(userRef, {active: active}, {merge: true});
   }
-
 }
