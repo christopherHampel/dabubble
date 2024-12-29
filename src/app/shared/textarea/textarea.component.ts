@@ -22,4 +22,9 @@ export class TextareaComponent {
       this.message = '';
     }
   }
+
+  autoGrowTextZone(e:any) {
+    e.target.style.height = "25px";
+    e.target.style.height = (e.target.scrollHeight + 25)+"px";
+  }
 }
