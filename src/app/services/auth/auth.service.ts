@@ -1,6 +1,5 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, user } from '@angular/fire/auth';
-import { UserRegister } from '../../interfaces/userRegister';
 import { from, Observable } from 'rxjs';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { UsersDbService } from '../usersDb/users-db.service';
@@ -43,7 +42,7 @@ export class AuthService {
   loginWithGoogle(): Observable<string> {
     const provider = new GoogleAuthProvider();
     const promise = signInWithPopup(this.auth, provider)
-      .then((response) => { 
+      .then((response) => {
         const userId = response.user.uid;
         this.updateUserStatus(userId, true);
         return userId;
@@ -58,18 +57,18 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    const promise = signOut(this.auth)
-    .then(() => {
-      const userId = this.auth.currentUser?.uid;
-      if (userId) {
-        this.updateUserStatus(userId, false);
-      }
+    this.user$.subscribe((user) => {
+      const userId = user!.uid;
+      this.updateUserStatus(userId, false);
     })
+    const promise = signOut(this.auth)
+      .then(() => { })
     return from(promise);
   }
 
   private updateUserStatus(userId: string, active: boolean) {
     const userRef = this.usersDb.getSingleDocRef('users', userId);
-    setDoc(userRef, {active: active}, {merge: true});
+    setDoc(userRef, { active: active }, { merge: true });
+    console.log(userRef.firestore);
   }
 }

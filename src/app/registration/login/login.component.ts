@@ -30,18 +30,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.auth.user$.subscribe((user) => {
       if (user) {
-        this.usersDb.currentUserSig.set({
-          id: user.uid,
-          userName: user.displayName!,
-          email: user.email!,
-          avatar: user.photoURL!,
-          active: true
-        });
         //this.router.navigateByUrl('/chatroom');
         console.log(this.usersDb.currentUserSig()?.email + ' Login!');
       } else {
         console.log(this.usersDb.currentUserSig()?.email + ' Logout!');
-        this.usersDb.currentUserSig.set(null);
       }
     });
   }
@@ -50,8 +42,7 @@ export class LoginComponent implements OnInit {
     const rawForm = this.loginForm.getRawValue();
     this.auth.login(rawForm.email, rawForm.password)
       .subscribe({
-        next: (uid) => {
-          this.usersDb.subScribeToUser(uid);
+        next: () => {
           this.router.navigateByUrl('/chatroom');
         },
         error: (err) => {
@@ -63,7 +54,7 @@ export class LoginComponent implements OnInit {
   onGaestLogin() {
     this.auth.login('gaest@gaest.com', '123456')
       .subscribe({
-        next: (uid) => {
+        next: () => {
           this.router.navigateByUrl('/chatroom');
         },
         error: (err) => {
@@ -82,10 +73,6 @@ export class LoginComponent implements OnInit {
           this.errorMessage = err.code;
         }
       });
-  }
-
-  onLogout() {
-    this.auth.logout();
   }
 
   onSubmit() {
