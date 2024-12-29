@@ -2,16 +2,19 @@ import { Component, Input } from '@angular/core';
 import { ChatsService } from '../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-single-message',
-  imports: [ CommonModule ],
+  imports: [ CommonModule, FormsModule ],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
 export class SingleMessageComponent {
 
   @Input() currentMessage!:CurrentMessage;
+  isEditing: boolean = false;
+  @Input() editedText: string = '';
 
   constructor(private chatService: ChatsService) {}
 
@@ -19,11 +22,18 @@ export class SingleMessageComponent {
     // this.chatService.deleteMessage(this.index);
   }
 
-  updateMessage(currentMessage:CurrentMessage) {
-    const messageTimestamp = currentMessage.createdAt;
+  editMessage() {
+    this.isEditing = true;
+  }
 
-    this.chatService.updateMessage(messageTimestamp, newText);
-    // console.log(currentMessage, this.chatService.chatId);
+  updateMessage(currentMessage:CurrentMessage) {
+    this.isEditing = false;
+    const messageTimestamp = currentMessage.createdAt;
+    this.chatService.updateMessage(messageTimestamp, this.currentMessage.text);
+  }
+
+  cancelEdit() {
+    this.isEditing = false;
   }
 
   getTime(): string | null {

@@ -7,9 +7,19 @@
             <span>{{ getTime() }} Uhr</span>
             <span class="username">{{ currentMessage.uid }}</span>
         </div>
+
         <div class="message-content">
-            <span>{{ currentMessage.text }}</span>
+            <ng-container *ngIf="!isEditing">
+              <span>{{ currentMessage.text }}</span>
+            </ng-container>
+          
+            <ng-container *ngIf="isEditing">
+              <textarea [(ngModel)]="currentMessage.text" class="edit-input"></textarea>
+              <button (click)="updateMessage(currentMessage)">Save</button>
+              <button (click)="cancelEdit()">Cancel</button>
+            </ng-container>
         </div>
+
         <div class="emoji-reactions">
             <img src="/img/Reaction indicator.png" alt="">
             <a><img src="/img/add_reaction.png" alt=""></a>
@@ -17,7 +27,7 @@
     </div>
 
     <div class="tooltip-message">
-        <span (click)="updateMessage(currentMessage)">Edit</span>
+        <span (click)="editMessage()">Edit</span>
         <span>test</span>
         <span>test</span>
     </div>
