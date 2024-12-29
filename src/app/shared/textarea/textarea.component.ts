@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../services/message/chats.service';
+import { CurrentMessage } from '../../interfaces/current-message';
 
 @Component({
   selector: 'app-textarea',
@@ -11,7 +12,7 @@ import { ChatsService } from '../../services/message/chats.service';
 export class TextareaComponent {
 
   @Input() message:string = '';
-  @Input() chatData:any;
+  @Input() chatData!:{ participant:string };
 
   constructor(public chatService: ChatsService) {  }
 

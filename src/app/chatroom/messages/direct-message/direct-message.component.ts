@@ -53,4 +53,34 @@ export class DirectMessageComponent {
   messagesAvailable(): boolean {
     return this.chatData?.messages?.length > 0;
   }
+
+  checkDate() {
+    const lastMessageIndex = this.chatData.messages.length - 1;
+    const lastMessageDate = this.chatData.messages[lastMessageIndex].createdAt;
+
+    if (!lastMessageDate) {
+      return 'Ungültiges Datum';
+    }
+    
+    const date = lastMessageDate.toDate();
+    const currentDate = new Date();
+
+    const dateFormat = {
+      weekday: 'long',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    };
+
+    const isSameDate =
+    date.getFullYear() === currentDate.getFullYear() &&
+    date.getMonth() === currentDate.getMonth() &&
+    date.getDate() === currentDate.getDate();
+
+    if(isSameDate) {
+      return 'Heute';
+    } else {
+      return dateFormat;
+    }
+  }
 }

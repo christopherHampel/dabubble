@@ -51,6 +51,9 @@ section {
 
 .message-field {
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
 .time-seperator {

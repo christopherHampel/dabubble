@@ -12,7 +12,6 @@ import { CurrentMessage } from '../../../interfaces/current-message';
 export class SingleMessageComponent {
 
   @Input() currentMessage!:CurrentMessage;
-  // @Input() index!:number;
 
   constructor(private chatService: ChatsService) {}
 

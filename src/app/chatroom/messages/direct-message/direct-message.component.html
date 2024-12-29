@@ -11,10 +11,11 @@
         </div>
 
         <div class="message-field">
-            <div class="time-seperator">
+
+            <div class="time-seperator" *ngIf="messagesAvailable()">
                 <div></div>
                 <div class="date">
-                    <span>Heute</span>
+                    <span>{{ checkDate() }}</span>
                 </div>
                 <div></div>
             </div>
