@@ -10,9 +10,17 @@
             <div class="dividing-line"></div>
         </div>
 
-        <div>
-            <div *ngFor="let message of chatData.messages; let i = index; trackBy: trackByMessageId" class="message-item">
-                <app-single-message [currentMessage]="message" [index]="i"></app-single-message>
+        <div class="message-field">
+            <div class="time-seperator">
+                <div></div>
+                <div class="date">
+                    <span>Heute</span>
+                </div>
+                <div></div>
+            </div>
+
+            <div *ngFor="let message of chatData.messages; trackBy: trackByMessageId" class="message-item">
+                <app-single-message [currentMessage]="message"></app-single-message>
             </div>
     
             <div class="messages-field" *ngIf="!messagesAvailable()">

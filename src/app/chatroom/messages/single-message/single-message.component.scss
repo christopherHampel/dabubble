@@ -1,0 +1,48 @@
+.message-logedin-user {
+    padding: 24px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 30px;
+    justify-content: flex-start;
+    font-family: 'Nunito';
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.time-username {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+
+    .username {
+        font-weight: 700;
+        font-size: 18px;
+    }
+}
+
+.message-content {
+    background-color: #797EF3;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    padding: 15px;
+    color: #FFFF;
+}
+
+.avatar-message {
+    img {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+.emoji-reactions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}

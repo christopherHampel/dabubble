@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ChatsService } from '../../services/messages/chats.service';
 import { FormsModule } from '@angular/forms';
+import { ChatsService } from '../../services/message/chats.service';
 
 @Component({
   selector: 'app-textarea',

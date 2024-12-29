@@ -2,8 +2,8 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { ChatsService } from '../../../services/messages/chats.service';
 import { Router } from '@angular/router';
+import { ChatsService } from '../../../services/message/chats.service';
 
 @Component({
   selector: 'app-devspace-directmessages',

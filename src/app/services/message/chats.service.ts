@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { collection, doc, addDoc, updateDoc, query, where, getDocs, arrayUnion, onSnapshot, deleteDoc, deleteField, getDoc } from 'firebase/firestore';
+import { collection, doc, addDoc, updateDoc, query, where, getDocs, arrayUnion, onSnapshot, deleteDoc, deleteField, getDoc, serverTimestamp, orderBy } from 'firebase/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 // import { UsersDbService } from '../usersDb/users-db.service';
@@ -60,27 +60,51 @@ export class ChatsService {
     await addDoc(messagesRef, {
         uid: nameLogedinUser,
         text: text,
-        timestamp: new Date(),
+        createdAt: serverTimestamp(),
     })
   }
 
-async deleteMessage(i: number) {
-  const messageField = doc(this.getPrivateChatCollection(), this.chatId);
-  const docSnap = await getDoc(messageField);
+  // async deleteMessage(chatId: string, text: string): Promise<void> {
+  //   if (!chatId) {
+  //     throw new Error('Ungültige Chat-ID');
+  //   }
+  
+  //   const chatRef = doc(this.getPrivateChatCollection(), chatId);
+  //   const messagesRef = collection(chatRef, 'messages');
+  
+  //   // Suche das Dokument, das den Text enthält
+  //   const q = query(messagesRef, where('text', '==', text));
+  //   const querySnapshot = await getDocs(q);
+  
+  //   if (querySnapshot.empty) {
+  //     console.log('Kein Dokument gefunden mit dem angegebenen Text');
+  //     return;
+  //   }
+  
+  //   // Lösche alle gefundenen Dokumente
+  //   for (const docSnapshot of querySnapshot.docs) {
+  //     await deleteDoc(docSnapshot.ref);
+  //     console.log(`Dokument mit ID ${docSnapshot.id} wurde gelöscht`);
+  //   }
+  // }
 
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      const messages = data['messages'] || [];
+// async deleteMessage(i: number) {
+//   const messageField = doc(this.getPrivateChatCollection(), this.chatId);
+//   const docSnap = await getDoc(messageField);
 
-      if (i >= 0 && i < messages.length) {
-        messages.splice(i, 1);
+//     if (docSnap.exists()) {
+//       const data = docSnap.data();
+//       const messages = data['messages'] || [];
 
-        await updateDoc(messageField, {
-          messages: messages,
-        });
-      }
-    } 
-  }
+//       if (i >= 0 && i < messages.length) {
+//         messages.splice(i, 1);
+
+//         await updateDoc(messageField, {
+//           messages: messages,
+//         });
+//       }
+//     } 
+//   }
 
   getData(chatId:string): Observable<any> {
     return new Observable(observer => {
@@ -94,31 +118,28 @@ async deleteMessage(i: number) {
       }, error => {
         observer.error(error);
       });
-      // Bereinigen des Abonnements
       return () => unsubscribe();
     });
   }
 
-  getChatData(chatId: string): void {
+  getMessageData(chatId: string): void {
     const docRef = doc(this.firestore, 'messages', chatId);
 
-    // Abonniere das Hauptdokument
     onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
         const chatData = docSnap.data();
-        const subCollectionRef = collection(docRef, 'messages'); // Hier ist die Subcollection
+        const subCollectionRef = collection(docRef, 'messages');
+        const sortedQuery = query(subCollectionRef, orderBy('createdAt'));
 
-        // Abonniere die Subcollection "messages"
-        onSnapshot(subCollectionRef, querySnap => {
-          const messages = querySnap.docs.map(doc => doc.data()); // Extrahiere die Nachrichten
-          chatData['messages'] = messages; // Füge die Nachrichten zu den Hauptdaten hinzu
-          this.chatDataSubject.next(chatData); // Aktualisiere das BehaviorSubject mit den neuen Daten
+        onSnapshot(sortedQuery, querySnap => {
+          const messages = querySnap.docs.map(doc => doc.data());
+          chatData['messages'] = messages;
+          this.chatDataSubject.next(chatData);
         });
       } else {
         console.error('Kein Dokument gefunden!');
-        this.chatDataSubject.next(null); // Null setzen, wenn keine Daten gefunden wurden
+        this.chatDataSubject.next(null);
       }
     });
   }
-
 }
