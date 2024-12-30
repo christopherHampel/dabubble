@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { UsersDbService } from '../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   signOut = false;
   errorMessage: string | null = null;
-  auth = inject(AuthService);
+  private auth = inject(AuthService);
+  private usersDb = inject(UsersDbService);
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
@@ -28,17 +30,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.auth.user$.subscribe((user) => {
       if (user) {
-        this.auth.currentUserSig.set({
-          userName: user.displayName!,
-          email: user.email!,
-          password: '',
-          avatar: user.photoURL
-        });
-        //this.router.navigateByUrl('/chatroom/' + user.uid);
-        console.log(this.auth.currentUserSig()?.email + ' Login!');
+        //this.router.navigateByUrl('/chatroom');
+        console.log(this.usersDb.currentUserSig()?.email + ' Login!');
       } else {
-        console.log(this.auth.currentUserSig()?.email + ' Logout!');
-        this.auth.currentUserSig.set(null);
+        console.log(this.usersDb.currentUserSig()?.email + ' Logout!');
       }
     });
   }
@@ -47,8 +42,8 @@ export class LoginComponent implements OnInit {
     const rawForm = this.loginForm.getRawValue();
     this.auth.login(rawForm.email, rawForm.password)
       .subscribe({
-        next: (uid) => {
-          this.router.navigateByUrl('/chatroom/' + uid);
+        next: () => {
+          this.router.navigateByUrl('/chatroom');
         },
         error: (err) => {
           this.errorMessage = err.code;
@@ -59,8 +54,8 @@ export class LoginComponent implements OnInit {
   onGaestLogin() {
     this.auth.login('gaest@gaest.com', '123456')
       .subscribe({
-        next: (uid) => {
-          this.router.navigateByUrl('/chatroom/' + uid);
+        next: () => {
+          this.router.navigateByUrl('/chatroom');
         },
         error: (err) => {
           this.errorMessage = err.code;
@@ -72,16 +67,12 @@ export class LoginComponent implements OnInit {
     this.auth.loginWithGoogle()
       .subscribe({
         next: (uid) => {
-          this.router.navigateByUrl('/chatroom/' + uid);
+          this.router.navigateByUrl('/chatroom');
         },
         error: (err) => {
           this.errorMessage = err.code;
         }
       });
-  }
-
-  onLogout() {
-    this.auth.logout();
   }
 
   onSubmit() {

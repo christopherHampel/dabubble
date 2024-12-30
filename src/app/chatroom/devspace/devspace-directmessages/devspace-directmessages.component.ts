@@ -1,32 +1,35 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { ChatsService } from '../../../services/messages/chats.service';
+import { Router } from '@angular/router';
+import { UsersDbService } from '../../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-devspace-directmessages',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './devspace-directmessages.component.html',
   styleUrl: './devspace-directmessages.component.scss'
 })
 export class DevspaceDirectmessagesComponent {
-
   readonly dialog = inject(MatDialog);
+  private usersDb = inject(UsersDbService);
   @Output() userSelected = new EventEmitter<string>();
+  online: boolean = false;
 
-  onUserClick(username: string): void {
-    this.userSelected.emit(username);
+  constructor(private chatService: ChatsService, private router: Router) { }
+
+  getUserList() {
+    return this.usersDb.userListSig().filter(user => user.id != this.usersDb.currentUserSig()?.id);
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(AddFriendDialogComponent, {
-      
-    });
+    this.dialog.open(AddFriendDialogComponent);
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      if (result !== undefined) {
-        //this.animal.set(result);
-      }
-    });
+  async selectName(name: string) {
+    const chatId = await this.chatService.setPrivateChat(name);
+    this.router.navigate([`/chatroom/direct-message/${chatId}`]);
   }
 }

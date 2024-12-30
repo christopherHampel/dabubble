@@ -1,18 +1,21 @@
 <section>
 
     <div class="messages-head">
-        <img src="/img/arrow_drop_down.png" alt="">
         <div>
+            <img src="/img/arrow_drop_down.png" alt="">
             <img src="/img/account_circle.png" alt="">
             <span>Direktnachrichten</span>
         </div>
         <img (click)="openDialog()" src="/img/add.png" alt="">
     </div>
 
-    <div class="direct-messages">
-        <i>Friends</i>
-        <span (click)="onUserClick('Theo')">Theo</span>
-        <span (click)="onUserClick('Stephan')">Stephan</span>
-        <span (click)="onUserClick('Christopher')">Christopher (DU)</span>
-    </div>
+    <ul class="direct-messages">
+        <li *ngFor="let user of getUserList()" class="user-view-small" (click)="selectName(user.userName)">
+            <div>
+                <img src="{{user.avatar}}" alt="">
+                <div class="active-status online" [ngClass]="{'online': user.active, 'offline': !user.active}"></div>
+            </div>
+            <span>{{user.userName}}</span>
+        </li>
+    </ul>
 </section>

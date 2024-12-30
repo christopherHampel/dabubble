@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
-import { DirectMessageComponent } from "./direct-message/direct-message.component";
+import { Component, Input } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-messages',
-  imports: [DirectMessageComponent],
+  imports: [ RouterOutlet ],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.scss'
 })
 export class MessagesComponent {
 
+  @Input() currentUser: string = '';
 }

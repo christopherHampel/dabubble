@@ -1,12 +1,38 @@
-<ol>
-  <li>
-    <mat-form-field>
-      <mat-label>What's your name?</mat-label>
-      <input matInput />
-    </mat-form-field>
-  </li>
-  <li>
-    <button mat-raised-button>Pick one</button>
-  </li>
-</ol>
+<section class="add-friend-dialog">
+  <header>
+    <h2>Direktnachricht an</h2>
+    <div (click)="closeDialog()" class="close-icon"></div>
+  </header>
 
+  <form (ngSubmit)="closeDialog()">
+    <div>
+      <!-- View selected user -->
+      <div *ngIf="selectedUser['id']" class="input-added-user">
+        <div class="user-view-input">
+          <img src="{{selectedUser['avatar']}}" alt="">
+          <span>{{selectedUser['userName']}}</span>
+          <div (click)="removeUser()" class="close-icon"></div>
+        </div>
+      </div>
+
+      <input *ngIf="!selectedUser['id']" class="input-text" [(ngModel)]="userName" name="userName" type="text" placeholder="Name eingeben"
+        autocomplete="off">
+
+        <!-- Dropdown existed user after input -->
+      <ul *ngIf="filteredUsersAfterInput().length > 0 && !selectedUser['id']" class="dropdown">
+        <ng-container *ngFor="let user of getUserList()">
+          <li *ngIf="filteredUserForDropdown(user.userName)" (click)="selectUser(user.id)" class="user-view-small">
+            <div>
+                <img src="{{user.avatar}}" alt="">
+                <div class="active-status" [ngClass]="{'online': user.active, 'offline': !user.active}"></div>
+            </div>
+            <span>{{user.userName}}</span>
+          </li>
+        </ng-container>
+      </ul>
+
+    </div>
+    <button class="primary-button" type="submit" [disabled]="!selectedUser['id']">Chat starten</button>
+  </form>
+
+</section>

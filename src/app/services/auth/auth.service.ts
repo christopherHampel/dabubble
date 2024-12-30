@@ -1,16 +1,17 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, user } from '@angular/fire/auth';
-import { UserRegister } from '../../interfaces/userRegister';
 import { from, Observable } from 'rxjs';
 import { sendPasswordResetEmail } from 'firebase/auth';
+import { UsersDbService } from '../usersDb/users-db.service';
+import { setDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private auth = inject(Auth);
+  private usersDb = inject(UsersDbService);
   user$ = user(this.auth);
-  currentUserSig = signal<UserRegister | null | undefined>(undefined);
 
   constructor() { }
 
@@ -30,7 +31,9 @@ export class AuthService {
   login(email: string, password: string): Observable<string> {
     const promise = signInWithEmailAndPassword(this.auth, email, password)
       .then((response) => {
-        return response.user.uid;
+        const userId = response.user.uid;
+        this.updateUserStatus(userId, true);
+        return userId;
       });
 
     return from(promise);
@@ -39,8 +42,10 @@ export class AuthService {
   loginWithGoogle(): Observable<string> {
     const provider = new GoogleAuthProvider();
     const promise = signInWithPopup(this.auth, provider)
-      .then((response) => { 
-        return response.user.uid;
+      .then((response) => {
+        const userId = response.user.uid;
+        this.updateUserStatus(userId, true);
+        return userId;
       });
 
     return from(promise);
@@ -52,8 +57,18 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    const promise = signOut(this.auth);
+    this.user$.subscribe((user) => {
+      const userId = user!.uid;
+      this.updateUserStatus(userId, false);
+    })
+    const promise = signOut(this.auth)
+      .then(() => { })
     return from(promise);
   }
 
+  private updateUserStatus(userId: string, active: boolean) {
+    const userRef = this.usersDb.getSingleDocRef('users', userId);
+    setDoc(userRef, { active: active }, { merge: true });
+    console.log(userRef.firestore);
+  }
 }

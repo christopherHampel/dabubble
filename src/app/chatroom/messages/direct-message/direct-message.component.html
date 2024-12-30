@@ -1,23 +1,30 @@
 <section>
 
-    <div class="card height-100vh">
-        <div class="message-head">
-            <img src="/img/empty_profile.png" alt="">
-            <span>Max Mustermann</span>
-        </div>
-
-        <div class="dividing-line"></div>
-
-        <div class="messages-field">
-            <div class="communication-with">
+    <div *ngIf="chatData" class="card">
+        <div>
+            <div class="message-head">
                 <img src="/img/empty_profile.png" alt="">
-                <span>Max Mustermann</span>
+                <span>{{ chatData.name }}</span>
             </div>
-            <span>Diese Unterhaltung findet nur zwischen (at)Max Mustermann und dir statt.</span>
+    
+            <div class="dividing-line"></div>
         </div>
 
-        <div class="textarea">
-            <textarea placeholder="Nachricht an Max Mustermann" name="" id=""></textarea>
+        <div>
+            <div *ngFor="let message of chatData.messages; let  i = index" class="message-item">
+                <span>{{ message.text }}</span>
+                <span (click)="deleteMessage(i)"> {{ i }}</span>
+            </div>
+    
+            <div class="messages-field" *ngIf="!messagesAvailable()">
+                <div class="communication-with">
+                    <img src="/img/empty_profile.png" alt="">
+                    <span>{{ chatData.name }}</span>
+                </div>
+                <span>Diese Unterhaltung findet nur zwischen (at){{ chatData.name }} und dir statt.</span>
+            </div>
+            
+            <app-textarea [chatData]="chatData"></app-textarea>
         </div>
     </div>
 

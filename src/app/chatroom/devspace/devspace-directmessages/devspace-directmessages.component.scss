@@ -1,12 +1,25 @@
+@use '../../chatroom.component.scss';
+
 section {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 25px;
+
+    font-family: 'Nunito';
 }
 
 .messages-head {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
+    gap: 25px;
+
+    width: 100%;
+
+    font-size: 20px;
+    font-weight: 700;
 
     >div {
         display: flex;
@@ -19,4 +32,6 @@ section {
     display: flex;
     flex-direction: column;
     gap: 13px;
+
+    padding-inline-start: 20px;
 }
