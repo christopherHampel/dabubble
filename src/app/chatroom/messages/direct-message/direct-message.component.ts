@@ -80,7 +80,7 @@ export class DirectMessageComponent {
     if(isSameDate) {
       return 'Heute';
     } else {
-      return dateFormat;
+      return date.toLocaleDateString('de-DE', dateFormat);
     }
   }
 }
