@@ -31,6 +31,7 @@
     border: 1px solid #ADB0D9;
     border-radius: 20px;
     padding: 20px;
+    position: relative;
 
     >textarea {
         border: none;
@@ -52,11 +53,12 @@
     div {
         display: flex;
         gap: 5px;
+        position: relative;
     }
 }
 
 .emoji-picker {
-    @include iconsTextarea('./../../../../public/img/sentiment_satisfied.png', './../../../../public/img/sentiment_satisfied_hover.png')
+    @include iconsTextarea('./../../../../public/img/sentiment_satisfied.png', './../../../../public/img/sentiment_satisfied_hover.png');
 }
 
 .at-member {

@@ -82,5 +82,5 @@ export class DirectMessageComponent {
     } else {
       return date.toLocaleDateString('de-DE', dateFormat);
     }
-  }
+  }  
 }

@@ -2,7 +2,8 @@
     <textarea (keyup)="autoGrowTextZone($event)" [(ngModel)]="message" name="" placeholder="Nachricht an {{ chatData.participant }}" id=""></textarea>
     <div class="reactions">
         <div>
-            <div class="emoji-picker"></div>
+            <div class="emoji-picker" (click)="toggleEmoji()"></div>
+            <app-emoji-picker-component *ngIf="emojiMartOpen" (emojiSelected)="addEmojiToMessage($event)"></app-emoji-picker-component>
             <div class="at-member"></div>
         </div>
         <a (click)="sendText()"><img src="/img/send.png" alt="send"></a>
