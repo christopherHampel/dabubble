@@ -3,18 +3,22 @@ import { ChatsService } from '../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
 import { FormsModule } from '@angular/forms';
+import { HostListener } from '@angular/core';
+import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 
 @Component({
   selector: 'app-single-message',
-  imports: [ CommonModule, FormsModule ],
+  imports: [ CommonModule, FormsModule, EmojiPickerComponentComponent ],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
 export class SingleMessageComponent {
 
   @Input() currentMessage!:CurrentMessage;
-  isEditing: boolean = false;
   @Input() editedText: string = '';
+
+  isEditing: boolean = false;
+  emojiMartOpen:boolean = false;
 
   constructor(private chatService: ChatsService) {}
 
@@ -44,5 +48,14 @@ export class SingleMessageComponent {
       minute: '2-digit',
     });
   }
-}
 
+  toggleEmoji() {
+    this.emojiMartOpen = !this.emojiMartOpen;
+    console.log(this.emojiMartOpen);
+  }
+
+  autoGrowTextZone(e:any) {
+    e.target.style.height = "25px";
+    e.target.style.height = (e.target.scrollHeight + 25)+"px";
+  }
+}
