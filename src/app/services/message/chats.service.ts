@@ -89,7 +89,7 @@ export class ChatsService {
 
       if(!querySnapshot.empty) {
         const messageDoc = querySnapshot.docs[0];
-        await updateDoc(messageDoc.ref, { emoji: arrayUnion(emoji) });
+        await updateDoc(messageDoc.ref, { emojis: arrayUnion(emoji) });
       }
     }
   }
