@@ -30,7 +30,7 @@ export class SingleMessageComponent {
   }
 
   editMessage() {
-    console.log(this.currentMessage);
+    // console.log(this.currentMessage);
     this.isEditing = true;
   }
 

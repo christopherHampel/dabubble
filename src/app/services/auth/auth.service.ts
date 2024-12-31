@@ -12,7 +12,6 @@ export class AuthService {
   private auth = inject(Auth);
   private usersDb = inject(UsersDbService);
   user$ = user(this.auth);
-  currentUserSig = signal<UserRegister | null | undefined>(undefined);
   currentUserExample: [{name:string, uid:string, email:string}] = [
     {
       name: 'Christopher Hampel',

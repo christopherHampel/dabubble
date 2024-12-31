@@ -29,7 +29,7 @@
 
         <div class="emoji-reactions" *ngIf="!isEditing">
             <div>
-                @for (emoji of currentMessage.emoji; track $index) {
+                @for (emoji of currentMessage.emojis; track $index) {
                     <div>{{ emoji }}</div>
                 }
             </div>
