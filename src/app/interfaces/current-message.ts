@@ -5,5 +5,5 @@ export interface CurrentMessage {
     avatar:string,
     createdAt:Timestamp,
     text:string,
-    emojis: [];
+    emojis: [{emoji:string, count:number}];
 }
