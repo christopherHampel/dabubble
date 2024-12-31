@@ -12,7 +12,7 @@ export class AuthService {
   private auth = inject(Auth);
   private usersDb = inject(UsersDbService);
   user$ = user(this.auth);
-  currentUserExample: [{name:string, uid:string, email:string}] = [
+  currentUserExample: [{ name: string, uid: string, email: string }] = [
     {
       name: 'Christopher Hampel',
       uid: '123456789',
@@ -65,6 +65,7 @@ export class AuthService {
 
   logout(): Observable<void> {
     this.user$.subscribe((user) => {
+      console.log(user?.uid);
       const userId = user!.uid;
       this.updateUserStatus(userId, false);
     })

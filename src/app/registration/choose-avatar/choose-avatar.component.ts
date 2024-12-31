@@ -69,7 +69,8 @@ export class ChooseAvatarComponent {
       userName: this.userName,
       email: this.email,
       avatar: this.currentAvatar,
-      active: false
+      active: false,
+      directmessages: []
     }
     await this.usersDb.addUser(user);
   }

@@ -19,7 +19,7 @@
         autocomplete="off">
 
         <!-- Dropdown existed user after input -->
-      <ul *ngIf="filteredUsersAfterInput().length > 0 && !selectedUser['id']" class="dropdown">
+      <ul *ngIf="filteredUsersAfterInput().length > 0 && !selectedUser['id']" class="dropdown-add-user">
         <ng-container *ngFor="let user of getUserList()">
           <li *ngIf="filteredUserForDropdown(user.userName)" (click)="selectUser(user.id)" class="user-view-small">
             <div>

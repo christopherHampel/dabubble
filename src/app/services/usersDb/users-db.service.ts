@@ -22,7 +22,8 @@ export class UsersDbService {
       userName: user.userName,
       email: user.email,
       avatar: user.avatar,
-      active: user.active
+      active: user.active,
+      directmessages: user.directmessages
     }
   }
 
@@ -42,7 +43,8 @@ export class UsersDbService {
       userName: object.userName || '',
       email: object.emai || '',
       avatar: object.avatar || '',
-      active: object.active || false
+      active: object.active || false,
+      directmessages: object.directmessages || []
     }
   }
 

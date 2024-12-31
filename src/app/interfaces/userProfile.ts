@@ -1,7 +1,8 @@
 export interface UserProfile {
-    id: string | undefined,
+    id: string,
     userName: string,
     email: string,
     avatar: string,
-    active: boolean
+    active: boolean,
+    directmessages: string[];
 }

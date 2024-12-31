@@ -1,7 +1,3 @@
-* {
-    transition: all 75ms;
-}
-
 .chatroom {
 /*     height: 100vh; */
     display: flex;
@@ -192,7 +188,7 @@
 /* --------- */
 
 /* Together with 'user-view-small'-class */
-.dropdown {
+.dropdown-add-user {
     position: fixed;
     transform: translate(20px, -12px);
 

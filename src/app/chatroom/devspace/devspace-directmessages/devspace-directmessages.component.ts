@@ -21,7 +21,7 @@ export class DevspaceDirectmessagesComponent {
   constructor(private chatService: ChatsService, private router: Router) { }
 
   getUserList() {
-    return this.usersDb.userListSig().filter(user => user.id != this.usersDb.currentUserSig()?.id);
+    return this.usersDb.userListSig().filter(user => user.id != this.usersDb.currentUserSig()?.id && this.usersDb.currentUserSig()?.directmessages.includes(user.id));
   }
 
   openDialog(): void {

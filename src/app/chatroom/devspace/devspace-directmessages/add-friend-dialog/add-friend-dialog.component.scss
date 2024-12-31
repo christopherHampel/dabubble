@@ -1,9 +1,5 @@
 @use '../../../chatroom.component.scss';
 
-* {
-    transition: all 75ms;
-}
-
 .add-friend-dialog {
     display: flex;
     flex-direction: column;
