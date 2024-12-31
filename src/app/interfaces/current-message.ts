@@ -5,4 +5,5 @@ export interface CurrentMessage {
     avatar:string,
     createdAt:Timestamp,
     text:string,
+    emoji: [];
 }

@@ -28,8 +28,12 @@
         </div>
 
         <div class="emoji-reactions" *ngIf="!isEditing">
-            <img src="/img/Reaction indicator.png" alt="">
-            <app-emoji-picker-component *ngIf="emojiMartOpen"></app-emoji-picker-component>
+            <div>
+                @for (emoji of currentMessage.emoji; track $index) {
+                    <div>{{ emoji }}</div>
+                }
+            </div>
+            <app-emoji-picker-component (emojiSelected)="addEmojiToMessage($event, currentMessage)" *ngIf="emojiMartOpen"></app-emoji-picker-component>
             <a (click)="toggleEmoji()"><img src="/img/add_reaction.png" alt=""></a>
         </div>
     </div>

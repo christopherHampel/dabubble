@@ -81,47 +81,18 @@ export class ChatsService {
     }
   }
 
-  // async deleteMessage(chatId: string, text: string): Promise<void> {
-  //   if (!chatId) {
-  //     throw new Error('Ungültige Chat-ID');
-  //   }
-  
-  //   const chatRef = doc(this.getPrivateChatCollection(), chatId);
-  //   const messagesRef = collection(chatRef, 'messages');
-  
-  //   // Suche das Dokument, das den Text enthält
-  //   const q = query(messagesRef, where('text', '==', text));
-  //   const querySnapshot = await getDocs(q);
-  
-  //   if (querySnapshot.empty) {
-  //     console.log('Kein Dokument gefunden mit dem angegebenen Text');
-  //     return;
-  //   }
-  
-  //   // Lösche alle gefundenen Dokumente
-  //   for (const docSnapshot of querySnapshot.docs) {
-  //     await deleteDoc(docSnapshot.ref);
-  //     console.log(`Dokument mit ID ${docSnapshot.id} wurde gelöscht`);
-  //   }
-  // }
+  async addEmoji(messageTimestamp:Timestamp, emoji:string) {
+    if(this.chatId) {
+      const chatRef = collection(this.getPrivateChatCollection(), this.chatId, 'messages');
+      const chatQuery = query(chatRef, where('createdAt', '==', messageTimestamp));
+      const querySnapshot = await getDocs(chatQuery);
 
-// async deleteMessage(i: number) {
-//   const messageField = doc(this.getPrivateChatCollection(), this.chatId);
-//   const docSnap = await getDoc(messageField);
-
-//     if (docSnap.exists()) {
-//       const data = docSnap.data();
-//       const messages = data['messages'] || [];
-
-//       if (i >= 0 && i < messages.length) {
-//         messages.splice(i, 1);
-
-//         await updateDoc(messageField, {
-//           messages: messages,
-//         });
-//       }
-//     } 
-//   }
+      if(!querySnapshot.empty) {
+        const messageDoc = querySnapshot.docs[0];
+        await updateDoc(messageDoc.ref, { emoji: arrayUnion(emoji) });
+      }
+    }
+  }
 
   getData(chatId:string): Observable<any> {
     return new Observable(observer => {

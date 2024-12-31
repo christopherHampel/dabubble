@@ -19,14 +19,18 @@ export class SingleMessageComponent {
 
   isEditing: boolean = false;
   emojiMartOpen:boolean = false;
+  emoji!:string;
 
-  constructor(private chatService: ChatsService) {}
+  constructor(private chatService: ChatsService) {
+
+  }
 
   deleteMessage() {
     // this.chatService.deleteMessage(this.index);
   }
 
   editMessage() {
+    console.log(this.currentMessage);
     this.isEditing = true;
   }
 
@@ -57,5 +61,17 @@ export class SingleMessageComponent {
   autoGrowTextZone(e:any) {
     e.target.style.height = "25px";
     e.target.style.height = (e.target.scrollHeight + 25)+"px";
+  }
+
+  addEmoji(event:string) {
+
+  }
+
+  addEmojiToMessage(emoji: string, currentMessage:CurrentMessage) {
+    this.emoji = emoji;
+    console.log(this.emoji);
+
+    const messageTimestamp = currentMessage.createdAt;
+    this.chatService.addEmoji(messageTimestamp, this.emoji);
   }
 }
