@@ -1,9 +1,10 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, user } from '@angular/fire/auth';
 import { from, Observable } from 'rxjs';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { setDoc } from '@angular/fire/firestore';
+// import { UserRegister } from '../../interfaces/userRegister';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class AuthService {
   private auth = inject(Auth);
   private usersDb = inject(UsersDbService);
   user$ = user(this.auth);
+  // currentUserSig = signal<UserRegister | null | undefined>(undefined);
   currentUserExample: [{name:string, uid:string, email:string}] = [
     {
       name: 'Christopher Hampel',
