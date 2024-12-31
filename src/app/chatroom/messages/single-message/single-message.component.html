@@ -1,0 +1,44 @@
+<div class="message-logedin-user">
+    <div class="avatar-message">
+        <img src="/img/empty_profile.png" alt="">
+    </div>
+    <div class="content" [ngClass]="isEditing ? 'width-100' : ''">
+        <div class="time-username" *ngIf="!isEditing">
+            <span>{{ getTime() }} Uhr</span>
+            <span class="username">{{ currentMessage.uid }}</span>
+        </div>
+
+        <div [ngClass]="isEditing ? 'edit-content' : 'message-content'">
+            <div *ngIf="!isEditing">
+                <span>{{ currentMessage.text }}</span>
+            </div>
+
+            <div *ngIf="isEditing">
+                <textarea (click)="autoGrowTextZone($event)" [(ngModel)]="currentMessage.text"></textarea>
+                <div class="edittext-buttons">
+                    <div>
+                        <img src="/img/sentiment_satisfied.png" alt="">
+                    </div>
+                    <div>
+                        <button (click)="updateMessage(currentMessage)">Save</button>
+                        <button (click)="cancelEdit()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="emoji-reactions" *ngIf="!isEditing">
+            <div>
+                @for (emoji of currentMessage.emoji; track $index) {
+                    <div>{{ emoji }}</div>
+                }
+            </div>
+            <app-emoji-picker-component (emojiSelected)="addEmojiToMessage($event, currentMessage)" *ngIf="emojiMartOpen"></app-emoji-picker-component>
+            <a (click)="toggleEmoji()"><img src="/img/add_reaction.png" alt=""></a>
+        </div>
+    </div>
+
+    <div class="tooltip-message">
+        <span (click)="editMessage()">Edit</span>
+    </div>
+</div>

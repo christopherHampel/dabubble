@@ -1,3 +1,28 @@
+@mixin styleFont {
+    font-family: 'Nunito';
+    font-size: 18px;
+    font-weight: 400;
+    color: #686868;
+}
+
+@mixin iconsTextarea($image, $imageHover) {
+    background-image: url($image);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        background-image: url($imageHover);
+        cursor: pointer;
+        background-color: #ECEEFE;
+        border-radius: 50%;
+    }
+}
+
 .send-text {
     width: 100%;
     display: flex;
@@ -6,35 +31,47 @@
     border: 1px solid #ADB0D9;
     border-radius: 20px;
     padding: 20px;
+    position: relative;
 
     >textarea {
         border: none;
         outline: none;
+        resize: none;
+        @include styleFont;
+
+        &::placeholder {
+            @include styleFont;
+        }
     }
 }
 
 .reactions {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
-    >div {
+    div {
         display: flex;
         gap: 5px;
+        position: relative;
     }
 }
 
-.icon {
-    width: 40px;
-    height: 40px;
+.emoji-picker {
+    @include iconsTextarea('./../../../../public/img/sentiment_satisfied.png', './../../../../public/img/sentiment_satisfied_hover.png');
+}
+
+.at-member {
+    @include iconsTextarea('./../../../../public/img/alternate_email.png', './../../../../public/img/alternate_email_hover.png');
 }
 
 a {
     width: 40px;
     height: 40px;
-    >img {
-        width: 100%;
-        height: 100%;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     &:hover {
         cursor: pointer;
     }

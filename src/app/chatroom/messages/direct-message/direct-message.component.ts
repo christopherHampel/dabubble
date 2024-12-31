@@ -1,23 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ChatsService } from '../../../services/messages/chats.service';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ChatsService } from '../../../services/message/chats.service';
 import { TextareaComponent } from '../../../shared/textarea/textarea.component';
+import { SingleMessageComponent } from '../single-message/single-message.component';
 
 @Component({
   selector: 'app-direct-message',
-  imports: [ CommonModule, FormsModule, TextareaComponent ],
+  imports: [ CommonModule, FormsModule, TextareaComponent, SingleMessageComponent],
   templateUrl: './direct-message.component.html',
-  styleUrl: './direct-message.component.scss'
+  styleUrl: './direct-message.component.scss',
 })
 export class DirectMessageComponent {
   private chatSubscription: Subscription | null = null;
 
-  chatData: any = null; // Lokale Variable für Chat-Daten
-
-  @Input() message:string = '';
+  chatData: any = null;
 
   constructor(private route: ActivatedRoute, public chatService: ChatsService) {}
 
@@ -26,12 +25,10 @@ export class DirectMessageComponent {
       this.chatService.chatId = params.get('id') || undefined;
 
       if (this.chatService.chatId) {
-        // Starte das Abrufen der Chat-Daten
-        this.chatService.getChatData(this.chatService.chatId);
-
-        // Abonniere die Chat-Daten
+        this.chatService.getMessageData(this.chatService.chatId);
         this.chatSubscription = this.chatService.chatData$.subscribe((data) => {
-          this.chatData = data; // Lokale Variable aktualisieren
+          this.chatData = data;
+          // console.log(this.chatData.messages);
         });
       } else {
         console.error('Keine gültige Chat-ID gefunden!');
@@ -39,15 +36,12 @@ export class DirectMessageComponent {
     });
   }
 
-  // async sendText() {
-  //   if(this.message.length > 0) {
-  //     await this.chatService.addTextToChat(this.message, this.chatService.chatId!);
-  //     this.message = '';
-  //   }
-  // }
+  trackByMessageId(index: number, message: { id: number }): number {
+    return message.id;
+  }  
 
-  deleteMessage(i:number) {
-    this.chatService.deleteMessage(i);
+  deleteMessage() {
+    // this.chatService.deleteMessage();
   }
 
   ngOnDestroy() {
@@ -59,4 +53,34 @@ export class DirectMessageComponent {
   messagesAvailable(): boolean {
     return this.chatData?.messages?.length > 0;
   }
+
+  checkDate() {
+    const lastMessageIndex = this.chatData.messages.length - 1;
+    const lastMessageDate = this.chatData.messages[lastMessageIndex].createdAt;
+
+    if (!lastMessageDate) {
+      return 'Ungültiges Datum';
+    }
+    
+    const date = lastMessageDate.toDate();
+    const currentDate = new Date();
+
+    const dateFormat = {
+      weekday: 'long',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    };
+
+    const isSameDate =
+    date.getFullYear() === currentDate.getFullYear() &&
+    date.getMonth() === currentDate.getMonth() &&
+    date.getDate() === currentDate.getDate();
+
+    if(isSameDate) {
+      return 'Heute';
+    } else {
+      return date.toLocaleDateString('de-DE', dateFormat);
+    }
+  }  
 }

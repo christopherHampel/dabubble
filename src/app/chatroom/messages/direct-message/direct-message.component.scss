@@ -48,3 +48,28 @@ section {
 .card {
     height: 100vh;
 }
+
+.message-field {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.time-seperator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    div {
+        border: 1px solid #ADB0D9;
+        flex: 1;
+    }
+
+    .date {
+        border-radius: 30px;
+        padding: 5px 15px;
+        flex: 0;
+        
+    }
+}

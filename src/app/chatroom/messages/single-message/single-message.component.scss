@@ -1,0 +1,110 @@
+.message-logedin-user {
+    position: relative;
+    padding: 10px 45px 10px 146px;
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 30px;
+    justify-content: flex-start;
+    font-family: 'Nunito';
+
+    &:hover {
+        background-color: #ECEEFE;
+        cursor: pointer;
+    }
+
+    &:hover .tooltip-message {
+        visibility: visible;
+    }
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.time-username {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+
+    .username {
+        font-weight: 700;
+        font-size: 18px;
+    }
+}
+
+.message-content {
+    background-color: #797EF3;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    padding: 15px;
+    color: #FFFF;
+}
+
+.avatar-message {
+    img {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+.emoji-reactions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    a {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.tooltip-message {
+    visibility: hidden;
+    background-color: #FFFF;
+    padding: 3px 15px 3px 20px;
+    border: 1px solid #ADB0D9;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    display: flex;
+    gap: 5px;
+    position: absolute;
+    top: -10px;
+    left: 70px;
+}
+
+app-emoji-picker-component {
+    div {
+        right: 100px;
+    }
+}
+
+.edit-content {
+    border: 1px solid #ADB0D9;
+    background-color: #FFFF;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    .edittext-buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    textarea {
+        border: none;
+        background: transparent;
+        outline: none;
+        font-family: 'Nunito';
+        width: 100%;
+    }
+}
