@@ -1,15 +1,17 @@
-<app-chatroom-header></app-chatroom-header>
+<div style="height: calc(100vh);" class="color">
+    <app-chatroom-header></app-chatroom-header>
 
-<section class="chatroom color">
+    <section class="chatroom color">
 
-    <div class="devspace-area">
-        <app-devspace></app-devspace>
-    </div>
-    <div class="channel-messages">
-        <app-messages [currentUser]="currentUser"></app-messages>
-    </div>
-    <div class="threads-area" style="display: none">
-        <app-threads></app-threads>
-    </div>
+        <div class="devspace-area">
+            <app-devspace></app-devspace>
+        </div>
+        <div class="channel-messages">
+            <app-messages [currentUser]="currentUser"></app-messages>
+        </div>
+        <div class="threads-area" style="display: none">
+            <app-threads></app-threads>
+        </div>
 
-</section>
+    </section>
+</div>
