@@ -1,0 +1,28 @@
+<section class="header color">
+    <img class="logo" src="/img/logo_complete.png">
+
+    <div class="search-wrapper">
+        <input class="input-text" type="text" placeholder="Devspace durchsuchen">
+        <div>
+            <div class="search-icon"></div>
+        </div>
+    </div>
+
+    <div (click)="openDropdown()" class="user-profil-wrapper">
+        <div class="user-profil">
+            <h2>Frederick Beck</h2>
+            <div>
+                <img src="/img/frederik_beck.png" alt="">
+                <div class="active-status online"></div>
+            </div>
+            <div class="arrow-drop-down-icon"></div>
+        </div>
+
+        <ul [ngStyle]="{'display': dropdown ? 'flex' : 'none'}" class="dropdown-profil">
+            <button>Profil</button>
+            <button (click)="onLogout()">Log out</button>
+        </ul>
+    </div>
+</section>
+
+<section (click)="closeDropdown()" [ngStyle]="{'display': dropdown ? 'block' : 'none'}" class="dropdown-profil-background"></section>

@@ -10,26 +10,19 @@ import { UserProfile } from 'firebase/auth';
   selector: 'app-add-friend-dialog',
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './add-friend-dialog.component.html',
   styleUrl: './add-friend-dialog.component.scss'
 })
 export class AddFriendDialogComponent {
   readonly dialogRef = inject(MatDialogRef<DevspaceDirectmessagesComponent>);
-  usersDb = inject(UsersDbService)
+  private usersDb = inject(UsersDbService)
   userName: string = '';
-  userExistList: UserProfile[] = [{
-    id: '',
-    userName: '',
-    email: '',
-    avatar: '',
-    active: false
-  }];
   selectedUser: UserProfile = {};
 
   getUserList() {
-    return this.usersDb.userListSig();
+    return this.usersDb.userListSig().filter(user => user.id != this.usersDb.currentUserSig()?.id);
   }
 
   removeUser() {
@@ -45,19 +38,28 @@ export class AddFriendDialogComponent {
       avatar: user.avatar,
       active: user.active
     }
-    this.userName = '';
+
+    this.resetUserName();
   }
 
   filteredUsersAfterInput() {
-    return this.getUserList().filter(() => this.filterUserExist(this.userName));
+    if (!this.userName) {
+      return [];
+    } else {
+      return this.getUserList().filter(user => user.userName.toLocaleLowerCase().startsWith(this.userName.toLocaleLowerCase()));
+    }
   }
 
-  filterUserExist(currentUser: string): boolean {
+  filteredUserForDropdown(currentUser: string): boolean {
     if (!this.userName) {
       return false;
     } else {
       return currentUser.toLocaleLowerCase().startsWith(this.userName.toLocaleLowerCase());
     }
+  }
+
+  resetUserName() {
+    this.userName = '';
   }
 
   closeDialog() {
