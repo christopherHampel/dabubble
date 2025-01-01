@@ -36,7 +36,8 @@ export class AddFriendDialogComponent {
       userName: user.userName,
       email: user.emai,
       avatar: user.avatar,
-      active: user.active
+      active: user.active,
+      directmessages: user.directmessages
     }
 
     this.resetUserName();
@@ -60,6 +61,11 @@ export class AddFriendDialogComponent {
 
   resetUserName() {
     this.userName = '';
+  }
+
+  async startChat(id: any) {
+    await this.usersDb.addDirectMessage(id);
+    this.closeDialog();
   }
 
   closeDialog() {

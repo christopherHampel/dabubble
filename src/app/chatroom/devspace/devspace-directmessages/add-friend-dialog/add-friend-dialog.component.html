@@ -4,7 +4,7 @@
     <div (click)="closeDialog()" class="close-icon"></div>
   </header>
 
-  <form (ngSubmit)="closeDialog()">
+  <form (ngSubmit)="selectedUser['id'] ? startChat(selectedUser['id']) : null">
     <div>
       <!-- View selected user -->
       <div *ngIf="selectedUser['id']" class="input-added-user">

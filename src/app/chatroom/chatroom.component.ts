@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DevspaceComponent } from './devspace/devspace.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -24,7 +24,8 @@ export class ChatroomComponent {
   ngOnInit() {
     this.auth.user$.subscribe((user) => {
       if (user) {
-        this.usersDb.subScribeToUser(user!.uid);
+        this.usersDb.updateUserStatus(user.uid, true);
+        this.usersDb.subScribeToUser(user.uid);
       } else {
         this.router.navigateByUrl('/register/login');
       }

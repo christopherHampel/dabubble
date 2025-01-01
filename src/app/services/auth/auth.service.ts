@@ -2,15 +2,12 @@ import { inject, Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, user } from '@angular/fire/auth';
 import { from, Observable } from 'rxjs';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { UsersDbService } from '../usersDb/users-db.service';
-import { setDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private auth = inject(Auth);
-  private usersDb = inject(UsersDbService);
   user$ = user(this.auth);
   currentUserExample: [{ name: string, uid: string, email: string }] = [
     {
@@ -35,24 +32,18 @@ export class AuthService {
     return from(promise);
   }
 
-  login(email: string, password: string): Observable<string> {
+  login(email: string, password: string): Observable<void> {
     const promise = signInWithEmailAndPassword(this.auth, email, password)
-      .then((response) => {
-        const userId = response.user.uid;
-        this.updateUserStatus(userId, true);
-        return userId;
+      .then(() => {
       });
 
     return from(promise);
   }
 
-  loginWithGoogle(): Observable<string> {
+  loginWithGoogle(): Observable<void> {
     const provider = new GoogleAuthProvider();
     const promise = signInWithPopup(this.auth, provider)
-      .then((response) => {
-        const userId = response.user.uid;
-        this.updateUserStatus(userId, true);
-        return userId;
+      .then(() => {
       });
 
     return from(promise);
@@ -64,19 +55,8 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    this.user$.subscribe((user) => {
-      console.log(user?.uid);
-      const userId = user!.uid;
-      this.updateUserStatus(userId, false);
-    })
     const promise = signOut(this.auth)
       .then(() => { })
     return from(promise);
-  }
-
-  private updateUserStatus(userId: string, active: boolean) {
-    const userRef = this.usersDb.getSingleDocRef('users', userId);
-    setDoc(userRef, { active: active }, { merge: true });
-    console.log(userRef.firestore);
   }
 }

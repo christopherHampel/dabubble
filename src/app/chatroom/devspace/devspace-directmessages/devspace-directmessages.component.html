@@ -10,15 +10,24 @@
     </div>
 
     <ul class="direct-messages">
-        <li *ngFor="let user of getUserList()" class="user-view-small" (click)="selectName(user.userName)">
+        <li *ngIf="loadingCurrentUser" class="user-view-small" (click)="selectName(getCurrentUser().userName)">
             <div>
-                <img src="{{user.avatar}}" alt="">
-                <div class="active-status online" [ngClass]="{'online': user.active, 'offline': !user.active}"></div>
+                <img src="{{getCurrentUser().avatar}}" alt="">
+                <div class="active-status online"
+                    [ngClass]="{'online': getCurrentUser().active, 'offline': !getCurrentUser().active}"></div>
             </div>
-            <span>{{user.userName}}</span>
+            <span>{{getCurrentUser().userName}} (Du)</span>
         </li>
-        <span>
-            Drücke auf '+' um eine neue Konversation zu starten.
-        </span>
+        <ng-container *ngIf="loadingCurrentUser">
+            <li *ngFor="let user of getUserList()" class="user-view-small"
+                (click)="selectName(user.userName)">
+                <div>
+                    <img src="{{user.avatar}}" alt="">
+                    <div class="active-status online" [ngClass]="{'online': user.active, 'offline': !user.active}">
+                    </div>
+                </div>
+                <span>{{user.userName}}</span>
+            </li>
+        </ng-container>
     </ul>
 </section>

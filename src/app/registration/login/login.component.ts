@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
   onLoginWithGoogle() {
     this.auth.loginWithGoogle()
       .subscribe({
-        next: (uid) => {
+        next: () => {
           this.router.navigateByUrl('/chatroom');
         },
         error: (err) => {

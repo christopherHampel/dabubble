@@ -1,10 +1,11 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, effect, EventEmitter, inject, Output } from '@angular/core';
 import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ChatsService } from '../../../services/message/chats.service';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
+import { UserProfile } from '../../../interfaces/userProfile';
 
 @Component({
   selector: 'app-devspace-directmessages',
@@ -14,14 +15,51 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
 })
 export class DevspaceDirectmessagesComponent {
   readonly dialog = inject(MatDialog);
-  private usersDb = inject(UsersDbService);
+  usersDb = inject(UsersDbService);
+  loadingCurrentUser: boolean = false;
   @Output() userSelected = new EventEmitter<string>();
-  online: boolean = false;
 
-  constructor(private chatService: ChatsService, private router: Router) { }
+  constructor(private chatService: ChatsService, private router: Router) {
+    effect(() => {
+      if (this.usersDb.currentUserSig()) {
+        this.loadingCurrentUser = true;
+      } else {
+        console.log('Wait loading');
+      }
+    })
+  }
 
   getUserList() {
-    return this.usersDb.userListSig().filter(user => user.id != this.usersDb.currentUserSig()?.id && this.usersDb.currentUserSig()?.directmessages.includes(user.id));
+    if (this.usersDb.currentUserSig()?.directmessages) {
+      return this.usersDb.userListSig().filter(user => this.getCurrentUser()?.directmessages.includes(user.id));
+    } else {
+      return [];
+    }
+  }
+
+  getCurrentUser() {
+      let currentUser: UserProfile | null = null;
+    if (this.usersDb.currentUserSig()) {
+      currentUser = {
+        id: this.usersDb.currentUserSig()!.id,
+        userName: this.usersDb.currentUserSig()!.userName,
+        email: this.usersDb.currentUserSig()!.email,
+        avatar: this.usersDb.currentUserSig()!.avatar,
+        active: true,
+        directmessages: this.usersDb.currentUserSig()!.directmessages
+      }
+      return currentUser;
+    } else {
+      currentUser = {
+        id: '',
+        userName: 'Horst Schmidt',
+        email: '',
+        avatar: '',
+        active: true,
+        directmessages: []
+      }
+      return currentUser;
+    }
   }
 
   openDialog(): void {

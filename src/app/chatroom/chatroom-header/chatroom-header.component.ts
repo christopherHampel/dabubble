@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
+import { UsersDbService } from '../../services/usersDb/users-db.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class ChatroomHeaderComponent {
   private auth = inject(AuthService)
+  private usersDb = inject(UsersDbService)
   dropdown: boolean = false;
 
   constructor(private router: Router) { }
@@ -24,6 +26,7 @@ export class ChatroomHeaderComponent {
   }
 
   onLogout() {
+    this.usersDb.updateUserStatus(this.usersDb.currentUserSig()!.id, false);
     this.auth.logout();
     this.router.navigateByUrl('/register/login');
   }

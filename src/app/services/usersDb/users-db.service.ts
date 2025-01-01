@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { collection, doc, Firestore, onSnapshot, setDoc } from '@angular/fire/firestore';
+import { arrayUnion, collection, doc, Firestore, onSnapshot, setDoc, updateDoc } from '@angular/fire/firestore';
 import { UserProfile } from '../../interfaces/userProfile';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class UsersDbService {
   userListSig = signal<UserProfile[]>([]);
   unsubUserList;
 
-  constructor() { 
+  constructor() {
     this.unsubUserList = this.subUserList();
   }
 
@@ -34,6 +34,17 @@ export class UsersDbService {
       console.log('User addes successfully with ID: ', user.id);
     } catch (err) {
       console.log('Error during add user: ', err);
+    }
+  }
+
+  async addDirectMessage(id: string) {
+    try {
+      await updateDoc(this.getSingleDocRef('users', this.currentUserSig()!.id), {
+        directmessages: arrayUnion(id)
+      })
+      console.log('Drictmessage successfully added: ', id);
+    } catch (err) {
+      console.log('Error added directmessage: ', err);
     }
   }
 
@@ -68,13 +79,13 @@ export class UsersDbService {
 
   subScribeToUser(id: string) {
     onSnapshot(this.getSingleDocRef('users', id), (doc) => {
-      if (doc.exists()) {
-        this.currentUserSig.set(doc.data() as UserProfile);
-        console.log('User set: ', this.currentUserSig());
-      } else {
-        console.log('User does not exist!');
-        this.currentUserSig.set(null);
-      }
+      this.currentUserSig.set(doc.data() as UserProfile);
+      console.log('User set: ', this.currentUserSig());
     });
+  }
+
+  updateUserStatus(userId: string, active: boolean) {
+    const userRef = this.getSingleDocRef('users', userId);
+    setDoc(userRef, { active: active }, { merge: true });
   }
 }
