@@ -1,5 +1,4 @@
 <section>
-
     <div class="messages-head">
         <div>
             <img src="/img/arrow_drop_down.png" alt="">
@@ -10,7 +9,8 @@
     </div>
 
     <ul class="direct-messages">
-        <li *ngIf="loadingCurrentUser" class="user-view-small" (click)="selectName(getCurrentUser().userName)">
+        <!-- Current user -->
+        <li class="user-view-small" (click)="selectName(getCurrentUser().userName)">
             <div>
                 <img src="{{getCurrentUser().avatar}}" alt="">
                 <div class="active-status online"
@@ -18,16 +18,15 @@
             </div>
             <span>{{getCurrentUser().userName}} (Du)</span>
         </li>
-        <ng-container *ngIf="loadingCurrentUser">
-            <li *ngFor="let user of getUserList()" class="user-view-small"
-                (click)="selectName(user.userName)">
-                <div>
-                    <img src="{{user.avatar}}" alt="">
-                    <div class="active-status online" [ngClass]="{'online': user.active, 'offline': !user.active}">
-                    </div>
+
+        <!-- Added users in directmessages -->
+        <li *ngFor="let user of getUserList()" class="user-view-small" (click)="selectName(user.userName)">
+            <div>
+                <img src="{{user.avatar}}" alt="">
+                <div class="active-status online" [ngClass]="{'online': user.active, 'offline': !user.active}">
                 </div>
-                <span>{{user.userName}}</span>
-            </li>
-        </ng-container>
+            </div>
+            <span>{{user.userName}}</span>
+        </li>
     </ul>
 </section>

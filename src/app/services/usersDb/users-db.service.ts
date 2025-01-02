@@ -1,30 +1,41 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { arrayUnion, collection, doc, Firestore, onSnapshot, setDoc, updateDoc } from '@angular/fire/firestore';
 import { UserProfile } from '../../interfaces/userProfile';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersDbService {
   usersDb = inject(Firestore)
-  currentUserSig = signal<UserProfile | null>(null);
+  auth = inject(AuthService)
 
+  currentUserSig = signal<UserProfile>({} as UserProfile);
+  unsubUser: any;
   userListSig = signal<UserProfile[]>([]);
   unsubUserList;
 
   constructor() {
+    this.auth.currentAuthUser.subscribe((user) => {
+      if (user) {
+        this.updateUserStatus(user.uid, true);
+        this.unsubUser = this.subUser(user.uid);
+      }
+    })
     this.unsubUserList = this.subUserList();
   }
 
-  getCleanJson(user: UserProfile): {} {
-    return {
-      id: user.id,
-      userName: user.userName,
-      email: user.email,
-      avatar: user.avatar,
-      active: user.active,
-      directmessages: user.directmessages
-    }
+  get currentUser() {
+    return this.currentUserSig();
+  }
+
+  get userList() {
+    return this.userListSig();
+  }
+
+  ngOnDestroy() {
+    this.unsubUser();
+    this.unsubUserList();
   }
 
   async addUser(user: any) {
@@ -59,6 +70,12 @@ export class UsersDbService {
     }
   }
 
+  subUser(id: string) {
+    return onSnapshot(this.getSingleDocRef('users', id), (doc) => {
+      this.currentUserSig.set(this.setUserObject(doc.data(), id));
+    });
+  }
+
   subUserList() {
     return onSnapshot(this.getUserRef(), (list) => {
       const users: UserProfile[] = [];
@@ -69,19 +86,32 @@ export class UsersDbService {
     })
   }
 
+  getCleanJson(user: UserProfile): {} {
+    return {
+      id: user.id,
+      userName: user.userName,
+      email: user.email,
+      avatar: user.avatar,
+      active: user.active,
+      directmessages: user.directmessages
+    }
+  }
+
+  async updateUser(user: UserProfile) {
+    if (user.id) {
+      let docRef = this.getSingleDocRef('users', user.id);
+      await updateDoc(docRef, this.getCleanJson(user)).catch(
+        (err) => (console.log(err))
+      );
+    }
+  }
+
   getUserRef() {
     return collection(this.usersDb, 'users');
   }
 
   getSingleDocRef(colId: string, docId: string) {
     return doc(collection(this.usersDb, colId), docId);
-  }
-
-  subScribeToUser(id: string) {
-    onSnapshot(this.getSingleDocRef('users', id), (doc) => {
-      this.currentUserSig.set(doc.data() as UserProfile);
-      console.log('User set: ', this.currentUserSig());
-    });
   }
 
   updateUserStatus(userId: string, active: boolean) {

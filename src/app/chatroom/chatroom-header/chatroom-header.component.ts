@@ -17,6 +17,10 @@ export class ChatroomHeaderComponent {
 
   constructor(private router: Router) { }
 
+  getCurrentUser() {
+    return this.usersDb.currentUser;
+  }
+
   openDropdown() {
     this.dropdown = true;
   }
@@ -26,7 +30,7 @@ export class ChatroomHeaderComponent {
   }
 
   onLogout() {
-    this.usersDb.updateUserStatus(this.usersDb.currentUserSig()!.id, false);
+    this.usersDb.updateUserStatus(this.usersDb.currentUser.id, false);
     this.auth.logout();
     this.router.navigateByUrl('/register/login');
   }

@@ -1,11 +1,10 @@
-import { Component, effect, EventEmitter, inject, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ChatsService } from '../../../services/message/chats.service';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
-import { UserProfile } from '../../../interfaces/userProfile';
 
 @Component({
   selector: 'app-devspace-directmessages',
@@ -15,50 +14,21 @@ import { UserProfile } from '../../../interfaces/userProfile';
 })
 export class DevspaceDirectmessagesComponent {
   readonly dialog = inject(MatDialog);
-  usersDb = inject(UsersDbService);
-  loadingCurrentUser: boolean = false;
-  @Output() userSelected = new EventEmitter<string>();
+  private usersDb = inject(UsersDbService);
 
-  constructor(private chatService: ChatsService, private router: Router) {
-    effect(() => {
-      if (this.usersDb.currentUserSig()) {
-        this.loadingCurrentUser = true;
-      } else {
-        console.log('Wait loading');
-      }
-    })
-  }
-
-  getUserList() {
-    if (this.usersDb.currentUserSig()?.directmessages) {
-      return this.usersDb.userListSig().filter(user => this.getCurrentUser()?.directmessages.includes(user.id));
-    } else {
-      return [];
-    }
+  constructor(private chatService: ChatsService, private router: Router) { 
+    console.log(this.getCurrentUser());
   }
 
   getCurrentUser() {
-      let currentUser: UserProfile | null = null;
-    if (this.usersDb.currentUserSig()) {
-      currentUser = {
-        id: this.usersDb.currentUserSig()!.id,
-        userName: this.usersDb.currentUserSig()!.userName,
-        email: this.usersDb.currentUserSig()!.email,
-        avatar: this.usersDb.currentUserSig()!.avatar,
-        active: true,
-        directmessages: this.usersDb.currentUserSig()!.directmessages
-      }
-      return currentUser;
+    return this.usersDb.currentUser;
+  }
+
+  getUserList() {
+    if (this.usersDb.currentUser.directmessages) {
+      return this.usersDb.userList.filter(user => this.usersDb.currentUser.directmessages.includes(user.id));
     } else {
-      currentUser = {
-        id: '',
-        userName: 'Horst Schmidt',
-        email: '',
-        avatar: '',
-        active: true,
-        directmessages: []
-      }
-      return currentUser;
+      return [];
     }
   }
 

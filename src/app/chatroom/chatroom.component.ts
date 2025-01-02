@@ -5,7 +5,6 @@ import { MessagesComponent } from './messages/messages.component';
 import { ThreadsComponent } from './threads/threads.component';
 import { ChatroomHeaderComponent } from './chatroom-header/chatroom-header.component';
 import { AuthService } from '../services/auth/auth.service';
-import { UsersDbService } from '../services/usersDb/users-db.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,16 +16,12 @@ import { Router } from '@angular/router';
 export class ChatroomComponent {
   currentUser: string = '';
   private auth = inject(AuthService);
-  private usersDb = inject(UsersDbService);
 
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.auth.user$.subscribe((user) => {
-      if (user) {
-        this.usersDb.updateUserStatus(user.uid, true);
-        this.usersDb.subScribeToUser(user.uid);
-      } else {
+    this.auth.currentAuthUser.subscribe((user) => {
+      if (!user) {
         this.router.navigateByUrl('/register/login');
       }
     })
