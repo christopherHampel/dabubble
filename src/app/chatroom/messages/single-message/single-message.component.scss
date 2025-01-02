@@ -1,3 +1,7 @@
+@mixin border {
+    border: 1px solid #ADB0D9;
+}
+
 .message-logedin-user {
     position: relative;
     padding: 10px 45px 10px 146px;
@@ -8,6 +12,12 @@
     justify-content: flex-start;
     font-family: 'Nunito';
 
+    &:hover .tooltip-message {
+        visibility: hidden;
+    }
+}
+
+.message-logedin-user-hover {
     &:hover {
         background-color: #ECEEFE;
         cursor: pointer;
@@ -52,6 +62,7 @@
     img {
         width: 70px;
         height: 70px;
+        border-radius: 50%;
     }
 }
 
@@ -71,28 +82,21 @@
 }
 
 .tooltip-message {
+    position: relative;
     visibility: hidden;
     background-color: #FFFF;
     padding: 3px 15px 3px 20px;
-    border: 1px solid #ADB0D9;
+    @include border();
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
     border-bottom-left-radius: 25px;
-    display: flex;
-    gap: 5px;
     position: absolute;
     top: -10px;
     left: 70px;
 }
 
-app-emoji-picker-component {
-    div {
-        right: 100px;
-    }
-}
-
 .edit-content {
-    border: 1px solid #ADB0D9;
+    @include border();
     background-color: #FFFF;
     border-radius: 20px;
     padding: 20px;
@@ -111,4 +115,15 @@ app-emoji-picker-component {
         font-family: 'Nunito';
         width: 100%;
     }
+}
+
+.displayed-emojii {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    @include border();
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 16px;
+    background-color: #FFFF;
 }

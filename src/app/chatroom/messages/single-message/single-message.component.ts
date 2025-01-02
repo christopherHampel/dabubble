@@ -3,12 +3,16 @@ import { ChatsService } from '../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
 import { FormsModule } from '@angular/forms';
-import { HostListener } from '@angular/core';
 import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
+import { TooltipComponent } from './tooltip/tooltip.component';
+import { UsersDbService } from '../../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-single-message',
-  imports: [ CommonModule, FormsModule, EmojiPickerComponentComponent ],
+  imports: [ CommonModule, 
+    FormsModule, 
+    EmojiPickerComponentComponent, 
+    TooltipComponent ],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
@@ -21,17 +25,14 @@ export class SingleMessageComponent {
   emojiMartOpen:boolean = false;
   emoji!:string;
 
-  constructor(private chatService: ChatsService) {
-
-  }
+  constructor(private chatService: ChatsService, public usersService: UsersDbService) {  }
 
   deleteMessage() {
     // this.chatService.deleteMessage(this.index);
   }
 
-  editMessage() {
-    // console.log(this.currentMessage);
-    this.isEditing = true;
+  onIsEditingChange(newValue: boolean) {
+    this.isEditing = newValue;
   }
 
   updateMessage(currentMessage:CurrentMessage) {
@@ -55,7 +56,6 @@ export class SingleMessageComponent {
 
   toggleEmoji() {
     this.emojiMartOpen = !this.emojiMartOpen;
-    console.log(this.emojiMartOpen);
   }
 
   autoGrowTextZone(e:any) {
@@ -69,7 +69,6 @@ export class SingleMessageComponent {
 
   addEmojiToMessage(emoji: string, currentMessage:CurrentMessage) {
     this.emoji = emoji;
-    console.log(this.emoji);
 
     const messageTimestamp = currentMessage.createdAt;
     this.chatService.addEmoji(messageTimestamp, this.emoji);
