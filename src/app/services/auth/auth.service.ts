@@ -8,7 +8,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 })
 export class AuthService {
   private auth = inject(Auth);
-  user$ = user(this.auth);
+  currentAuthUser = user(this.auth);
   currentUserExample: [{ name: string, uid: string, email: string }] = [
     {
       name: 'Christopher Hampel',

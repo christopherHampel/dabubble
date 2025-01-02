@@ -10,10 +10,10 @@
 
     <div (click)="openDropdown()" class="user-profil-wrapper">
         <div class="user-profil">
-            <h2>Frederick Beck</h2>
+            <h2>{{getCurrentUser().userName}}</h2>
             <div>
-                <img src="/img/frederik_beck.png" alt="">
-                <div class="active-status online"></div>
+                <img src="{{getCurrentUser().avatar}}" alt="">
+                <div class="active-status" [ngClass]="{'online': getCurrentUser().active, 'offline': !getCurrentUser().active}"></div>
             </div>
             <div class="arrow-drop-down-icon"></div>
         </div>

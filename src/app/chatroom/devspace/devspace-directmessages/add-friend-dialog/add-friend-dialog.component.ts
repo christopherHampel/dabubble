@@ -22,7 +22,7 @@ export class AddFriendDialogComponent {
   selectedUser: UserProfile = {};
 
   getUserList() {
-    return this.usersDb.userListSig().filter(user => user.id != this.usersDb.currentUserSig()?.id);
+    return this.usersDb.userList.filter(user => user.id != this.usersDb.currentUser.id && !this.usersDb.currentUser.directmessages.includes(user.id));
   }
 
   removeUser() {
