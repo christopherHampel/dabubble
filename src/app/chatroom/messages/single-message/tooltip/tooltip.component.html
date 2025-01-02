@@ -11,7 +11,7 @@
     <a (click)="openThread()"><mat-icon>comment</mat-icon></a>
 
     <a mat-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></a>
-    <mat-menu #menu="matMenu">
+    <mat-menu class="mat-menu" #menu="matMenu">
       <button (click)="editMessage()" mat-menu-item>Nachricht bearbeiten</button>
     </mat-menu>
 

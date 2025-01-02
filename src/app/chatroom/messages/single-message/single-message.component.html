@@ -29,7 +29,7 @@
 
         <div class="emoji-reactions" *ngIf="!isEditing">
             @for (emoji of currentMessage.emojis; track $index) {
-                <div class="displayed-emojii">
+                <div (click)="increaseValueOfEmojii(emoji.emoji)" class="displayed-emojii">
                     <div>{{ emoji.emoji }}</div>
                     <div *ngIf="emoji.count > 1">{{ emoji.count }}</div>
                 </div>

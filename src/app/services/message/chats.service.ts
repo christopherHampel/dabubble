@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { collectionData, Firestore } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { collection, doc, addDoc, updateDoc, query, where, getDocs, arrayUnion, onSnapshot, deleteDoc, deleteField, getDoc, serverTimestamp, orderBy, Timestamp } from 'firebase/firestore';
+import { collection, doc, addDoc, updateDoc, query, where, getDocs,  onSnapshot, serverTimestamp, orderBy, Timestamp } from 'firebase/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { AuthService } from '../auth/auth.service';
+import { CurrentMessage } from '../../interfaces/current-message';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,6 @@ export class ChatsService {
   constructor(private router: Router, public usersService: UsersDbService, public authService: AuthService) { }
 
   async setPrivateChat(name: string): Promise<string> {
-    // const nameLogedinUser = this.authService.currentUserExample[0].name;
     const nameLogedinUser = this.usersService.currentUserSig()?.userName;
     console.log(nameLogedinUser);
     const chatCollection = this.getPrivateChatCollection();
@@ -66,27 +66,33 @@ export class ChatsService {
     })
   }
 
-  async updateMessage(messageTimestamp:Timestamp, newText:string) {
-    if(this.chatId) {
-      const chatRef = collection(this.getPrivateChatCollection(), this.chatId, 'messages');
-      const chatQuery = query(chatRef, where('createdAt', '==', messageTimestamp));
-      const querySnapshot = await getDocs(chatQuery);
-
-      if(!querySnapshot.empty) {
-        const messageDoc = querySnapshot.docs[0];
-        await updateDoc(messageDoc.ref, { text: newText });
-
-      } else {
-        return console.error('Keine Nachricht gefunden');
-      }
-    }
-  }
-
-  async addEmoji(messageTimestamp: Timestamp, emoji: string) {
+  async getQuerySnapshot(messageTimestamp: Timestamp) {
     if (this.chatId) {
       const chatRef = collection(this.getPrivateChatCollection(), this.chatId, 'messages');
       const chatQuery = query(chatRef, where('createdAt', '==', messageTimestamp));
-      const querySnapshot = await getDocs(chatQuery);
+      return await getDocs(chatQuery);
+    }
+    throw new Error('chatId ist nicht definiert');
+  }
+  
+  async updateMessage(messageTimestamp: Timestamp, newText: string) {
+    try {
+      const querySnapshot = await this.getQuerySnapshot(messageTimestamp);
+  
+      if (!querySnapshot.empty) {
+        const messageDoc = querySnapshot.docs[0];
+        await updateDoc(messageDoc.ref, { text: newText });
+      } else {
+        console.error('Keine Nachricht gefunden');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  async addEmoji(messageTimestamp: Timestamp, emoji: string) {
+    try {
+      const querySnapshot = await this.getQuerySnapshot(messageTimestamp);
   
       if (!querySnapshot.empty) {
         const messageDoc = querySnapshot.docs[0];
@@ -96,27 +102,55 @@ export class ChatsService {
         const existingEmojiIndex = emojis.findIndex((e: any) => e.emoji === emoji);
   
         if (existingEmojiIndex !== -1) {
-          emojis[existingEmojiIndex].count += 1;
+          const existingEmoji = emojis[existingEmojiIndex];
+  
+          if (!existingEmoji.userIds.includes(this.usersService.currentUserSig()?.id)) {
+            existingEmoji.count += 1;
+            existingEmoji.userIds.push(this.usersService.currentUserSig()?.id);
+          }
         } else {
-          emojis.push({ emoji: emoji, count: 1 });
+          emojis.push({
+            emoji: emoji,
+            count: 1,
+            userIds: [this.usersService.currentUserSig()?.id],
+          });
         }
+  
         await updateDoc(messageDoc.ref, { emojis: emojis });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  async increaseValueOfEmoji(emoji: string, currentMessage: CurrentMessage) {
+    const messageTimestamp = currentMessage.createdAt;
+    const querySnapshot = await this.getQuerySnapshot(messageTimestamp);
+  
+    if (!querySnapshot.empty) {
+      const messageDoc = querySnapshot.docs[0];
+      const messageData = messageDoc.data();
+  
+      let emojis = messageData['emojis'] || [];
+      const existingEmojiIndex = emojis.findIndex((e: any) => e.emoji === emoji);
+  
+      if (existingEmojiIndex !== -1) {
+        const existingEmoji = emojis[existingEmojiIndex];
+  
+        // Prüfen, ob der Benutzer das Emoji bereits benutzt hat
+        if (!existingEmoji.userIds.includes(this.usersService.currentUserSig()?.id)) {
+          existingEmoji.count += 1;
+          existingEmoji.userIds.push(this.usersService.currentUserSig()?.id);
+  
+          // Aktualisieren des Dokuments
+          await updateDoc(messageDoc.ref, { emojis: emojis });
+        } else {
+          console.log("Dieser Benutzer hat dieses Emoji bereits benutzt.");
+        }
       }
     }
   }
   
-  // async addEmoji(messageTimestamp:Timestamp, emoji:string) {
-  //   if(this.chatId) {
-  //     const chatRef = collection(this.getPrivateChatCollection(), this.chatId, 'messages');
-  //     const chatQuery = query(chatRef, where('createdAt', '==', messageTimestamp));
-  //     const querySnapshot = await getDocs(chatQuery);
-
-  //     if(!querySnapshot.empty) {
-  //       const messageDoc = querySnapshot.docs[0];
-  //       await updateDoc(messageDoc.ref, { emojis: arrayUnion(emoji) });
-  //     }
-  //   }
-  // }
 
   getData(chatId:string): Observable<any> {
     return new Observable(observer => {

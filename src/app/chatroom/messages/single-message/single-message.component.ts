@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
+import { Emoji } from '../../../interfaces/emoji';
 
 @Component({
   selector: 'app-single-message',
@@ -23,7 +24,6 @@ export class SingleMessageComponent {
 
   isEditing: boolean = false;
   emojiMartOpen:boolean = false;
-  emoji!:string;
 
   constructor(private chatService: ChatsService, public usersService: UsersDbService) {  }
 
@@ -67,10 +67,12 @@ export class SingleMessageComponent {
 
   }
 
-  addEmojiToMessage(emoji: string, currentMessage:CurrentMessage) {
-    this.emoji = emoji;
-
+  addEmojiToMessage(emoji:string, currentMessage:CurrentMessage) {
     const messageTimestamp = currentMessage.createdAt;
-    this.chatService.addEmoji(messageTimestamp, this.emoji);
+    this.chatService.addEmoji(messageTimestamp, emoji);
+  }
+
+  increaseValueOfEmojii(emoji:string) {
+    this.chatService.increaseValueOfEmoji(emoji, this.currentMessage)
   }
 }
