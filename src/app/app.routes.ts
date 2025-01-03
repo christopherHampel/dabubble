@@ -1,13 +1,14 @@
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './registration/login/login.component';
 import { CreateAccountComponent } from './registration/create-account/create-account.component';
-import { ResetPasswordComponent } from './registration/reset-password/reset-password.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ChooseAvatarComponent } from './registration/choose-avatar/choose-avatar.component';
 import { NgModule } from '@angular/core';
 import { ChatroomComponent } from './chatroom/chatroom.component';
 import { DirectMessageComponent } from './chatroom/messages/direct-message/direct-message.component';
 import { ChannelComponent } from './chatroom/messages/channel/channel.component';
+import { ResetPasswordComponent } from './registration/reset-password/reset-password.component';
+import { NewPasswordComponent } from './registration/new-password/new-password.component';
 
 export const routes: Routes = [
     {
@@ -18,6 +19,7 @@ export const routes: Routes = [
         { path: 'create-account', component: CreateAccountComponent },
         { path: 'choose-avatar', component: ChooseAvatarComponent },
         { path: 'reset-password', component: ResetPasswordComponent },
+        { path: 'new-password', component: NewPasswordComponent},
         { path: '', redirectTo: 'login', pathMatch: 'full' }
       ]
     },
