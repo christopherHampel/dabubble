@@ -1,5 +1,5 @@
 .chatroom {
-/*     height: 100vh; */
+    /*     height: 100vh; */
     display: flex;
     gap: 40px;
 }
@@ -56,6 +56,14 @@
         background-color: #ECEEFE;
     }
 }
+
+.user-view-small-added {
+    border-radius: 35px;
+
+    background-color: #ECEEFE;
+}
+
+
 
 /* Together with 'input-added-user'-class */
 .user-view-input {

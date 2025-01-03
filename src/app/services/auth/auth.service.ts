@@ -51,12 +51,14 @@ export class AuthService {
 
   resetPassword(email: string): Observable<void> {
     const promise = sendPasswordResetEmail(this.auth, email);
+
     return from(promise);
   }
 
   logout(): Observable<void> {
     const promise = signOut(this.auth)
       .then(() => { })
+
     return from(promise);
   }
 }

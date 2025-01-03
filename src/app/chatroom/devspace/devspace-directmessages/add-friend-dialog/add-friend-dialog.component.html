@@ -1,4 +1,4 @@
-<section class="add-friend-dialog">
+<section class="add-friend-dialog" [ngStyle]="{'display': dialogOpen ? 'flex' : 'none'}">
   <header>
     <h2>Direktnachricht an</h2>
     <div (click)="closeDialog()" class="close-icon"></div>

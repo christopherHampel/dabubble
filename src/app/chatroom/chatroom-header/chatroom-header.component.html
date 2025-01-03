@@ -8,12 +8,12 @@
         </div>
     </div>
 
-    <div (click)="openDropdown()" class="user-profil-wrapper">
+    <div *ngIf="usersDb.currentUser as user" (click)="openDropdown()" class="user-profil-wrapper">
         <div class="user-profil">
-            <h2>{{getCurrentUser().userName}}</h2>
+            <h2>{{user.userName}}</h2>
             <div>
-                <img src="{{getCurrentUser().avatar}}" alt="">
-                <div class="active-status" [ngClass]="{'online': getCurrentUser().active, 'offline': !getCurrentUser().active}"></div>
+                <img src="{{user.avatar || '/img/empty_profile.png'}}" alt="">
+                <div class="active-status" [ngClass]="{'online': user.active, 'offline': !user.active}"></div>
             </div>
             <div class="arrow-drop-down-icon"></div>
         </div>
@@ -24,5 +24,4 @@
         </ul>
     </div>
 </section>
-
-<section (click)="closeDropdown()" [ngStyle]="{'display': dropdown ? 'block' : 'none'}" class="dropdown-profil-background"></section>
+<app-transparent-background [backgroundOpen]="dropdown" (backgroundClose)="closeDropdown(!$event)"></app-transparent-background>

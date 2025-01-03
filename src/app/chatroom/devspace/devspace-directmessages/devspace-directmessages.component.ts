@@ -1,39 +1,37 @@
 import { Component, inject } from '@angular/core';
-import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ChatsService } from '../../../services/message/chats.service';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
+import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.component';
+import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
 
 @Component({
   selector: 'app-devspace-directmessages',
-  imports: [CommonModule],
+  imports: [CommonModule, AddFriendDialogComponent, TransparentBackgroundComponent],
   templateUrl: './devspace-directmessages.component.html',
   styleUrl: './devspace-directmessages.component.scss'
 })
 export class DevspaceDirectmessagesComponent {
-  readonly dialog = inject(MatDialog);
-  private usersDb = inject(UsersDbService);
+  usersDb = inject(UsersDbService);
+  dialog: boolean = false;
 
-  constructor(private chatService: ChatsService, private router: Router) { 
-    console.log(this.getCurrentUser());
+  constructor(private chatService: ChatsService, private router: Router) { }
+
+  openDialog() {
+    this.dialog = true;
   }
 
-  getCurrentUser() {
-    return this.usersDb.currentUser;
+  closeDialog(event: boolean) {
+    this.dialog = event;
   }
 
   getUserList() {
-    if (this.usersDb.currentUser.directmessages) {
-      return this.usersDb.userList.filter(user => this.usersDb.currentUser.directmessages.includes(user.id));
+    if (this.usersDb.currentUser) {
+      return this.usersDb.userList.filter(user => this.usersDb.currentUser!.directmessagesWith.includes(user.id));
     } else {
       return [];
     }
-  }
-
-  openDialog(): void {
-    this.dialog.open(AddFriendDialogComponent);
   }
 
   async selectName(name: string) {

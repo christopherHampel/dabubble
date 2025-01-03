@@ -1,6 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { DevspaceDirectmessagesComponent } from '../devspace-directmessages.component';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersDbService } from '../../../../services/usersDb/users-db.service';
@@ -16,13 +14,26 @@ import { UserProfile } from 'firebase/auth';
   styleUrl: './add-friend-dialog.component.scss'
 })
 export class AddFriendDialogComponent {
-  readonly dialogRef = inject(MatDialogRef<DevspaceDirectmessagesComponent>);
   private usersDb = inject(UsersDbService)
   userName: string = '';
   selectedUser: UserProfile = {};
+  @Input() dialogOpen: boolean = false;
+  @Output() dialogClose = new EventEmitter<boolean>();
+
+  closeDialog() {
+    this.dialogOpen = false;
+    this.dialogClose.emit(true);
+    this.resetUserName();
+  }
 
   getUserList() {
-    return this.usersDb.userList.filter(user => user.id != this.usersDb.currentUser.id && !this.usersDb.currentUser.directmessages.includes(user.id));
+    if (this.usersDb.currentUser) {
+      return this.usersDb.userList.filter(user =>
+        user.id != this.usersDb.currentUser!.id &&
+        !this.usersDb.currentUser!.directmessagesWith.includes(user.id));
+    } else {
+      return [];
+    }
   }
 
   removeUser() {
@@ -64,11 +75,7 @@ export class AddFriendDialogComponent {
   }
 
   async startChat(id: any) {
-    await this.usersDb.addDirectMessage(id);
+    await this.usersDb.addDirectMessageWith(id);
     this.closeDialog();
-  }
-
-  closeDialog() {
-    this.dialogRef.close();
   }
 }

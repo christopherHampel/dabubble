@@ -10,13 +10,13 @@
 
     <ul class="direct-messages">
         <!-- Current user -->
-        <li class="user-view-small" (click)="selectName(getCurrentUser().userName)">
+        <li *ngIf="usersDb.currentUser as user" class="user-view-small" (click)="selectName(user.userName)">
             <div>
-                <img src="{{getCurrentUser().avatar}}" alt="">
+                <img src="{{user.avatar || '/img/empty_profile.png'}}" alt="">
                 <div class="active-status online"
-                    [ngClass]="{'online': getCurrentUser().active, 'offline': !getCurrentUser().active}"></div>
+                    [ngClass]="{'online': user.active, 'offline': !user.active}"></div>
             </div>
-            <span>{{getCurrentUser().userName}} (Du)</span>
+            <span>{{user.userName}} (Du)</span>
         </li>
 
         <!-- Added users in directmessages -->
@@ -30,3 +30,5 @@
         </li>
     </ul>
 </section>
+<app-add-friend-dialog [dialogOpen]="dialog" (dialogClose)="closeDialog(!$event)"></app-add-friend-dialog>
+<app-transparent-background [backgroundOpen]="dialog" (backgroundClose)="closeDialog(!$event)"></app-transparent-background>

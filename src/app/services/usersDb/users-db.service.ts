@@ -10,7 +10,7 @@ export class UsersDbService {
   usersDb = inject(Firestore)
   auth = inject(AuthService)
 
-  currentUserSig = signal<UserProfile>({} as UserProfile);
+  currentUserSig = signal<UserProfile | null>(null);
   unsubUser: any;
   userListSig = signal<UserProfile[]>([]);
   unsubUserList;
@@ -48,10 +48,10 @@ export class UsersDbService {
     }
   }
 
-  async addDirectMessage(id: string) {
+  async addDirectMessageWith(id: string) {
     try {
       await updateDoc(this.getSingleDocRef('users', this.currentUserSig()!.id), {
-        directmessages: arrayUnion(id)
+        directmessagesWith: arrayUnion(id)
       })
       console.log('Drictmessage successfully added: ', id);
     } catch (err) {
@@ -66,7 +66,7 @@ export class UsersDbService {
       email: object.emai || '',
       avatar: object.avatar || '',
       active: object.active || false,
-      directmessages: object.directmessages || []
+      directmessagesWith: object.directmessagesWith || []
     }
   }
 
@@ -93,7 +93,7 @@ export class UsersDbService {
       email: user.email,
       avatar: user.avatar,
       active: user.active,
-      directmessages: user.directmessages
+      directmessagesWith: user.directmessagesWith
     }
   }
 

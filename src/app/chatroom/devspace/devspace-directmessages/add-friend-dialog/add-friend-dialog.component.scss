@@ -1,6 +1,16 @@
 @use '../../../chatroom.component.scss';
 
+* {
+    font-family: 'Nunito';
+}
+
 .add-friend-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,9 +22,13 @@
 
     padding: 40px 20px;
 
+    border-radius: 30px;
+
     background-color: #FFFFFF;
 
-    z-index: 0;
+    z-index: 2;
+
+    filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
 }
 
 header {
@@ -24,7 +38,6 @@ header {
 
     width: 100%;
 
-    font-family: 'Nunito';
     font-weight: 700;
 
 }
