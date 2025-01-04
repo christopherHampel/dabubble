@@ -57,7 +57,8 @@ export class AuthService {
 
   logout(): Observable<void> {
     const promise = signOut(this.auth)
-      .then(() => { })
+      .then(() => {
+      });
 
     return from(promise);
   }
