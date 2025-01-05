@@ -2,22 +2,27 @@
     border: 1px solid #ADB0D9;
 }
 
-.message-logedin-user {
-    position: relative;
-    padding: 10px 45px 10px 146px;
-    width: 100%;
+.own-message {
     display: flex;
     flex-direction: row-reverse;
     gap: 30px;
     justify-content: flex-start;
     font-family: 'Nunito';
-
-    &:hover .tooltip-message {
-        visibility: hidden;
-    }
+    position: relative;
+    padding: 10px 45px 10px 146px;
 }
 
-.message-logedin-user-hover {
+.friend-message {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 30px;
+    font-family: 'Nunito';
+    position: relative;
+    // padding: 10px 45px 10px 146px;
+}
+
+.hover-effect {
     &:hover {
         background-color: #ECEEFE;
         cursor: pointer;

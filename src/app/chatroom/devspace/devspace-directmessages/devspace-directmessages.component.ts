@@ -5,6 +5,7 @@ import { ChatsService } from '../../../services/message/chats.service';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.component';
 import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
+import { UserProfile } from '../../../interfaces/userProfile';
 
 @Component({
   selector: 'app-devspace-directmessages',
@@ -15,8 +16,25 @@ import { TransparentBackgroundComponent } from '../../../shared/transparent-back
 export class DevspaceDirectmessagesComponent {
   usersDb = inject(UsersDbService);
   dialog: boolean = false;
+  lastSelectedUserId: string = '';
 
   constructor(private chatService: ChatsService, private router: Router) { }
+
+  ngOnInit() {
+    console.log(this.lastSelectedUserId);
+  }
+
+  changeClickStatus(id: string) {
+    if (this.lastSelectedUserId) {
+      this.usersDb.updateClickStatus(this.lastSelectedUserId, false);
+    }
+    this.selectUser(id);
+  }
+
+  selectUser(id: string) {
+    this.usersDb.updateClickStatus(id, true);
+    this.lastSelectedUserId = id;
+  }
 
   openDialog() {
     this.dialog = true;

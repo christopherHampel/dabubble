@@ -34,7 +34,6 @@ export class CreateAccountComponent {
         password: rawForm.password,
         avatar: null
     }
-    console.log('Create account: ', state);
     this.router.navigate(['/register/choose-avatar'], { state });
   }
 

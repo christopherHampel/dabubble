@@ -6,16 +6,16 @@
 // For more information: https://material.angular.io/guide/theming
 
 html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
-}/* nunito-200 - latin */
+  @include mat.theme((color: (theme-type: light,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
+}
+
+/* nunito-200 - latin */
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -298,11 +298,28 @@ body {
 /* ----- */
 /* Icons */
 /* ----- */
+<<<<<<< HEAD
 .close-icon {
   width: 40px;
   height: 40px;
   background-image: url('/img/close_icon.svg');
 
+=======
+
+.add-icon-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.close-icon {
+  width: 40px;
+  height: 40px;
+  background-image: url('/img/close_icon.svg');
+>>>>>>> 6e42d2f8d5d4fb5415ce908ebd25a1b1bc7769e8
   &:hover {
     cursor: pointer;
     background-image: url('/img/close_hover_icon.svg');
@@ -312,7 +329,32 @@ body {
 .search-icon {
   width: 35px;
   height: 35px;
+<<<<<<< HEAD
   background-image: url('/img/search_icon.svg');
   background-repeat: no-repeat;
   background-size: contain;
+=======
+
+  background-image: url('/img/search_icon.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.add-circle-icon {
+  width: 24px;
+  height: 24px;
+
+  background-image: url('/img/add_circle.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.add-circle-icon-hover {
+  width: 24px;
+  height: 24px;
+
+  background-image: url('/img/add_circle_hover.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+>>>>>>> 6e42d2f8d5d4fb5415ce908ebd25a1b1bc7769e8
 }

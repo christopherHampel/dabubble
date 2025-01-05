@@ -1,9 +1,48 @@
 section {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
 }
 
-.mat-menu {
-    border-top-right-radius: 30px !important;
+.tooltip-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-display {
+    width: 40px;
+    height: 40px;
+}
+
+.edit-message-menu {
+    position: absolute;
+    transform: translateY(75%);
+    left: 230px;
+    z-index: 5;
+    background-color: #FFFF;
+    white-space: nowrap;
+    padding: 10px 20px;
+    box-shadow: 0px 6px 14px 0px #00000033;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-top-right-radius: 30px;
+
+    div {
+        padding: 10px 20px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: #ECEEFE;
+            border-radius: 30px;
+            color: #535AF1;
+            }
+    }
+}
+
+.vert {
+    display: flex;
 }
