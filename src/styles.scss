@@ -298,13 +298,13 @@ body {
 /* ----- */
 /* Icons */
 /* ----- */
-<<<<<<< HEAD
+
 .close-icon {
   width: 40px;
   height: 40px;
   background-image: url('/img/close_icon.svg');
+}
 
-=======
 
 .add-icon-img {
   width: 24px;
@@ -319,7 +319,7 @@ body {
   width: 40px;
   height: 40px;
   background-image: url('/img/close_icon.svg');
->>>>>>> 6e42d2f8d5d4fb5415ce908ebd25a1b1bc7769e8
+
   &:hover {
     cursor: pointer;
     background-image: url('/img/close_hover_icon.svg');
@@ -329,11 +329,11 @@ body {
 .search-icon {
   width: 35px;
   height: 35px;
-<<<<<<< HEAD
+
   background-image: url('/img/search_icon.svg');
   background-repeat: no-repeat;
   background-size: contain;
-=======
+
 
   background-image: url('/img/search_icon.svg');
   background-repeat: no-repeat;
@@ -356,5 +356,5 @@ body {
   background-image: url('/img/add_circle_hover.svg');
   background-repeat: no-repeat;
   background-size: contain;
->>>>>>> 6e42d2f8d5d4fb5415ce908ebd25a1b1bc7769e8
+
 }
