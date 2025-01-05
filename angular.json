@@ -30,6 +30,16 @@
                 "glob": "**/*",
                 "input": "node_modules/emoji-mart/data",
                 "output": "/assets/emoji-mart/data"
+              },
+              {
+                "glob": "**/*",
+                "input": "public/img",
+                "output": "/img"
+              },
+              {
+                "glob": "**/*",
+                "input": "public/fonts",
+                "output": "/fonts"
               }
             ],
             "styles": [
