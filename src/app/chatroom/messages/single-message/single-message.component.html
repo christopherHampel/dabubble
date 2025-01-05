@@ -1,11 +1,14 @@
-<div [ngClass]="isEditing ? '' : 'message-logedin-user-hover'" class="message-logedin-user">
+<div [ngClass]="isEditing ? '' : 'hover-effect'" class="own-message">
+
     <div class="avatar-message">
         <img [src]=usersService.currentUserSig()?.avatar alt="">
     </div>
+
     <div class="content" [ngClass]="isEditing ? 'width-100' : ''">
+
         <div class="time-username" *ngIf="!isEditing">
             <span>{{ getTime() }} Uhr</span>
-            <span class="username">{{ currentMessage.uid }}</span>
+            <span class="username">{{ currentMessage.name }}</span>
         </div>
 
         <div [ngClass]="isEditing ? 'edit-content' : 'message-content'">

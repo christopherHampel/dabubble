@@ -14,11 +14,13 @@ export class TooltipComponent {
 
   currentMessage:any;
   emojiMartOpen:boolean = false;
+  menu:boolean = false;
   @Input() isEditing:boolean = false;
   @Output() isEditingChange = new EventEmitter<boolean>();
 
   editMessage() {
     this.isEditing = true;
+    this.menu = false;
     this.isEditingChange.emit(this.isEditing);
   }
 
@@ -26,6 +28,10 @@ export class TooltipComponent {
 
   toggleEmoji() {
     this.emojiMartOpen = !this.emojiMartOpen;
+  }
+
+  toggleMenu() {
+    this.menu = !this.menu;
   }
 
   openThread() {

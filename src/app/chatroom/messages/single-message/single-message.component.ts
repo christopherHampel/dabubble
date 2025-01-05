@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
-import { Emoji } from '../../../interfaces/emoji';
 
 @Component({
   selector: 'app-single-message',

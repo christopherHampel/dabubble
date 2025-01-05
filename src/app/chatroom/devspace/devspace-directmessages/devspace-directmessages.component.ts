@@ -5,6 +5,7 @@ import { ChatsService } from '../../../services/message/chats.service';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.component';
 import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
+import { UserProfile } from '../../../interfaces/userProfile';
 
 @Component({
   selector: 'app-devspace-directmessages',
