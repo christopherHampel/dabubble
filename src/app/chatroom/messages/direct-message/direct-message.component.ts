@@ -78,7 +78,7 @@
 // }
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -92,25 +92,30 @@ import { SingleMessageComponent } from '../single-message/single-message.compone
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
 })
-export class DirectMessageComponent {
-  private chatSubscription: Subscription | null = null;
-
+export class DirectMessageComponent implements OnInit, OnDestroy {
+  
+  public chatSubscription: Subscription | null = null;
   chatData: any = null;
+  chatPartner: { name: string, avatar: string } = { name: '', avatar: '/img/empty_profile.png' };
 
   constructor(private route: ActivatedRoute, public chatService: ChatsService) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.chatService.chatId = params.get('id') || undefined;
-
-      if (this.chatService.chatId) {
-        this.chatService.getMessageData(this.chatService.chatId);
-        this.chatSubscription = this.chatService.chatData$.subscribe((data) => {
-          this.chatData = data;
-          // console.log(this.chatData.messages);
-        });
+      const chatId = params.get('id');
+      if (chatId) {
+        this.chatService.setChatId(chatId);  // Setzt die chatId im Service
       } else {
         console.error('Keine gültige Chat-ID gefunden!');
+      }
+    });
+
+    this.chatSubscription = this.chatService.chatData$.subscribe((data) => {
+      if (data) {
+        this.chatData = data;
+        this.setChatPartner();
+      } else {
+        console.error('Keine Chat-Daten gefunden!');
       }
     });
   }
@@ -162,4 +167,21 @@ export class DirectMessageComponent {
       return date.toLocaleDateString('de-DE', dateFormat);
     }
   }  
+
+  setChatPartner(): void {
+    const currentUserId = this.chatService.usersService.currentUserSig()?.id;
+
+    if (this.chatData && this.chatData.participantsDetails) {
+      // Finde die ID des anderen Teilnehmers
+      const otherParticipantId = this.chatData.participants.find((id: string) => id !== currentUserId);
+
+      if (otherParticipantId) {
+        const otherParticipantDetails = this.chatData.participantsDetails[otherParticipantId];
+        this.chatPartner = {
+          name: otherParticipantDetails ? otherParticipantDetails.name : 'Unbekannter Teilnehmer',
+          avatar: otherParticipantDetails ? otherParticipantDetails.avatar : '/img/empty_profile.png',
+        };
+      }
+    }
+  }
 }

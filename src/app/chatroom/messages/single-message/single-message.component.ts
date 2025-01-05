@@ -37,7 +37,7 @@ export class SingleMessageComponent {
   updateMessage(currentMessage:CurrentMessage) {
     this.isEditing = false;
     const messageTimestamp = currentMessage.createdAt;
-    this.chatService.updateMessage(messageTimestamp, this.currentMessage.text);
+    // this.chatService.updateMessage(messageTimestamp, this.currentMessage.text);
   }
 
   cancelEdit() {

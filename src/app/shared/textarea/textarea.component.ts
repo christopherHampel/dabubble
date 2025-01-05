@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 export class TextareaComponent {
 
   @Input() message:string = '';
-  @Input() chatData!:{ participant:string };
+  @Input() chatPartnerName!:string;
 
   emojiMartOpen:boolean = false;
 
@@ -22,7 +22,7 @@ export class TextareaComponent {
 
   async sendText() {
     if(this.message.length > 0) {
-      await this.chatService.addTextToChat(this.message, this.chatService.chatId!);
+      await this.chatService.addTextToChat(this.message);
       this.message = '';
     }
   }
