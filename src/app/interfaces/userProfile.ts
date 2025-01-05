@@ -4,5 +4,6 @@ export interface UserProfile {
     email: string,
     avatar: string,
     active: boolean,
+    clicked: false,
     directmessagesWith: string[]
 }

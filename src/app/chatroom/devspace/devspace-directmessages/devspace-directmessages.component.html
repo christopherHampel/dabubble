@@ -5,22 +5,25 @@
             <img src="/img/account_circle.png" alt="">
             <span>Direktnachrichten</span>
         </div>
-        <img (click)="openDialog()" src="/img/add.png" alt="">
+        <img (click)="openDialog()" src="/img/add.png" class="add-icon-img" alt="">
     </div>
 
     <ul class="direct-messages">
         <!-- Current user -->
-        <li *ngIf="usersDb.currentUser as user" class="user-view-small" (click)="selectName(user.userName)">
+        <li *ngIf="usersDb.currentUser as user" class="user-view-small"
+            [ngClass]="{ 'user-view-small-selected': user.clicked}"
+            (click)="selectName(user.userName); changeClickStatus(user.id)">
             <div>
                 <img src="{{user.avatar || '/img/empty_profile.png'}}" alt="">
-                <div class="active-status online"
-                    [ngClass]="{'online': user.active, 'offline': !user.active}"></div>
+                <div class="active-status online" [ngClass]="{'online': user.active, 'offline': !user.active}"></div>
             </div>
             <span>{{user.userName}} (Du)</span>
         </li>
 
         <!-- Added users in directmessages -->
-        <li *ngFor="let user of getUserList()" class="user-view-small" (click)="selectName(user.userName)">
+        <li *ngFor="let user of getUserList()" class="user-view-small"
+            [ngClass]="{ 'user-view-small-selected': user.clicked }"
+            (click)="selectName(user.userName); changeClickStatus(user.id)">
             <div>
                 <img src="{{user.avatar}}" alt="">
                 <div class="active-status online" [ngClass]="{'online': user.active, 'offline': !user.active}">
@@ -28,7 +31,14 @@
             </div>
             <span>{{user.userName}}</span>
         </li>
+
+        <!-- Add user -->
+         <li class="add-user-or-channel-view" (click)="openDialog()">
+            <div class="add-circle-icon" [ngClass]="{ 'add-circle-icon-hover': dialog }"></div>
+            <span>Benutzer hinzufügen</span>
+        </li>
     </ul>
 </section>
 <app-add-friend-dialog [dialogOpen]="dialog" (dialogClose)="closeDialog(!$event)"></app-add-friend-dialog>
-<app-transparent-background [backgroundOpen]="dialog" (backgroundClose)="closeDialog(!$event)"></app-transparent-background>
+<app-transparent-background [backgroundOpen]="dialog"
+    (backgroundClose)="closeDialog(!$event)"></app-transparent-background>

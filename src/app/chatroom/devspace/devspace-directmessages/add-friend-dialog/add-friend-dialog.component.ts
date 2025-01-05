@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersDbService } from '../../../../services/usersDb/users-db.service';
@@ -19,6 +19,17 @@ export class AddFriendDialogComponent {
   selectedUser: UserProfile = {};
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
+  @ViewChild('inputField') inputFieldRef!: ElementRef<HTMLInputElement>;
+
+  ngOnChanges() {
+    if (this.dialogOpen) {
+      this.focusInput();
+    }
+  }
+
+  focusInput() {
+    setTimeout(() => this.inputFieldRef.nativeElement.focus(), 50);
+  }
 
   closeDialog() {
     this.dialogOpen = false;
@@ -38,6 +49,7 @@ export class AddFriendDialogComponent {
 
   removeUser() {
     this.selectedUser = {};
+    this.focusInput();
   }
 
   selectUser(id: string | undefined) {

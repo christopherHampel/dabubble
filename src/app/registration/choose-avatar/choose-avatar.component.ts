@@ -12,8 +12,8 @@ import { UserProfile } from '../../interfaces/userProfile';
   styleUrl: './choose-avatar.component.scss'
 })
 export class ChooseAvatarComponent {
-  auth = inject(AuthService);
-  usersDb = inject(UsersDbService);
+  private auth = inject(AuthService);
+  private usersDb = inject(UsersDbService);
   currentAvatar: string = '/img/empty_profile.png';
   userName: string = '';
   email: string = '';
@@ -57,7 +57,7 @@ export class ChooseAvatarComponent {
           this.auth.logout();
           this.router.navigateByUrl('/register/login');
         },
-        error: (err) => {
+        error: () => {
           this.router.navigateByUrl('/register/create-account');
         }
       });
@@ -70,6 +70,7 @@ export class ChooseAvatarComponent {
       email: this.email,
       avatar: this.currentAvatar,
       active: false,
+      clicked: false,
       directmessagesWith: []
     }
     await this.usersDb.addUser(user);

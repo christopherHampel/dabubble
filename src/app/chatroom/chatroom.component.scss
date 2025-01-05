@@ -25,6 +25,8 @@
 
     transition: all 75ms;
 
+    border-radius: 35px;
+
     &>div {
         position: relative;
 
@@ -51,15 +53,14 @@
     &:hover {
         cursor: pointer;
 
-        border-radius: 35px;
-
         background-color: #ECEEFE;
     }
 }
 
-.user-view-small-added {
-    border-radius: 35px;
+.user-view-small-selected {
+    font-weight: 700;
 
+    color: #535Af1;
     background-color: #ECEEFE;
 }
 
@@ -122,6 +123,25 @@
 
         &>div {
             background-image: url('/img/hashtag_hover_icon.svg');
+        }
+    }
+}
+
+.add-user-or-channel-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 18px;
+
+    &:hover {
+        cursor: pointer;
+
+        color: #535Af1;
+
+        .add-circle-icon {
+            background-image: url('/img/add_circle_hover.svg');
         }
     }
 }

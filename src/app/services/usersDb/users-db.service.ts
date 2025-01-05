@@ -18,7 +18,6 @@ export class UsersDbService {
   constructor() {
     this.auth.currentAuthUser.subscribe((user) => {
       if (user) {
-        this.updateUserStatus(user.uid, true);
         this.unsubUser = this.subUser(user.uid);
       }
     })
@@ -42,7 +41,7 @@ export class UsersDbService {
     try {
       const userRef = doc(this.getUserRef(), user.id);
       await setDoc(userRef, user);
-      console.log('User addes successfully with ID: ', user.id);
+      console.log('User addes successfully with ID: ', user);
     } catch (err) {
       console.log('Error during add user: ', err);
     }
@@ -66,6 +65,7 @@ export class UsersDbService {
       email: object.emai || '',
       avatar: object.avatar || '',
       active: object.active || false,
+      clicked: object.clicked || false,
       directmessagesWith: object.directmessagesWith || []
     }
   }
@@ -93,6 +93,7 @@ export class UsersDbService {
       email: user.email,
       avatar: user.avatar,
       active: user.active,
+      clicked: user.clicked,
       directmessagesWith: user.directmessagesWith
     }
   }
@@ -112,6 +113,11 @@ export class UsersDbService {
 
   getSingleDocRef(colId: string, docId: string) {
     return doc(collection(this.usersDb, colId), docId);
+  }
+
+  updateClickStatus(userId: string, clicked: boolean) {
+    const userRef = this.getSingleDocRef('users', userId);
+    setDoc(userRef, { clicked: clicked }, { merge: true });
   }
 
   updateUserStatus(userId: string, active: boolean) {

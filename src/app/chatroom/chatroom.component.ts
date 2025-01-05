@@ -6,6 +6,7 @@ import { ThreadsComponent } from './threads/threads.component';
 import { ChatroomHeaderComponent } from './chatroom-header/chatroom-header.component';
 import { AuthService } from '../services/auth/auth.service';
 import { Router } from '@angular/router';
+import { UsersDbService } from '../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-chatroom',
@@ -16,12 +17,15 @@ import { Router } from '@angular/router';
 export class ChatroomComponent {
   currentUser: string = '';
   private auth = inject(AuthService);
+  private userDb = inject(UsersDbService)
 
   constructor(private router: Router) { }
 
   ngOnInit() {
     this.auth.currentAuthUser.subscribe((user) => {
-      if (!user) {
+      if (user) {
+        this.userDb.updateUserStatus(user.uid, true);
+      } else {
         this.router.navigateByUrl('/register/login');
       }
     })

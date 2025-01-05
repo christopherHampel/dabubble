@@ -26,13 +26,12 @@ export class ChatroomHeaderComponent {
     this.dropdown = event;
   }
 
-  getCurrentUser() {
-    return this.usersDb.currentUser;
-  }
-
   onLogout() {
-    this.usersDb.updateUserStatus(this.usersDb.currentUser!.id, false);
-    this.auth.logout();
-    this.router.navigateByUrl('/register/login');
+    if (this.usersDb.currentUser) {
+      this.usersDb.updateUserStatus(this.usersDb.currentUser.id, false);
+      this.usersDb.updateClickStatus(this.usersDb.currentUser.id, false);
+      this.auth.logout();
+      this.router.navigateByUrl('/register/login');
+    }
   }
 }
