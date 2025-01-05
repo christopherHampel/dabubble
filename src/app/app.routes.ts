@@ -25,7 +25,7 @@ export const routes: Routes = [
     },
     { path: 'chatroom', component: ChatroomComponent,
       children: [
-        { path: 'direct-message/:chatId', component: DirectMessageComponent },
+        { path: 'direct-message/:id', component: DirectMessageComponent },
         { path: 'channel/:id', component: ChannelComponent }
       ]
      },

@@ -262,7 +262,6 @@ export class ChatsService {
 
   async setPrivateChat(name: string): Promise<string> {
     const nameLogedinUser = this.usersService.currentUserSig()?.userName;
-    console.log(nameLogedinUser);
     const chatCollection = this.getPrivateChatCollection();
     const chatQuery = query(chatCollection, where('participant', '==', name), where('logedinUser', '==', nameLogedinUser));
     const querySnapshot = await getDocs(chatQuery);
