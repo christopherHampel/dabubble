@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@import '@ctrl/ngx-emoji-mart/picker';
+@use '@ctrl/ngx-emoji-mart/picker';
 
 /* nunito-200 - latin */
 // Custom Theming for Angular Material
@@ -196,8 +196,6 @@ html {
   box-sizing: border-box;
 }
 
-
-
 /* ---- */
 /* Tags */
 /* ---- */
@@ -205,22 +203,9 @@ html,
 body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
   scroll-behavior: smooth;
   font-family: 'Nunito';
 }
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-
 
 /* -------- */
 /* Generics */
@@ -288,11 +273,8 @@ body {
 /* ------- */
 .primary-button {
   padding: 12px 25px;
-
   border-radius: 25px;
-
   font-size: 18px;
-
   color: white;
   background-color: #686868;
   border: none;
@@ -303,7 +285,6 @@ body {
 
   &:enabled:hover {
     cursor: pointer;
-
     background-color: #797FF3;
   }
 }
@@ -318,21 +299,20 @@ body {
 /* Icons */
 /* ----- */
 .close-icon {
-    width: 40px;
-    height: 40px;
-    background-image: url('/img/close_icon.svg');
+  width: 40px;
+  height: 40px;
+  background-image: url('/img/close_icon.svg');
 
-    &:hover {
-        cursor: pointer;
-        background-image: url('/img/close_hover_icon.svg');
-    }
+  &:hover {
+    cursor: pointer;
+    background-image: url('/img/close_hover_icon.svg');
+  }
 }
 
 .search-icon {
-    width: 35px;
-    height: 35px;
-
-    background-image: url('/img/search_icon.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
+  width: 35px;
+  height: 35px;
+  background-image: url('/img/search_icon.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
 }
