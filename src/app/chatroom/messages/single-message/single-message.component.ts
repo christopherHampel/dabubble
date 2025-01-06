@@ -74,4 +74,16 @@ export class SingleMessageComponent {
   increaseValueOfEmojii(emoji:string) {
     this.chatService.increaseValueOfEmoji(emoji, this.currentMessage)
   }
+
+  getUser() {
+    if(this.isMessageFromCurrentUser()) {
+      return 'own-message'
+    } else {
+      return 'other-message'
+    }
+  }
+
+  isMessageFromCurrentUser() {
+    return this.currentMessage.uid == this.usersService.currentUserSig()?.userName;
+  }
 }

@@ -12,6 +12,16 @@
     padding: 10px 45px 10px 146px;
 }
 
+.other-message {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: flex-start;
+    font-family: 'Nunito';
+    position: relative;
+    padding: 10px 146px 10px 45px;
+}
+
 .friend-message {
     display: flex;
     flex-direction: row;

@@ -1,4 +1,4 @@
-<div [ngClass]="isEditing ? '' : 'hover-effect'" class="own-message">
+<div [ngClass]="getUser()" [class.hover-effect]="!isEditing && this.isMessageFromCurrentUser()">
 
     <div class="avatar-message">
         <img [src]=usersService.currentUserSig()?.avatar alt="">

@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
 import { collection, doc, addDoc, updateDoc, query, where, getDocs,  onSnapshot, serverTimestamp, orderBy, Timestamp } from 'firebase/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UsersDbService } from '../usersDb/users-db.service';
@@ -33,6 +32,7 @@ export class ChatsService {
       this.chatId$.subscribe(chatId => {
         if (chatId) {
           this.getMessageData(chatId);
+          console.log(this.chatId$)
         }
       }); 
     }
@@ -47,7 +47,7 @@ export class ChatsService {
   
       const existingChatId = await this.findExistingChat(chatId);
       if (existingChatId) {
-        this.setChatId(existingChatId);  // Setzt die bestehende chatId
+        this.setChatId(existingChatId);
         return existingChatId;
       }
       return this.createNewPrivateChat(currentUser, chatPartner, chatId);
@@ -92,14 +92,15 @@ export class ChatsService {
           },
         },
       });
-      this.setChatId(docRef.id);  // Setzt die neue chatId
+      this.setChatId(docRef.id);
       return docRef.id;
     }
 
   async addTextToChat(text: string): Promise<void> {
-    const chatId = this.chatIdSubject.value; // Die aktuelle chatId abrufen
+    const chatId = this.chatIdSubject.value;
 
-    const nameLogedinUser = this.authService.currentUserExample[0].name;
+    const nameLogedinUser = this.usersService.currentUserSig()?.userName;
+    console.log(nameLogedinUser);
     if (!chatId) {
       throw new Error('Ungültige Chat-ID');
     }
@@ -110,7 +111,6 @@ export class ChatsService {
         uid: nameLogedinUser,
         text: text,
         createdAt: serverTimestamp(),
-        
     })
   }
 
@@ -198,36 +198,37 @@ export class ChatsService {
       }
     }
   }
-  
 
-  getData(chatId:string): Observable<any> {
-    return new Observable(observer => {
-      const docRef = doc(this.firestore, 'messages', chatId);
-      const unsubscribe = onSnapshot(docRef, docSnap => {
-        if (docSnap.exists()) {
-          observer.next(docSnap.data());
-        } else {
-          observer.error('Kein Dokument gefunden!');
-        }
-      }, error => {
-        observer.error(error);
-      });
-      return () => unsubscribe();
-    });
-  }
+
+  // getData(chatId:string): Observable<any> {
+  //   return new Observable(observer => {
+  //     const docRef = doc(this.firestore, 'messages', chatId);
+  //     const unsubscribe = onSnapshot(docRef, docSnap => {
+  //       if (docSnap.exists()) {
+  //         observer.next(docSnap.data());
+  //       } else {
+  //         observer.error('Kein Dokument gefunden!');
+  //       }
+  //     }, error => {
+  //       observer.error(error);
+  //     });
+  //     return () => unsubscribe();
+  //   });
+  // }
 
   getMessageData(chatId: string): void {
     const docRef = doc(this.firestore, 'messages', chatId);
-
+  
     onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
         const chatData = docSnap.data();
         const subCollectionRef = collection(docRef, 'messages');
-
-        onSnapshot(subCollectionRef, querySnap => {
+        const sortedQuery = query(subCollectionRef, orderBy('createdAt', 'asc'));
+  
+        onSnapshot(sortedQuery, querySnap => {
           const messages = querySnap.docs.map(doc => doc.data());
           chatData['messages'] = messages;
-          this.chatDataSubject.next(chatData);  // Gibt die Daten weiter
+          this.chatDataSubject.next(chatData);
         });
       } else {
         console.error('Kein Dokument gefunden!');
@@ -235,4 +236,5 @@ export class ChatsService {
       }
     });
   }
+  
 }
