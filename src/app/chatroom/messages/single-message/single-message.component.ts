@@ -72,6 +72,6 @@ export class SingleMessageComponent {
   }
 
   increaseValueOfEmojii(emoji:string) {
-    this.chatService.increaseValueOfEmoji(emoji, this.currentMessage)
+    // this.chatService.increaseValueOfEmoji(emoji, this.currentMessage)
   }
 }
