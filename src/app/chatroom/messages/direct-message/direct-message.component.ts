@@ -19,9 +19,13 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
   chatData: any = null;
   chatPartner: { name: string, avatar: string } = { name: '', avatar: '/img/empty_profile.png' };
 
-  constructor(private route: ActivatedRoute, public chatService: ChatsService) {}
+  constructor(private route: ActivatedRoute, public chatService: ChatsService) {
+    this.chatService.chatData$.subscribe( () => {
+      console.log(this.chatData);
+    })
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       const chatId = params.get('id');
       if (chatId) {
