@@ -21,6 +21,10 @@ export class DirectMessageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, public chatService: ChatsService) { }
 
+  getData() {
+    return this.chatService.getDataById();
+  }
+
   async ngOnInit() {
 
     // this.route.paramMap.subscribe((params) => {

@@ -60,6 +60,12 @@ export class ChatsService {
       // }); 
     }
 
+    getDataById() {
+      // const chatObject = this.chatData.find( (chatData) => chatData.id === this.currentChatid);
+    
+      return chatObject;
+    }
+
     ngonDestroy() {
       this.unsubList();
     }
