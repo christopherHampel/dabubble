@@ -1,6 +1,6 @@
 <section>
 
-    <div *ngIf="this.chatData" class="card">
+    <div *ngIf="this.chatService.chatData" class="card">
         <div>
             <div class="message-head">
                 <img [src]="chatPartner.avatar" alt="">
@@ -8,6 +8,7 @@
             </div>
     
             <div class="dividing-line"></div>
+            <button (click)="test()">Push</button>
         </div>
 
         <div class="message-field">
@@ -20,9 +21,9 @@
                 <div></div>
             </div>
 
-            <div *ngFor="let message of chatData.messages; trackBy: trackByMessageId" class="message-item">
+            <!-- <div *ngFor="let message of chatData.messages; trackBy: trackByMessageId" class="message-item">
                 <app-single-message [currentMessage]="message"></app-single-message>
-            </div>
+            </div> -->
     
             <div class="messages-field" *ngIf="!messagesAvailable()">
                 <div class="communication-with">

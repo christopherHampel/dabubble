@@ -16,10 +16,19 @@ export class ChatsService {
   private chatIdSubject = new BehaviorSubject<string | null>(null); 
   chatDataSubject = new BehaviorSubject<any>(null);
   chatData$ = this.chatDataSubject.asObservable(); 
-  chatId$ = this.chatIdSubject.asObservable();
+  // chatId$ = this.chatIdSubject.asObservable();
+  chatData: any = '';
+
+  currentChatid:string = '';
+
+  unsubList:any;
 
   getPrivateChatCollection() {
     return collection(this.firestore, 'messages');
+  }
+
+  getSingleDocRef(collId:string, docId:string) {
+    return doc(collection(this.firestore, collId), docId);
   }
 
   getChannelCollection() {
@@ -29,12 +38,30 @@ export class ChatsService {
   constructor(
     public usersService: UsersDbService, 
     public authService: AuthService) {     
-      this.chatId$.subscribe(chatId => {
-        if (chatId) {
-          this.getMessageData(chatId);
-          console.log(this.chatId$)
-        }
-      }); 
+
+      this.unsubList = onSnapshot(this.getPrivateChatCollection(), (list) => {
+        this.chatData = [];
+        list.forEach(element => {
+          this.chatData.push(
+            {
+              id: element.id,
+              data: element.data(),
+              messages: ''
+            }
+          );
+        })
+      })
+
+      // this.chatId$.subscribe(chatId => {
+      //   if (chatId) {
+      //     this.getMessageData(chatId);
+      //     console.log(this.chatId$)
+      //   }
+      // }); 
+    }
+
+    ngonDestroy() {
+      this.unsubList();
     }
 
     setChatId(chatId: string): void {
@@ -198,23 +225,6 @@ export class ChatsService {
       }
     }
   }
-
-
-  // getData(chatId:string): Observable<any> {
-  //   return new Observable(observer => {
-  //     const docRef = doc(this.firestore, 'messages', chatId);
-  //     const unsubscribe = onSnapshot(docRef, docSnap => {
-  //       if (docSnap.exists()) {
-  //         observer.next(docSnap.data());
-  //       } else {
-  //         observer.error('Kein Dokument gefunden!');
-  //       }
-  //     }, error => {
-  //       observer.error(error);
-  //     });
-  //     return () => unsubscribe();
-  //   });
-  // }
 
   getMessageData(chatId: string): void {
     const docRef = doc(this.firestore, 'messages', chatId);

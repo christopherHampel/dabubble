@@ -13,38 +13,34 @@ import { SingleMessageComponent } from '../single-message/single-message.compone
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
 })
-export class DirectMessageComponent implements OnInit, OnDestroy {
+export class DirectMessageComponent implements OnInit {
   
   public chatSubscription: Subscription | null = null;
   chatData: any = null;
   chatPartner: { name: string, avatar: string } = { name: '', avatar: '/img/empty_profile.png' };
 
-  constructor(private route: ActivatedRoute, public chatService: ChatsService) {
-    this.chatService.chatData$.subscribe( () => {
-      console.log(this.chatData);
-    })
-  }
+  constructor(private route: ActivatedRoute, public chatService: ChatsService) { }
 
   async ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      const chatId = params.get('id');
-      if (chatId) {
-        this.chatService.setChatId(chatId);
-          this.chatSubscription = this.chatService.chatData$.subscribe((data) => {
-          if (data) {
-            this.chatData = data;
-            this.setChatPartner();
-          } else {
-            console.error('Keine Chat-Daten gefunden!');
-          }
-        });
-      } else {
-        console.error('Keine gültige Chat-ID gefunden!');
-      }
-    });
+
+    // this.route.paramMap.subscribe((params) => {
+    //   const chatId = params.get('id');
+    //   if (chatId) {
+    //     this.chatService.setChatId(chatId);
+    //       this.chatSubscription = this.chatService.chatData$.subscribe((data) => {
+    //         this.chatData = data;
+    //         this.setChatPartner();
+    //     });
+    //   } else {
+    //     console.error('Keine gültige Chat-ID gefunden!');
+    //   }
+    // });
+  }
+
+  test() {
+    console.log(this.chatService.chatData, this.chatService.currentChatid);
   }
   
-
   trackByMessageId(index: number, message: { id: number }): number {
     return message.id;
   }  
