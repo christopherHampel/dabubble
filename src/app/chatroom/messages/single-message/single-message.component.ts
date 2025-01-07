@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ChatsService } from '../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
@@ -16,15 +16,20 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
-export class SingleMessageComponent {
+export class SingleMessageComponent implements OnInit {
 
-  @Input() currentMessage!:CurrentMessage;
+  @Input() currentMessage!:any;
   @Input() editedText: string = '';
 
   isEditing: boolean = false;
   emojiMartOpen:boolean = false;
 
-  constructor(private chatService: ChatsService, public usersService: UsersDbService) {  }
+  constructor(private chatService: ChatsService, public usersService: UsersDbService) { }
+
+  ngOnInit(): void {
+    console.log('CurrentMessage is:', this.currentMessage);
+
+  }
 
   deleteMessage() {
     // this.chatService.deleteMessage(this.index);

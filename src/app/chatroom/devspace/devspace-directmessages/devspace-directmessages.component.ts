@@ -65,9 +65,7 @@ export class DevspaceDirectmessagesComponent {
   async selectChat(user: UserProfile) {
     try {
       const chatId = await this.chatService.setPrivateChat(user);
-      this.chatService.currentChatid = chatId;
-      // this.router.navigate([`/chatroom/direct-message/${chatId}`]);
-      this.router.navigate([`/chatroom/direct-message`]);
+      this.router.navigate([`/chatroom/direct-message/${chatId}`]);
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);
     }

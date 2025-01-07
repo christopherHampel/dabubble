@@ -3,17 +3,16 @@
     <div *ngIf="this.chatService.chatData" class="card">
         <div>
             <div class="message-head">
-                <img [src]="chatPartner.avatar" alt="">
-                <span>{{ chatPartner.name }}</span>
+                <img [src]="this.chatService.chatPartner.avatar" alt="">
+                <span>{{ this.chatService.chatPartner.name }}</span>
             </div>
     
             <div class="dividing-line"></div>
-            <button (click)="test()">Push</button>
         </div>
 
         <div class="message-field">
 
-            <div class="time-seperator" *ngIf="messagesAvailable()">
+            <div class="time-seperator" *ngIf="">
                 <div></div>
                 <div class="date">
                     <span>{{ checkDate() }}</span>
@@ -21,19 +20,19 @@
                 <div></div>
             </div>
 
-            <!-- <div *ngFor="let message of chatData.messages; trackBy: trackByMessageId" class="message-item">
+            <div *ngFor="let message of this.chatService.chatMessages" class="message-item">
                 <app-single-message [currentMessage]="message"></app-single-message>
-            </div> -->
+            </div>
     
-            <div class="messages-field" *ngIf="!messagesAvailable()">
+            <div class="messages-field" *ngIf="">
                 <div class="communication-with">
-                    <img [src]="chatPartner.avatar" alt="">
-                    <span>{{ chatPartner.name }}</span>
+                    <img [src]="this.chatService.chatPartner.avatar" alt="">
+                    <span>{{ this.chatService.chatPartner.name }}</span>
                 </div>
-                <span>Diese Unterhaltung findet nur zwischen (at){{ chatPartner.name }} und dir statt.</span>
+                <span>Diese Unterhaltung findet nur zwischen (at){{ this.chatService.chatPartner.name }} und dir statt.</span>
             </div>
             
         </div>
-        <app-textarea [chatPartnerName]="chatPartner.name"></app-textarea>
+        <app-textarea [chatPartnerName]="this.chatService.chatPartner.name"></app-textarea>
     </div>
 </section>
