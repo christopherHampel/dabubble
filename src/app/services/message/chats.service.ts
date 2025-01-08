@@ -14,25 +14,40 @@ export class ChatsService {
 
   firestore = inject(Firestore);
 
+  public chatInfo$: BehaviorSubject<any> = new BehaviorSubject(null);
+
   chatPartner!: {name:string, avatar:string};
-  unsubscribe: any;
-  unsub: any;
+  unsubMessage: any;
+  unsubChatInfo: any;
   chatData: any = '';
   chatMessages:any = '';
 
-  getChatInformationen(chatId: string) {
-    const unsub = onSnapshot(doc(this.getPrivateChatCollection(), chatId), (doc) => {
-      if (doc.exists()) {
-        this.chatData = doc.data();
+  async getChatInformationen(chatId: string) {
+    this.unsubChatInfo = onSnapshot(doc(this.getPrivateChatCollection(), chatId), (chat) => {
+      if (chat.exists()) {
+        this.chatData = chat.data();
         this.setChatPartner();
         this.getMessagesFromChat(chatId);
       } else {
         console.log("Chat-Daten existieren nicht.");
       }
     });
-  
-    // Rückgabe der unsubscribe-Funktion, falls du später die Überwachung stoppen möchtest
-    return unsub;
+  }
+
+  getPrivateChatCollection() {
+    return collection(this.firestore, 'messages');
+  }
+
+  getSingleDocRef(collId:string, docId:string) {
+    return doc(collection(this.firestore, collId), docId);
+  }
+
+  getSubColMessages(chatId:string) {
+    return collection(this.getPrivateChatCollection(), chatId, "messages");
+  }
+
+  getUserId() {
+    return this.usersService.currentUserSig()?.userName;
   }
 
   setChatPartner() {
@@ -52,11 +67,11 @@ export class ChatsService {
   }
 
   async getMessagesFromChat(chatId:string) {
-    const messagesRef = collection(this.getPrivateChatCollection(), chatId, "messages");
-    const sortedQuery = query(messagesRef, orderBy("createdAt", "asc")); // Nach Timestamp aufsteigend sortieren
-    const messages:any = []
+    const messagesRef = this.getSubColMessages(chatId)
+    const sortedQuery = query(messagesRef, orderBy("createdAt", "asc"));
+    const messages:any = [];
 
-    const unsubscribe = onSnapshot(sortedQuery, (querySnapshot) => {
+    this.unsubMessage = onSnapshot(sortedQuery, (querySnapshot) => {
       messages.length = 0;
       querySnapshot.forEach((doc) => {
         const message = doc.data()
@@ -65,19 +80,11 @@ export class ChatsService {
       console.log(messages)
       this.chatMessages = messages;
     });
-    return unsubscribe;
   }
 
   ngonDestroy() {
-    this.unsubscribe();
-  }
-
-  getPrivateChatCollection() {
-    return collection(this.firestore, 'messages');
-  }
-
-  getSingleDocRef(collId:string, docId:string) {
-    return doc(collection(this.firestore, collId), docId);
+    this.unsubChatInfo();
+    this.unsubMessage();
   }
 
   constructor(
@@ -138,10 +145,7 @@ export class ChatsService {
     }
 
   async addTextToChat(text: string, chatId:string): Promise<void> {
-    const nameLogedinUser = this.usersService.currentUserSig()?.userName;
-    if (!chatId) {
-      throw new Error('Ungültige Chat-ID');
-    }
+    const nameLogedinUser = this.getUserId();
     const chatRef = doc(this.getPrivateChatCollection(), chatId);
     const messagesRef = collection(chatRef, 'messages');
 
@@ -149,33 +153,31 @@ export class ChatsService {
         uid: nameLogedinUser,
         text: text,
         createdAt: serverTimestamp(),
+    }).then( docRef => {
+      updateDoc(docRef, {
+        docId: docRef.id,
+      })
     })
   }
 
-  async getQuerySnapshot(messageTimestamp: Timestamp) {
-  //   const chatId = this.chatIdSubject.value; // Die aktuelle chatId abrufen
-
-  //   if (chatId) {
-  //     const chatRef = collection(this.getPrivateChatCollection(), chatId, 'messages');
-  //     const chatQuery = query(chatRef, where('createdAt', '==', messageTimestamp));
-  //     return await getDocs(chatQuery);
-  //   }
-  //   throw new Error('chatId ist nicht definiert');
+  async getQuerySnapshot(docId: string, chatId:string) {
+    if (docId) {
+      const chatRef = collection(this.getPrivateChatCollection(), chatId, 'messages');
+      const chatQuery = query(chatRef, where('docId', '==', docId));
+      return await getDocs(chatQuery);
+    }
+    throw new Error('chatId ist nicht definiert');
   }
   
-  async updateMessage(messageTimestamp: Timestamp, newText: string) {
-    // try {
-    //   const querySnapshot = await this.getQuerySnapshot(messageTimestamp);
-  
-    //   if (!querySnapshot.empty) {
-    //     const messageDoc = querySnapshot.docs[0];
-    //     await updateDoc(messageDoc.ref, { text: newText });
-    //   } else {
-    //     console.error('Keine Nachricht gefunden');
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+  async updateMessage(docId: string, newText: string, chatId:string) {
+    const querySnapshot = await this.getQuerySnapshot(docId, chatId);
+
+    if (!querySnapshot.empty) {
+      const messageDoc = querySnapshot.docs[0];
+      await updateDoc(messageDoc.ref, { text: newText });
+    } else {
+      console.error('Keine Nachricht gefunden');
+    }
   }
   
   async addEmoji(messageTimestamp: Timestamp, emoji: string) {

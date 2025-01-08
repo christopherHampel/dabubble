@@ -1,6 +1,6 @@
 <section>
 
-    <div *ngIf="this.chatService.chatData" class="card">
+    <div class="card">
         <div>
             <div class="message-head">
                 <img [src]="this.chatService.chatPartner.avatar" alt="">
@@ -12,16 +12,22 @@
 
         <div class="message-field">
 
-            <div class="time-seperator" *ngIf="">
+            <!-- <div class="time-seperator">
                 <div></div>
                 <div class="date">
                     <span>{{ checkDate() }}</span>
                 </div>
                 <div></div>
-            </div>
+            </div> -->
+
+            <!-- <div>
+                <div *ngFor="let message of this.chatService.chatMessages">
+                    <span>{{ message.uid }}</span>
+                </div>
+            </div> -->
 
             <div *ngFor="let message of this.chatService.chatMessages" class="message-item">
-                <app-single-message [currentMessage]="message"></app-single-message>
+                <app-single-message [currentMessage]="message" [chatId]="this.chatId"></app-single-message>
             </div>
     
             <div class="messages-field" *ngIf="">

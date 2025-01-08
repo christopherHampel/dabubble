@@ -6,5 +6,6 @@ export interface CurrentMessage {
     avatar:string,
     createdAt:Timestamp,
     text:string,
+    docId:string,
     emojis: [{emoji:string, count:number}];
 }

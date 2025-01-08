@@ -1,8 +1,7 @@
-import { CommonModule, HashLocationStrategy } from '@angular/common';
-import { Component, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
 import { ChatsService } from '../../../services/message/chats.service';
 import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { SingleMessageComponent } from '../single-message/single-message.component';
@@ -16,7 +15,6 @@ import { SingleMessageComponent } from '../single-message/single-message.compone
 export class DirectMessageComponent {
 
   chatId!: string;
-  chatData: any = ''
 
   constructor(private route: ActivatedRoute, public chatService: ChatsService) { }
 
@@ -24,37 +22,37 @@ export class DirectMessageComponent {
     this.route.paramMap.subscribe(params => {
       this.chatId = params.get('id')!;
       this.chatService.getChatInformationen(this.chatId);
-      // this.chatService.getMessagesFromChat(this.chatId);
     });
   }
 
   checkDate() {
-    // const lastMessageIndex = this.chatData.messages.length - 1;
-    // const lastMessageDate = this.chatData.messages[lastMessageIndex].createdAt;
+  //   const lastMessageIndex = this.chatData.messages.length - 1;
+  //   const lastMessageDate = this.chatData.messages[lastMessageIndex].createdAt;
 
-    // if (!lastMessageDate) {
-    //   return 'Ungültiges Datum';
-    // }
+  //   if (!lastMessageDate) {
+  //     return 'Ungültiges Datum';
+  //   }
     
-    // const date = lastMessageDate.toDate();
-    // const currentDate = new Date();
+  //   const date = lastMessageDate.toDate();
+  //   const currentDate = new Date();
 
-    // const dateFormat = {
-    //   weekday: 'long',
-    //   day: '2-digit',
-    //   month: '2-digit',
-    //   year: 'numeric',
-    // };
+  //   const dateFormat = {
+  //     weekday: 'long',
+  //     day: '2-digit',
+  //     month: '2-digit',
+  //     year: 'numeric',
+  //   };
 
-    // const isSameDate =
-    // date.getFullYear() === currentDate.getFullYear() &&
-    // date.getMonth() === currentDate.getMonth() &&
-    // date.getDate() === currentDate.getDate();
+  //   const isSameDate =
+  //   date.getFullYear() === currentDate.getFullYear() &&
+  //   date.getMonth() === currentDate.getMonth() &&
+  //   date.getDate() === currentDate.getDate();
 
-    // if(isSameDate) {
-    //   return 'Heute';
-    // } else {
-    //   return date.toLocaleDateString('de-DE', dateFormat);
-    // }
-  }  
+  //   if(isSameDate) {
+  //     return 'Heute';
+  //   } else {
+  //     return date.toLocaleDateString('de-DE', dateFormat);
+  //   }
+  // }  
+  }
 }

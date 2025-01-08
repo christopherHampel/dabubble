@@ -19,7 +19,8 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
 export class SingleMessageComponent implements OnInit {
 
   @Input() currentMessage!:any;
-  @Input() editedText: string = '';
+  @Input() editedText!: string;
+  @Input() chatId!: string;
 
   isEditing: boolean = false;
   emojiMartOpen:boolean = false;
@@ -41,8 +42,8 @@ export class SingleMessageComponent implements OnInit {
 
   updateMessage(currentMessage:CurrentMessage) {
     this.isEditing = false;
-    const messageTimestamp = currentMessage.createdAt;
-    // this.chatService.updateMessage(messageTimestamp, this.currentMessage.text);
+    const docId = currentMessage.docId;
+    this.chatService.updateMessage(docId, this.currentMessage.text, this.chatId);
   }
 
   cancelEdit() {
