@@ -73,8 +73,8 @@ export class SingleMessageComponent implements OnInit {
   }
 
   addEmojiToMessage(emoji:string, currentMessage:CurrentMessage) {
-    const messageTimestamp = currentMessage.createdAt;
-    this.chatService.addEmoji(messageTimestamp, emoji);
+    const docId = currentMessage.docId;
+    this.chatService.addEmoji(docId, emoji, this.chatId);
   }
 
   increaseValueOfEmojii(emoji:string) {

@@ -6,6 +6,7 @@ import { UsersDbService } from '../usersDb/users-db.service';
 import { AuthService } from '../auth/auth.service';
 import { CurrentMessage } from '../../interfaces/current-message';
 import { UserProfile } from '../../interfaces/userProfile';
+import { emojis } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Injectable({
   providedIn: 'root'
@@ -16,23 +17,11 @@ export class ChatsService {
 
   public chatInfo$: BehaviorSubject<any> = new BehaviorSubject(null);
 
-  chatPartner!: {name:string, avatar:string};
+  chatPartner: { name: string, avatar: string } = { name: '', avatar: '' };
   unsubMessage: any;
   unsubChatInfo: any;
   chatData: any = '';
   chatMessages:any = '';
-
-  async getChatInformationen(chatId: string) {
-    this.unsubChatInfo = onSnapshot(doc(this.getPrivateChatCollection(), chatId), (chat) => {
-      if (chat.exists()) {
-        this.chatData = chat.data();
-        this.setChatPartner();
-        this.getMessagesFromChat(chatId);
-      } else {
-        console.log("Chat-Daten existieren nicht.");
-      }
-    });
-  }
 
   getPrivateChatCollection() {
     return collection(this.firestore, 'messages');
@@ -48,6 +37,18 @@ export class ChatsService {
 
   getUserId() {
     return this.usersService.currentUserSig()?.userName;
+  }
+
+  async getChatInformationen(chatId: string) {
+    this.unsubChatInfo = onSnapshot(doc(this.getPrivateChatCollection(), chatId), (chat) => {
+      if (chat.exists()) {
+        this.chatData = chat.data();
+        this.getMessagesFromChat(chatId);
+        this.setChatPartner();
+      } else {
+        console.log("Chat-Daten existieren nicht.");
+      }
+    });
   }
 
   setChatPartner() {
@@ -144,7 +145,7 @@ export class ChatsService {
       return docRef.id;
     }
 
-  async addTextToChat(text: string, chatId:string): Promise<void> {
+  async addMessageToChat(text: string, chatId:string): Promise<void> {
     const nameLogedinUser = this.getUserId();
     const chatRef = doc(this.getPrivateChatCollection(), chatId);
     const messagesRef = collection(chatRef, 'messages');
@@ -153,6 +154,7 @@ export class ChatsService {
         uid: nameLogedinUser,
         text: text,
         createdAt: serverTimestamp(),
+        emojis: [],
     }).then( docRef => {
       updateDoc(docRef, {
         docId: docRef.id,
@@ -180,38 +182,51 @@ export class ChatsService {
     }
   }
   
-  async addEmoji(messageTimestamp: Timestamp, emoji: string) {
+  async addEmoji(docId: string, emoji: string, chatId:string) {
+    const query = await this.getQuerySnapshot(docId, chatId)
+    const messageDoc = query.docs[0];
+    const messageData = messageDoc.data();
+
+    const existingEmojiIndex = messageData['emojis'].findIndex((e: any) => e.emoji === emoji);
+
+    const emojis = messageData['emojis']
+    emojis.push(emoji);
+
+    await updateDoc(messageDoc.ref, { emojis });
+  }
+    // console.log(existingEmojiIndex);
+
+
     // try {
     //   const querySnapshot = await this.getQuerySnapshot(messageTimestamp);
   
     //   if (!querySnapshot.empty) {
     //     const messageDoc = querySnapshot.docs[0];
-    //     const messageData = messageDoc.data();
+        // const messageData = messageDoc.data();
   
     //     let emojis = messageData['emojis'] || [];
-    //     const existingEmojiIndex = emojis.findIndex((e: any) => e.emoji === emoji);
+        // const existingEmojiIndex = emojis.findIndex((e: any) => e.emoji === emoji);
   
-    //     if (existingEmojiIndex !== -1) {
-    //       const existingEmoji = emojis[existingEmojiIndex];
+      //   if (existingEmojiIndex !== -1) {
+      //     const existingEmoji = emojis[existingEmojiIndex];
   
-    //       if (!existingEmoji.userIds.includes(this.usersService.currentUserSig()?.id)) {
-    //         existingEmoji.count += 1;
-    //         existingEmoji.userIds.push(this.usersService.currentUserSig()?.id);
-    //       }
-    //     } else {
-    //       emojis.push({
-    //         emoji: emoji,
-    //         count: 1,
-    //         userIds: [this.usersService.currentUserSig()?.id],
-    //       });
-    //     }
+      //     if (!existingEmoji.userIds.includes(this.usersService.currentUserSig()?.id)) {
+      //       existingEmoji.count += 1;
+      //       existingEmoji.userIds.push(this.usersService.currentUserSig()?.id);
+      //     }
+      //   } else {
+      //     emojis.push({
+      //       emoji: emoji,
+      //       count: 1,
+      //       userIds: [this.usersService.currentUserSig()?.id],
+      //     });
+      //   }
   
-    //     await updateDoc(messageDoc.ref, { emojis: emojis });
-    //   }
+      //   await updateDoc(messageDoc.ref, { emojis: emojis });
+      // }
     // } catch (error) {
     //   console.error(error);
     // }
-  }
   
   async increaseValueOfEmoji(emoji: string, currentMessage: CurrentMessage) {
     // const messageTimestamp = currentMessage.createdAt;
@@ -238,25 +253,4 @@ export class ChatsService {
     //   }
     // }
   }
-
-//   getMessageData(chatId: string): void {
-//     const docRef = doc(this.firestore, 'messages', chatId);
-  
-//     onSnapshot(docRef, (docSnap) => {
-//       if (docSnap.exists()) {
-//         const chatData = docSnap.data();
-//         const subCollectionRef = collection(docRef, 'messages');
-//         const sortedQuery = query(subCollectionRef, orderBy('createdAt', 'asc'));
-  
-//         onSnapshot(sortedQuery, querySnap => {
-//           const messages = querySnap.docs.map(doc => doc.data());
-//           chatData['messages'] = messages;
-//           this.chatDataSubject.next(chatData);
-//         });
-//       } else {
-//         console.error('Kein Dokument gefunden!');
-//         this.chatDataSubject.next(null);
-//       }
-//     });
-//   }
 }

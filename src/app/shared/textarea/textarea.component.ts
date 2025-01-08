@@ -31,7 +31,7 @@ export class TextareaComponent implements OnInit {
 
   async sendText() {
     if(this.message.length > 0) {
-      await this.chatService.addTextToChat(this.message, this.chatId);
+      await this.chatService.addMessageToChat(this.message, this.chatId);
       this.message = '';
     }
   }
