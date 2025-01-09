@@ -40,14 +40,20 @@
               <small *ngIf="loginForm.get('password')?.hasError('password')">Bitte eine gültige password eingeben.</small>
             </div>
           </div>
-    
+          <div class="checkbox-container">
+            <input type="checkbox" id="privacy" />
+            <label for="privacy">
+              Ich stimme der <a href="/datenschutz">Datenschutzerklärung</a> zu.
+            </label>
+          </div>
+          <div class="further-button">
+            <button class="main-btn"
+                (click)="getUser()"
+                [disabled]="loginForm.invalid">Weiter</button>
+          </div>
         <!-- <button type="submit" [disabled]="loginForm.invalid">Login</button> -->
       </form>
-      <div class="further-button">
-        <button 
-            (click)="getUser()"
-            [disabled]="loginForm.invalid">Weiter</button>
-      </div>
+      
   </div>
     
   </section>

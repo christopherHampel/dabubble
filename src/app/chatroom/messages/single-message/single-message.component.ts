@@ -78,7 +78,7 @@ export class SingleMessageComponent implements OnInit {
   }
 
   increaseValueOfEmojii(emoji:string) {
-    this.chatService.increaseValueOfEmoji(emoji, this.currentMessage)
+    // this.chatService.increaseValueOfEmoji(emoji, this.currentMessage)
   }
 
   getUser() {
