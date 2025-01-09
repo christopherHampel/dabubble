@@ -25,39 +25,68 @@ span {
     margin-top: 18px;
   }
 
-  .privacy-agreement {
+  .further-button {
+    width: 31rem;
+  }
+
+  .checkbox-container {
     width: 31rem;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     gap: 8px;
     margin-bottom: 30px;
+    font-family: 'Karla', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    
   
     input[type="checkbox"] {
+      appearance: none;
       width: 18px;
-      height: 18px;
-      accent-color: #646cff;
+      height: 20px;
+      border: 3px solid rgba(121, 126, 243, 1);
+      border-radius: 4px;
+      background-color: #fff;
       cursor: pointer;
+      position: relative;
+      transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+  
+      &:hover {
+        border-color: rgba(68, 77, 242, 1);
+        box-shadow: 0 0 8px rgba(68, 77, 242, 0.5);
+      }
+  
+      &:checked {
+        background-color: #fff;
+        border-color: rgba(68, 77, 242, 1);
+  
+        &::after {
+          content: '✔';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: rgba(68, 77, 242, 1);
+          font-size: 16px;
+          font-weight: bold;
+        }
+      }
     }
   
     label {
       a {
-        color: rgba(121, 126, 243, 1);
+        color: rgba(68, 77, 242, 1);
         text-decoration: none;
-        font-weight: 400;
+        padding: 0.2rem 0.5rem; /* Platz für den Hintergrund */
+        border-radius: 12px; /* Abgerundeter Hintergrund */
+        transition: background-color 0.3s, color 0.3s;
   
         &:hover {
-          text-decoration: underline;
+          background-color: rgba(210, 211, 255, 1); /* Dunklerer Hintergrund bei Hover */
+          color: rgba(68, 77, 242, 1); /* Textfarbe bleibt gleich */
         }
       }
     }
   }
-
-  .form-error {
-    small {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      color: red;
-    }
-  }
+  

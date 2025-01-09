@@ -176,11 +176,7 @@ section {
     justify-content: center;
   }
 
-  .further-button {
-    width: 31rem;
-    display: flex;
-    justify-content: flex-end;
-  }
+  
 
 .main-btn {
   width: 8.5rem;
@@ -212,4 +208,13 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.form-error {
+  small {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: red;
+  }
 }

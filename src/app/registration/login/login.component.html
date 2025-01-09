@@ -9,7 +9,7 @@
               <img class="input-icon" src="/img/mail-icon.svg" alt="">
               <input id="email" placeholder="YourEmail@email.com" formControlName="email" type="email" />
             </div>
-            <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+            <div class="form-error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
               <small *ngIf="loginForm.get('email')?.hasError('required')">Email ist erforderlich.</small>
               <small *ngIf="loginForm.get('email')?.hasError('email')">Bitte eine gültige Email eingeben.</small>
             </div>
@@ -20,7 +20,7 @@
               <img class="input-icon" src="/img/lock-icon.svg" alt="">
               <input id="password" placeholder="password" formControlName="password" type="password" />
             </div>
-            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+            <div class="form-error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
               <small *ngIf="loginForm.get('password')?.hasError('required')">Passwort ist erforderlich.</small>
               <small *ngIf="loginForm.get('password')?.hasError('minlength')">Passwort muss mindestens 6 Zeichen lang sein.</small>
             </div>

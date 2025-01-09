@@ -196,8 +196,6 @@ html {
   box-sizing: border-box;
 }
 
-
-
 /* ---- */
 /* Tags */
 /* ---- */
@@ -205,22 +203,9 @@ html,
 body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
   scroll-behavior: smooth;
   font-family: 'Nunito';
 }
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-
 
 /* -------- */
 /* Generics */
@@ -288,11 +273,8 @@ body {
 /* ------- */
 .primary-button {
   padding: 12px 25px;
-
   border-radius: 25px;
-
   font-size: 18px;
-
   color: white;
   background-color: #686868;
   border: none;
@@ -303,7 +285,6 @@ body {
 
   &:enabled:hover {
     cursor: pointer;
-
     background-color: #797FF3;
   }
 }
@@ -318,12 +299,17 @@ body {
 /* Icons */
 /* ----- */
 
+.close-icon {
+  width: 40px;
+  height: 40px;
+  background-image: url('/img/close_icon.svg');
+}
+
+
 .add-icon-img {
   width: 24px;
   height: 24px;
-
   object-fit: contain;
-
   &:hover {
     cursor: pointer;
   }
@@ -347,6 +333,11 @@ body {
   background-image: url('/img/search_icon.svg');
   background-repeat: no-repeat;
   background-size: contain;
+
+
+  background-image: url('/img/search_icon.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .add-circle-icon {
@@ -365,4 +356,5 @@ body {
   background-image: url('/img/add_circle_hover.svg');
   background-repeat: no-repeat;
   background-size: contain;
+
 }
