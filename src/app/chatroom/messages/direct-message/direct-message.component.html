@@ -20,12 +20,6 @@
                 <div></div>
             </div> -->
 
-            <!-- <div>
-                <div *ngFor="let message of this.chatService.chatMessages">
-                    <span>{{ message.uid }}</span>
-                </div>
-            </div> -->
-
             <div *ngFor="let message of chatMessages$ | async" class="message-item">
                 <app-single-message [currentMessage]="message" [chatId]="this.chatId"></app-single-message>
             </div>
