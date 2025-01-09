@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../../services/message/chats.service';
 import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { SingleMessageComponent } from '../single-message/single-message.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-direct-message',
@@ -15,6 +16,7 @@ import { SingleMessageComponent } from '../single-message/single-message.compone
 export class DirectMessageComponent {
 
   chatId!: string;
+  chatMessages$!: Observable<any[]>;
 
   constructor(private route: ActivatedRoute, public chatService: ChatsService) { }
 
@@ -22,6 +24,7 @@ export class DirectMessageComponent {
     this.route.paramMap.subscribe(params => {
       this.chatId = params.get('id')!;
       this.chatService.getChatInformationen(this.chatId);
+      this.chatMessages$ = this.chatService.messages$;
     });
   }
 

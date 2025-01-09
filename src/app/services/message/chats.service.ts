@@ -15,7 +15,9 @@ export class ChatsService {
 
   firestore = inject(Firestore);
 
-  public chatInfo$: BehaviorSubject<any> = new BehaviorSubject(null);
+  // public chatInfo$: BehaviorSubject<any> = new BehaviorSubject(null);
+  private messagesSubject = new BehaviorSubject<any[]>([]);
+  public messages$ = this.messagesSubject.asObservable();
 
   chatPartner: { name: string, avatar: string } = { name: '', avatar: '' };
   unsubMessage: any;
@@ -79,7 +81,7 @@ export class ChatsService {
         messages.push(message);
       });
       console.log(messages)
-      this.chatMessages = messages;
+      this.messagesSubject.next(messages);
     });
   }
 

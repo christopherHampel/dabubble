@@ -25,7 +25,7 @@ export class SingleMessageComponent implements OnInit {
   isEditing: boolean = false;
   emojiMartOpen:boolean = false;
 
-  constructor(private chatService: ChatsService, public usersService: UsersDbService) { }
+  constructor(public chatService: ChatsService, public usersService: UsersDbService) { }
 
   ngOnInit(): void {
     console.log('CurrentMessage is:', this.currentMessage);
