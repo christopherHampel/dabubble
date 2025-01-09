@@ -18,6 +18,16 @@ export class DevspaceDirectmessagesComponent {
   dialog: boolean = false;
   lastSelectedUserId: string = '';
 
+  exampleUserProfile: UserProfile = {
+    id: '12345abcde',
+    userName: 'johndoe',
+    email: 'johndoe@example.com',
+    avatar: '/img/johndoe-avatar.png',
+    active: true,
+    clicked: false,
+    directmessagesWith: ['67890fghij', '11223klmno']
+  };
+
   constructor(private chatService: ChatsService, private router: Router) { }
 
   ngOnInit() {
@@ -50,10 +60,15 @@ export class DevspaceDirectmessagesComponent {
     } else {
       return [];
     }
-  }
+  };
 
-  async selectName(name: string) {
-    const chatId = await this.chatService.setPrivateChat(name);
-    this.router.navigate([`/chatroom/direct-message/${chatId}`]);
+  async selectChat(user: UserProfile) {
+    try {
+      const chatId = await this.chatService.setPrivateChat(user);
+      this.chatService.currentChatId = chatId;
+      this.router.navigate([`/chatroom/direct-message/${chatId}`]);
+    } catch (error) {
+      console.error('Fehler beim Erstellen des Chats:', error);
+    }
   }
 }

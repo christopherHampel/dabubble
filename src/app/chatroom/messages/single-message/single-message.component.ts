@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ChatsService } from '../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
@@ -16,15 +16,21 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
-export class SingleMessageComponent {
+export class SingleMessageComponent implements OnInit {
 
-  @Input() currentMessage!:CurrentMessage;
-  @Input() editedText: string = '';
+  @Input() currentMessage!:any;
+  @Input() editedText!: string;
+  @Input() chatId!: string;
 
   isEditing: boolean = false;
   emojiMartOpen:boolean = false;
 
-  constructor(private chatService: ChatsService, public usersService: UsersDbService) {  }
+  constructor(public chatService: ChatsService, public usersService: UsersDbService) { }
+
+  ngOnInit(): void {
+    console.log('CurrentMessage is:', this.currentMessage);
+
+  }
 
   deleteMessage() {
     // this.chatService.deleteMessage(this.index);
@@ -36,8 +42,8 @@ export class SingleMessageComponent {
 
   updateMessage(currentMessage:CurrentMessage) {
     this.isEditing = false;
-    const messageTimestamp = currentMessage.createdAt;
-    this.chatService.updateMessage(messageTimestamp, this.currentMessage.text);
+    const docId = currentMessage.docId;
+    this.chatService.updateMessage(docId, this.currentMessage.text, this.chatId);
   }
 
   cancelEdit() {
@@ -67,11 +73,23 @@ export class SingleMessageComponent {
   }
 
   addEmojiToMessage(emoji:string, currentMessage:CurrentMessage) {
-    const messageTimestamp = currentMessage.createdAt;
-    this.chatService.addEmoji(messageTimestamp, emoji);
+    const docId = currentMessage.docId;
+    this.chatService.addEmoji(docId, emoji, this.chatId);
   }
 
   increaseValueOfEmojii(emoji:string) {
     // this.chatService.increaseValueOfEmoji(emoji, this.currentMessage)
+  }
+
+  getUser() {
+    if(this.isMessageFromCurrentUser()) {
+      return 'own-message'
+    } else {
+      return 'other-message'
+    }
+  }
+
+  isMessageFromCurrentUser() {
+    return this.currentMessage.uid == this.usersService.currentUserSig()?.userName;
   }
 }

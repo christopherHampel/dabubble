@@ -1,4 +1,4 @@
-<div [ngClass]="isEditing ? '' : 'hover-effect'" class="own-message">
+<div [ngClass]="getUser()" [class.hover-effect]="!isEditing && this.isMessageFromCurrentUser()">
 
     <div class="avatar-message">
         <img [src]=usersService.currentUserSig()?.avatar alt="">
@@ -32,9 +32,9 @@
 
         <div class="emoji-reactions" *ngIf="!isEditing">
             @for (emoji of currentMessage.emojis; track $index) {
-                <div (click)="increaseValueOfEmojii(emoji.emoji)" class="displayed-emojii">
-                    <div>{{ emoji.emoji }}</div>
-                    <div *ngIf="emoji.count > 1">{{ emoji.count }}</div>
+                <div class="displayed-emojii">
+                    <div>{{ emoji }}</div>
+                    <!-- <div *ngIf="emoji.count > 1">{{ emoji.count }}</div> -->
                 </div>
             }
             <app-emoji-picker-component (emojiSelected)="addEmojiToMessage($event, currentMessage)" *ngIf="emojiMartOpen"></app-emoji-picker-component>
