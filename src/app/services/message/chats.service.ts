@@ -15,7 +15,6 @@ export class ChatsService {
 
   firestore = inject(Firestore);
 
-  // public chatInfo$: BehaviorSubject<any> = new BehaviorSubject(null);
   private messagesSubject = new BehaviorSubject<any[]>([]);
   public messages$ = this.messagesSubject.asObservable();
 
@@ -24,6 +23,8 @@ export class ChatsService {
   unsubChatInfo: any;
   chatData: any = '';
   chatMessages:any = '';
+
+  currentChatId!:string;
 
   getPrivateChatCollection() {
     return collection(this.firestore, 'messages');
