@@ -18,15 +18,15 @@ export class DevspaceDirectmessagesComponent {
   dialog: boolean = false;
   lastSelectedUserId: string = '';
 
-  // exampleUserProfile: UserProfile = {
-  //   id: '12345abcde',
-  //   userName: 'johndoe',
-  //   email: 'johndoe@example.com',
-  //   avatar: '/img/johndoe-avatar.png',
-  //   active: true,
-  //   clicked: false,
-  //   directmessagesWith: ['67890fghij', '11223klmno']
-  // };
+  exampleUserProfile: UserProfile = {
+    id: '12345abcde',
+    userName: 'johndoe',
+    email: 'johndoe@example.com',
+    avatar: '/img/johndoe-avatar.png',
+    active: true,
+    clicked: false,
+    directmessagesWith: ['67890fghij', '11223klmno']
+  };
 
   constructor(private chatService: ChatsService, private router: Router) { }
 

@@ -106,9 +106,10 @@ export class ChatsService {
       return this.createNewPrivateChat(currentUser, chatPartner, chatId);
     }
 
-    private checkCurrentUser(): UserProfile {
+    private checkCurrentUser(): any {
       const currentUser = this.usersService.currentUserSig();
-      if (!currentUser?.id) {
+      // const currentUser = '122gssssdsdhfdjshfjdshf';
+      if (!currentUser) {
         throw new Error("Current user ID is undefined.");
       }
       return currentUser;
