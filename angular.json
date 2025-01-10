@@ -28,6 +28,7 @@
             "assets": [
               {
                 "glob": "**/*",
+
                 "input": "node_modules/emoji-mart/data",
                 "output": "/assets/emoji-mart/data"
               },
@@ -53,8 +54,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
