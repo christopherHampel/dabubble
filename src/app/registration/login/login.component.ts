@@ -26,49 +26,48 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auth.currentAuthUser.subscribe((user) => {
-      if (user) {
-        //this.router.navigateByUrl('/chatroom');
-      }
-    });
+    //this.auth.currentAuthUser.subscribe((user) => {
+    //  if (user) {
+    //    //this.router.navigateByUrl('/chatroom');
+    //  }
+    //});
   }
 
-  onLogin() {
+  async onLogin() {
     const rawForm = this.loginForm.getRawValue();
-    this.auth.login(rawForm.email, rawForm.password)
-      .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/chatroom');
-        },
-        error: (err) => {
-          this.errorMessage = err.code;
-        }
-      });
+     try {
+      const user = await this.auth.login(rawForm.email, rawForm.password);
+      console.log('Login erfolgreich:', user);
+      this.router.navigate(['/chatroom']);
+    } catch (error: any) {
+      this.errorMessage = error.message || 'Unbekannter Fehler';
+      console.error('Fehler beim Login:', error);
+    }
   }
 
-  onGaestLogin() {
-    this.auth.login('gaest@gaest.com', '123456')
-      .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/chatroom');
-        },
-        error: (err) => {
-          this.errorMessage = err.code;
-        }
-      });
-  }
+  //onGaestLogin() {
+  //  this.auth.login('gaest@gaest.com', '123456')
+  //    .subscribe({
+  //      next: () => {
+  //        this.router.navigateByUrl('/chatroom');
+  //      },
+  //      error: (err) => {
+  //        this.errorMessage = err.code;
+  //      }
+  //    });
+  //}
 
-  onLoginWithGoogle() {
-    this.auth.loginWithGoogle()
-      .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/chatroom');
-        },
-        error: (err) => {
-          this.errorMessage = err.code;
-        }
-      });
-  }
+  //onLoginWithGoogle() {
+  //  this.auth.loginWithGoogle()
+  //    .subscribe({
+  //      next: () => {
+  //        this.router.navigateByUrl('/chatroom');
+  //      },
+  //      error: (err) => {
+  //        this.errorMessage = err.code;
+  //      }
+  //    });
+  //}
 
   onSubmit() {
     if (this.loginForm.valid) {

@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, user } from '@angular/fire/auth';
+import { inject, Injectable, Injector, NgZone, runInInjectionContext, signal } from '@angular/core';
+import { Auth, User, createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, user } from '@angular/fire/auth';
 import { from, Observable } from 'rxjs';
 import { sendPasswordResetEmail } from 'firebase/auth';
 
@@ -7,8 +7,11 @@ import { sendPasswordResetEmail } from 'firebase/auth';
   providedIn: 'root'
 })
 export class AuthService {
-  private auth = inject(Auth);
-  currentAuthUser = user(this.auth);
+  private auth: Auth;
+  private ngZone = inject(NgZone);
+  private injector = inject(Injector);
+  private authStateSignal = signal<User | null>(null);
+  currentAuthUser;
   currentUserExample: [{ name: string, uid: string, email: string }] = [
     {
       name: 'Christopher Hampel',
@@ -17,7 +20,23 @@ export class AuthService {
     }
   ];
 
-  constructor() { }
+  constructor(private authInstance: Auth) {
+    this.auth = this.authInstance;
+    this.currentAuthUser = user(this.auth);
+    this.auth.onAuthStateChanged((user) => {
+      this.authStateSignal.set(user);
+    })
+  }
+
+  get currentUser$(): Observable<User | null> {
+    return from(new Promise<User | null>((resolve) => {
+      resolve(this.auth.currentUser);
+    }));
+  }
+
+  get userSignal() {
+    return this.authStateSignal.asReadonly();
+  }
 
   register(userName: string, email: string, password: string, avatar: string): Observable<string> {
     const promise = createUserWithEmailAndPassword(this.auth, email, password)
@@ -32,34 +51,29 @@ export class AuthService {
     return from(promise);
   }
 
-  login(email: string, password: string): Observable<void> {
-    const promise = signInWithEmailAndPassword(this.auth, email, password)
-      .then(() => {
-      });
-
-    return from(promise);
+  async login(email: string, password: string): Promise<void> {
+      console.log('Crazy login');
+      console.log('First Zone: ', Zone.current.name);
+      return runInInjectionContext(this.injector, () => {
+      signInWithEmailAndPassword(this.auth, email, password)
+        .then((response) => response.user)
+      })
   }
 
-  loginWithGoogle(): Observable<void> {
-    const provider = new GoogleAuthProvider();
-    const promise = signInWithPopup(this.auth, provider)
-      .then(() => {
-      });
+  //loginWithGoogle(): Observable<void> {
+  //  const provider = new GoogleAuthProvider();
+  //  const promise = signInWithPopup(this.auth, provider)
+  //    .then(() => {
+  //    });
 
-    return from(promise);
-  }
+  //  return from(promise);
+  //}
 
-  resetPassword(email: string): Observable<void> {
+  resetPassword(email: string) {
     const promise = sendPasswordResetEmail(this.auth, email);
-
-    return from(promise);
   }
 
-  logout(): Observable<void> {
-    const promise = signOut(this.auth)
-      .then(() => {
-      });
-
-    return from(promise);
+  logout() {
+    signOut(this.auth)
   }
 }

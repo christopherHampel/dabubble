@@ -11,7 +11,12 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideFirebaseApp(() => initializeApp(environment.firebase)),
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()), provideAnimationsAsync(), provideAnimationsAsync()]
+    provideFirestore(() => getFirestore()),
+    provideAnimationsAsync()
+  ]
 };
