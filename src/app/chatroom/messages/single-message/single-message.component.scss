@@ -85,13 +85,15 @@
     display: flex;
     justify-content: flex-end;
     gap: 10px;
+    position: relative;
+    z-index: 999;
 
     a {
         display: flex;
         align-items: center;
     }
 
-    div {
+    .show-reactions {
         display: flex;
     }
 }
@@ -141,4 +143,44 @@
     padding: 5px 10px;
     font-size: 16px;
     background-color: #FFFF;
+}
+
+.emoji-picker {
+    position: relative;
+    z-index: 999;
+}
+
+.emoji-hover {
+    visibility: hidden;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    background-color: #444DF2;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    font-family: 'Nunito';
+    font-weight: 400;
+
+    div {
+        text-align: center;
+    }
+
+    span {
+        text-align: center;
+        white-space: nowrap;
+    }
+}
+
+.show-reactions {
+    position: relative;
+}
+
+.show-reactions:hover .emoji-hover {
+    visibility: visible;
 }

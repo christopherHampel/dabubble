@@ -37,8 +37,12 @@ export class ChatsService {
     return collection(this.getPrivateChatCollection(), chatId, "messages");
   }
 
-  getUserId() {
+  getUserName() {
     return this.usersService.currentUserSig()?.userName;
+  }
+
+  getUserId(){
+    return this.usersService.currentUserSig()?.id;
   }
 
   async getChatInformationen(chatId: string) {
@@ -149,12 +153,16 @@ export class ChatsService {
     }
 
   async addMessageToChat(text: string, chatId:string): Promise<void> {
-    const nameLogedinUser = this.getUserId();
+    // const nameLogedinUser = this.getUserName();
+    const messageAuthor = {
+      name: this.getUserName(),
+      id: this.getUserId()
+    }
     const chatRef = doc(this.getPrivateChatCollection(), chatId);
     const messagesRef = collection(chatRef, 'messages');
 
     await addDoc(messagesRef, {
-        uid: nameLogedinUser,
+        messageAuthor: messageAuthor,
         text: text,
         createdAt: serverTimestamp(),
         emojis: [],
@@ -185,15 +193,22 @@ export class ChatsService {
     }
   }
   
-  async addEmoji(docId: string, emoji: string, chatId:string) {
-    const query = await this.getQuerySnapshot(docId, chatId)
+  async addEmoji(currentMessage: any, emoji: string, chatId:string) {
+    const query = await this.getQuerySnapshot(currentMessage.docId, chatId)
     const messageDoc = query.docs[0];
     const messageData = messageDoc.data();
 
     const existingEmojiIndex = messageData['emojis'].findIndex((e: any) => e.emoji === emoji);
 
-    const emojis = messageData['emojis']
-    emojis.push(emoji);
+    const emojis = messageData['emojis'];
+
+    const emojiPackage = {
+      emoji: emoji,
+      id: currentMessage.messageAuthor.id,
+      name: currentMessage.messageAuthor.name
+    }
+
+    emojis.push(emojiPackage);
 
     await updateDoc(messageDoc.ref, { emojis });
   }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChatsService } from '../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
@@ -29,7 +29,6 @@ export class SingleMessageComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('CurrentMessage is:', this.currentMessage);
-
   }
 
   deleteMessage() {
@@ -73,8 +72,7 @@ export class SingleMessageComponent implements OnInit {
   }
 
   addEmojiToMessage(emoji:string, currentMessage:CurrentMessage) {
-    const docId = currentMessage.docId;
-    this.chatService.addEmoji(docId, emoji, this.chatId);
+    this.chatService.addEmoji(currentMessage, emoji, this.chatId);
   }
 
   increaseValueOfEmojii(emoji:string) {
@@ -90,6 +88,6 @@ export class SingleMessageComponent implements OnInit {
   }
 
   isMessageFromCurrentUser() {
-    return this.currentMessage.uid == this.usersService.currentUserSig()?.userName;
+    return this.currentMessage.messageAuthor.id == this.usersService.currentUserSig()?.id;
   }
 }
