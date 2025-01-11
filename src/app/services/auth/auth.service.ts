@@ -52,12 +52,12 @@ export class AuthService {
   }
 
   async login(email: string, password: string): Promise<void> {
-      console.log('Crazy login');
-      console.log('First Zone: ', Zone.current.name);
-      return runInInjectionContext(this.injector, () => {
+    console.log('Crazy login');
+    console.log('First Zone: ', Zone.current.name);
+    runInInjectionContext(this.injector, () => {
       signInWithEmailAndPassword(this.auth, email, password)
         .then((response) => response.user)
-      })
+    })
   }
 
   //loginWithGoogle(): Observable<void> {

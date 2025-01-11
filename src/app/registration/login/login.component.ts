@@ -33,16 +33,13 @@ export class LoginComponent implements OnInit {
     //});
   }
 
-  async onLogin() {
+  onLogin() {
     const rawForm = this.loginForm.getRawValue();
-     try {
-      const user = await this.auth.login(rawForm.email, rawForm.password);
-      console.log('Login erfolgreich:', user);
-      this.router.navigate(['/chatroom']);
-    } catch (error: any) {
-      this.errorMessage = error.message || 'Unbekannter Fehler';
-      console.error('Fehler beim Login:', error);
-    }
+    this.auth.login(rawForm.email, rawForm.password)
+      .then((response) => {
+        console.log('Login: ', response);
+      });
+    //this.router.navigate(['/chatroom']);
   }
 
   //onGaestLogin() {
