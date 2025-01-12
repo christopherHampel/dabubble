@@ -21,19 +21,19 @@ export class ChatsService {
   unsubMessage: any;
   unsubChatInfo: any;
   chatData: any = '';
-  chatMessages:any = '';
+  chatMessages: any = '';
 
-  currentChatId!:string;
+  currentChatId!: string;
 
   getPrivateChatCollection() {
     return collection(this.firestore, 'messages');
   }
 
-  getSingleDocRef(collId:string, docId:string) {
+  getSingleDocRef(collId: string, docId: string) {
     return doc(collection(this.firestore, collId), docId);
   }
 
-  getSubColMessages(chatId:string) {
+  getSubColMessages(chatId: string) {
     return collection(this.getPrivateChatCollection(), chatId, "messages");
   }
 
@@ -41,7 +41,7 @@ export class ChatsService {
     return this.usersService.currentUserSig()?.userName;
   }
 
-  getUserId(){
+  getUserId() {
     return this.usersService.currentUserSig()?.id;
   }
 
@@ -73,10 +73,10 @@ export class ChatsService {
     }
   }
 
-  async getMessagesFromChat(chatId:string) {
+  async getMessagesFromChat(chatId: string) {
     const messagesRef = this.getSubColMessages(chatId)
     const sortedQuery = query(messagesRef, orderBy("createdAt", "asc"));
-    const messages:any = [];
+    const messages: any = [];
 
     this.unsubMessage = onSnapshot(sortedQuery, (querySnapshot) => {
       messages.length = 0;
@@ -95,64 +95,64 @@ export class ChatsService {
   }
 
   constructor(
-    public usersService: UsersDbService, 
-    public authService: AuthService) {  }
+    public usersService: UsersDbService,
+    public authService: AuthService) { }
 
-    async setPrivateChat(chatPartner: UserProfile): Promise<string> {
-      const currentUser = this.checkCurrentUser();
-      const chatId = this.generateChatId(currentUser.id, chatPartner.id);
-  
-      const existingChatId = await this.findExistingChat(chatId);
-      if (existingChatId) {
-        return existingChatId;
-      }
-      return this.createNewPrivateChat(currentUser, chatPartner, chatId);
+  async setPrivateChat(chatPartner: UserProfile): Promise<string> {
+    const currentUser = this.checkCurrentUser();
+    const chatId = this.generateChatId(currentUser.id, chatPartner.id);
+
+    const existingChatId = await this.findExistingChat(chatId);
+    if (existingChatId) {
+      return existingChatId;
     }
+    return this.createNewPrivateChat(currentUser, chatPartner, chatId);
+  }
 
-    private checkCurrentUser(): any {
-      const currentUser = this.usersService.currentUserSig();
-      // const currentUser = '122gssssdsdhfdjshfjdshf';
-      if (!currentUser) {
-        throw new Error("Current user ID is undefined.");
-      }
-      return currentUser;
+  private checkCurrentUser(): any {
+    const currentUser = this.usersService.currentUserSig();
+    // const currentUser = '122gssssdsdhfdjshfjdshf';
+    if (!currentUser) {
+      throw new Error("Current user ID is undefined.");
     }
+    return currentUser;
+  }
 
-    private generateChatId(currentUserId: string, chatPartnerId: string): string {
-      const sortedIds = [currentUserId, chatPartnerId].sort();
-      return sortedIds.join('_');
+  private generateChatId(currentUserId: string, chatPartnerId: string): string {
+    const sortedIds = [currentUserId, chatPartnerId].sort();
+    return sortedIds.join('_');
+  }
+
+  private async findExistingChat(chatId: string): Promise<any> {
+    const chatQuery = query(this.getPrivateChatCollection(), where('chatId', '==', chatId));
+    const querySnapshot = await getDocs(chatQuery);
+
+    if (!querySnapshot.empty) {
+      const existingDoc = querySnapshot.docs[0];
+      return existingDoc.id;
     }
+    return null;
+  }
 
-    private async findExistingChat(chatId: string): Promise<any> {
-      const chatQuery = query(this.getPrivateChatCollection(), where('chatId', '==', chatId));
-      const querySnapshot = await getDocs(chatQuery);
-  
-      if (!querySnapshot.empty) {
-        const existingDoc = querySnapshot.docs[0];
-        return existingDoc.id;
-      }
-      return null;
-    }
-
-    private async createNewPrivateChat(currentUser: UserProfile, chatPartner: UserProfile, chatId: string): Promise<string> {
-      const docRef = await addDoc(this.getPrivateChatCollection(), {
-        participants: [currentUser.id, chatPartner.id].sort(),
-        chatId,
-        participantsDetails: {
-          [currentUser.id]: {
-            name: currentUser.userName,
-            avatar: currentUser.avatar,
-          },
-          [chatPartner.id]: {
-            name: chatPartner.userName,
-            avatar: chatPartner.avatar,
-          },
+  private async createNewPrivateChat(currentUser: UserProfile, chatPartner: UserProfile, chatId: string): Promise<string> {
+    const docRef = await addDoc(this.getPrivateChatCollection(), {
+      participants: [currentUser.id, chatPartner.id].sort(),
+      chatId,
+      participantsDetails: {
+        [currentUser.id]: {
+          name: currentUser.userName,
+          avatar: currentUser.avatar,
         },
-      });
-      return docRef.id;
-    }
+        [chatPartner.id]: {
+          name: chatPartner.userName,
+          avatar: chatPartner.avatar,
+        },
+      },
+    });
+    return docRef.id;
+  }
 
-  async addMessageToChat(text: string, chatId:string): Promise<void> {
+  async addMessageToChat(text: string, chatId: string): Promise<void> {
     // const nameLogedinUser = this.getUserName();
     const messageAuthor = {
       name: this.getUserName(),
@@ -162,18 +162,18 @@ export class ChatsService {
     const messagesRef = collection(chatRef, 'messages');
 
     await addDoc(messagesRef, {
-        messageAuthor: messageAuthor,
-        text: text,
-        createdAt: serverTimestamp(),
-        emojis: [],
-    }).then( docRef => {
+      messageAuthor: messageAuthor,
+      text: text,
+      createdAt: serverTimestamp(),
+      emojis: [],
+    }).then(docRef => {
       updateDoc(docRef, {
         docId: docRef.id,
       })
     })
   }
 
-  async getQuerySnapshot(docId: string, chatId:string) {
+  async getQuerySnapshot(docId: string, chatId: string) {
     if (docId) {
       const chatRef = collection(this.getPrivateChatCollection(), chatId, 'messages');
       const chatQuery = query(chatRef, where('docId', '==', docId));
@@ -181,8 +181,8 @@ export class ChatsService {
     }
     throw new Error('chatId ist nicht definiert');
   }
-  
-  async updateMessage(docId: string, newText: string, chatId:string) {
+
+  async updateMessage(docId: string, newText: string, chatId: string) {
     const querySnapshot = await this.getQuerySnapshot(docId, chatId);
 
     if (!querySnapshot.empty) {
@@ -192,8 +192,8 @@ export class ChatsService {
       console.error('Keine Nachricht gefunden');
     }
   }
-  
-  async addEmoji(currentMessage: any, emoji: string, chatId:string) {
+
+  async addEmoji(currentMessage: any, emoji: string, chatId: string) {
     const query = await this.getQuerySnapshot(currentMessage.docId, chatId)
     const messageDoc = query.docs[0];
     const messageData = messageDoc.data();
@@ -212,58 +212,58 @@ export class ChatsService {
 
     await updateDoc(messageDoc.ref, { emojis });
   }
-    // console.log(existingEmojiIndex);
+  // console.log(existingEmojiIndex);
 
 
-    // try {
-    //   const querySnapshot = await this.getQuerySnapshot(messageTimestamp);
-  
-    //   if (!querySnapshot.empty) {
-    //     const messageDoc = querySnapshot.docs[0];
-        // const messageData = messageDoc.data();
-  
-    //     let emojis = messageData['emojis'] || [];
-        // const existingEmojiIndex = emojis.findIndex((e: any) => e.emoji === emoji);
-  
-      //   if (existingEmojiIndex !== -1) {
-      //     const existingEmoji = emojis[existingEmojiIndex];
-  
-      //     if (!existingEmoji.userIds.includes(this.usersService.currentUserSig()?.id)) {
-      //       existingEmoji.count += 1;
-      //       existingEmoji.userIds.push(this.usersService.currentUserSig()?.id);
-      //     }
-      //   } else {
-      //     emojis.push({
-      //       emoji: emoji,
-      //       count: 1,
-      //       userIds: [this.usersService.currentUserSig()?.id],
-      //     });
-      //   }
-  
-      //   await updateDoc(messageDoc.ref, { emojis: emojis });
-      // }
-    // } catch (error) {
-    //   console.error(error);
-    // }
-  
+  // try {
+  //   const querySnapshot = await this.getQuerySnapshot(messageTimestamp);
+
+  //   if (!querySnapshot.empty) {
+  //     const messageDoc = querySnapshot.docs[0];
+  // const messageData = messageDoc.data();
+
+  //     let emojis = messageData['emojis'] || [];
+  // const existingEmojiIndex = emojis.findIndex((e: any) => e.emoji === emoji);
+
+  //   if (existingEmojiIndex !== -1) {
+  //     const existingEmoji = emojis[existingEmojiIndex];
+
+  //     if (!existingEmoji.userIds.includes(this.usersService.currentUserSig()?.id)) {
+  //       existingEmoji.count += 1;
+  //       existingEmoji.userIds.push(this.usersService.currentUserSig()?.id);
+  //     }
+  //   } else {
+  //     emojis.push({
+  //       emoji: emoji,
+  //       count: 1,
+  //       userIds: [this.usersService.currentUserSig()?.id],
+  //     });
+  //   }
+
+  //   await updateDoc(messageDoc.ref, { emojis: emojis });
+  // }
+  // } catch (error) {
+  //   console.error(error);
+  // }
+
   async increaseValueOfEmoji(emoji: string, currentMessage: CurrentMessage) {
     // const messageTimestamp = currentMessage.createdAt;
     // const querySnapshot = await this.getQuerySnapshot(messageTimestamp);
-  
+
     // if (!querySnapshot.empty) {
     //   const messageDoc = querySnapshot.docs[0];
     //   const messageData = messageDoc.data();
-  
+
     //   let emojis = messageData['emojis'] || [];
     //   const existingEmojiIndex = emojis.findIndex((e: any) => e.emoji === emoji);
-  
+
     //   if (existingEmojiIndex !== -1) {
     //     const existingEmoji = emojis[existingEmojiIndex];
-  
+
     //     if (!existingEmoji.userIds.includes(this.usersService.currentUserSig()?.id)) {
     //       existingEmoji.count += 1;
     //       existingEmoji.userIds.push(this.usersService.currentUserSig()?.id);
-  
+
     //       await updateDoc(messageDoc.ref, { emojis: emojis });
     //     } else {
     //       console.log("Dieser Benutzer hat dieses Emoji bereits benutzt.");
