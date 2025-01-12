@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { DevspaceComponent } from './devspace/devspace.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ThreadsComponent } from './threads/threads.component';
-import { ChatroomHeaderComponent } from './chatroom-header/chatroom-header.component';
 import { AuthService } from '../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { UsersDbService } from '../services/usersDb/users-db.service';
+import { ChatroomHeaderComponent } from './chatroom-header/chatroom-header.component';
 
 @Component({
   selector: 'app-chatroom',

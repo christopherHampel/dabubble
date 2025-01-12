@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 
-
 @Component({
   selector: 'app-emoji-picker-component',
   imports: [ PickerComponent ],

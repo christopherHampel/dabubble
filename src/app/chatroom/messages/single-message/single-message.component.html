@@ -32,13 +32,23 @@
 
         <div class="emoji-reactions" *ngIf="!isEditing">
             @for (emoji of currentMessage.emojis; track $index) {
-                <div class="displayed-emojii">
-                    <div>{{ emoji }}</div>
-                    <!-- <div *ngIf="emoji.count > 1">{{ emoji.count }}</div> -->
+                <div class="show-reactions">
+                    <div class="displayed-emojii">
+                        <div>{{ emoji.emoji }}</div>
+                        <!-- <div *ngIf="emoji.count > 1">{{ emoji.count }}</div> -->
+                    </div>
+                    <div class="emoji-hover">
+                        <div>{{ emoji.emoji }}</div>
+                        <span>{{ emoji.name }}</span>
+                        <span>hat reagiert</span>
+                    </div>
                 </div>
             }
-            <app-emoji-picker-component (emojiSelected)="addEmojiToMessage($event, currentMessage)" *ngIf="emojiMartOpen"></app-emoji-picker-component>
+
             <a (click)="toggleEmoji()"><img src="/img/add_reaction.png" alt=""></a>
+        </div>
+        <div *ngIf="emojiMartOpen" class="emoji-picker">
+            <app-emoji-picker-component (emojiSelected)="addEmojiToMessage($event, currentMessage)"></app-emoji-picker-component>
         </div>
     </div>
 
