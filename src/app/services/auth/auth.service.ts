@@ -1,12 +1,14 @@
 import { inject, Injectable } from '@angular/core';
+import { FirebaseApp } from '@angular/fire/app';
 import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, user } from '@angular/fire/auth';
-import { from, Observable } from 'rxjs';
 import { sendPasswordResetEmail } from 'firebase/auth';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private firebaseapp = inject(FirebaseApp);
   private auth = inject(Auth);
   currentAuthUser = user(this.auth);
   // currentUserExample: [{ name: string, uid: string, email: string }] = [
@@ -19,47 +21,38 @@ export class AuthService {
 
   constructor() { }
 
-  register(userName: string, email: string, password: string, avatar: string): Observable<string> {
-    const promise = createUserWithEmailAndPassword(this.auth, email, password)
-      .then((response) => {
-        updateProfile(response.user, {
-          displayName: userName,
-          photoURL: avatar
-        })
-        return response.user.uid;
-      });
 
-    return from(promise);
+  async register(userName: string, email: string, password: string, avatar: string) {
+    const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+
+    await updateProfile(userCredential.user, {
+      displayName: userName,
+      photoURL: avatar
+    })
+
+    return userCredential.user.uid;
   }
 
-  login(email: string, password: string): Observable<void> {
-    const promise = signInWithEmailAndPassword(this.auth, email, password)
-      .then(() => {
-      });
 
-    return from(promise);
+  async login(email: string, password: string) {
+    await signInWithEmailAndPassword(this.auth, email, password).catch((err) => {
+      console.log('Error during login: ', err);
+    })
   }
 
-  loginWithGoogle(): Observable<void> {
+
+  async loginWithGoogle() {
     const provider = new GoogleAuthProvider();
-    const promise = signInWithPopup(this.auth, provider)
-      .then(() => {
-      });
-
-    return from(promise);
+    await signInWithPopup(this.auth, provider);
   }
 
-  resetPassword(email: string): Observable<void> {
-    const promise = sendPasswordResetEmail(this.auth, email);
 
-    return from(promise);
+  async resetPassword(email: string) {
+    await sendPasswordResetEmail(this.auth, email);
   }
 
-  logout(): Observable<void> {
-    const promise = signOut(this.auth)
-      .then(() => {
-      });
 
-    return from(promise);
+  async logout() {
+    await signOut(this.auth);
   }
 }

@@ -51,16 +51,14 @@ export class ChooseAvatarComponent {
 
   onRegister() {
     this.auth.register(this.userName, this.email, this.password, this.currentAvatar)
-      .subscribe({
-        next: async (uid) => {
-          await this.saveUser(uid);
-          this.auth.logout();
-          this.router.navigateByUrl('/register/login');
-        },
-        error: () => {
-          this.router.navigateByUrl('/register/create-account');
-        }
-      });
+      .then(async (uid) => {
+        await this.saveUser(uid);
+        this.auth.logout();
+        this.router.navigateByUrl('/register/login');
+      })
+      .catch(() => {
+        this.router.navigateByUrl('/register/create-account');
+      })
   }
 
   async saveUser(uid: string) {
