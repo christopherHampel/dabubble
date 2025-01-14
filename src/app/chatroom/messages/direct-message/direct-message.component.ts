@@ -25,6 +25,7 @@ export class DirectMessageComponent {
       this.chatId = params.get('id')!;
       this.chatService.getChatInformationen(this.chatId);
       this.chatMessages$ = this.chatService.messages$;
+      console.log('Messages: ', this.chatMessages$);
     });
   }
 

@@ -35,9 +35,7 @@ export class AuthService {
 
 
   async login(email: string, password: string) {
-    await signInWithEmailAndPassword(this.auth, email, password).catch((err) => {
-      console.log('Error during login: ', err);
-    })
+    await signInWithEmailAndPassword(this.auth, email, password);
   }
 
 

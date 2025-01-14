@@ -5,7 +5,7 @@ export interface userDetails {
 
 export interface Thread {
     participiants: string[],
-    chatId: string,
+    belongsToMessage: string,
     participiantsDetails: {
         [key: string]: userDetails;
     }

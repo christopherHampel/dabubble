@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ThreadsService } from './threads.service';
+import { ThreadsDbService } from './threads-db.service';
 
-describe('ThreadsService', () => {
-  let service: ThreadsService;
+describe('ThreadsDbService', () => {
+  let service: ThreadsDbService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ThreadsService);
+    service = TestBed.inject(ThreadsDbService);
   });
 
   it('should be created', () => {
