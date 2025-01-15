@@ -54,6 +54,6 @@
     </div>
 
     <div class="tooltip-message">
-        <app-tooltip [isEditing]="isEditing" [messageId]="currentMessage.docId" (isEditingChange)="onIsEditingChange($event)"></app-tooltip>
+        <app-tooltip [isEditing]="isEditing" [message]="currentMessage" (isEditingChange)="onIsEditingChange($event)"></app-tooltip>
     </div>
 </div>

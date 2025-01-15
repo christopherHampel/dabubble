@@ -5,6 +5,7 @@ import { EmojiPickerComponentComponent } from '../../../../shared/textarea/emoji
 import { CommonModule } from '@angular/common';
 import { ThreadsDbService } from '../../../../services/message/threads-db.service';
 import { Thread } from '../../../../interfaces/thread';
+import { ChatsService } from '../../../../services/message/chats.service';
 
 @Component({
   selector: 'app-tooltip',
@@ -17,10 +18,18 @@ export class TooltipComponent {
   currentMessage:any;
   emojiMartOpen:boolean = false;
   menu:boolean = false;
+  private chat = inject(ChatsService);
   private threadsDb = inject(ThreadsDbService);
   @Input() isEditing:boolean = false;
-  @Input() messageId: string = '';
+  @Input() message: any;
   @Output() isEditingChange = new EventEmitter<boolean>();
+
+  ngOnInit() {
+    //if (this.chat.chatData) {
+    //  this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
+    //  console.log('Thread id: ', this.threadsDb.currentThreadId());
+    //}
+  }
 
   editMessage() {
     this.isEditing = true;
@@ -39,29 +48,13 @@ export class TooltipComponent {
   }
 
   async openThread() {
+    console.log('Chat: ', this.chat.chatData.participantsDetails);
     let thread: Thread = {
-      participiants: [
-        'User1',
-        'User2',
-        'User3'
-      ],
-      belongsToMessage: this.messageId,
-      participiantsDetails: {
-        ['User123']: {
-          name: 'Test1',
-          avatar: 'Bild1'
-        },
-        ['User456']: {
-          name: 'Test2',
-          avatar: 'Bild2'
-        },
-        ['User789']: {
-          name: 'Test3',
-          avatar: 'Bild3'
-        }
-      }
+      participiants: this.chat.chatData.participants,
+      belongsToMessage: this.message.docId,
+      participiantsDetails:this.chat.chatData.participantsDetails 
     }
 
-    await this.threadsDb.addThread(thread);
+    await this.threadsDb.addThread(thread, this.message);
   }
 }

@@ -1,6 +1,6 @@
 export interface userDetails {
-    name: string,
     avatar: string
+    name: string,
 }
 
 export interface Thread {
