@@ -3,6 +3,7 @@ import { addDoc, collection, doc, Firestore, setDoc, updateDoc } from '@angular/
 import { Message } from '../../interfaces/message';
 import { emojis } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { onSnapshot } from 'firebase/firestore';
+import { Thread } from '../../interfaces/thread';
 
 @Injectable({
   providedIn: 'root'
@@ -11,28 +12,49 @@ export class ThreadsDbService {
   private threads = inject(Firestore);
 
   currentThreadId = signal<string>('');
+  threadListSig = signal<Thread []>([]);
   messageListSig = signal<Message[]>([]);
+  unsubThreadList: any;
   unsubMessageList: any;
 
-  constructor() {
-    this.unsubMessageList = this.subMessageList();
+  constructor() { 
+    this.unsubThreadList = this.subThreadList();
+   }
+
+
+  get threadList() {
+    return this.threadListSig();
+  }
+
+
+  get messageList() {
+    return this.messageListSig();
   }
 
   async addThread(thread: any, message: Message) {
-    await addDoc(this.getUserRef(), thread)
+    await addDoc(this.getThredRef(), thread)
       .then(async (docRef) => {
-        console.log('Add thread: ', docRef.id)
         await this.addMessageToThread(docRef.id, message);
         this.currentThreadId.set(docRef.id);
+        this.unsubMessageList = this.subMessageList(docRef.id);
       });
   }
 
 
-  async addMessageToThread(threadId: string, message: Message) {
-    const threadRef = doc(this.getUserRef(), threadId);
+  async addMessageToThread(threadId: string, message: Message | string) {
+    const threadRef = doc(this.getThredRef(), threadId);
     const messageRef = collection(threadRef, 'messages');
 
-    await addDoc(messageRef, this.getCleanJsonMessage(message))
+    let messageType;
+    if (typeof message === 'string') {
+      messageType = { 
+        text: message
+      };
+    } else {
+      messageType = this.getCleanJsonMessage(message);
+    }
+
+    await addDoc(messageRef, messageType)
       .then((docRef) => {
         updateDoc(docRef, {
           docId: docRef.id
@@ -42,13 +64,20 @@ export class ThreadsDbService {
 
 
 
+  setThreadObject(object: any): Thread {
+    return {
+      participiants: object.participiants || '',
+      belongsToMessage: object.belongsToMessage || '',
+      participiantsDetails: object.participiantsDetails || {}
+    }
+  }
+
+
+
   setMessageObject(object: any): Message {
     return {
       docId: object.docId || '',
-      messageAuthor: {
-        name: object.messageAuthor.name || '',
-        id: object.messageAuthor.id || ''
-      },
+      messageAuthor: object.messageAuthor || {},
       text: object.text || '',
       createdAt: object.createdAt || '',
       emojis: object.emojis || []
@@ -56,8 +85,20 @@ export class ThreadsDbService {
   }
 
 
-  subMessageList() {
-    const threadRef = doc(this.getUserRef(), 's51Gpx9GfpsBwz13Rtbp');
+  subThreadList() {
+    return onSnapshot(this.getThredRef(), (list) => {
+      const threads: Thread[] = [];
+      list.forEach((item) => {
+        threads.push(this.setThreadObject(item.data()));
+      });
+      this.threadListSig.set(threads);
+      console.log('Thread list: ', this.threadListSig());
+    });
+  }
+
+
+  subMessageList(threadId: string) {
+    const threadRef = doc(this.getThredRef(), threadId);
     const messageRef = collection(threadRef, 'messages');
 
     return onSnapshot(messageRef, (list) => {
@@ -85,7 +126,7 @@ export class ThreadsDbService {
   }
 
 
-  getUserRef() {
+  getThredRef() {
     return collection(this.threads, 'threads');
   }
 }

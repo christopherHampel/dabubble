@@ -9,9 +9,9 @@
         <div class="close-icon"></div>
     </div>
 
-    <div class="message-wrapper">
-<!--         <app-single-message></app-single-message> -->
+    <div *ngFor="let message of threadsDb.messageList" class="message-wrapper">
+        <app-single-message [currentMessage]="message" [chatId]="message.docId"></app-single-message>
     </div>
 
-    <app-textarea class="textarea-component"></app-textarea>
+    <app-textarea [component]="'thread'" class="textarea-component"></app-textarea>
 </section>

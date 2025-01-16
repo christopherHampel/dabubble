@@ -24,13 +24,6 @@ export class TooltipComponent {
   @Input() message: any;
   @Output() isEditingChange = new EventEmitter<boolean>();
 
-  ngOnInit() {
-    //if (this.chat.chatData) {
-    //  this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
-    //  console.log('Thread id: ', this.threadsDb.currentThreadId());
-    //}
-  }
-
   editMessage() {
     this.isEditing = true;
     this.menu = false;
@@ -48,6 +41,10 @@ export class TooltipComponent {
   }
 
   async openThread() {
+    console.log('Thread list to find thread: ', this.threadsDb.threadList);
+    console.log('Thread list to find message id: ', this.chat.chatData.docId);
+    console.log(this.threadsDb.threadList.find(thread => thread.belongsToMessage === this.chat.chatData.docId));
+
     console.log('Chat: ', this.chat.chatData.participantsDetails);
     let thread: Thread = {
       participiants: this.chat.chatData.participants,
