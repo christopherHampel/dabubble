@@ -12,9 +12,7 @@
 
         <div class="select-avatar">
             <div>
-                <span class="name">Max Mustermann</span>
                 <h4>Max Mustermann</h4>
-                
             </div>
             <div>
                 <span>Aus der Liste wählen</span>
@@ -30,7 +28,7 @@
         </div>
     </div>
     <div class="further-button">
-        <button (click)="onRegister()" [disabled]="currentAvatar === '/img/empty_profile.png'">Weiter</button>
+        <button class="main-btn" (click)="onRegister()" [disabled]="currentAvatar === '/img/empty_profile.png'">Weiter</button>
     </div>
 </div>
 </section>
