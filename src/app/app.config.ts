@@ -8,8 +8,6 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from './environments/environments';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-
-
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

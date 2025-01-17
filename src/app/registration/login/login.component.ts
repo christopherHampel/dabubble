@@ -13,10 +13,11 @@ import { AuthService } from '../../services/auth/auth.service';
   standalone: true
 })
 export class LoginComponent implements OnInit {
+  private auth = inject(AuthService);
   loginForm: FormGroup;
   signOut = false;
   errorMessage: string | null = null;
-  private auth = inject(AuthService);
+  //private auth = inject(AuthService);
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
@@ -36,38 +37,24 @@ export class LoginComponent implements OnInit {
   onLogin() {
     const rawForm = this.loginForm.getRawValue();
     this.auth.login(rawForm.email, rawForm.password)
-      .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/chatroom');
-        },
-        error: (err) => {
-          this.errorMessage = err.code;
-        }
-      });
+      .then(() => {
+        this.router.navigateByUrl('/chatroom');
+      })
+
   }
 
   onGaestLogin() {
     this.auth.login('gaest@gaest.com', '123456')
-      .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/chatroom');
-        },
-        error: (err) => {
-          this.errorMessage = err.code;
-        }
-      });
+      .then(() => {
+        this.router.navigateByUrl('/chatroom');
+      })
   }
 
   onLoginWithGoogle() {
     this.auth.loginWithGoogle()
-      .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/chatroom');
-        },
-        error: (err) => {
-          this.errorMessage = err.code;
-        }
-      });
+      .then(() => {
+        this.router.navigateByUrl('/chatroom');
+      })
   }
 
   onSubmit() {

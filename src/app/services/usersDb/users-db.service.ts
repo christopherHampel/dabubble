@@ -24,39 +24,35 @@ export class UsersDbService {
     this.unsubUserList = this.subUserList();
   }
 
+
   get currentUser() {
     return this.currentUserSig();
   }
 
+
   get userList() {
     return this.userListSig();
   }
+
 
   ngOnDestroy() {
     this.unsubUser();
     this.unsubUserList();
   }
 
+
   async addUser(user: any) {
-    try {
       const userRef = doc(this.getUserRef(), user.id);
       await setDoc(userRef, user);
-      console.log('User addes successfully with ID: ', user);
-    } catch (err) {
-      console.log('Error during add user: ', err);
-    }
   }
 
+
   async addDirectMessageWith(id: string) {
-    try {
-      await updateDoc(this.getSingleDocRef('users', this.currentUserSig()!.id), {
+      await updateDoc(this.getSingleDocRef('users', this.currentUser!.id), {
         directmessagesWith: arrayUnion(id)
       })
-      console.log('Drictmessage successfully added: ', id);
-    } catch (err) {
-      console.log('Error added directmessage: ', err);
-    }
   }
+
 
   setUserObject(object: any, id: string): UserProfile {
     return {
@@ -70,11 +66,13 @@ export class UsersDbService {
     }
   }
 
+
   subUser(id: string) {
     return onSnapshot(this.getSingleDocRef('users', id), (doc) => {
       this.currentUserSig.set(this.setUserObject(doc.data(), id));
     });
   }
+
 
   subUserList() {
     return onSnapshot(this.getUserRef(), (list) => {
@@ -85,6 +83,7 @@ export class UsersDbService {
       this.userListSig.set(users);
     })
   }
+
 
   getCleanJson(user: UserProfile): {} {
     return {
@@ -98,27 +97,30 @@ export class UsersDbService {
     }
   }
 
+
   async updateUser(user: UserProfile) {
     if (user.id) {
       let docRef = this.getSingleDocRef('users', user.id);
-      await updateDoc(docRef, this.getCleanJson(user)).catch(
-        (err) => (console.log(err))
-      );
+      await updateDoc(docRef, this.getCleanJson(user))
     }
   }
+
 
   getUserRef() {
     return collection(this.usersDb, 'users');
   }
 
+
   getSingleDocRef(colId: string, docId: string) {
     return doc(collection(this.usersDb, colId), docId);
   }
+
 
   updateClickStatus(userId: string, clicked: boolean) {
     const userRef = this.getSingleDocRef('users', userId);
     setDoc(userRef, { clicked: clicked }, { merge: true });
   }
+
 
   updateUserStatus(userId: string, active: boolean) {
     const userRef = this.getSingleDocRef('users', userId);

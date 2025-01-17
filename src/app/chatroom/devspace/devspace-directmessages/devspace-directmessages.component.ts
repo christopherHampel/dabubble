@@ -16,7 +16,7 @@ import { UserProfile } from '../../../interfaces/userProfile';
 export class DevspaceDirectmessagesComponent {
   usersDb = inject(UsersDbService);
   dialog: boolean = false;
-  lastSelectedUserId: string = '';
+  selectedUserId: string = '';
 
   exampleUserProfile: UserProfile = {
     id: '12345abcde',
@@ -30,20 +30,9 @@ export class DevspaceDirectmessagesComponent {
 
   constructor(private chatService: ChatsService, private router: Router) { }
 
-  ngOnInit() {
-    console.log(this.lastSelectedUserId);
-  }
-
-  changeClickStatus(id: string) {
-    if (this.lastSelectedUserId) {
-      this.usersDb.updateClickStatus(this.lastSelectedUserId, false);
-    }
-    this.selectUser(id);
-  }
 
   selectUser(id: string) {
-    this.usersDb.updateClickStatus(id, true);
-    this.lastSelectedUserId = id;
+    this.selectedUserId = id;
   }
 
   openDialog() {

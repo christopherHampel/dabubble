@@ -29,6 +29,7 @@ export class CreateAccountComponent {
   goToAvatar() {
     const rawForm = this.loginForm.getRawValue();
     const state: UserRegister = {
+        id: '',
         userName: rawForm.name,
         email: rawForm.email,
         password: rawForm.password,

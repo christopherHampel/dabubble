@@ -21,7 +21,7 @@
             </div> -->
 
             <div *ngFor="let message of chatMessages$ | async" class="message-item">
-                <app-single-message [currentMessage]="message" [chatId]="this.chatId"></app-single-message>
+                <app-single-message [currentMessage]="message" [chatId]="this.chatId" [messageId]="message.docId"></app-single-message>
             </div>
     
             <div class="messages-field" *ngIf="">
@@ -33,6 +33,6 @@
             </div>
             
         </div>
-        <app-textarea [chatPartnerName]="this.chatService.chatPartner.name"></app-textarea>
+        <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'chat'"></app-textarea>
     </div>
 </section>

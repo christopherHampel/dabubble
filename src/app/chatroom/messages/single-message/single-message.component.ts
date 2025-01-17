@@ -21,6 +21,7 @@ export class SingleMessageComponent implements OnInit {
   @Input() currentMessage!:any;
   @Input() editedText!: string;
   @Input() chatId!: string;
+  @Input() messageId = '';
 
   isEditing: boolean = false;
   emojiMartOpen:boolean = false;
