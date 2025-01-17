@@ -50,6 +50,8 @@ span {
     cursor: pointer;
     position: relative;
     transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+    padding-left: 0;
+    padding-right: 0;
 
     &:hover {
       border-color: rgba(68, 77, 242, 1);
