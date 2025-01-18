@@ -9,18 +9,18 @@ import { ChatsService } from '../../../../services/message/chats.service';
 
 @Component({
   selector: 'app-tooltip',
-  imports: [ MatMenuModule, MatIconModule, EmojiPickerComponentComponent, CommonModule ],
+  imports: [MatMenuModule, MatIconModule, EmojiPickerComponentComponent, CommonModule],
   templateUrl: './tooltip.component.html',
   styleUrl: './tooltip.component.scss'
 })
 export class TooltipComponent {
 
-  currentMessage:any;
-  emojiMartOpen:boolean = false;
-  menu:boolean = false;
+  currentMessage: any;
+  emojiMartOpen: boolean = false;
+  menu: boolean = false;
   private chat = inject(ChatsService);
   private threadsDb = inject(ThreadsDbService);
-  @Input() isEditing:boolean = false;
+  @Input() isEditing: boolean = false;
   @Input() message: any;
   @Output() isEditingChange = new EventEmitter<boolean>();
 
@@ -30,7 +30,7 @@ export class TooltipComponent {
     this.isEditingChange.emit(this.isEditing);
   }
 
-  addEmojiToMessage(placeholder:string, placeholder2:string){}
+  addEmojiToMessage(placeholder: string, placeholder2: string) { }
 
   toggleEmoji() {
     this.emojiMartOpen = !this.emojiMartOpen;
@@ -41,17 +41,18 @@ export class TooltipComponent {
   }
 
   async openThread() {
-    console.log('Thread list to find thread: ', this.threadsDb.threadList);
-    console.log('Thread list to find message id: ', this.chat.chatData.docId);
-    console.log(this.threadsDb.threadList.find(thread => thread.belongsToMessage === this.chat.chatData.docId));
+    if (this.threadsDb.threadList.find(thread => thread.belongsToMessage === this.message.docId)) {
+      console.log('Thread exist: ', this.threadsDb.threadList.find(thread => thread.belongsToMessage === this.message.docId));
+      this.threadsDb.subMessageList('OoYOPlao4MyHesM4gVhG');
+    } else {
+      console.log('Chat: ', this.chat.chatData.participantsDetails);
+      let thread: Thread = {
+        participiants: this.chat.chatData.participants,
+        belongsToMessage: this.message.docId,
+        participiantsDetails: this.chat.chatData.participantsDetails
+      }
 
-    console.log('Chat: ', this.chat.chatData.participantsDetails);
-    let thread: Thread = {
-      participiants: this.chat.chatData.participants,
-      belongsToMessage: this.message.docId,
-      participiantsDetails:this.chat.chatData.participantsDetails 
+      await this.threadsDb.addThread(thread, this.message);
     }
-
-    await this.threadsDb.addThread(thread, this.message);
   }
 }
