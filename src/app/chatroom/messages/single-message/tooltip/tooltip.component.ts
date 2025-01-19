@@ -41,17 +41,16 @@ export class TooltipComponent {
   }
 
   async openThread() {
-    if (this.threadsDb.threadList.find(thread => thread.belongsToMessage === this.message.docId)) {
-      console.log('Thread exist: ', this.threadsDb.threadList.find(thread => thread.belongsToMessage === this.message.docId));
-      this.threadsDb.subMessageList('OoYOPlao4MyHesM4gVhG');
+    if (this.threadsDb.setCurrentThreadId(this.message)) {
+      this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
     } else {
       console.log('Chat: ', this.chat.chatData.participantsDetails);
       let thread: Thread = {
+        docId: '',
         participiants: this.chat.chatData.participants,
         belongsToMessage: this.message.docId,
         participiantsDetails: this.chat.chatData.participantsDetails
       }
-
       await this.threadsDb.addThread(thread, this.message);
     }
   }

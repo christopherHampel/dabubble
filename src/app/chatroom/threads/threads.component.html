@@ -10,7 +10,7 @@
     </div>
 
     <div *ngFor="let message of threadsDb.messageList" class="message-wrapper">
-        <app-single-message [currentMessage]="message" [chatId]="message.docId"></app-single-message>
+        <app-single-message [currentMessage]="message" [chatId]="threadsDb.currentThreadId()" [component]="'thread'"></app-single-message>
     </div>
 
     <app-textarea [component]="'thread'" class="textarea-component"></app-textarea>

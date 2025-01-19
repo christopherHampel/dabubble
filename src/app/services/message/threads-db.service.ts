@@ -12,14 +12,14 @@ export class ThreadsDbService {
   private threads = inject(Firestore);
 
   currentThreadId = signal<string>('');
-  threadListSig = signal<Thread []>([]);
+  threadListSig = signal<Thread[]>([]);
   messageListSig = signal<Message[]>([]);
   unsubThreadList: any;
   unsubMessageList: any;
 
-  constructor() { 
+  constructor() {
     this.unsubThreadList = this.subThreadList();
-   }
+  }
 
 
   get threadList() {
@@ -37,6 +37,9 @@ export class ThreadsDbService {
         await this.addMessageToThread(docRef.id, message);
         this.currentThreadId.set(docRef.id);
         this.unsubMessageList = this.subMessageList(docRef.id);
+        updateDoc(docRef, {
+          docId: docRef.id
+        });
       });
   }
 
@@ -47,9 +50,16 @@ export class ThreadsDbService {
 
     let messageType;
     if (typeof message === 'string') {
-      messageType = { 
-        text: message
-      };
+      messageType = this.getCleanJsonMessage({
+        docId: '',
+        messageAuthor: {
+          name: '',
+          id: ''
+        },
+        text: message,
+        createdAt: '',
+        emojis: []
+      });
     } else {
       messageType = this.getCleanJsonMessage(message);
     }
@@ -63,9 +73,19 @@ export class ThreadsDbService {
   }
 
 
+  setCurrentThreadId(message: any) {
+    const currentThread = this.threadList.find(thread => thread.belongsToMessage === message.docId);
+    if (currentThread) {
+      this.currentThreadId.set(currentThread.docId);
+    }
+    return currentThread;
+  }
+
+
 
   setThreadObject(object: any): Thread {
     return {
+      docId: object.docId || '',
       participiants: object.participiants || '',
       belongsToMessage: object.belongsToMessage || '',
       participiantsDetails: object.participiantsDetails || {}
@@ -92,7 +112,6 @@ export class ThreadsDbService {
         threads.push(this.setThreadObject(item.data()));
       });
       this.threadListSig.set(threads);
-      console.log('Thread list: ', this.threadListSig());
     });
   }
 
@@ -107,7 +126,6 @@ export class ThreadsDbService {
         messages.push(this.setMessageObject(item.data()));
       });
       this.messageListSig.set(messages);
-      console.log(messages);
     });
   }
 
