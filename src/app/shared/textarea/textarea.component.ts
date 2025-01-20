@@ -37,7 +37,6 @@ export class TextareaComponent implements OnInit {
     if (this.message.length > 0) {
       if (this.component == 'chat') {
         await this.chatService.addMessageToChat(this.message, this.chatId);
-        this.message = '';
       } else if (this.component == 'thread') {
         await this.threadDb.addMessageToThread(this.threadDb.currentThreadId(), this.message);
       }

@@ -7,6 +7,6 @@ export interface Message {
     docId: string,
     messageAuthor: autor,
     text: string,
-    createdAt: string,
+    createdAt: any,
     emojis: []
 }

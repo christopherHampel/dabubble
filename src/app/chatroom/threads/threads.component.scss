@@ -50,6 +50,13 @@ section {
     padding: 10px 40px;
 }
 
+.message-field {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
 .textarea-component {
     padding: 32px 20px;
 }

@@ -1,15 +1,16 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { addDoc, collection, doc, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
+import { addDoc, collection, doc, Firestore, orderBy, query, serverTimestamp, setDoc, updateDoc } from '@angular/fire/firestore';
 import { Message } from '../../interfaces/message';
-import { emojis } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { onSnapshot } from 'firebase/firestore';
 import { Thread } from '../../interfaces/thread';
+import { UsersDbService } from '../usersDb/users-db.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThreadsDbService {
   private threads = inject(Firestore);
+  private usersDb = inject(UsersDbService);
 
   currentThreadId = signal<string>('');
   threadListSig = signal<Thread[]>([]);
@@ -53,11 +54,11 @@ export class ThreadsDbService {
       messageType = this.getCleanJsonMessage({
         docId: '',
         messageAuthor: {
-          name: '',
-          id: ''
+          name: this.usersDb.currentUser!.userName,
+          id: this.usersDb.currentUser!.id
         },
         text: message,
-        createdAt: '',
+        createdAt: serverTimestamp(),
         emojis: []
       });
     } else {
@@ -119,8 +120,9 @@ export class ThreadsDbService {
   subMessageList(threadId: string) {
     const threadRef = doc(this.getThredRef(), threadId);
     const messageRef = collection(threadRef, 'messages');
+    const sortedMessageRef = query(messageRef, orderBy('createdAt', 'asc'));
 
-    return onSnapshot(messageRef, (list) => {
+    return onSnapshot(sortedMessageRef, (list) => {
       const messages: Message[] = [];
       list.forEach((item) => {
         messages.push(this.setMessageObject(item.data()));

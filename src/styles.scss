@@ -6,17 +6,13 @@
 // For more information: https://material.angular.io/guide/theming
 
 html {
-  @include mat.theme(
-    (
-      color: (
-        theme-type: light,
+  @include mat.theme((color: (theme-type: light,
         primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
       typography: Roboto,
       density: 0,
-    )
-  );
+    ));
 }
 
 /* nunito-200 - latin */
@@ -209,6 +205,21 @@ body {
   padding: 0;
   scroll-behavior: smooth;
   font-family: "Nunito";
+}
+
+body {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #797EF3;
+    border-radius: 8px;
+  }
 }
 
 /* -------- */
