@@ -54,7 +54,26 @@ section {
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 32px;
+}
+
+.answers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    color: #ADB0D9;
+}
+
+.separater {
+    width: auto;
+    height: 1px;
+    flex-grow: 1;
+
+    background-color: #ADB0D9;
+
+    border-radius: 0.75px;
 }
 
 .textarea-component {
