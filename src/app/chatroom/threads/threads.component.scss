@@ -3,7 +3,7 @@
 }
 
 section {
- height: calc(100vh - 102px);
+ height: calc(100vh - 102px - 16px);
 }
 
 .card {
@@ -47,14 +47,14 @@ section {
 }
 
 .message-wrapper {
-    padding: 10px 40px;
+    padding: 10px 20px;
 }
 
 .message-field {
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 20px;
 }
 
 .answers {
@@ -64,6 +64,9 @@ section {
     gap: 20px;
 
     color: #ADB0D9;
+
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .separater {

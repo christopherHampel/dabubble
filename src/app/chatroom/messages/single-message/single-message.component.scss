@@ -9,7 +9,8 @@
     justify-content: flex-start;
     font-family: 'Nunito';
     position: relative;
-    padding: 10px 45px 10px 146px;
+/*     padding: 10px 45px 10px 146px; */
+    padding: 10px 45px 10px 0px;
 }
 
 .other-message {
@@ -19,7 +20,8 @@
     justify-content: flex-start;
     font-family: 'Nunito';
     position: relative;
-    padding: 10px 146px 10px 45px;
+/*     padding: 10px 146px 10px 45px; */
+    padding: 10px 0px 10px 45px;
 }
 
 .friend-message {
