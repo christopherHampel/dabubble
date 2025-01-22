@@ -12,12 +12,12 @@
                     [component]="'chat'"></app-single-message>
             </div>
 
-            <div *ngIf="(chatMessages$ | async)?.length === 0">
-                <div class="communication-with">
+            <div *ngIf="(chatMessages$ | async)?.length === 0" class="communication-with">
+                <div>
                     <img [src]="this.chatService.chatPartner.avatar" alt="">
                     <span>{{ this.chatService.chatPartner.name }}</span>
                 </div>
-                <span>Diese Unterhaltung findet nur zwischen (at){{ this.chatService.chatPartner.name }} und dir
+                <span>Diese Unterhaltung findet nur zwischen &#64;{{ this.chatService.chatPartner.name }} und dir
                     statt.</span>
             </div>
         </div>
