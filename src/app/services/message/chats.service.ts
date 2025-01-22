@@ -200,26 +200,35 @@ export class ChatsService {
   }
 
   async addEmoji(currentMessage: any, emoji: string, chatId: string) {
-    const query = await this.getQuerySnapshot(currentMessage.docId, chatId)
+    const query = await this.getQuerySnapshot(currentMessage.docId, chatId);
     const messageDoc = query.docs[0];
     const messageData = messageDoc.data();
-
-    const existingEmojiIndex = messageData['emojis'].findIndex((e: any) => e.emoji === emoji);
-
-    const emojis = messageData['emojis'];
-
-    const emojiPackage = {
-      emoji: emoji,
-      id: currentMessage.messageAuthor.id,
-      name: currentMessage.messageAuthor.name
+    const emojis = messageData['emojis'] || [];
+    
+    const currentUserId = this.usersService.currentUserSig()?.id;
+    const currentUserName = this.usersService.currentUserSig()?.userName;
+  
+    const existingEmoji = emojis.find((e: any) => e.emoji === emoji);
+    
+    if (existingEmoji) {
+      if (!existingEmoji.id.includes(currentUserId)) {
+        existingEmoji.count += 1;
+        existingEmoji.id.push(currentUserId);
+        existingEmoji.name.push(currentUserName);
+      }
+    } else {
+      const emojiPackage = {
+        emoji: emoji,
+        count: 1,
+        id: [currentUserId],
+        name: [currentUserName]
+      };
+      emojis.push(emojiPackage);
     }
-
-    emojis.push(emojiPackage);
-
+  
     await updateDoc(messageDoc.ref, { emojis });
   }
-  // console.log(existingEmojiIndex);
-
+  
 
   // try {
   //   const querySnapshot = await this.getQuerySnapshot(messageTimestamp);

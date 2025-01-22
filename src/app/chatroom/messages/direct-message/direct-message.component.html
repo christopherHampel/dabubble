@@ -21,11 +21,12 @@
                         <img [src]="this.chatService.chatPartner.avatar" alt="">
                         <span>{{ this.chatService.chatPartner.name }}</span>
                     </div>
-                    <span>Diese Unterhaltung findet nur zwischen (at){{ this.chatService.chatPartner.name }} und dir statt.</span>
+                    <span>Diese Unterhaltung findet nur zwischen &#64;{{ this.chatService.chatPartner.name }} und dir statt.</span>
                 </div>
             </div>
         </div>
 
         <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'chat'" class="textarea-component"></app-textarea>
+        
     </div>
 </section>

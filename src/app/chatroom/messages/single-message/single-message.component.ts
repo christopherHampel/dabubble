@@ -73,7 +73,7 @@ export class SingleMessageComponent implements OnInit {
   }
 
   addEmojiToMessage(emoji:string, currentMessage:CurrentMessage) {
-    console.log('Single message component: ', this.component);
+    // console.log('Single message component: ', this.component);
     this.chatService.component.set(this.component);
     this.chatService.addEmoji(currentMessage, emoji, this.chatId);
   }

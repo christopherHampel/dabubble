@@ -177,6 +177,11 @@
     }
 }
 
+.emoji-from-where {
+    display: flex;
+    flex-direction: column;
+}
+
 .show-reactions {
     position: relative;
 }
