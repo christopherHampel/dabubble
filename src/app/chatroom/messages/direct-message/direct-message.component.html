@@ -11,28 +11,21 @@
         </div>
 
         <div class="message-field">
-
-            <!-- <div class="time-seperator">
-                <div></div>
-                <div class="date">
-                    <span>{{ checkDate() }}</span>
+            <div class="flex-end">
+                <div *ngFor="let message of chatMessages$ | async" class="message-item">
+                    <app-single-message [currentMessage]="message" [chatId]="this.chatId" [component]="'chat'"></app-single-message>
                 </div>
-                <div></div>
-            </div> -->
 
-            <div *ngFor="let message of chatMessages$ | async" class="message-item">
-                <app-single-message [currentMessage]="message" [chatId]="this.chatId" [component]="'chat'"></app-single-message>
-            </div>
-    
-            <div class="messages-field" *ngIf="">
-                <div class="communication-with">
-                    <img [src]="this.chatService.chatPartner.avatar" alt="">
-                    <span>{{ this.chatService.chatPartner.name }}</span>
+                <div *ngIf="(chatMessages$ | async)?.length === 0">
+                    <div class="communication-with">
+                        <img [src]="this.chatService.chatPartner.avatar" alt="">
+                        <span>{{ this.chatService.chatPartner.name }}</span>
+                    </div>
+                    <span>Diese Unterhaltung findet nur zwischen (at){{ this.chatService.chatPartner.name }} und dir statt.</span>
                 </div>
-                <span>Diese Unterhaltung findet nur zwischen (at){{ this.chatService.chatPartner.name }} und dir statt.</span>
             </div>
-            
         </div>
-        <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'chat'"></app-textarea>
+
+        <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'chat'" class="textarea-component"></app-textarea>
     </div>
 </section>

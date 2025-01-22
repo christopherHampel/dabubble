@@ -50,10 +50,19 @@ section {
 }
 
 .message-field {
+    flex: 1;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+
+    .flex-end {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        height: 100%;
+    }
+
+    div {
+        width: 100%;
+    }
 }
 
 .time-seperator {
@@ -72,4 +81,8 @@ section {
         flex: 0;
         
     }
+}
+
+.textarea-component {
+    padding: 32px 20px;
 }
