@@ -13,4 +13,7 @@ import { ThreadsDbService } from '../../services/message/threads-db.service';
 export class ThreadsComponent {
   threadsDb = inject(ThreadsDbService);
 
+  closeThread() {
+    this.threadsDb.currentThreadId.set('');
+  }
 }
