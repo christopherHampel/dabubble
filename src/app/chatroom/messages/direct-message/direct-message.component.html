@@ -11,18 +11,20 @@
                 <app-single-message [currentMessage]="message" [chatId]="this.chatId"
                     [component]="'chat'"></app-single-message>
             </div>
-
-            <div *ngIf="(chatMessages$ | async)?.length === 0" class="communication-with">
-                <div>
-                    <img [src]="this.chatService.chatPartner.avatar" alt="">
-                    <span>{{ this.chatService.chatPartner.name }}</span>
-                </div>
-                <span>Diese Unterhaltung findet nur zwischen &#64;{{ this.chatService.chatPartner.name }} und dir
-                    statt.</span>
-            </div>
         </div>
     </div>
 
-    <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'chat'"
-        class="textarea-component"></app-textarea>
+    <div class="textarea-component">
+        <div *ngIf="(chatMessages$ | async)?.length === 0" class="communication-with">
+            <div>
+                <img [src]="this.chatService.chatPartner.avatar" alt="">
+                <span>{{ this.chatService.chatPartner.name }}</span>
+            </div>
+            <span>Diese Unterhaltung findet nur zwischen &#64;{{ this.chatService.chatPartner.name }} und dir
+                statt.</span>
+        </div>
+
+        <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'chat'"></app-textarea>
+    </div>
+
 </section>
