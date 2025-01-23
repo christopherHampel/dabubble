@@ -67,8 +67,10 @@ section {
 
 .message-field {
     overflow-y: scroll;
+    scroll-behavior: smooth;
     display: grid;
     flex: 1;
+    scrollbar-width: none;
 
     .flex-end {
         display: flex;
