@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { collection, doc, addDoc, updateDoc, query, where, getDocs, arrayUnion, onSnapshot, deleteDoc, deleteField, getDoc, serverTimestamp, orderBy, Timestamp } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
@@ -13,6 +13,7 @@ import { UsersDbService } from '../usersDb/users-db.service';
 export class ChatsService {
 
   firestore = inject(Firestore);
+  component = signal<'chat' | 'thread'>('chat');
 
   private messagesSubject = new BehaviorSubject<any[]>([]);
   public messages$ = this.messagesSubject.asObservable();
@@ -26,7 +27,12 @@ export class ChatsService {
   currentChatId!: string;
 
   getPrivateChatCollection() {
-    return collection(this.firestore, 'messages');
+    console.log('Component chat service: ', this.component);
+    if (this.component() == 'chat') {
+      return collection(this.firestore, 'messages');
+    } else {
+      return collection(this.firestore, 'threads');
+    }
   }
 
   getSingleDocRef(collId: string, docId: string) {
@@ -173,7 +179,7 @@ export class ChatsService {
     })
   }
 
-  async getQuerySnapshot(docId: string, chatId: string) {
+  async getQuerySnapshot(docId: string, chatId: string,) {
     if (docId) {
       const chatRef = collection(this.getPrivateChatCollection(), chatId, 'messages');
       const chatQuery = query(chatRef, where('docId', '==', docId));
@@ -194,26 +200,35 @@ export class ChatsService {
   }
 
   async addEmoji(currentMessage: any, emoji: string, chatId: string) {
-    const query = await this.getQuerySnapshot(currentMessage.docId, chatId)
+    const query = await this.getQuerySnapshot(currentMessage.docId, chatId);
     const messageDoc = query.docs[0];
     const messageData = messageDoc.data();
-
-    const existingEmojiIndex = messageData['emojis'].findIndex((e: any) => e.emoji === emoji);
-
-    const emojis = messageData['emojis'];
-
-    const emojiPackage = {
-      emoji: emoji,
-      id: currentMessage.messageAuthor.id,
-      name: currentMessage.messageAuthor.name
+    const emojis = messageData['emojis'] || [];
+    
+    const currentUserId = this.usersService.currentUserSig()?.id;
+    const currentUserName = this.usersService.currentUserSig()?.userName;
+  
+    const existingEmoji = emojis.find((e: any) => e.emoji === emoji);
+    
+    if (existingEmoji) {
+      if (!existingEmoji.id.includes(currentUserId)) {
+        existingEmoji.count += 1;
+        existingEmoji.id.push(currentUserId);
+        existingEmoji.name.push(currentUserName);
+      }
+    } else {
+      const emojiPackage = {
+        emoji: emoji,
+        count: 1,
+        id: [currentUserId],
+        name: [currentUserName]
+      };
+      emojis.push(emojiPackage);
     }
-
-    emojis.push(emojiPackage);
-
+  
     await updateDoc(messageDoc.ref, { emojis });
   }
-  // console.log(existingEmojiIndex);
-
+  
 
   // try {
   //   const querySnapshot = await this.getQuerySnapshot(messageTimestamp);

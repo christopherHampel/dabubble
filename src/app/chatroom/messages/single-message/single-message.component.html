@@ -8,7 +8,7 @@
 
         <div class="time-username" *ngIf="!isEditing">
             <span>{{ getTime() }} Uhr</span>
-            <span class="username">{{ currentMessage.uid }}</span>
+            <span class="username">{{ currentMessage.messageAuthor.name }}</span>
         </div>
 
         <div [ngClass]="isEditing ? 'edit-content' : 'message-content'">
@@ -35,11 +35,16 @@
             <div class="show-reactions">
                 <div class="displayed-emojii">
                     <div>{{ emoji.emoji }}</div>
-                    <!-- <div *ngIf="emoji.count > 1">{{ emoji.count }}</div> -->
+                    <div *ngIf="emoji.count > 1">{{ emoji.count }}</div>
                 </div>
                 <div class="emoji-hover">
                     <div>{{ emoji.emoji }}</div>
-                    <span>{{ emoji.name }}</span>
+                    <!-- <span>{{ emoji.name }}</span> -->
+                    <div class="emoji-from-where">
+                     @for (name of emoji.name; track $index) {
+                            <span>{{ name }}</span>
+                     }
+                    </div>
                     <span>hat reagiert</span>
                 </div>
             </div>

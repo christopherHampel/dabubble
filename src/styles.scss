@@ -6,17 +6,13 @@
 // For more information: https://material.angular.io/guide/theming
 
 html {
-  @include mat.theme(
-    (
-      color: (
-        theme-type: light,
+  @include mat.theme((color: (theme-type: light,
         primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
       typography: Roboto,
       density: 0,
-    )
-  );
+    ));
 }
 
 /* nunito-200 - latin */
@@ -211,6 +207,22 @@ body {
   font-family: "Nunito";
 }
 
+body {
+  ::-webkit-scrollbar {
+    width: 14px;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 14px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #797EF3;
+    border-radius: 8px;
+    border: 4px solid white;
+  }
+}
+
 /* -------- */
 /* Generics */
 /* -------- */
@@ -258,7 +270,6 @@ body {
 
 .card {
   background-color: #ffff;
-  padding: 32px 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -351,9 +362,3 @@ body {
   background-repeat: no-repeat;
   background-size: contain;
 }
-
-// .emoji-mart-scroll {
-//     position: absolute;
-//     background: white;
-//     z-index: 10;
-// }

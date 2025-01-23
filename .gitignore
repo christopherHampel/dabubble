@@ -43,3 +43,5 @@ Thumbs.db
 
 # API key
 /src/app/environments/environments.ts
+
+.codegpt

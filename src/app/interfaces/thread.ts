@@ -4,6 +4,7 @@ export interface userDetails {
 }
 
 export interface Thread {
+    docId: string,
     participiants: string[],
     belongsToMessage: string,
     participiantsDetails: {

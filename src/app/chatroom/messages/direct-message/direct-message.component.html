@@ -1,38 +1,30 @@
-<section>
+<section class="card">
 
-    <div class="card">
-        <div>
-            <div class="message-head">
+    <div class="message-head">
+        <img [src]="this.chatService.chatPartner.avatar" alt="">
+        <h2>{{ this.chatService.chatPartner.name }}</h2>
+    </div>
+
+    <div class="message-field">
+        <div class="flex-end">
+            <div *ngFor="let message of chatMessages$ | async" class="message-wrapper">
+                <app-single-message [currentMessage]="message" [chatId]="this.chatId"
+                    [component]="'chat'"></app-single-message>
+            </div>
+        </div>
+    </div>
+
+    <div class="textarea-component">
+        <div *ngIf="(chatMessages$ | async)?.length === 0" class="communication-with">
+            <div>
                 <img [src]="this.chatService.chatPartner.avatar" alt="">
                 <span>{{ this.chatService.chatPartner.name }}</span>
             </div>
-    
-            <div class="dividing-line"></div>
+            <span>Diese Unterhaltung findet nur zwischen &#64;{{ this.chatService.chatPartner.name }} und dir
+                statt.</span>
         </div>
 
-        <div class="message-field">
-
-            <!-- <div class="time-seperator">
-                <div></div>
-                <div class="date">
-                    <span>{{ checkDate() }}</span>
-                </div>
-                <div></div>
-            </div> -->
-
-            <div *ngFor="let message of chatMessages$ | async" class="message-item">
-                <app-single-message [currentMessage]="message" [chatId]="this.chatId" [messageId]="message.docId"></app-single-message>
-            </div>
-    
-            <div class="messages-field" *ngIf="">
-                <div class="communication-with">
-                    <img [src]="this.chatService.chatPartner.avatar" alt="">
-                    <span>{{ this.chatService.chatPartner.name }}</span>
-                </div>
-                <span>Diese Unterhaltung findet nur zwischen (at){{ this.chatService.chatPartner.name }} und dir statt.</span>
-            </div>
-            
-        </div>
         <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'chat'"></app-textarea>
     </div>
+
 </section>

@@ -9,8 +9,19 @@
         <div class="close-icon"></div>
     </div>
 
-    <div *ngFor="let message of threadsDb.messageList" class="message-wrapper">
-        <app-single-message [currentMessage]="message" [chatId]="message.docId"></app-single-message>
+    <div class="message-field">
+        <div *ngFor="let message of threadsDb.messageList; let i = index" class="message-wrapper">
+            <app-single-message [currentMessage]="message" [chatId]="threadsDb.currentThreadId()"
+                [component]="'thread'"></app-single-message>
+            <div *ngIf="i == 0 && threadsDb.messageList.length > 1" class="answers">
+                @if (threadsDb.messageList.length > 2) {
+                <span>{{ threadsDb.messageList.length - 1 }} Antworten</span>
+                } @else {
+                <span>{{ threadsDb.messageList.length - 1 }} Antwort</span>
+                }
+                <div class="separater"></div>
+            </div>
+        </div>
     </div>
 
     <app-textarea [component]="'thread'" class="textarea-component"></app-textarea>
