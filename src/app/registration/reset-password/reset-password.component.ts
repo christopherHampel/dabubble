@@ -1,46 +1,35 @@
-import { Component, inject } from '@angular/core';
-import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth/auth.service';
+import { Auth, sendPasswordResetEmail } from '@angular/fire/auth';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './reset-password.component.html',
-  styleUrl: './reset-password.component.scss'
+  styleUrl: './reset-password.component.scss',
 })
 export class ResetPasswordComponent {
   loginFormEmail: FormGroup;
-  loginFormPassword: FormGroup;
-  sendMail: boolean = false;
-  auth = inject(AuthService);
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private auth: Auth) {
     this.loginFormEmail = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
     });
-    this.loginFormPassword = this.fb.group({
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
-    }, { validators: this.passwordMatchValidator });
   }
 
-  passwordMatchValidator(control: AbstractControl) {
-    return control.get('password')?.value === control.get('confirmPassword')?.value
-    ? null
-    : { missmatch: true };
-  }
+  async onSendMail() {
+    if (this.loginFormEmail.invalid) return;
 
-  onSendMail() {
-    this.sendMail = true
-    console.log('Email senden!');
-    this.auth.resetPassword(this.loginFormEmail.value.email);
+    const email = this.loginFormEmail.value.email;
+    try {
+      await sendPasswordResetEmail(this.auth, email);
+      alert('E-Mail wurde gesendet.');
+    } catch (error) {
+      console.error('Fehler beim Senden der E-Mail:', error);
+      alert('Fehler beim Senden der E-Mail.');
+    }
   }
-
-  changePassword() {
-    console.log('Password geändert!');
-  }
-
 }
