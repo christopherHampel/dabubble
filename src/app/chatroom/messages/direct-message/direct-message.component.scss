@@ -42,13 +42,13 @@ section {
     padding: 10px 20px;
 }
 
-.messages-field {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    flex: 1;
-    gap: 24px;
-}
+// .messages-field {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: flex-end;
+//     flex: 1;
+//     gap: 24px;
+// }
 
 .communication-with {
     &>div {
@@ -67,6 +67,8 @@ section {
 
 .message-field {
     overflow-y: scroll;
+    display: grid;
+    flex: 1;
 
     .flex-end {
         display: flex;

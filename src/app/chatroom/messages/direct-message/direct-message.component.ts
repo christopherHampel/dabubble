@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../../services/message/chats.service';
@@ -14,19 +14,30 @@ import { Observable } from 'rxjs';
   styleUrl: './direct-message.component.scss',
 })
 export class DirectMessageComponent {
+  @ViewChild('messageBody') messageBody!: ElementRef;
 
   chatId!: string;
   chatMessages$!: Observable<any[]>;
 
   constructor(private route: ActivatedRoute, public chatService: ChatsService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.chatId = params.get('id')!;
       this.chatService.getChatInformationen(this.chatId);
       this.chatMessages$ = this.chatService.messages$;
-      console.log('Messages: ', this.chatMessages$);
+      // console.log('Messages: ', this.chatMessages$);
+      this.chatMessages$.subscribe(() => {
+        this.scrollToBottom();
+      });
     });
+  }
+
+  private scrollToBottom(): void {
+    if (this.messageBody) {
+      const messageBodyElement = this.messageBody.nativeElement;
+      messageBodyElement.scrollTop = messageBodyElement.scrollHeight;
+    }
   }
 
   checkDate() {
