@@ -1,4 +1,4 @@
-<section class="card">
+<section *ngIf="threadsDb.currentThreadId()" class="card">
 
     <div class="thread-head">
         <div>
@@ -6,7 +6,7 @@
             <span>#</span>
             <span>Entwicklerteam</span>
         </div>
-        <div class="close-icon"></div>
+        <div (click)="closeThread()" class="close-icon"></div>
     </div>
 
     <div class="message-field">
