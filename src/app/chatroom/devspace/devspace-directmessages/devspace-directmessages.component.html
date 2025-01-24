@@ -1,11 +1,12 @@
 <section>
+
     <div class="messages-head">
         <div>
-            <img src="/img/arrow_drop_down.png" alt="">
-            <img src="/img/account_circle.png" alt="">
+            <div class="arrow-drop-down-img"></div>
+            <div class="account-circle-img"></div>
             <span>Direktnachrichten</span>
         </div>
-        <img (click)="openDialog()" src="/img/add.png" class="add-icon-img" alt="">
+        <div (click)="openDialog()" class="add-icon"></div>
     </div>
 
     <ul class="direct-messages">
@@ -33,12 +34,14 @@
         </li>
 
         <!-- Add user -->
-         <li class="add-user-or-channel-view" (click)="openDialog()">
+        <li class="add-user-or-channel-view" (click)="openDialog()">
             <div class="add-circle-icon" [ngClass]="{ 'add-circle-icon-hover': dialog }"></div>
             <span>Benutzer hinzufügen</span>
         </li>
     </ul>
+
 </section>
+
 <app-add-friend-dialog [dialogOpen]="dialog" (dialogClose)="closeDialog(!$event)"></app-add-friend-dialog>
 <app-transparent-background [backgroundOpen]="dialog"
     (backgroundClose)="closeDialog(!$event)"></app-transparent-background>

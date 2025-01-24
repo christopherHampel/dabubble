@@ -138,11 +138,13 @@
 
 .add-user-or-channel-view {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 10px;
 
     font-size: 18px;
+
+    padding: 4px 20px;
 
     &:hover {
         cursor: pointer;

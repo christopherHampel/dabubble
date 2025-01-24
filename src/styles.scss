@@ -308,19 +308,15 @@ body {
 /* Icons */
 /* ----- */
 
-.close-icon {
-  width: 40px;
-  height: 40px;
-  background-image: url("/img/close_icon.svg");
-}
+.add-icon {
+  width: 30px;
+  height: 30px;
 
-.add-icon-img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
+  background-image: url('/img/add_icon.svg');
 
   &:hover {
     cursor: pointer;
+    background-image: url('/img/add_hover_icon.svg');
   }
 }
 
@@ -338,9 +334,6 @@ body {
 .search-icon {
   width: 35px;
   height: 35px;
-  background-image: url("/img/search_icon.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
   background-image: url("/img/search_icon.svg");
   background-repeat: no-repeat;
   background-size: contain;
