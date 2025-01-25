@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { collection, doc, addDoc, updateDoc, query, where, getDocs, arrayUnion, onSnapshot, deleteDoc, deleteField, getDoc, serverTimestamp, orderBy, Timestamp } from 'firebase/firestore';
+import { collection, doc, addDoc, updateDoc, query, where, getDocs, arrayUnion, onSnapshot, deleteDoc, deleteField, getDoc, serverTimestamp, orderBy, Timestamp, limit } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { CurrentMessage } from '../../interfaces/current-message';
@@ -167,10 +167,13 @@ export class ChatsService {
     const chatRef = doc(this.getPrivateChatCollection(), chatId);
     const messagesRef = collection(chatRef, 'messages');
 
+    const isFirstMessageOfDay = await this.checkFirstMessage(chatId);
+
     await addDoc(messagesRef, {
       messageAuthor: messageAuthor,
       text: text,
       createdAt: serverTimestamp(),
+      firstMessageOfTheDay: isFirstMessageOfDay,
       emojis: [],
     }).then(docRef => {
       updateDoc(docRef, {
@@ -228,62 +231,39 @@ export class ChatsService {
   
     await updateDoc(messageDoc.ref, { emojis });
   }
+
+  async checkFirstMessage(chatId: string): Promise<boolean> {
+    const chatRef = doc(this.getPrivateChatCollection(), chatId);
+    const messagesRef = collection(chatRef, 'messages');
   
-
-  // try {
-  //   const querySnapshot = await this.getQuerySnapshot(messageTimestamp);
-
-  //   if (!querySnapshot.empty) {
-  //     const messageDoc = querySnapshot.docs[0];
-  // const messageData = messageDoc.data();
-
-  //     let emojis = messageData['emojis'] || [];
-  // const existingEmojiIndex = emojis.findIndex((e: any) => e.emoji === emoji);
-
-  //   if (existingEmojiIndex !== -1) {
-  //     const existingEmoji = emojis[existingEmojiIndex];
-
-  //     if (!existingEmoji.userIds.includes(this.usersService.currentUserSig()?.id)) {
-  //       existingEmoji.count += 1;
-  //       existingEmoji.userIds.push(this.usersService.currentUserSig()?.id);
-  //     }
-  //   } else {
-  //     emojis.push({
-  //       emoji: emoji,
-  //       count: 1,
-  //       userIds: [this.usersService.currentUserSig()?.id],
-  //     });
-  //   }
-
-  //   await updateDoc(messageDoc.ref, { emojis: emojis });
-  // }
-  // } catch (error) {
-  //   console.error(error);
-  // }
-
-  async increaseValueOfEmoji(emoji: string, currentMessage: CurrentMessage) {
-    // const messageTimestamp = currentMessage.createdAt;
-    // const querySnapshot = await this.getQuerySnapshot(messageTimestamp);
-
-    // if (!querySnapshot.empty) {
-    //   const messageDoc = querySnapshot.docs[0];
-    //   const messageData = messageDoc.data();
-
-    //   let emojis = messageData['emojis'] || [];
-    //   const existingEmojiIndex = emojis.findIndex((e: any) => e.emoji === emoji);
-
-    //   if (existingEmojiIndex !== -1) {
-    //     const existingEmoji = emojis[existingEmojiIndex];
-
-    //     if (!existingEmoji.userIds.includes(this.usersService.currentUserSig()?.id)) {
-    //       existingEmoji.count += 1;
-    //       existingEmoji.userIds.push(this.usersService.currentUserSig()?.id);
-
-    //       await updateDoc(messageDoc.ref, { emojis: emojis });
-    //     } else {
-    //       console.log("Dieser Benutzer hat dieses Emoji bereits benutzt.");
-    //     }
-    //   }
-    // }
+    // Letzte Nachricht abfragen, nach Datum sortiert
+    const messagesQuery = query(
+      messagesRef,
+      orderBy('createdAt', 'desc'),
+      limit(1) // Nur die letzte Nachricht wird benötigt
+    );
+  
+    const querySnapshot = await getDocs(messagesQuery);
+  
+    if (querySnapshot.empty) {
+      // Wenn es keine Nachrichten gibt, ist dies die erste Nachricht
+      return true;
+    }
+  
+    // Zeitstempel der letzten Nachricht abrufen
+    const lastMessage = querySnapshot.docs[0].data();
+    const lastMessageDate = lastMessage['createdAt'].toDate(); // Konvertiert Firestore-Timestamp in JS-Date
+  
+    // Aktuelles Datum abrufen
+    const now = new Date();
+  
+    // Überprüfen, ob das Datum unterschiedlich ist (neuer Tag)
+    const isNewDay =
+      now.getFullYear() > lastMessageDate.getFullYear() ||
+      now.getMonth() > lastMessageDate.getMonth() ||
+      now.getDate() > lastMessageDate.getDate();
+  
+    return isNewDay; // true, wenn neuer Tag, sonst false
   }
+  
 }

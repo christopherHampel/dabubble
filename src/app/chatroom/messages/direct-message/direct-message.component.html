@@ -8,6 +8,9 @@
     <div class="message-field" #messageBody>
         <div class="flex-end">
             <div *ngFor="let message of chatMessages$ | async" class="message-wrapper">
+                <!-- @if (!newDate(message)) {
+                    <div class="seperator-style"></div>
+                } -->
                 <app-single-message [currentMessage]="message" [chatId]="this.chatId"
                     [component]="'chat'"></app-single-message>
             </div>

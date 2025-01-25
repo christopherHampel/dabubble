@@ -70,4 +70,25 @@ export class DirectMessageComponent {
   //   }
   // }  
   }
+
+  newDate(message:any) {
+    const currentDate = new Date();
+    // let messageDate = new Date(message.createdAt).toLocaleDateString("en-US")
+
+    // console.log('Datum der Nachricht ist:', message.createdAt);
+    // return true;
+
+    const rawTimestamp = message.createdAt;
+
+    // Prüfen, ob `toMillis` existiert
+    if (rawTimestamp && typeof rawTimestamp.toMillis === "function") {
+        const timestampInMs = rawTimestamp.toMillis();
+        const messageDate = new Date(timestampInMs).toLocaleDateString("de-DE");
+
+        console.log("Datum der Nachricht ist:", messageDate);
+        return true;
+    } else {
+      return false;
+    };
+  }
 }
