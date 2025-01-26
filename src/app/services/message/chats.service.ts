@@ -159,7 +159,6 @@ export class ChatsService {
   }
 
   async addMessageToChat(text: string, chatId: string): Promise<void> {
-    // const nameLogedinUser = this.getUserName();
     const messageAuthor = {
       name: this.getUserName(),
       id: this.getUserId()

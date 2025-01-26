@@ -40,47 +40,9 @@ export class DirectMessageComponent {
     }
   }
 
-  checkDate() {
-  //   const lastMessageIndex = this.chatData.messages.length - 1;
-  //   const lastMessageDate = this.chatData.messages[lastMessageIndex].createdAt;
-
-  //   if (!lastMessageDate) {
-  //     return 'Ungültiges Datum';
-  //   }
-    
-  //   const date = lastMessageDate.toDate();
-  //   const currentDate = new Date();
-
-  //   const dateFormat = {
-  //     weekday: 'long',
-  //     day: '2-digit',
-  //     month: '2-digit',
-  //     year: 'numeric',
-  //   };
-
-  //   const isSameDate =
-  //   date.getFullYear() === currentDate.getFullYear() &&
-  //   date.getMonth() === currentDate.getMonth() &&
-  //   date.getDate() === currentDate.getDate();
-
-  //   if(isSameDate) {
-  //     return 'Heute';
-  //   } else {
-  //     return date.toLocaleDateString('de-DE', dateFormat);
-  //   }
-  // }  
-  }
-
   newDate(message:any) {
-    const currentDate = new Date();
-    // let messageDate = new Date(message.createdAt).toLocaleDateString("en-US")
-
-    // console.log('Datum der Nachricht ist:', message.createdAt);
-    // return true;
-
     const rawTimestamp = message.createdAt;
 
-    // Prüfen, ob `toMillis` existiert
     if (rawTimestamp && typeof rawTimestamp.toMillis === "function") {
         const timestampInMs = rawTimestamp.toMillis();
         const messageDate = new Date(timestampInMs).toLocaleDateString("de-DE");
