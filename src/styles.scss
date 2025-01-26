@@ -298,6 +298,22 @@ body {
   }
 }
 
+.main-btn {
+  width: 8.5rem;
+  height: 3.1rem;
+  border-radius: 25px;
+  background: rgba(68, 77, 242, 1);
+  color: white;
+  font-family: 'Nunito';
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(121, 126, 243, 1);
+  }
+}
+
 .further-button {
   width: 100%;
   display: flex;
@@ -307,7 +323,6 @@ body {
 /* ----- */
 /* Icons */
 /* ----- */
-
 .close-icon {
   width: 40px;
   height: 40px;
