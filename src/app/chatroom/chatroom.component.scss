@@ -17,6 +17,16 @@
     flex: 1;
 }
 
+.devspace-section {
+    width: 100%;
+    height: calc(100% - 30px);
+
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 25px;
+}
+
 
 
 /* ----- */
@@ -123,11 +133,8 @@
     &:hover {
         cursor: pointer;
 
-        font-weight: 700;
-
         border-radius: 35px;
 
-        color: #535Af1;
         background-color: #ECEEFE;
 
         &>div {
@@ -145,6 +152,8 @@
     font-size: 18px;
 
     padding: 4px 20px;
+
+    margin-left: 20px;
 
     &:hover {
         cursor: pointer;

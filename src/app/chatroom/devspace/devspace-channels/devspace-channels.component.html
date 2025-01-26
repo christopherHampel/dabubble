@@ -1,19 +1,41 @@
-<section>
+<section style="display: flex; flex-direction: column; justify-content: flex-start; height: 100%;">
 
-    <div class="channels-head">
-        <div>
-            <div class="arrow-drop-down-img"></div>
-            <div class="workspaces-img"></div>
-            <span>Channels</span>
+    <div style="display: flex; flex-direction: column; justify-content: flex-start; gap: 25px; height: calc(100% - 25px);">
+        <div class="channels-head">
+            <div (click)="openChannels()">
+                <div class="arrow-drop-down-img"></div>
+                <div class="workspaces-img"></div>
+                <span>Channels</span>
+            </div>
+            <div class="add-icon"></div>
         </div>
-        <div class="add-icon"></div>
-    </div>
 
-    <ul class="channels">
-        <li class="channel-view-small">
-            <div class="hashtag-icon"></div>
-            <span>Entwicklerteam</span>
-        </li>
-    </ul>
+        <section class="devspace-section" [ngStyle]="{'display': channelsOpen ? 'flex' : 'none'}">
+            <ul class="channels-list">
+                <li class="channel-view-small">
+                    <div class="hashtag-icon"></div>
+                    <span>Entwicklerteam</span>
+                </li>
+                <li class="channel-view-small">
+                    <div class="hashtag-icon"></div>
+                    <span>Entwicklerteam</span>
+                </li>
+                <li class="channel-view-small">
+                    <div class="hashtag-icon"></div>
+                    <span>Entwicklerteam</span>
+                </li>
+                <li class="channel-view-small">
+                    <div class="hashtag-icon"></div>
+                    <span>Entwicklerteam</span>
+                </li>
+            </ul>
+
+            <!-- Add user -->
+            <div class="add-user-or-channel-view">
+                <div class="add-circle-icon"></div>
+                <span>Benutzer hinzufügen</span>
+            </div>
+        </section>
+    </div>
 
 </section>
