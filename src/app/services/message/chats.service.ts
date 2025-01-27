@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { collection, doc, addDoc, updateDoc, query, where, getDocs, arrayUnion, onSnapshot, deleteDoc, deleteField, getDoc, serverTimestamp, orderBy, Timestamp, limit } from 'firebase/firestore';
+import { collection, doc, addDoc, updateDoc, query, where, getDocs, onSnapshot, serverTimestamp, orderBy, limit } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 // import { CurrentMessage } from '../../interfaces/current-message';
@@ -246,7 +246,7 @@ export class ChatsService {
     }
   
     const lastMessage = querySnapshot.docs[0].data();
-    const lastMessageDate = lastMessage['createdAt'].toDate(); // Konvertiert Firestore-Timestamp in JS-Date
+    const lastMessageDate = lastMessage['createdAt'].toDate();
   
     const now = new Date();
   
@@ -255,7 +255,6 @@ export class ChatsService {
       now.getMonth() > lastMessageDate.getMonth() ||
       now.getDate() > lastMessageDate.getDate();
   
-    return isNewDay; // true, wenn neuer Tag, sonst false
+    return isNewDay;
   }
-  
 }

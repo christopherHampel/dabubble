@@ -59,12 +59,7 @@
                     </div>
                 </div>
                 }
-    
                 <a (click)="toggleEmoji()"><img src="/img/add_reaction.png" alt=""></a>
-            </div>
-            <div *ngIf="emojiMartOpen" class="emoji-picker">
-                <app-emoji-picker-component
-                    (emojiSelected)="addEmojiToMessage($event, currentMessage)"></app-emoji-picker-component>
             </div>
         </div>
     
