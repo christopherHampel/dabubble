@@ -25,7 +25,7 @@ export class SingleMessageComponent implements OnInit {
   @Input() component: 'chat' | 'thread' = 'chat';
 
   isEditing: boolean = false;
-  emojiMartOpen:boolean = false;
+  emojiMartOpen: boolean = false;
 
   constructor(public chatService: ChatsService, public usersService: UsersDbService) { }
 

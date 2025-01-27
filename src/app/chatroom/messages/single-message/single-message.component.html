@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-    
+
             <div class="emoji-reactions" *ngIf="!isEditing">
                 @for (emoji of currentMessage.emojis; track $index) {
                 <div class="show-reactions">
@@ -46,10 +46,13 @@
                     </div>
                     <div class="emoji-hover">
                         <div>{{ emoji.emoji }}</div>
-                        <!-- <span>{{ emoji.name }}</span> -->
                         <div class="emoji-from-where">
                          @for (name of emoji.name; track $index) {
+                            @if (name === this.usersService.currentUserSig()?.userName) {
+                                <span>Du</span>
+                            } @else {
                                 <span>{{ name }}</span>
+                            }
                          }
                         </div>
                         <span>hat reagiert</span>
@@ -70,4 +73,3 @@
         </div>
     </div>
 </section>
-

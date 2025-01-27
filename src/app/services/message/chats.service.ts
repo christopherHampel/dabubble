@@ -3,7 +3,7 @@ import { Firestore } from '@angular/fire/firestore';
 import { collection, doc, addDoc, updateDoc, query, where, getDocs, arrayUnion, onSnapshot, deleteDoc, deleteField, getDoc, serverTimestamp, orderBy, Timestamp, limit } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { CurrentMessage } from '../../interfaces/current-message';
+// import { CurrentMessage } from '../../interfaces/current-message';
 import { UserProfile } from '../../interfaces/userProfile';
 import { UsersDbService } from '../usersDb/users-db.service';
 
@@ -65,7 +65,6 @@ export class ChatsService {
 
   setChatPartner() {
     const currentUserId = this.usersService.currentUserSig()?.id;
-
     if (this.chatData && this.chatData.participantsDetails) {
       const otherParticipantId = this.chatData.participants.find((id: string) => id !== currentUserId);
 
@@ -234,29 +233,23 @@ export class ChatsService {
   async checkFirstMessage(chatId: string): Promise<boolean> {
     const chatRef = doc(this.getPrivateChatCollection(), chatId);
     const messagesRef = collection(chatRef, 'messages');
-  
-    // Letzte Nachricht abfragen, nach Datum sortiert
     const messagesQuery = query(
       messagesRef,
       orderBy('createdAt', 'desc'),
-      limit(1) // Nur die letzte Nachricht wird benötigt
+      limit(1)
     );
   
     const querySnapshot = await getDocs(messagesQuery);
   
     if (querySnapshot.empty) {
-      // Wenn es keine Nachrichten gibt, ist dies die erste Nachricht
       return true;
     }
   
-    // Zeitstempel der letzten Nachricht abrufen
     const lastMessage = querySnapshot.docs[0].data();
     const lastMessageDate = lastMessage['createdAt'].toDate(); // Konvertiert Firestore-Timestamp in JS-Date
   
-    // Aktuelles Datum abrufen
     const now = new Date();
   
-    // Überprüfen, ob das Datum unterschiedlich ist (neuer Tag)
     const isNewDay =
       now.getFullYear() > lastMessageDate.getFullYear() ||
       now.getMonth() > lastMessageDate.getMonth() ||
