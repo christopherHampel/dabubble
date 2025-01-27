@@ -17,7 +17,7 @@ export class DevspaceDirectmessagesComponent {
   usersDb = inject(UsersDbService);
   dialog: boolean = false;
   selectedUserId: string = '';
-  directmessagesOpen: boolean = false;
+  directmessagesOpen: boolean = true;
 
   exampleUserProfile: UserProfile = {
     id: '12345abcde',

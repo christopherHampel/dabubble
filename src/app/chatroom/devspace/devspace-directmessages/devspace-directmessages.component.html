@@ -1,9 +1,9 @@
-<section  style="display: flex; flex-direction: column; justify-content: flex-start; height: 100%;">
+<section  class="channel-directmessage-section">
 
-    <div style="display: flex; flex-direction: column; justify-content: flex-start; gap: 25px; height: calc(100% - 25px);">
+    <div class="channel-directmessage-wrapper">
         <div class="messages-head">
             <div (click)="openDirectmessages()">
-                <div class="arrow-drop-down-img"></div>
+                <div class="arrow-drop-down-img" [ngStyle]="{ 'transform': directmessagesOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }"></div>
                 <div class="account-circle-img"></div>
                 <span>Direktnachrichten</span>
             </div>
@@ -11,7 +11,7 @@
         </div>
 
         <section class="devspace-section" [ngStyle]="{'display': directmessagesOpen ? 'flex' : 'none'}">
-            <ul class="directmessages-list">
+            <ul class="channels-directmessages-list">
                 <!-- Current user -->
                 <li *ngIf="usersDb.currentUser as user" class="user-view-small"
                     [ngClass]="{ 'user-view-small-selected': user.id === selectedUserId}"
