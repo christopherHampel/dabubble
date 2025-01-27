@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './devspace-channels.component.scss'
 })
 export class DevspaceChannelsComponent {
-  channelsOpen: boolean = false;
+  channelsOpen: boolean = true;
 
   openChannels() {
     if (this.channelsOpen) {
