@@ -40,34 +40,17 @@ export class DirectMessageComponent {
     }
   }
 
-  checkDate() {
-  //   const lastMessageIndex = this.chatData.messages.length - 1;
-  //   const lastMessageDate = this.chatData.messages[lastMessageIndex].createdAt;
+  newDate(message:any) {
+    const rawTimestamp = message.createdAt;
 
-  //   if (!lastMessageDate) {
-  //     return 'Ungültiges Datum';
-  //   }
-    
-  //   const date = lastMessageDate.toDate();
-  //   const currentDate = new Date();
+    if (rawTimestamp && typeof rawTimestamp.toMillis === "function") {
+        const timestampInMs = rawTimestamp.toMillis();
+        const messageDate = new Date(timestampInMs).toLocaleDateString("de-DE");
 
-  //   const dateFormat = {
-  //     weekday: 'long',
-  //     day: '2-digit',
-  //     month: '2-digit',
-  //     year: 'numeric',
-  //   };
-
-  //   const isSameDate =
-  //   date.getFullYear() === currentDate.getFullYear() &&
-  //   date.getMonth() === currentDate.getMonth() &&
-  //   date.getDate() === currentDate.getDate();
-
-  //   if(isSameDate) {
-  //     return 'Heute';
-  //   } else {
-  //     return date.toLocaleDateString('de-DE', dateFormat);
-  //   }
-  // }  
+        console.log("Datum der Nachricht ist:", messageDate);
+        return true;
+    } else {
+      return false;
+    };
   }
 }

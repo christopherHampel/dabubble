@@ -2,6 +2,12 @@
     border: 1px solid #ADB0D9;
 }
 
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .own-message {
     display: flex;
     flex-direction: row-reverse;
@@ -46,6 +52,7 @@
 .content {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
     gap: 8px;
 }
 
@@ -188,4 +195,21 @@
 
 .show-reactions:hover .emoji-hover {
     visibility: visible;
+}
+
+.day-seperator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .date {
+        padding: 5px 15px;
+        border: 1px solid #ADB0D9;
+        border-radius: 30px;
+    }
+
+    div {
+        border: 1px solid #ADB0D9;
+        flex: 1;
+    }
 }
