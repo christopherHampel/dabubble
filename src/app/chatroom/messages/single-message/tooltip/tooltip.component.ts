@@ -15,6 +15,7 @@ import { ChatsService } from '../../../../services/message/chats.service';
 })
 export class TooltipComponent {
 
+  testEmoji:any =   { char: '😀', name: 'Grinning Face', category: 'Smileys' };
   currentMessage: any;
   emojiMartOpen: boolean = false;
   menu: boolean = false;

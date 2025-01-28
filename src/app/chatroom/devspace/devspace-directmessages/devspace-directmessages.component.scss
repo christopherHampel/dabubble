@@ -1,15 +1,8 @@
 @use '../../chatroom.component.scss';
+@use '../../devspace/devspace.component.scss';
 
 * {
     font-family: 'Nunito';
-}
-
-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 25px;
 }
 
 .messages-head {
@@ -60,12 +53,4 @@ section {
     background-image: url('/img/account_circle.svg');
     background-repeat: no-repeat;
     background-size: contain;
-}
-
-.direct-messages {
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
-
-    padding-inline-start: 20px;
 }

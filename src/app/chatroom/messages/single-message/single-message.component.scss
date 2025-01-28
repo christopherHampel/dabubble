@@ -2,6 +2,12 @@
     border: 1px solid #ADB0D9;
 }
 
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .own-message {
     display: flex;
     flex-direction: row-reverse;
@@ -46,7 +52,9 @@
 .content {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
     gap: 8px;
+    position: relative;
 }
 
 .width-100 {
@@ -86,7 +94,6 @@
     justify-content: flex-end;
     gap: 10px;
     position: relative;
-    z-index: 1;
 
     a {
         display: flex;
@@ -189,3 +196,26 @@
 .show-reactions:hover .emoji-hover {
     visibility: visible;
 }
+
+.day-seperator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .date {
+        padding: 5px 15px;
+        border: 1px solid #ADB0D9;
+        border-radius: 30px;
+    }
+
+    div {
+        border: 1px solid #ADB0D9;
+        flex: 1;
+    }
+}
+
+// .message-emoji {
+//     position: relative;
+//     display: flex;
+//     align-items: center;
+// }

@@ -49,8 +49,18 @@ export class TextareaComponent implements OnInit {
     e.target.style.height = (e.target.scrollHeight + 25) + "px";
   }
 
+  closeEmojiPicker() {
+    if(this.emojiMartOpen) {
+      this.emojiMartOpen = !this.emojiMartOpen;
+    }
+  }
+
   toggleEmoji() {
     this.emojiMartOpen = !this.emojiMartOpen;
+  }
+
+  preventClose(event: MouseEvent): void {
+    event.stopPropagation();
   }
 
   addEmojiToMessage(emoji: string) {

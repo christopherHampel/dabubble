@@ -24,7 +24,12 @@
                 statt.</span>
         </div>
 
-        <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'chat'"></app-textarea>
+        <div class="textarea-emojipicker">
+            <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'chat'"></app-textarea>
+            <div class="emoji-component" *ngIf="emojiMartOpen">
+                <app-emoji-picker-component></app-emoji-picker-component>
+            </div>
+        </div>
     </div>
 
 </section>

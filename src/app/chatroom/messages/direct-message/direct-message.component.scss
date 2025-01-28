@@ -42,14 +42,6 @@ section {
     padding: 10px 20px;
 }
 
-// .messages-field {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: flex-end;
-//     flex: 1;
-//     gap: 24px;
-// }
-
 .communication-with {
     &>div {
         display: flex;
@@ -71,11 +63,13 @@ section {
     display: grid;
     flex: 1;
     scrollbar-width: none;
+    position: relative;
 
     .flex-end {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+        position: relative;
     }
 
     div {
@@ -106,4 +100,20 @@ section {
     display: flex;
     flex-direction: column;
     gap: 40px;
+}
+
+.seperator-style {
+    border: 1px solid black;
+    width: 300px;
+}
+
+.textarea-emojipicker {
+    position: relative;
+
+    .emoji-component {
+        position: absolute;
+        top: -105%;
+        right: 50%;
+        transform: translateX(50%);
+    }
 }

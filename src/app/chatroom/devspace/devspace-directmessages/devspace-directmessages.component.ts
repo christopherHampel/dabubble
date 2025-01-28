@@ -17,6 +17,7 @@ export class DevspaceDirectmessagesComponent {
   usersDb = inject(UsersDbService);
   dialog: boolean = false;
   selectedUserId: string = '';
+  directmessagesOpen: boolean = true;
 
   exampleUserProfile: UserProfile = {
     id: '12345abcde',
@@ -29,6 +30,15 @@ export class DevspaceDirectmessagesComponent {
   };
 
   constructor(private chatService: ChatsService, private router: Router) { }
+
+
+  openDirectmessages() {
+    if (this.directmessagesOpen) {
+      this.directmessagesOpen = false;
+    } else {
+      this.directmessagesOpen = true;
+    }
+  }
 
 
   selectUser(id: string) {

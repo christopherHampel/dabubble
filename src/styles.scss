@@ -376,3 +376,16 @@ body {
   background-repeat: no-repeat;
   background-size: contain;
 }
+
+.devspace-new-icon {
+  width: 40px;
+  height: 40px;
+  background-image: url('/img/devspace_new_icon.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  &:hover {
+    cursor: pointer;
+    background-image: url('/img/devspace_new_hover_icon.svg');
+  }
+}

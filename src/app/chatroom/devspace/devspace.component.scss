@@ -1,10 +1,9 @@
-section {
+.card {
     height: calc(100vh - 102px - 16px);
 
-    >img {
-        padding-left: 45px;
-        padding-top: 25px;
-    }
+    justify-content: flex-start;
+
+    overflow-y: hidden;
 }
 
 .devspace-head {
@@ -27,4 +26,38 @@ section {
 
 .padding-card {
     padding: 32px 30px;
+}
+
+.child-component {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(50% - 60px);
+}
+
+.channel-directmessage-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-height: 100%;
+}
+
+.channel-directmessage-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 25px;
+    height: calc(100% - 25px);
+}
+
+.channels-directmessages-list {
+    width: 100%;
+    min-height: calc(100% - 60px);
+
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+
+    overflow-y: scroll;
+
+    padding-inline-start: 20px;
 }

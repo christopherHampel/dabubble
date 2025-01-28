@@ -6,10 +6,11 @@ import { ChatsService } from '../../../services/message/chats.service';
 import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { SingleMessageComponent } from '../single-message/single-message.component';
 import { Observable } from 'rxjs';
+import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 
 @Component({
   selector: 'app-direct-message',
-  imports: [ CommonModule, FormsModule, TextareaComponent, SingleMessageComponent],
+  imports: [ CommonModule, FormsModule, TextareaComponent, SingleMessageComponent, EmojiPickerComponentComponent ],
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
 })
@@ -18,6 +19,7 @@ export class DirectMessageComponent {
 
   chatId!: string;
   chatMessages$!: Observable<any[]>;
+  emojiMartOpen: boolean = true;
 
   constructor(private route: ActivatedRoute, public chatService: ChatsService) { }
 
@@ -40,34 +42,17 @@ export class DirectMessageComponent {
     }
   }
 
-  checkDate() {
-  //   const lastMessageIndex = this.chatData.messages.length - 1;
-  //   const lastMessageDate = this.chatData.messages[lastMessageIndex].createdAt;
+  newDate(message:any) {
+    const rawTimestamp = message.createdAt;
 
-  //   if (!lastMessageDate) {
-  //     return 'Ungültiges Datum';
-  //   }
-    
-  //   const date = lastMessageDate.toDate();
-  //   const currentDate = new Date();
+    if (rawTimestamp && typeof rawTimestamp.toMillis === "function") {
+        const timestampInMs = rawTimestamp.toMillis();
+        const messageDate = new Date(timestampInMs).toLocaleDateString("de-DE");
 
-  //   const dateFormat = {
-  //     weekday: 'long',
-  //     day: '2-digit',
-  //     month: '2-digit',
-  //     year: 'numeric',
-  //   };
-
-  //   const isSameDate =
-  //   date.getFullYear() === currentDate.getFullYear() &&
-  //   date.getMonth() === currentDate.getMonth() &&
-  //   date.getDate() === currentDate.getDate();
-
-  //   if(isSameDate) {
-  //     return 'Heute';
-  //   } else {
-  //     return date.toLocaleDateString('de-DE', dateFormat);
-  //   }
-  // }  
+        console.log("Datum der Nachricht ist:", messageDate);
+        return true;
+    } else {
+      return false;
+    };
   }
 }
