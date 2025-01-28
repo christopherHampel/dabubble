@@ -171,10 +171,11 @@ export class ChatsService {
   }
 
   async newMessageContent(text:string, chatId:string) {
-    const messageAuthor = {
-      name: this.getUserName(),
-      id: this.getUserId()
-    };
+    // const messageAuthor = {
+    //   name: this.getUserName(),
+    //   id: this.getUserId()
+    // };
+    const messageAuthor = await this.getMessageAuthor();
     const isFirstMessageOfDay = await this.checkFirstMessage(chatId);
 
     return {
@@ -184,6 +185,13 @@ export class ChatsService {
       firstMessageOfTheDay: isFirstMessageOfDay,
       emojis: [],
     }
+  }
+
+  async getMessageAuthor() {
+    return {
+      name: this.getUserName(),
+      id: this.getUserId()
+    };
   }
 
   async getQuerySnapshot(docId: string, chatId: string,) {
