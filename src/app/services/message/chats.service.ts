@@ -6,6 +6,7 @@ import { AuthService } from '../auth/auth.service';
 // import { CurrentMessage } from '../../interfaces/current-message';
 import { UserProfile } from '../../interfaces/userProfile';
 import { UsersDbService } from '../usersDb/users-db.service';
+import { ChatData } from '../../interfaces/chat-data';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,7 @@ export class ChatsService {
   chatPartner: { name: string, avatar: string } = { name: '', avatar: '' };
   unsubMessage: any;
   unsubChatInfo: any;
-  chatData: any = '';
-  chatMessages: any = '';
+  chatData!: ChatData;
 
   currentChatId!: string;
 
@@ -54,7 +54,7 @@ export class ChatsService {
   async getChatInformationen(chatId: string) {
     this.unsubChatInfo = onSnapshot(doc(this.getPrivateChatCollection(), chatId), (chat) => {
       if (chat.exists()) {
-        this.chatData = chat.data();
+        this.chatData = chat.data() as ChatData;
         this.getMessagesFromChat(chatId);
         this.setChatPartner();
       } else {
@@ -116,7 +116,6 @@ export class ChatsService {
 
   private checkCurrentUser(): any {
     const currentUser = this.usersService.currentUserSig();
-    // const currentUser = '122gssssdsdhfdjshfjdshf';
     if (!currentUser) {
       throw new Error("Current user ID is undefined.");
     }
@@ -158,26 +157,33 @@ export class ChatsService {
   }
 
   async addMessageToChat(text: string, chatId: string): Promise<void> {
-    const messageAuthor = {
-      name: this.getUserName(),
-      id: this.getUserId()
-    }
     const chatRef = doc(this.getPrivateChatCollection(), chatId);
     const messagesRef = collection(chatRef, 'messages');
-
-    const isFirstMessageOfDay = await this.checkFirstMessage(chatId);
+    const messageContent = await this.newMessageContent(text, chatId);
 
     await addDoc(messagesRef, {
-      messageAuthor: messageAuthor,
-      text: text,
-      createdAt: serverTimestamp(),
-      firstMessageOfTheDay: isFirstMessageOfDay,
-      emojis: [],
+      ...messageContent
     }).then(docRef => {
       updateDoc(docRef, {
         docId: docRef.id,
       })
     })
+  }
+
+  async newMessageContent(text:string, chatId:string) {
+    const messageAuthor = {
+      name: this.getUserName(),
+      id: this.getUserId()
+    };
+    const isFirstMessageOfDay = await this.checkFirstMessage(chatId);
+
+    return {
+      messageAuthor: messageAuthor,
+      text: text,
+      createdAt: serverTimestamp(),
+      firstMessageOfTheDay: isFirstMessageOfDay,
+      emojis: [],
+    }
   }
 
   async getQuerySnapshot(docId: string, chatId: string,) {
@@ -198,36 +204,6 @@ export class ChatsService {
     } else {
       console.error('Keine Nachricht gefunden');
     }
-  }
-
-  async addEmoji(currentMessage: any, emoji: string, chatId: string) {
-    const query = await this.getQuerySnapshot(currentMessage.docId, chatId);
-    const messageDoc = query.docs[0];
-    const messageData = messageDoc.data();
-    const emojis = messageData['emojis'] || [];
-    
-    const currentUserId = this.usersService.currentUserSig()?.id;
-    const currentUserName = this.usersService.currentUserSig()?.userName;
-  
-    const existingEmoji = emojis.find((e: any) => e.emoji === emoji);
-    
-    if (existingEmoji) {
-      if (!existingEmoji.id.includes(currentUserId)) {
-        existingEmoji.count += 1;
-        existingEmoji.id.push(currentUserId);
-        existingEmoji.name.push(currentUserName);
-      }
-    } else {
-      const emojiPackage = {
-        emoji: emoji,
-        count: 1,
-        id: [currentUserId],
-        name: [currentUserName]
-      };
-      emojis.push(emojiPackage);
-    }
-  
-    await updateDoc(messageDoc.ref, { emojis });
   }
 
   async checkFirstMessage(chatId: string): Promise<boolean> {

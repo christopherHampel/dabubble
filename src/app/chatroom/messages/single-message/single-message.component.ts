@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { ChatsService } from '../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
+import { EmojiService } from '../../../services/message/emoji.service';
 
 @Component({
   selector: 'app-single-message',
@@ -18,13 +19,15 @@ import { Timestamp } from 'firebase/firestore';
 })
 export class SingleMessageComponent implements OnInit {
 
+  emojiService = inject(EmojiService);
+
   @Input() currentMessage!:any;
   @Input() editedText!: string;
   @Input() chatId!: string;
   @Input() component: 'chat' | 'thread' = 'chat';
 
   isEditing: boolean = false;
-  emojiMartOpen: boolean = false;
+  // emojiMartOpen: boolean = false;
 
   constructor(public chatService: ChatsService, public usersService: UsersDbService) { }
 
@@ -59,8 +62,9 @@ export class SingleMessageComponent implements OnInit {
     });
   }
 
-  toggleEmoji() {
-    this.emojiMartOpen = !this.emojiMartOpen;
+  toggleEmoji(currentMessage: CurrentMessage) {
+    this.emojiService.currentMessage = currentMessage;
+    this.emojiService.emojiPickerOpen = !this.emojiService.emojiPickerOpen;
   }
 
   autoGrowTextZone(e:any) {
@@ -72,15 +76,15 @@ export class SingleMessageComponent implements OnInit {
 
   }
 
-  addEmojiToMessage(emoji:string, currentMessage:CurrentMessage) {
-    // console.log('Single message component: ', this.component);
-    this.chatService.component.set(this.component);
-    this.chatService.addEmoji(currentMessage, emoji, this.chatId);
-  }
+  // addEmojiToMessage(emoji:string, currentMessage:CurrentMessage) {
+  //   // console.log('Single message component: ', this.component);
+  //   // this.chatService.component.set(this.component);
+  //   // this.emojiService.addEmoji(currentMessage, emoji, this.chatId);
+  // }
 
-  increaseValueOfEmojii(emoji:string) {
-    // this.chatService.increaseValueOfEmoji(emoji, this.currentMessage)
-  }
+  // increaseValueOfEmojii(emoji:string) {
+  //   // this.chatService.increaseValueOfEmoji(emoji, this.currentMessage)
+  // }
 
   getUser() {
     if(this.isMessageFromCurrentUser()) {

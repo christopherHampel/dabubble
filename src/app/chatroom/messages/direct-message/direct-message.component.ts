@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../../services/message/chats.service';
@@ -7,6 +7,7 @@ import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { SingleMessageComponent } from '../single-message/single-message.component';
 import { Observable } from 'rxjs';
 import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
+import { EmojiService } from '../../../services/message/emoji.service';
 
 @Component({
   selector: 'app-direct-message',
@@ -19,7 +20,8 @@ export class DirectMessageComponent {
 
   chatId!: string;
   chatMessages$!: Observable<any[]>;
-  emojiMartOpen: boolean = true;
+
+  emojiService = inject(EmojiService);
 
   constructor(private route: ActivatedRoute, public chatService: ChatsService) { }
 
@@ -54,5 +56,9 @@ export class DirectMessageComponent {
     } else {
       return false;
     };
+  }
+
+  addEmoji(event:string) {
+    this.emojiService.addEmoji(event, this.chatId)
   }
 }
