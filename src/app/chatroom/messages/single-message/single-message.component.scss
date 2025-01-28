@@ -9,8 +9,6 @@
     justify-content: flex-start;
     font-family: 'Nunito';
     position: relative;
-/*     padding: 10px 45px 10px 146px; */
-    padding: 10px 45px 10px 0px;
 }
 
 .other-message {
@@ -88,7 +86,7 @@
     justify-content: flex-end;
     gap: 10px;
     position: relative;
-    z-index: 999;
+    z-index: 1;
 
     a {
         display: flex;
@@ -149,7 +147,7 @@
 
 .emoji-picker {
     position: relative;
-    z-index: 999;
+    z-index: 2;
 }
 
 .emoji-hover {

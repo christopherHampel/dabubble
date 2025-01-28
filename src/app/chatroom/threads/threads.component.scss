@@ -48,12 +48,17 @@ section {
 
 .message-wrapper {
     padding: 10px 20px;
+
+    &:first-child {
+        margin-top: auto;
+    }
 }
 
 .message-field {
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
+    flex: 1;
     gap: 20px;
 }
 

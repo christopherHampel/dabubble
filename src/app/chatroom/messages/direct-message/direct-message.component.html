@@ -5,7 +5,7 @@
         <h2>{{ this.chatService.chatPartner.name }}</h2>
     </div>
 
-    <div class="message-field">
+    <div class="message-field" #messageBody>
         <div class="flex-end">
             <div *ngFor="let message of chatMessages$ | async" class="message-wrapper">
                 <app-single-message [currentMessage]="message" [chatId]="this.chatId"
