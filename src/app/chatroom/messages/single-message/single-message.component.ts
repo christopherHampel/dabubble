@@ -3,7 +3,7 @@ import { ChatsService } from '../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
 import { FormsModule } from '@angular/forms';
-import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
+// import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
@@ -12,7 +12,6 @@ import { Timestamp } from 'firebase/firestore';
   selector: 'app-single-message',
   imports: [ CommonModule, 
     FormsModule, 
-    EmojiPickerComponentComponent, 
     TooltipComponent ],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
