@@ -59,7 +59,15 @@
                     </div>
                 </div>
                 }
-                <a (click)="toggleEmoji(currentMessage)"><img src="/img/add_reaction.png" alt=""></a>
+                <div class="click-emoji">
+                    <a (click)="toggleEmoji(currentMessage)"><img src="/img/add_reaction.png" alt=""></a>
+                    <div>
+                       @for (emoji of this.emojiService.customEmojis; track $index) {
+                        <a>{{ emoji }}</a>
+                       }
+                        <a (click)="toggleEmoji(currentMessage)">+</a>
+                    </div>
+                </div>
             </div>
         </div>
     

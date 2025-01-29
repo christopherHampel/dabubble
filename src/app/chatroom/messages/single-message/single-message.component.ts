@@ -32,7 +32,7 @@ export class SingleMessageComponent implements OnInit {
   constructor(public chatService: ChatsService, public usersService: UsersDbService) { }
 
   ngOnInit(): void {
-    console.log('CurrentMessage is:', this.currentMessage);
+    // console.log('CurrentMessage is:', this.currentMessage);
   }
 
   deleteMessage() {

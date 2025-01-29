@@ -27,7 +27,7 @@ export class ChatsService {
   currentChatId!: string;
 
   getPrivateChatCollection() {
-    console.log('Component chat service: ', this.component);
+    // console.log('Component chat service: ', this.component);
     if (this.component() == 'chat') {
       return collection(this.firestore, 'messages');
     } else {
@@ -89,7 +89,7 @@ export class ChatsService {
         const message = doc.data()
         messages.push(message);
       });
-      console.log(messages)
+      // console.log(messages)
       this.messagesSubject.next(messages);
     });
   }

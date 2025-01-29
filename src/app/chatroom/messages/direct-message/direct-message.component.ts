@@ -16,7 +16,10 @@ import { EmojiService } from '../../../services/message/emoji.service';
   styleUrl: './direct-message.component.scss',
 })
 export class DirectMessageComponent {
-  @ViewChild('messageBody') messageBody!: ElementRef;
+  // @ViewChild('messageBody') messageBody!: ElementRef;
+  @ViewChild('messageField') private messageContainer!: ElementRef;
+  private observer!: MutationObserver;
+
 
   chatId!: string;
   chatMessages$!: Observable<any[]>;
@@ -30,17 +33,44 @@ export class DirectMessageComponent {
       this.chatId = params.get('id')!;
       this.chatService.getChatInformationen(this.chatId);
       this.chatMessages$ = this.chatService.messages$;
-      // console.log('Messages: ', this.chatMessages$);
-      this.chatMessages$.subscribe(() => {
-        this.scrollToBottom();
-      });
     });
   }
 
+  ngAfterViewInit(): void {
+    this.setupObserver();
+  }
+
+  private setupObserver(): void {
+    if (!this.messageContainer) {
+      setTimeout(() => this.setupObserver(), 100); // Falls das Element noch nicht geladen ist, erneut versuchen
+      return;
+    }
+
+    this.observer = new MutationObserver(() => {
+      this.scrollToBottom();
+    });
+
+    this.observer.observe(this.messageContainer.nativeElement, {
+      childList: true, // Erkennt neue Nachrichten im DOM
+      subtree: true,
+    });
+
+    this.scrollToBottom(); // Direkt beim Laden scrollen
+  }
+
   private scrollToBottom(): void {
-    if (this.messageBody) {
-      const messageBodyElement = this.messageBody.nativeElement;
-      messageBodyElement.scrollTop = messageBodyElement.scrollHeight;
+    if (this.messageContainer) {
+      try {
+        this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+      } catch (err) {
+        console.error('Fehler beim Scrollen:', err);
+      }
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect(); // Verhindert Speicherlecks
     }
   }
 
@@ -59,6 +89,7 @@ export class DirectMessageComponent {
   }
 
   addEmoji(event:string) {
-    this.emojiService.addEmoji(event, this.chatId)
+    this.emojiService.addEmoji(event, this.chatId);
+    console.log('Aktueller Emoji ist:', event);
   }
 }

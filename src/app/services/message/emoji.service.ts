@@ -8,6 +8,8 @@ import { ChatsService } from './chats.service';
 })
 export class EmojiService {
 
+  customEmojis = ['👍', '😂', '😍', '✅'];
+
   emojiPickerOpen:boolean = false;
   currentMessage:any = "";
 
