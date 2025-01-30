@@ -6,6 +6,48 @@
     overflow-y: hidden;
 }
 
+.slide-out {
+    opacity: 0;
+    display: none;
+    margin-left: -500px;
+    animation: slide-out 0.5s;
+}
+
+@keyframes slide-out {
+    from {
+        opacity: 1;
+        display: flex;
+        margin-left: 0;
+    }
+
+    to {
+        opacity: 0;
+        display: none;
+        margin-left: -500px;
+    }
+}
+
+.slide-in {
+    opacity: 1;
+    display: flex;
+    margin-left: 0;
+    animation: slide-in 0.5s;
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        display: none;
+        margin-left: -500px;
+    }
+
+    to {
+        opacity: 1;
+        display: flex;
+        margin-left: 0;
+    }
+}
+
 .devspace-head {
     display: flex;
     align-items: center;
@@ -46,7 +88,7 @@
     flex-direction: column;
     justify-content: flex-start;
     gap: 25px;
-    height: calc(100% - 25px);
+    height: 100%;
 }
 
 .channels-directmessages-list {

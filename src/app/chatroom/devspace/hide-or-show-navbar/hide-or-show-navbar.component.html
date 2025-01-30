@@ -1,4 +1,4 @@
-<section [ngClass]="{'hide-navbar': !navbarClose, 'show-navbar': navbarClose}">
+<section (click)="closeDevspace()" [ngClass]="{'hide-navbar': !isClosed, 'show-navbar': isClosed}">
     <span></span>
     <div></div>
 </section>
