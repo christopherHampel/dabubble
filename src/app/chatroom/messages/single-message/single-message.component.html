@@ -11,7 +11,7 @@
             <img [src]=usersService.currentUserSig()?.avatar alt="">
         </div>
     
-        <div class="content" [ngClass]="isEditing ? 'width-100' : ''">
+        <div [ngClass]="this.isMessageFromCurrentUser() ? 'content' : 'flex-start'">
     
             <div class="time-username" *ngIf="!isEditing">
                 <span>{{ getTime() }} Uhr</span>
@@ -60,10 +60,12 @@
                 </div>
                 }
                 <div class="click-emoji">
-                    <a (click)="toggleEmoji(currentMessage)"><img src="/img/add_reaction.png" alt=""></a>
-                    <div>
+                    <a (click)="toggleEmojiQuickBar()"><img src="/img/add_reaction.png" alt=""></a>
+                    <div *ngIf="this.emojiQuickBar" class="quick-emoji-bar">
                        @for (emoji of this.emojiService.customEmojis; track $index) {
-                        <a>{{ emoji }}</a>
+                        <div class="quick-emoji">
+                            <a (click)="addEmoji(emoji)">{{ emoji }}</a>
+                        </div>
                        }
                         <a (click)="toggleEmoji(currentMessage)">+</a>
                     </div>

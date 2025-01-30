@@ -89,7 +89,7 @@ export class DirectMessageComponent {
   }
 
   addEmoji(event:string) {
+    console.log(event);
     this.emojiService.addEmoji(event, this.chatId);
-    console.log('Aktueller Emoji ist:', event);
   }
 }

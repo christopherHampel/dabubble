@@ -1,9 +1,8 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ChatsService } from '../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
 import { FormsModule } from '@angular/forms';
-// import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
@@ -17,7 +16,7 @@ import { EmojiService } from '../../../services/message/emoji.service';
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
-export class SingleMessageComponent implements OnInit {
+export class SingleMessageComponent {
 
   emojiService = inject(EmojiService);
 
@@ -27,17 +26,9 @@ export class SingleMessageComponent implements OnInit {
   @Input() component: 'chat' | 'thread' = 'chat';
 
   isEditing: boolean = false;
-  // emojiMartOpen: boolean = false;
+  emojiQuickBar:boolean = false;
 
   constructor(public chatService: ChatsService, public usersService: UsersDbService) { }
-
-  ngOnInit(): void {
-    // console.log('CurrentMessage is:', this.currentMessage);
-  }
-
-  deleteMessage() {
-    // this.chatService.deleteMessage(this.index);
-  }
 
   onIsEditingChange(newValue: boolean) {
     this.isEditing = newValue;
@@ -72,19 +63,11 @@ export class SingleMessageComponent implements OnInit {
     e.target.style.height = (e.target.scrollHeight + 25)+"px";
   }
 
-  addEmoji(event:string) {
-
+  addEmoji(emoji:string) {
+    this.emojiService.currentMessage = this.currentMessage;
+    console.log('chatid:', this.chatId);
+    this.emojiService.addEmoji(emoji, this.chatId);
   }
-
-  // addEmojiToMessage(emoji:string, currentMessage:CurrentMessage) {
-  //   // console.log('Single message component: ', this.component);
-  //   // this.chatService.component.set(this.component);
-  //   // this.emojiService.addEmoji(currentMessage, emoji, this.chatId);
-  // }
-
-  // increaseValueOfEmojii(emoji:string) {
-  //   // this.chatService.increaseValueOfEmoji(emoji, this.currentMessage)
-  // }
 
   getUser() {
     if(this.isMessageFromCurrentUser()) {
@@ -93,6 +76,14 @@ export class SingleMessageComponent implements OnInit {
       return 'other-message'
     }
   }
+
+  // getUserForMessage() {
+  //   if(this.isMessageFromCurrentUser()) {
+  //     return 'content'
+  //   } else {
+  //     return 'flex-start'
+  //   }
+  // }
 
   isMessageFromCurrentUser() {
     return this.currentMessage.messageAuthor.id == this.usersService.currentUserSig()?.id;
@@ -134,5 +125,8 @@ export class SingleMessageComponent implements OnInit {
     const year = inputDate.getFullYear();
     return `${day}.${month}.${year}`;
   }
-  
+
+  toggleEmojiQuickBar() {
+    this.emojiQuickBar = !this.emojiQuickBar;
+  }
 }

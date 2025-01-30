@@ -28,6 +28,14 @@ section {
     padding: 10px 0px 10px 45px;
 }
 
+.flex-start {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    position: relative;
+}
+
 .friend-message {
     display: flex;
     flex-direction: row;
@@ -92,6 +100,7 @@ section {
 .emoji-reactions {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 10px;
     position: relative;
 
@@ -217,10 +226,15 @@ section {
 .click-emoji {
     position: relative;
 
-    div{
+    .quick-emoji-bar {
         position: absolute;
-        top: 0;
-        right: 100%;
+        top: -25%;
+        right: calc(100% + 10px);
         display: flex;
+        gap: 16px;
+        border: 1px solid #ADB0D9;
+        padding: 5px 10px;
+        border-radius: 25px;
+        background-color: #FFFF;
     }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { updateDoc } from 'firebase/firestore';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { ChatsService } from './chats.service';
+import { CurrentMessage } from '../../interfaces/current-message';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,6 @@ export class EmojiService {
   currentMessage:any = "";
 
   constructor(private usersService: UsersDbService, private chatSerive: ChatsService) { }
-
-  // addEmojiToMessage(emoji:string) {
-  //   console.log('Pick emoji is:', emoji, 'Aktuelle nachricht testweise ist:', this.currentMessage)
-  // }
 
   async addEmoji(emoji: string, chatId: string) {
     const query = await this.chatSerive.getQuerySnapshot(this.currentMessage.docId, chatId);

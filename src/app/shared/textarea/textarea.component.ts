@@ -33,7 +33,8 @@ export class TextareaComponent implements OnInit {
     })
   }
 
-  async sendText() {
+  async sendText(e: any) {
+    e.preventDefault();
     if (this.message.length > 0) {
       if (this.component == 'chat') {
         await this.chatService.addMessageToChat(this.message, this.chatId);
@@ -45,8 +46,10 @@ export class TextareaComponent implements OnInit {
   }
 
   autoGrowTextZone(e: any) {
-    e.target.style.height = "25px";
-    e.target.style.height = (e.target.scrollHeight + 25) + "px";
+    if(e.key !== "Enter") {
+      e.target.style.height = "25px";
+      e.target.style.height = (e.target.scrollHeight + 25) + "px";
+    }
   }
 
   closeEmojiPicker() {
