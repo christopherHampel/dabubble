@@ -1,57 +1,63 @@
 <section class="channel-directmessage-section">
 
-    <div class="channel-directmessage-wrapper">
-        <div class="channels-head">
-            <div (click)="openChannels()">
-                <div class="arrow-drop-down-img" [ngStyle]="{ 'transform': channelsOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }"></div>
-                <div class="workspaces-img"></div>
-                <span>Channels</span>
-            </div>
-            <div class="add-icon"></div>
+    <div class="channels-head">
+        <div (click)="openChannels()">
+            <div class="arrow-drop-down-img"
+                [ngStyle]="{ 'transform': channelsOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }"></div>
+            <div class="workspaces-img"></div>
+            <span>Channels</span>
         </div>
+        <div class="add-icon"></div>
+    </div>
 
-        <section class="devspace-section" [ngClass]="{'fold-in': !channelsOpen, 'fold-out': channelsOpen}">
-            <ul class="channels-directmessages-list">
-                <li class="channel-view-small" [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-                    <div class="hashtag-icon"></div>
-                    <span>Entwicklerteam</span>
-                </li>
-                <li class="channel-view-small" [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-                    <div class="hashtag-icon"></div>
-                    <span>Entwicklerteam</span>
-                </li>
-                <li class="channel-view-small" [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-                    <div class="hashtag-icon"></div>
-                    <span>Entwicklerteam</span>
-                </li>
-                <li class="channel-view-small" [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-                    <div class="hashtag-icon"></div>
-                    <span>Entwicklerteam</span>
-                </li>
-                <li class="channel-view-small" [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-                    <div class="hashtag-icon"></div>
-                    <span>Entwicklerteam</span>
-                </li>
-                <li class="channel-view-small" [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-                    <div class="hashtag-icon"></div>
-                    <span>Entwicklerteam</span>
-                </li>
-                <li class="channel-view-small" [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-                    <div class="hashtag-icon"></div>
-                    <span>Entwicklerteam</span>
-                </li>
-                <li class="channel-view-small" [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-                    <div class="hashtag-icon"></div>
-                    <span>Entwicklerteam</span>
-                </li>
-            </ul>
+    <ul class="channels-directmessages-list">
+        <li class="channel-view-small"
+            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
+            <div class="hashtag-icon"></div>
+            <span>Entwicklerteam</span>
+        </li>
+        <li class="channel-view-small"
+            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
+            <div class="hashtag-icon"></div>
+            <span>Entwicklerteam</span>
+        </li>
+        <li class="channel-view-small"
+            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
+            <div class="hashtag-icon"></div>
+            <span>Entwicklerteam</span>
+        </li>
+        <li class="channel-view-small"
+            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
+            <div class="hashtag-icon"></div>
+            <span>Entwicklerteam</span>
+        </li>
+        <li class="channel-view-small"
+            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
+            <div class="hashtag-icon"></div>
+            <span>Entwicklerteam</span>
+        </li>
+        <li class="channel-view-small"
+            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
+            <div class="hashtag-icon"></div>
+            <span>Entwicklerteam</span>
+        </li>
+        <li class="channel-view-small"
+            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
+            <div class="hashtag-icon"></div>
+            <span>Entwicklerteam</span>
+        </li>
+        <li class="channel-view-small"
+            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
+            <div class="hashtag-icon"></div>
+            <span>Entwicklerteam</span>
+        </li>
+    </ul>
 
-            <!-- Add user -->
-            <div class="add-user-or-channel-view" [ngClass]="{'fold-in-add-channel': !channelsOpen, 'fold-out-add-channel': channelsOpen}">
-                <div class="add-circle-icon"></div>
-                <span>Channel hinzufügen</span>
-            </div>
-        </section>
+    <!-- Add user -->
+    <div class="add-user-or-channel-view"
+        [ngClass]="{'fold-in-add-channel': !channelsOpen, 'fold-out-add-channel': channelsOpen}">
+        <div class="add-circle-icon"></div>
+        <span>Channel hinzufügen</span>
     </div>
 
 </section>

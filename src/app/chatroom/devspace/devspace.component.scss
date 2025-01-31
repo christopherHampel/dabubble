@@ -2,8 +2,6 @@
     height: calc(100vh - 102px - 16px);
 
     justify-content: flex-start;
-
-    overflow-y: hidden;
 }
 
 .slide-out {
@@ -77,23 +75,16 @@
 }
 
 .channel-directmessage-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
     max-height: 100%;
-}
 
-.channel-directmessage-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     gap: 25px;
-    height: 100%;
 }
 
 .channels-directmessages-list {
     width: 100%;
-    min-height: calc(100% - 60px);
 
     display: flex;
     flex-direction: column;

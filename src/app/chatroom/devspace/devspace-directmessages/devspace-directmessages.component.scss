@@ -54,3 +54,92 @@
     background-repeat: no-repeat;
     background-size: contain;
 }
+
+
+
+.fold-in {
+    animation: fold-in 0.15s forwards;
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@keyframes fold-in {
+    to {
+        display: none;
+        height: 0;
+    }
+}
+
+.fold-in-directmessages {
+    animation: fold-in-directmessages 0.35s forwards;
+}
+
+@keyframes fold-in-directmessages {
+    to {
+        opacity: 0;
+        margin-top: calc(-32px - 13px);
+    }
+}
+
+.fold-in-add-directmessage {
+    animation: fold-in-add-directmessage 0.35s forwards;
+}
+
+@keyframes fold-in-add-directmessage {
+    to {
+        opacity: 0;
+        margin-top: calc(-32px - 25px);
+    }
+}
+
+
+
+.fold-out {
+    animation: fold-out 0.35s;
+}
+
+@keyframes fold-out {
+    from {
+        display: none;
+        height: 0;
+    }
+
+    to {
+        display: flex;
+        height: calc(100% - 30px);
+    }
+}
+
+.fold-out-directmessages {
+    animation: fold-out-directmessages 0.35s;
+}
+
+@keyframes fold-out-directmessages {
+    from {
+        opacity: 0;
+        margin-top: calc(-58px - 13px);
+    }
+
+    to {
+        opacity: 1;
+        margin-top: 0;
+    }
+}
+
+.fold-out-add-directmessage {
+    animation: fold-out-add-directmessage 0.35s;
+}
+
+@keyframes fold-out-add-directmessage {
+    from {
+        opacity: 0;
+        margin-top: calc(-32px - 25px);
+    }
+
+    to {
+        opacity: 1;
+        margin-top: 0;
+    }
+}

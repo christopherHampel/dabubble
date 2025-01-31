@@ -2,7 +2,9 @@ import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild }
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersDbService } from '../../../../services/usersDb/users-db.service';
-import { UserProfile } from 'firebase/auth';
+import { User, UserProfile } from 'firebase/auth';
+import { ChatsService } from '../../../../services/message/chats.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-friend-dialog',
@@ -14,12 +16,15 @@ import { UserProfile } from 'firebase/auth';
   styleUrl: './add-friend-dialog.component.scss'
 })
 export class AddFriendDialogComponent {
-  private usersDb = inject(UsersDbService)
+  private usersDb = inject(UsersDbService);
+  private chatService = inject(ChatsService);
   userName: string = '';
-  selectedUser: UserProfile = {};
+  selectedUser: UserProfile = {} as UserProfile;
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
   @ViewChild('inputField') inputFieldRef!: ElementRef<HTMLInputElement>;
+
+  constructor(private router: Router) { }
 
   ngOnChanges() {
     if (this.dialogOpen) {
@@ -35,6 +40,7 @@ export class AddFriendDialogComponent {
     this.dialogOpen = false;
     this.dialogClose.emit(true);
     this.resetUserName();
+    this.resetSelectedUser();
   }
 
   getUserList() {
@@ -86,8 +92,19 @@ export class AddFriendDialogComponent {
     this.userName = '';
   }
 
-  async startChat(id: any) {
-    await this.usersDb.addDirectMessageWith(id);
-    this.closeDialog();
+  resetSelectedUser() {
+    this.selectedUser = {};
+  }
+
+  async startChat() {
+    try {
+      const chatId = await this.chatService.setPrivateChat(this.selectedUser as any);
+      this.chatService.currentChatId = chatId;
+      this.router.navigate([`/chatroom/direct-message/${chatId}`]);
+      await this.usersDb.addDirectMessageWith(this.selectedUser['id'] as string);
+      this.closeDialog();
+    } catch (error) {
+      console.error('Fehler beim Erstellen des Chats:', error);
+    }
   }
 }
