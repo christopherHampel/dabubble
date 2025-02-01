@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../../services/message/chats.service';
@@ -15,12 +15,10 @@ import { EmojiService } from '../../../services/message/emoji.service';
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
 })
-export class DirectMessageComponent {
+export class DirectMessageComponent implements OnInit {
 
-  @ViewChild('messageField') private messageContainer!: ElementRef;
+  @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
   @ViewChild(SingleMessageComponent) childComponent!: SingleMessageComponent;
-
-  private observer!: MutationObserver;
 
   chatId!: string;
   chatMessages$!: Observable<any[]>;
@@ -38,47 +36,8 @@ export class DirectMessageComponent {
     });
   }
 
-  ngAfterViewInit(): void {
-    this.setupObserver();
-  }
-
-  private setupObserver(): void {
-    if (!this.messageContainer) {
-      setTimeout(() => this.setupObserver(), 100); // Falls das Element noch nicht geladen ist, erneut versuchen
-      return;
-    }
-
-    this.observer = new MutationObserver(() => {
-      this.scrollToBottom();
-    });
-
-    this.observer.observe(this.messageContainer.nativeElement, {
-      childList: true, // Erkennt neue Nachrichten im DOM
-      subtree: true,
-    });
-
-    this.scrollToBottom(); // Direkt beim Laden scrollen
-  }
-
-  private scrollToBottom(): void {
-    if (this.messageContainer) {
-      try {
-        this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
-      } catch (err) {
-        console.error('Fehler beim Scrollen:', err);
-      }
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.observer) {
-      this.observer.disconnect(); // Verhindert Speicherlecks
-    }
-  }
-
   newDate(message:any) {
     const rawTimestamp = message.createdAt;
-
     if (rawTimestamp && typeof rawTimestamp.toMillis === "function") {
         const timestampInMs = rawTimestamp.toMillis();
         const messageDate = new Date(timestampInMs).toLocaleDateString("de-DE");
@@ -96,16 +55,29 @@ export class DirectMessageComponent {
   }
 
   trackByFn(index: number, item: any): number | string {
-    return item.id; // Eindeutige ID für jedes Element
+    return item.id;
   }
 
   closeEmojiBars() {
     if (this.childComponent.emojiQuickBar) {
       this.childComponent.toggleEmojiQuickBar();
     }
-    console.log(this.emojiService.emojiPickerOpen);
     if(this.emojiService.emojiPickerOpen) {
       this.emojiService.emojiPickerOpen = false;
     }
+  }
+
+  scrollDown(){
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }                 
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
   }
 }

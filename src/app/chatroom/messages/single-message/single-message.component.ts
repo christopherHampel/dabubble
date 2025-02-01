@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, HostListener, inject, Input } from '@angular/core';
 import { ChatsService } from '../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
@@ -28,7 +28,8 @@ export class SingleMessageComponent {
   isEditing: boolean = false;
   emojiQuickBar:boolean = false;
 
-  constructor(public chatService: ChatsService, public usersService: UsersDbService) { }
+  constructor(public chatService: ChatsService, 
+              public usersService: UsersDbService) { }
 
   onIsEditingChange(newValue: boolean) {
     this.isEditing = newValue;
@@ -122,5 +123,12 @@ export class SingleMessageComponent {
 
   toggleEmojiQuickBar() {
     this.emojiQuickBar = !this.emojiQuickBar;
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: Event) {
+    if (this.emojiQuickBar) {
+      this.emojiQuickBar = false;
+    }
   }
 }

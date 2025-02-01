@@ -8,6 +8,7 @@ section {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding: 4px;
 }
 
 .own-message {
@@ -230,7 +231,7 @@ section {
 
     .quick-emoji-bar {
         position: absolute;
-        bottom: 0;
+        bottom: -50%;
         right: 100%;
         display: flex;
         align-items: center;
