@@ -57,21 +57,6 @@
 
 
 
-.fold-in {
-    animation: fold-in 0.15s forwards;
-
-    ::-webkit-scrollbar {
-        display: none;
-    }
-}
-
-@keyframes fold-in {
-    to {
-        display: none;
-        height: 0;
-    }
-}
-
 .fold-in-directmessages {
     animation: fold-in-directmessages 0.35s forwards;
 }
@@ -80,6 +65,7 @@
     to {
         opacity: 0;
         margin-top: calc(-32px - 13px);
+        z-index: -1;
     }
 }
 
@@ -91,26 +77,11 @@
     to {
         opacity: 0;
         margin-top: calc(-32px - 25px);
+        z-index: -1;
     }
 }
 
 
-
-.fold-out {
-    animation: fold-out 0.35s;
-}
-
-@keyframes fold-out {
-    from {
-        display: none;
-        height: 0;
-    }
-
-    to {
-        display: flex;
-        height: calc(100% - 30px);
-    }
-}
 
 .fold-out-directmessages {
     animation: fold-out-directmessages 0.35s;
