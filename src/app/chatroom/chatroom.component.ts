@@ -2,15 +2,15 @@ import { Component, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DevspaceComponent } from './devspace/devspace.component';
 import { MessagesComponent } from './messages/messages.component';
-import { ThreadsComponent } from './threads/threads.component';
+import { ThreadRouterOutletComponent } from './threads/thread-router-outlet/thread-router-outlet.component';
 import { AuthService } from '../services/auth/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsersDbService } from '../services/usersDb/users-db.service';
 import { ChatroomHeaderComponent } from './chatroom-header/chatroom-header.component';
 
 @Component({
   selector: 'app-chatroom',
-  imports: [CommonModule, DevspaceComponent, MessagesComponent, ThreadsComponent, ChatroomHeaderComponent],
+  imports: [CommonModule, DevspaceComponent, MessagesComponent, ThreadRouterOutletComponent, ChatroomHeaderComponent],
   templateUrl: './chatroom.component.html',
   styleUrl: './chatroom.component.scss'
 })

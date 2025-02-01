@@ -9,32 +9,35 @@ import { DirectMessageComponent } from './chatroom/messages/direct-message/direc
 import { ChannelComponent } from './chatroom/messages/channel/channel.component';
 import { ResetPasswordComponent } from './registration/reset-password/reset-password.component';
 import { NewPasswordComponent } from './registration/new-password/new-password.component';
+import { ThreadsComponent } from './chatroom/threads/threads.component';
 
 export const routes: Routes = [
-    {
-      path: 'register',
-      component: RegistrationComponent,
-      children: [
-        { path: 'login', component: LoginComponent },
-        { path: 'create-account', component: CreateAccountComponent },
-        { path: 'choose-avatar', component: ChooseAvatarComponent },
-        { path: 'reset-password', component: ResetPasswordComponent },
-        { path: 'new-password', component: NewPasswordComponent},
-        { path: '', redirectTo: 'login', pathMatch: 'full' }
-      ]
-    },
-    { path: 'chatroom', component: ChatroomComponent,
-      children: [
-        { path: 'direct-message/:id', component: DirectMessageComponent },
-        { path: 'channel/:id', component: ChannelComponent }
-      ]
-     },
-    { path: '', redirectTo: 'register', pathMatch: 'full' },
-    { path: '**', redirectTo: 'register' }
-    ];
-  
-  @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [ RouterModule ]
-  })
-  export class AppRoutingModule {  }
+  {
+    path: 'register',
+    component: RegistrationComponent,
+    children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'create-account', component: CreateAccountComponent },
+      { path: 'choose-avatar', component: ChooseAvatarComponent },
+      { path: 'reset-password', component: ResetPasswordComponent },
+      { path: 'new-password', component: NewPasswordComponent },
+      { path: '', redirectTo: 'login', pathMatch: 'full' }
+    ]
+  },
+  {
+    path: 'chatroom', component: ChatroomComponent,
+    children: [
+      { path: 'direct-message/:id', component: DirectMessageComponent, outlet: 'directmessage' },
+      { path: 'thread/:threadId', component: ThreadsComponent, outlet: 'thread' },
+      { path: 'channel/:id', component: ChannelComponent }
+    ]
+  },
+  { path: '', redirectTo: 'register', pathMatch: 'full' },
+  { path: '**', redirectTo: 'register' }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
