@@ -12,7 +12,7 @@ export class EmojiService {
   customEmojis = ['👍', '😂', '😍', '✅'];
 
   emojiPickerOpen:boolean = false;
-  currentMessage:any = "";
+  currentMessage!:CurrentMessage;
 
   constructor(private usersService: UsersDbService, private chatSerive: ChatsService) { }
 

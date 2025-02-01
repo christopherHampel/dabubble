@@ -23,7 +23,7 @@ export class ChatsService {
   unsubMessage: any;
   unsubChatInfo: any;
   chatData!: ChatData;
-
+  hasScrolled: boolean = false;
   currentChatId!: string;
 
   getPrivateChatCollection() {
@@ -57,6 +57,7 @@ export class ChatsService {
         this.chatData = chat.data() as ChatData;
         this.getMessagesFromChat(chatId);
         this.setChatPartner();
+        this.hasScrolled = false;
       } else {
         console.log("Chat-Daten existieren nicht.");
       }

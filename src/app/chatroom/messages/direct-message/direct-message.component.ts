@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../../services/message/chats.service';
@@ -19,6 +19,7 @@ export class DirectMessageComponent implements OnInit {
 
   @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
   @ViewChild(SingleMessageComponent) childComponent!: SingleMessageComponent;
+  @ViewChildren(SingleMessageComponent) messageComponents!: QueryList<SingleMessageComponent>;
 
   chatId!: string;
   chatMessages$!: Observable<any[]>;
@@ -33,6 +34,7 @@ export class DirectMessageComponent implements OnInit {
       this.chatId = params.get('id')!;
       this.chatService.getChatInformationen(this.chatId);
       this.chatMessages$ = this.chatService.messages$;
+      this.chatService.hasScrolled = false;
     });
   }
 
@@ -78,6 +80,12 @@ export class DirectMessageComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+    if (!this.chatService.hasScrolled && this.messageComponents.length > 0) {
+      this.scrollToBottom();
+      setTimeout(() => {
+        this.scrollToBottom();
+        this.chatService.hasScrolled = true;
+      }, 100);
+    }
   }
 }

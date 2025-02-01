@@ -23,7 +23,6 @@ export class SingleMessageComponent {
   @Input() editedText!: string;
   @Input() chatId!: string;
   @Input() component: 'chat' | 'thread' = 'chat';
-  // @Input() emojiQuickBar!: boolean;
 
   isEditing: boolean = false;
   emojiQuickBar:boolean = false;
@@ -126,7 +125,7 @@ export class SingleMessageComponent {
   }
 
   @HostListener('document:click', ['$event'])
-  clickOutside(event: Event) {
+  clickOutside() {
     if (this.emojiQuickBar) {
       this.emojiQuickBar = false;
     }
