@@ -19,11 +19,11 @@ import { EmojiService } from '../../../services/message/emoji.service';
 export class SingleMessageComponent {
 
   emojiService = inject(EmojiService);
-
   @Input() currentMessage!:any;
   @Input() editedText!: string;
   @Input() chatId!: string;
   @Input() component: 'chat' | 'thread' = 'chat';
+  // @Input() emojiQuickBar!: boolean;
 
   isEditing: boolean = false;
   emojiQuickBar:boolean = false;
@@ -55,6 +55,7 @@ export class SingleMessageComponent {
 
   toggleEmoji(currentMessage: CurrentMessage) {
     this.emojiService.currentMessage = currentMessage;
+    this.emojiQuickBar = !this.emojiQuickBar;
     this.emojiService.emojiPickerOpen = !this.emojiService.emojiPickerOpen;
   }
 
@@ -76,14 +77,6 @@ export class SingleMessageComponent {
       return 'other-message'
     }
   }
-
-  // getUserForMessage() {
-  //   if(this.isMessageFromCurrentUser()) {
-  //     return 'content'
-  //   } else {
-  //     return 'flex-start'
-  //   }
-  // }
 
   isMessageFromCurrentUser() {
     return this.currentMessage.messageAuthor.id == this.usersService.currentUserSig()?.id;

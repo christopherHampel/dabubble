@@ -16,13 +16,15 @@ import { EmojiService } from '../../../services/message/emoji.service';
   styleUrl: './direct-message.component.scss',
 })
 export class DirectMessageComponent {
-  // @ViewChild('messageBody') messageBody!: ElementRef;
-  @ViewChild('messageField') private messageContainer!: ElementRef;
-  private observer!: MutationObserver;
 
+  @ViewChild('messageField') private messageContainer!: ElementRef;
+  @ViewChild(SingleMessageComponent) childComponent!: SingleMessageComponent;
+
+  private observer!: MutationObserver;
 
   chatId!: string;
   chatMessages$!: Observable<any[]>;
+  emojiQuickBar:boolean = false;
 
   emojiService = inject(EmojiService);
 
@@ -91,5 +93,19 @@ export class DirectMessageComponent {
   addEmoji(event:string) {
     console.log(event);
     this.emojiService.addEmoji(event, this.chatId);
+  }
+
+  trackByFn(index: number, item: any): number | string {
+    return item.id; // Eindeutige ID für jedes Element
+  }
+
+  closeEmojiBars() {
+    if (this.childComponent.emojiQuickBar) {
+      this.childComponent.toggleEmojiQuickBar();
+    }
+    console.log(this.emojiService.emojiPickerOpen);
+    if(this.emojiService.emojiPickerOpen) {
+      this.emojiService.emojiPickerOpen = false;
+    }
   }
 }

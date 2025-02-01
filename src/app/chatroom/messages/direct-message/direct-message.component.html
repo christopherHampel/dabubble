@@ -1,4 +1,4 @@
-<section class="card">
+<section class="card" (click)="closeEmojiBars()">
 
     <div class="message-head">
         <img [src]="this.chatService.chatPartner.avatar" alt="">
@@ -7,9 +7,12 @@
 
     <div class="message-field" #messageBody #messageField>
         <div class="flex-end">
-            <div *ngFor="let message of chatMessages$ | async" class="message-wrapper">
-                <app-single-message [currentMessage]="message" [chatId]="this.chatId"
-                    [component]="'chat'"></app-single-message>
+            <div *ngFor="let message of chatMessages$ | async,  trackBy: trackByFn" class="message-wrapper">
+                <app-single-message 
+                    [currentMessage]="message" 
+                    [chatId]="this.chatId"
+                    [component]="'chat'"
+                    (emojiBarClosed)="closeEmojiBars()"></app-single-message>
             </div>
         </div>
     </div>

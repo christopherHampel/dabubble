@@ -171,10 +171,6 @@ export class ChatsService {
   }
 
   async newMessageContent(text:string, chatId:string) {
-    // const messageAuthor = {
-    //   name: this.getUserName(),
-    //   id: this.getUserId()
-    // };
     const messageAuthor = await this.getMessageAuthor();
     const isFirstMessageOfDay = await this.checkFirstMessage(chatId);
 

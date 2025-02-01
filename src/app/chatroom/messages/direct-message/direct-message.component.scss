@@ -113,8 +113,7 @@ section {
     .emoji-component {
         position: absolute;
         z-index: 6;
-        // top: -105%;
-        bottom: 100%;
+        bottom: 0;
         right: 50%;
         transform: translateX(50%);
     }

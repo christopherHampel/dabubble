@@ -5,7 +5,7 @@
         <div></div>
     </div>
 
-    <div [ngClass]="getUser()" [class.hover-effect]="!isEditing && this.isMessageFromCurrentUser()">
+    <div [ngClass]="getUser()" [class.hover-effect]="!isEditing">
 
         <div class="avatar-message">
             <img [src]=usersService.currentUserSig()?.avatar alt="">
@@ -60,14 +60,14 @@
                 </div>
                 }
                 <div class="click-emoji">
-                    <a (click)="toggleEmojiQuickBar()"><img src="/img/add_reaction.png" alt=""></a>
+                    <a (click)="toggleEmojiQuickBar(); $event.stopPropagation()"><img src="/img/add_reaction.png" alt=""></a>
                     <div *ngIf="this.emojiQuickBar" class="quick-emoji-bar">
                        @for (emoji of this.emojiService.customEmojis; track $index) {
                         <div class="quick-emoji">
                             <a (click)="addEmoji(emoji)">{{ emoji }}</a>
                         </div>
                        }
-                        <a (click)="toggleEmoji(currentMessage)">+</a>
+                        <a class="more-emoji" (click)="toggleEmoji(currentMessage); $event.stopPropagation()"></a>
                     </div>
                 </div>
             </div>
