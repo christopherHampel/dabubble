@@ -68,6 +68,7 @@ export class SingleMessageComponent {
     this.emojiService.currentMessage = this.currentMessage;
     console.log('chatid:', this.chatId);
     this.emojiService.addEmoji(emoji, this.chatId);
+    this.emojiQuickBar = !this.emojiQuickBar;
   }
 
   getUser() {
