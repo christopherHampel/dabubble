@@ -7,6 +7,8 @@ import { ThreadsDbService } from '../../../../services/message/threads-db.servic
 import { Thread } from '../../../../interfaces/thread';
 import { ChatsService } from '../../../../services/message/chats.service';
 import { ChatData } from '../../../../interfaces/chat-data';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-tooltip',
@@ -16,7 +18,7 @@ import { ChatData } from '../../../../interfaces/chat-data';
 })
 export class TooltipComponent {
 
-  testEmoji:any =   { char: '😀', name: 'Grinning Face', category: 'Smileys' };
+  testEmoji: any = { char: '😀', name: 'Grinning Face', category: 'Smileys' };
   currentMessage: any;
   emojiMartOpen: boolean = false;
   menu: boolean = false;
@@ -25,6 +27,8 @@ export class TooltipComponent {
   @Input() isEditing: boolean = false;
   @Input() message: any;
   @Output() isEditingChange = new EventEmitter<boolean>();
+
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   editMessage() {
     this.isEditing = true;
@@ -55,5 +59,7 @@ export class TooltipComponent {
       }
       await this.threadsDb.addThread(thread, this.message);
     }
+
+    this.router.navigate(['/chatroom', { outlets: { thread: ['thread', this.threadsDb.currentThreadId()] } }]);
   }
 }

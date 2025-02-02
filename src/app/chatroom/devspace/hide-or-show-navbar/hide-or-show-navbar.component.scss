@@ -1,0 +1,91 @@
+* {
+    font-family: 'Nunito';
+}
+
+section {
+    position: absolute;
+    left: 0;
+    top: 75%;
+
+    transform: translateX(calc(-50% + 30px)) translateY(-50%) rotate(-90deg);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+
+    z-index: 2;
+
+    padding: 14px 23px;
+
+    background-color: #ffff;
+
+    box-shadow: -4px 4px 7px 0px rgba(0 0 0 / 20%);
+}
+
+span {
+    font-size: 20px;
+}
+
+div {
+    width: 32px;
+    height: 32px;
+
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    transform: rotate(90deg);
+}
+
+.hide-navbar {
+
+    &>span::after {
+        content: 'Workspace-Menü schließen';
+    }
+
+    &>div {
+        background-image: url('/img/hide_navbar_icon.svg');
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        &>span {
+            font-weight: 700;
+
+            color: #535Af1;
+        }
+
+        &>div {
+            background-image: url('/img/hide_navbar_hover_icon.svg');
+        }
+    }
+}
+
+.show-navbar {
+
+    &>span::after {
+        content: 'Workspace-Menü öffnen';
+    }
+
+    &>div {
+        background-image: url('/img/show_navbar_icon.svg');
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        &>span {
+            font-weight: 700;
+
+            color: #535Af1;
+        }
+
+        &>div {
+            background-image: url('/img/show_navbar_hover_icon.svg');
+        }
+    }
+}

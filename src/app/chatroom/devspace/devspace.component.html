@@ -1,4 +1,4 @@
-<section class="card padding-card">
+<section class="card padding-card" [ngClass]="{'slide-out': devspaceClose, 'slide-in': !devspaceClose }">
 
     <div class="devspace-head">
         <div>
@@ -13,3 +13,5 @@
     <app-devspace-directmessages class="child-component"></app-devspace-directmessages>
 
 </section>
+
+<app-hide-or-show-navbar (navbarClose)="devspaceClose = $event"></app-hide-or-show-navbar>
