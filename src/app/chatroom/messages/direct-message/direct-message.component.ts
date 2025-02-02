@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../../services/message/chats.service';
@@ -7,6 +7,7 @@ import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { SingleMessageComponent } from '../single-message/single-message.component';
 import { Observable } from 'rxjs';
 import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
+import { EmojisService } from '../../../services/message/emojis.service';
 
 @Component({
   selector: 'app-direct-message',
@@ -14,12 +15,17 @@ import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-pi
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
 })
-export class DirectMessageComponent {
-  @ViewChild('messageBody') messageBody!: ElementRef;
+export class DirectMessageComponent implements OnInit {
+
+  @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
+  @ViewChild(SingleMessageComponent) childComponent!: SingleMessageComponent;
+  @ViewChildren(SingleMessageComponent) messageComponents!: QueryList<SingleMessageComponent>;
 
   chatId!: string;
   chatMessages$!: Observable<any[]>;
-  emojiMartOpen: boolean = true;
+  emojiQuickBar:boolean = false;
+
+  emojiService = inject(EmojisService);
 
   constructor(private route: ActivatedRoute, public chatService: ChatsService) { }
 
@@ -28,23 +34,12 @@ export class DirectMessageComponent {
       this.chatId = params.get('id')!;
       this.chatService.getChatInformationen(this.chatId);
       this.chatMessages$ = this.chatService.messages$;
-      // console.log('Messages: ', this.chatMessages$);
-      this.chatMessages$.subscribe(() => {
-        this.scrollToBottom();
-      });
+      this.chatService.hasScrolled = false;
     });
-  }
-
-  private scrollToBottom(): void {
-    if (this.messageBody) {
-      const messageBodyElement = this.messageBody.nativeElement;
-      messageBodyElement.scrollTop = messageBodyElement.scrollHeight;
-    }
   }
 
   newDate(message:any) {
     const rawTimestamp = message.createdAt;
-
     if (rawTimestamp && typeof rawTimestamp.toMillis === "function") {
         const timestampInMs = rawTimestamp.toMillis();
         const messageDate = new Date(timestampInMs).toLocaleDateString("de-DE");
@@ -54,5 +49,43 @@ export class DirectMessageComponent {
     } else {
       return false;
     };
+  }
+
+  addEmoji(event:string) {
+    console.log(event);
+    this.emojiService.addEmoji(event, this.chatId);
+  }
+
+  trackByFn(index: number, item: any): number | string {
+    return item.id;
+  }
+
+  closeEmojiBars() {
+    if (this.childComponent.emojiQuickBar) {
+      this.childComponent.toggleEmojiQuickBar();
+    }
+    if(this.emojiService.emojiPickerOpen) {
+      this.emojiService.emojiPickerOpen = false;
+    }
+  }
+
+  scrollDown(){
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }                 
+  }
+
+  ngAfterViewChecked() {
+    if (!this.chatService.hasScrolled && this.messageComponents.length > 0) {
+      this.scrollToBottom();
+      setTimeout(() => {
+        this.scrollToBottom();
+        this.chatService.hasScrolled = true;
+      }, 100);
+    }
   }
 }

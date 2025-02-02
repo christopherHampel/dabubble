@@ -6,7 +6,9 @@ import { CommonModule } from '@angular/common';
 import { ThreadsDbService } from '../../../../services/message/threads-db.service';
 import { Thread } from '../../../../interfaces/thread';
 import { ChatsService } from '../../../../services/message/chats.service';
+import { ChatData } from '../../../../interfaces/chat-data';
 import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-tooltip',
@@ -49,11 +51,11 @@ export class TooltipComponent {
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
     } else {
       console.log('Chat: ', this.chat.chatData.participantsDetails);
-      let thread: Thread = {
-        docId: '',
-        participiants: this.chat.chatData.participants,
+      let thread: ChatData = {
+        chatId: '',
+        participants: this.chat.chatData.participants,
         belongsToMessage: this.message.docId,
-        participiantsDetails: this.chat.chatData.participantsDetails
+        participantsDetails: this.chat.chatData.participantsDetails
       }
       await this.threadsDb.addThread(thread, this.message);
     }

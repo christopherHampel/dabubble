@@ -1,40 +1,34 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, HostListener, inject, Input } from '@angular/core';
 import { ChatsService } from '../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
 import { FormsModule } from '@angular/forms';
-// import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
+import { EmojisService } from '../../../services/message/emojis.service';
 
 @Component({
   selector: 'app-single-message',
-  imports: [ CommonModule, 
-    FormsModule, 
-    TooltipComponent ],
+  imports: [CommonModule,
+    FormsModule,
+    TooltipComponent],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
-export class SingleMessageComponent implements OnInit {
+export class SingleMessageComponent {
 
+  emojiService = inject(EmojisService);
   @Input() currentMessage!:any;
   @Input() editedText!: string;
   @Input() chatId!: string;
   @Input() component: 'chat' | 'thread' = 'chat';
 
   isEditing: boolean = false;
-  emojiMartOpen: boolean = false;
+  emojiQuickBar:boolean = false;
 
-  constructor(public chatService: ChatsService, public usersService: UsersDbService) { }
-
-  ngOnInit(): void {
-    console.log('CurrentMessage is:', this.currentMessage);
-  }
-
-  deleteMessage() {
-    // this.chatService.deleteMessage(this.index);
-  }
+  constructor(public chatService: ChatsService, 
+              public usersService: UsersDbService) { }
 
   onIsEditingChange(newValue: boolean) {
     this.isEditing = newValue;
@@ -59,8 +53,10 @@ export class SingleMessageComponent implements OnInit {
     });
   }
 
-  toggleEmoji() {
-    this.emojiMartOpen = !this.emojiMartOpen;
+  toggleEmoji(currentMessage: CurrentMessage) {
+    this.emojiService.currentMessage = currentMessage;
+    this.emojiQuickBar = !this.emojiQuickBar;
+    this.emojiService.emojiPickerOpen = !this.emojiService.emojiPickerOpen;
   }
 
   autoGrowTextZone(e:any) {
@@ -68,18 +64,11 @@ export class SingleMessageComponent implements OnInit {
     e.target.style.height = (e.target.scrollHeight + 25)+"px";
   }
 
-  addEmoji(event:string) {
-
-  }
-
-  addEmojiToMessage(emoji:string, currentMessage:CurrentMessage) {
-    // console.log('Single message component: ', this.component);
-    this.chatService.component.set(this.component);
-    this.chatService.addEmoji(currentMessage, emoji, this.chatId);
-  }
-
-  increaseValueOfEmojii(emoji:string) {
-    // this.chatService.increaseValueOfEmoji(emoji, this.currentMessage)
+  addEmoji(emoji:string) {
+    this.emojiService.currentMessage = this.currentMessage;
+    console.log('chatid:', this.chatId);
+    this.emojiService.addEmoji(emoji, this.chatId);
+    this.emojiQuickBar = !this.emojiQuickBar;
   }
 
   getUser() {
@@ -130,5 +119,16 @@ export class SingleMessageComponent implements OnInit {
     const year = inputDate.getFullYear();
     return `${day}.${month}.${year}`;
   }
-  
+
+  toggleEmojiQuickBar() {
+    // this.emojiService.loadFrequentlyUsedEmojis();
+    this.emojiQuickBar = !this.emojiQuickBar;
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside() {
+    if (this.emojiQuickBar) {
+      this.emojiQuickBar = false;
+    }
+  }
 }

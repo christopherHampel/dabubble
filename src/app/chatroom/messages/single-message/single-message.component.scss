@@ -1,3 +1,5 @@
+// @use './../../../shared/textarea/textarea.component.scss';
+
 @mixin border {
     border: 1px solid #ADB0D9;
 }
@@ -6,6 +8,7 @@ section {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding: 4px;
 }
 
 .own-message {
@@ -26,6 +29,14 @@ section {
     position: relative;
 /*     padding: 10px 146px 10px 45px; */
     padding: 10px 0px 10px 45px;
+}
+
+.flex-start {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    position: relative;
 }
 
 .friend-message {
@@ -92,6 +103,7 @@ section {
 .emoji-reactions {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 10px;
     position: relative;
 
@@ -214,8 +226,47 @@ section {
     }
 }
 
-// .message-emoji {
-//     position: relative;
-//     display: flex;
-//     align-items: center;
-// }
+.click-emoji {
+    position: relative;
+
+    .quick-emoji-bar {
+        position: absolute;
+        bottom: -50%;
+        right: 100%;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        border: 1px solid #ADB0D9;
+        padding: 5px 10px;
+        border-radius: 25px;
+        background-color: #FFFF;
+
+        .quick-emoji {
+            &:hover {
+                transform: scale(1.5);
+                border-radius: 50%;
+            }
+        }
+    }
+}
+@mixin iconsTextarea($image, $imageHover) {
+    background-image: url($image);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        background-image: url($imageHover);
+        cursor: pointer;
+        background-color: #ECEEFE;
+        border-radius: 50%;
+    }
+}
+
+.more-emoji {
+    @include iconsTextarea('./../../../../../public/img/add_icon.png', './../../../../../public/img/add_icon_hover.png');
+}

@@ -1,12 +1,12 @@
 <section (click)="closeEmojiPicker()">
     <div class="send-text">
-        <textarea (keyup)="autoGrowTextZone($event)" [(ngModel)]="message" name="" placeholder="Nachricht an {{ chatPartnerName }}" id=""></textarea>
+        <textarea (keydown.enter)="sendText($event)" (keyup)="autoGrowTextZone($event)" [(ngModel)]="message" name="" placeholder="Nachricht an {{ chatPartnerName }}" id=""></textarea>
         <div class="reactions" (click)="preventClose($event)">
             <div>
                 <div class="emoji-picker" (click)="toggleEmoji()"></div>
                 <div class="at-member"></div>
             </div>
-            <a (click)="sendText()"><img src="/img/send.png" alt="send"></a>
+            <a (click)="sendText($event)"><img src="/img/send.png" alt="send"></a>
         </div>
     </div>
     <div class="emoji-component" *ngIf="emojiMartOpen" (click)="preventClose($event)">

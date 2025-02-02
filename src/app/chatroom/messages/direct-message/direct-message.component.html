@@ -1,15 +1,18 @@
-<section class="card">
+<section class="card" (click)="closeEmojiBars()">
 
     <div class="message-head">
         <img [src]="this.chatService.chatPartner.avatar" alt="">
         <h2>{{ this.chatService.chatPartner.name }}</h2>
     </div>
 
-    <div class="message-field" #messageBody>
+    <div class="message-field" #myScrollContainer>
         <div class="flex-end">
-            <div *ngFor="let message of chatMessages$ | async" class="message-wrapper">
-                <app-single-message [currentMessage]="message" [chatId]="this.chatId"
-                    [component]="'chat'"></app-single-message>
+            <div *ngFor="let message of chatMessages$ | async,  trackBy: trackByFn" class="message-wrapper">
+                <app-single-message 
+                    [currentMessage]="message" 
+                    [chatId]="this.chatId"
+                    [component]="'chat'"
+                    (emojiBarClosed)="closeEmojiBars()"></app-single-message>
             </div>
         </div>
     </div>
@@ -25,11 +28,14 @@
         </div>
 
         <div class="textarea-emojipicker">
-            <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'chat'"></app-textarea>
-            <div class="emoji-component" *ngIf="emojiMartOpen">
-                <app-emoji-picker-component></app-emoji-picker-component>
+            <div class="emoji-component" *ngIf="this.emojiService.emojiPickerOpen">
+                <app-emoji-picker-component
+                    (emojiSelected)="this.addEmoji($event)"></app-emoji-picker-component>
             </div>
+            <app-textarea 
+                [chatPartnerName]="this.chatService.chatPartner.name" 
+                [component]="'chat'"
+                (childEvent)="scrollDown()"></app-textarea>
         </div>
     </div>
-
 </section>

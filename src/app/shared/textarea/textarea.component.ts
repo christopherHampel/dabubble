@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../services/message/chats.service';
 import { CurrentMessage } from '../../interfaces/current-message';
@@ -15,6 +15,8 @@ import { ThreadsDbService } from '../../services/message/threads-db.service';
 })
 export class TextareaComponent implements OnInit {
   private threadDb = inject(ThreadsDbService);
+
+  @Output() childEvent = new EventEmitter();
 
   @Input() message: string = '';
   @Input() chatPartnerName!: string;
@@ -33,7 +35,12 @@ export class TextareaComponent implements OnInit {
     })
   }
 
-  async sendText() {
+  scrollDown(){
+    this.childEvent.emit();
+  } 
+
+  async sendText(e: any) {
+    e.preventDefault();
     if (this.message.length > 0) {
       if (this.component == 'chat') {
         await this.chatService.addMessageToChat(this.message, this.chatId);
@@ -42,11 +49,14 @@ export class TextareaComponent implements OnInit {
       }
       this.message = '';
     }
+    this.scrollDown();
   }
 
   autoGrowTextZone(e: any) {
-    e.target.style.height = "25px";
-    e.target.style.height = (e.target.scrollHeight + 25) + "px";
+    if(e.key !== "Enter") {
+      e.target.style.height = "25px";
+      e.target.style.height = (e.target.scrollHeight + 25) + "px";
+    }
   }
 
   closeEmojiPicker() {
