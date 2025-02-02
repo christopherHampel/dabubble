@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild }
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersDbService } from '../../../../services/usersDb/users-db.service';
-import { User, UserProfile } from 'firebase/auth';
+import { UserProfile } from '../../../../interfaces/userProfile';
 import { ChatsService } from '../../../../services/message/chats.service';
 import { Router } from '@angular/router';
 
@@ -29,6 +29,8 @@ export class AddFriendDialogComponent {
   ngOnChanges() {
     if (this.dialogOpen) {
       this.focusInput();
+      this.resetUserName();
+      this.resetSelectedUser();
     }
   }
 
@@ -39,8 +41,6 @@ export class AddFriendDialogComponent {
   closeDialog() {
     this.dialogOpen = false;
     this.dialogClose.emit(true);
-    this.resetUserName();
-    this.resetSelectedUser();
   }
 
   getUserList() {
@@ -54,7 +54,7 @@ export class AddFriendDialogComponent {
   }
 
   removeUser() {
-    this.selectedUser = {};
+    this.selectedUser = {} as UserProfile;
     this.focusInput();
   }
 
@@ -66,7 +66,8 @@ export class AddFriendDialogComponent {
       email: user.emai,
       avatar: user.avatar,
       active: user.active,
-      directmessages: user.directmessages
+      clicked: false,
+      directmessagesWith: user.directmessagesWith
     }
 
     this.resetUserName();
@@ -93,15 +94,15 @@ export class AddFriendDialogComponent {
   }
 
   resetSelectedUser() {
-    this.selectedUser = {};
+    this.selectedUser = {} as UserProfile;
   }
 
   async startChat() {
     try {
-      const chatId = await this.chatService.setPrivateChat(this.selectedUser as any);
+      const chatId = await this.chatService.setPrivateChat(this.selectedUser);
       this.chatService.currentChatId = chatId;
       this.router.navigate([`/chatroom/direct-message/${chatId}`]);
-      await this.usersDb.addDirectMessageWith(this.selectedUser['id'] as string);
+      await this.usersDb.addDirectMessageWith(this.selectedUser['id']);
       this.closeDialog();
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);

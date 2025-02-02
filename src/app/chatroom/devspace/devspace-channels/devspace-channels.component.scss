@@ -58,7 +58,7 @@
 
 
 .fold-in-channels {
-    animation: fold-in-channels 0.35s forwards;
+    animation: fold-in-channels 0.3s linear forwards;
 }
 
 @keyframes fold-in-channels {
@@ -70,7 +70,7 @@
 }
 
 .fold-in-add-channel {
-    animation: fold-in-add-channel 0.35s forwards;
+    animation: fold-in-add-channel 0.3s linear forwards;
 }
 
 @keyframes fold-in-add-channel {
@@ -84,7 +84,7 @@
 
 
 .fold-out-channels {
-    animation: fold-out-channels 0.35s;
+    animation: fold-out-channels 0.3s linear;
 }
 
 @keyframes fold-out-channels {
@@ -100,7 +100,7 @@
 }
 
 .fold-out-add-channel {
-    animation: fold-out-add-channel 0.35s;
+    animation: fold-out-add-channel 0.3s linear;
 }
 
 @keyframes fold-out-add-channel {
