@@ -7,9 +7,11 @@ import { CurrentMessage } from '../../interfaces/current-message';
 @Injectable({
   providedIn: 'root'
 })
-export class EmojiService {
+export class EmojisService {
 
-  customEmojis = ['👍', '😂', '😍', '✅'];
+
+  customEmojis = ['👍', '😂', '😍', '✅', '🙂'];
+  // customEmojis: string[] = [];
 
   emojiPickerOpen:boolean = false;
   currentMessage!:CurrentMessage;
@@ -44,5 +46,16 @@ export class EmojiService {
     }
   
     await updateDoc(messageDoc.ref, { emojis });
+  }
+
+  loadFrequentlyUsedEmojis() {
+    const frequentlyUsed = JSON.parse(localStorage.getItem('emoji-mart.frequently') || '{}');
+    const sortedEmojis = Object.keys(frequentlyUsed)
+      .sort((a, b) => frequentlyUsed[b] - frequentlyUsed[a]) // Sortiere nach Nutzungshäufigkeit
+      .slice(0, 5); // Nimm die obersten 5
+
+    // Emoji-Namen in Unicode Emojis umwandeln
+    this.customEmojis = sortedEmojis.length ? sortedEmojis : ['smile', 'heart_eyes', 'thumbsup']; // Fallback
+    console.log(this.customEmojis)
   }
 }

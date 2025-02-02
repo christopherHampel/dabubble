@@ -7,7 +7,7 @@ import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { SingleMessageComponent } from '../single-message/single-message.component';
 import { Observable } from 'rxjs';
 import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
-import { EmojiService } from '../../../services/message/emoji.service';
+import { EmojisService } from '../../../services/message/emojis.service';
 
 @Component({
   selector: 'app-direct-message',
@@ -25,7 +25,7 @@ export class DirectMessageComponent implements OnInit {
   chatMessages$!: Observable<any[]>;
   emojiQuickBar:boolean = false;
 
-  emojiService = inject(EmojiService);
+  emojiService = inject(EmojisService);
 
   constructor(private route: ActivatedRoute, public chatService: ChatsService) { }
 

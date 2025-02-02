@@ -7,6 +7,7 @@ import { AuthService } from '../auth/auth.service';
 import { UserProfile } from '../../interfaces/userProfile';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { ChatData } from '../../interfaces/chat-data';
+import { CurrentMessage } from '../../interfaces/current-message';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class ChatsService {
   firestore = inject(Firestore);
   component = signal<'chat' | 'thread'>('chat');
 
-  private messagesSubject = new BehaviorSubject<any[]>([]);
+  private messagesSubject = new BehaviorSubject<CurrentMessage[]>([]);
   public messages$ = this.messagesSubject.asObservable();
 
   chatPartner: { name: string, avatar: string } = { name: '', avatar: '' };
@@ -114,7 +115,7 @@ export class ChatsService {
     return this.createNewPrivateChat(currentUser, chatPartner, chatId);
   }
 
-  private checkCurrentUser(): any {
+  private checkCurrentUser() {
     const currentUser = this.usersService.currentUserSig();
     if (!currentUser) {
       throw new Error("Current user ID is undefined.");

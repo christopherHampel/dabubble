@@ -14,6 +14,7 @@ import { UserProfile } from '../../../interfaces/userProfile';
   styleUrl: './devspace-directmessages.component.scss'
 })
 export class DevspaceDirectmessagesComponent {
+
   usersDb = inject(UsersDbService);
   dialog: boolean = false;
   selectedUserId: string = '';
@@ -30,7 +31,6 @@ export class DevspaceDirectmessagesComponent {
   };
 
   constructor(private chatService: ChatsService, private router: Router) { }
-
 
   openDirectmessages() {
     if (this.directmessagesOpen) {

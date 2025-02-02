@@ -6,19 +6,19 @@ import { FormsModule } from '@angular/forms';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
-import { EmojiService } from '../../../services/message/emoji.service';
+import { EmojisService } from '../../../services/message/emojis.service';
 
 @Component({
   selector: 'app-single-message',
-  imports: [ CommonModule, 
-    FormsModule, 
-    TooltipComponent ],
+  imports: [CommonModule,
+    FormsModule,
+    TooltipComponent],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
 export class SingleMessageComponent {
 
-  emojiService = inject(EmojiService);
+  emojiService = inject(EmojisService);
   @Input() currentMessage!:any;
   @Input() editedText!: string;
   @Input() chatId!: string;
@@ -121,6 +121,7 @@ export class SingleMessageComponent {
   }
 
   toggleEmojiQuickBar() {
+    // this.emojiService.loadFrequentlyUsedEmojis();
     this.emojiQuickBar = !this.emojiQuickBar;
   }
 
