@@ -4,10 +4,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { EmojiPickerComponentComponent } from '../../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { CommonModule } from '@angular/common';
 import { ThreadsDbService } from '../../../../services/message/threads-db.service';
-import { Thread } from '../../../../interfaces/thread';
 import { ChatsService } from '../../../../services/message/chats.service';
 import { ChatData } from '../../../../interfaces/chat-data';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -28,7 +27,7 @@ export class TooltipComponent {
   @Input() message: any;
   @Output() isEditingChange = new EventEmitter<boolean>();
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private router: Router) { }
 
   editMessage() {
     this.isEditing = true;
@@ -47,17 +46,17 @@ export class TooltipComponent {
   }
 
   async openThread() {
-    if (this.threadsDb.setCurrentThreadId(this.message)) {
+    if (this.message.associatedThreadId) {
+      this.threadsDb.currentThreadId.set(this.message.associatedThreadId);
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
     } else {
-      console.log('Chat: ', this.chat.chatData.participantsDetails);
       let thread: ChatData = {
         chatId: '',
         participants: this.chat.chatData.participants,
-        belongsToMessage: this.message.docId,
         participantsDetails: this.chat.chatData.participantsDetails
       }
       await this.threadsDb.addThread(thread, this.message);
+      await this.chat.updateAssociatedThreadId(this.message.docId, this.chat.currentChatId, this.threadsDb.currentThreadId());
     }
 
     this.router.navigate(['/chatroom', { outlets: { thread: ['thread', this.threadsDb.currentThreadId()] } }]);
