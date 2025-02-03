@@ -53,11 +53,13 @@ export class ThreadsDbService {
     if (typeof message === 'string') {
       messageType = this.getCleanJsonMessage({
         docId: '',
+        associatedThreadId: '',
         messageAuthor: {
           name: this.usersDb.currentUser!.userName,
           id: this.usersDb.currentUser!.id
         },
         text: message,
+        firstMessageOfTheDay: false,
         createdAt: serverTimestamp(),
         emojis: []
       });
@@ -74,21 +76,11 @@ export class ThreadsDbService {
   }
 
 
-  setCurrentThreadId(message: any) {
-    const currentThread = this.threadList.find(thread => thread.belongsToMessage === message.docId);
-    if (currentThread) {
-      this.currentThreadId.set(currentThread.docId);
-    }
-    return currentThread;
-  }
-
-
 
   setThreadObject(object: any): Thread {
     return {
       docId: object.docId || '',
       participiants: object.participiants || '',
-      belongsToMessage: object.belongsToMessage || '',
       participiantsDetails: object.participiantsDetails || {}
     }
   }
@@ -98,9 +90,11 @@ export class ThreadsDbService {
   setMessageObject(object: any): Message {
     return {
       docId: object.docId || '',
+      associatedThreadId: object.accociatedThreadId || '',
       messageAuthor: object.messageAuthor || {},
       text: object.text || '',
       createdAt: object.createdAt || '',
+      firstMessageOfTheDay: object.firstMessageOfTheDay || false,
       emojis: object.emojis || []
     }
   }
@@ -135,12 +129,14 @@ export class ThreadsDbService {
   getCleanJsonMessage(message: Message): {} {
     return {
       docId: '',
+      accociatedThreadId: '',
       messageAuthor: {
         name: message.messageAuthor.name,
         id: message.messageAuthor.id
       },
       text: message.text,
       createdAt: message.createdAt,
+      firstMessageOfTheDay: '',
       emojis: message.emojis
     }
   }

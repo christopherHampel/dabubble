@@ -173,12 +173,17 @@ export class ChatsService {
     })
   }
 
-  async newMessageContent(text:string, chatId:string) {
-    const messageAuthor = await this.getMessageAuthor();
+  async newMessageContent(text:string, chatId:string): Promise<Message> {
+    //const messageAuthor = await this.getMessageAuthor();
     const isFirstMessageOfDay = await this.checkFirstMessage(chatId);
 
     return {
-      messageAuthor: messageAuthor,
+      docId: '',
+      associatedThreadId: '',
+      messageAuthor: {
+        name: this.getUserName() || '',
+        id: this.getUserId() || ''
+      },
       text: text,
       createdAt: serverTimestamp(),
       firstMessageOfTheDay: isFirstMessageOfDay,
@@ -186,12 +191,12 @@ export class ChatsService {
     }
   }
 
-  async getMessageAuthor() {
-    return {
-      name: this.getUserName(),
-      id: this.getUserId()
-    };
-  }
+  //async getMessageAuthor() {
+  //  return {
+  //    name: this.getUserName(),
+  //    id: this.getUserId()
+  //  };
+  //}
 
   async getQuerySnapshot(docId: string, chatId: string,) {
     if (docId) {
@@ -211,6 +216,13 @@ export class ChatsService {
     } else {
       console.error('Keine Nachricht gefunden');
     }
+  }
+
+  async updateAssociatedThreadId(docId: string, chatId: string, threadId: string) {
+    console.log(docId + '   ' + chatId + '   ' + threadId);
+    const querySnapshot = await this.getQuerySnapshot(docId, chatId);
+    const messageDoc = querySnapshot.docs[0];
+    await updateDoc(messageDoc.ref, {associatedThreadId: threadId});
   }
 
   async checkFirstMessage(chatId: string): Promise<boolean> {
