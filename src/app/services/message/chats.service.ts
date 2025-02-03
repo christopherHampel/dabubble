@@ -100,7 +100,7 @@ export class ChatsService {
       messages.length = 0;
       querySnapshot.forEach( (doc) => {
         const message = { ...doc.data() } as CurrentMessage;
-        console.log('single message is:', doc.data())
+        // console.log('single message is:', doc.data())
         messages.push(message);
       });
       console.log('Messages is:', messages)

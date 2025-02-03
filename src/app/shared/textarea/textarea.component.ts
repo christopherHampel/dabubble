@@ -1,11 +1,12 @@
 import { Component, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../services/message/chats.service';
-import { CurrentMessage } from '../../interfaces/current-message';
 import { EmojiPickerComponentComponent } from './emoji-picker-component/emoji-picker-component.component';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
+import { UsersDbService } from '../../services/usersDb/users-db.service';
+import { UserProfile } from '../../interfaces/userProfile';
 
 @Component({
   selector: 'app-textarea',
@@ -24,10 +25,16 @@ export class TextareaComponent implements OnInit {
   @Input() id: string = '';
 
   chatId: string = '';
+  users: string[] = [];
+  formattedMessage: string = '';
+  userList: boolean = false;
 
   emojiMartOpen: boolean = false;
 
-  constructor(public chatService: ChatsService, private route: ActivatedRoute) { }
+  constructor(
+    public chatService: ChatsService, 
+    private route: ActivatedRoute,
+    private userService: UsersDbService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -59,12 +66,6 @@ export class TextareaComponent implements OnInit {
     }
   }
 
-  // closeEmojiPicker() {
-  //   if(this.emojiMartOpen) {
-  //     this.emojiMartOpen = !this.emojiMartOpen;
-  //   }
-  // }
-
   toggleEmoji() {
     this.emojiMartOpen = !this.emojiMartOpen;
   }
@@ -77,10 +78,38 @@ export class TextareaComponent implements OnInit {
     this.message += emoji;
   }
 
+  addUserToMessage(user:string) {
+    this.message += '@' + user;
+    this.userList = false;
+  }
+
     @HostListener('document:click', ['$event'])
     clickOutside() {
-      if (this.emojiMartOpen) {
+      if (this.emojiMartOpen || this.userList) {
         this.emojiMartOpen = false;
+        this.userList = false;
+      }
+    }
+
+    toggleUserList() {
+      this.userList = !this.userList;
+    }
+
+    showAllUser() {
+      this.toggleUserList();
+      if(this.userList) {
+        this.users = [];
+        const users = this.users;
+        this.userService.userListSig().forEach(user => {
+          users.push(user.userName)
+        });
+      }
+    }
+
+    detectAtSymbol(event: KeyboardEvent) {
+      if (event.key === '@') {
+        event.preventDefault(); // Verhindert, dass '@' in die Textarea geschrieben wird
+        this.showAllUser();
       }
     }
 }

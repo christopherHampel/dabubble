@@ -64,10 +64,6 @@ section {
     @include iconsTextarea('./../../../../public/img/sentiment_satisfied.png', './../../../../public/img/sentiment_satisfied_hover.png');
 }
 
-.at-member {
-    @include iconsTextarea('./../../../../public/img/alternate_email.png', './../../../../public/img/alternate_email_hover.png');
-}
-
 a {
     width: 40px;
     height: 40px;
@@ -85,4 +81,34 @@ a {
     bottom: 100%;
     // right: 50%;
     // transform: translateX(50%);
+}
+
+.tag-user {
+    position: relative;
+
+    .at-member {
+        @include iconsTextarea('./../../../../public/img/alternate_email.png', './../../../../public/img/alternate_email_hover.png');
+    }
+
+    .user-list {
+        background-color: #FFFF;
+        border: 1px solid #ADB0D9;
+        border-radius: 30px;
+        padding: 24px 12px;
+        position: absolute;
+        bottom: 100%;
+        right: 50%;
+        transform: translateX(50%);
+        display: flex;
+        flex-direction: column;
+        white-space: nowrap; 
+
+        span {
+            padding: 8px;
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.2);
+                cursor: pointer;
+            }
+        }
+    }
 }
