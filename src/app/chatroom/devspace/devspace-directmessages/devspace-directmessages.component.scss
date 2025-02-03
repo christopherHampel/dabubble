@@ -58,7 +58,7 @@
 
 
 .fold-in-directmessages {
-    animation: fold-in-directmessages 0.35s forwards;
+    animation: fold-in-directmessages 0.35s linear forwards;
 }
 
 @keyframes fold-in-directmessages {
@@ -70,7 +70,7 @@
 }
 
 .fold-in-add-directmessage {
-    animation: fold-in-add-directmessage 0.35s forwards;
+    animation: fold-in-add-directmessage 0.35s;
 }
 
 @keyframes fold-in-add-directmessage {
@@ -84,7 +84,7 @@
 
 
 .fold-out-directmessages {
-    animation: fold-out-directmessages 0.35s;
+    animation: fold-out-directmessages 0.35s linear forwards;
 }
 
 @keyframes fold-out-directmessages {

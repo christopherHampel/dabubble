@@ -1,4 +1,4 @@
-<section class="card" (click)="closeEmojiBars()">
+<section class="card">
 
     <div class="message-head">
         <img [src]="this.chatService.chatPartner.avatar" alt="">
@@ -12,7 +12,7 @@
                     [currentMessage]="message" 
                     [chatId]="this.chatId"
                     [component]="'chat'"
-                    (emojiBarClosed)="closeEmojiBars()"></app-single-message>
+                    ></app-single-message>
             </div>
         </div>
     </div>

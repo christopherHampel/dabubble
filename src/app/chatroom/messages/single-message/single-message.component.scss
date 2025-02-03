@@ -231,7 +231,7 @@ section {
 
     .quick-emoji-bar {
         position: absolute;
-        bottom: -50%;
+        bottom: -25%;
         right: 100%;
         display: flex;
         align-items: center;
@@ -247,6 +247,10 @@ section {
                 border-radius: 50%;
             }
         }
+    }
+
+    a {
+        padding: 5px 0;
     }
 }
 @mixin iconsTextarea($image, $imageHover) {
@@ -269,4 +273,13 @@ section {
 
 .more-emoji {
     @include iconsTextarea('./../../../../../public/img/add_icon.png', './../../../../../public/img/add_icon_hover.png');
+}
+
+.bg-close-emojiQuickBar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    // background-color: rgba(0, 0, 0, 0.5);
 }

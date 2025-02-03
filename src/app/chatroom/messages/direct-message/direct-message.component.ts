@@ -60,14 +60,14 @@ export class DirectMessageComponent implements OnInit {
     return item.id;
   }
 
-  closeEmojiBars() {
-    if (this.childComponent.emojiQuickBar) {
-      this.childComponent.toggleEmojiQuickBar();
-    }
-    if(this.emojiService.emojiPickerOpen) {
-      this.emojiService.emojiPickerOpen = false;
-    }
-  }
+  // closeEmojiBars() {
+  //   if (this.childComponent.emojiQuickBar) {
+  //     this.childComponent.toggleEmojiQuickBar();
+  //   }
+  //   if(this.emojiService.emojiPickerOpen) {
+  //     this.emojiService.emojiPickerOpen = false;
+  //   }
+  // }
 
   scrollDown(){
     this.scrollToBottom();

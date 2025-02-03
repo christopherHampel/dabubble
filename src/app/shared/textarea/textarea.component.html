@@ -1,4 +1,4 @@
-<section (click)="closeEmojiPicker()">
+<section>
     <div class="send-text">
         <textarea (keydown.enter)="sendText($event)" (keyup)="autoGrowTextZone($event)" [(ngModel)]="message" name="" placeholder="Nachricht an {{ chatPartnerName }}" id=""></textarea>
         <div class="reactions" (click)="preventClose($event)">

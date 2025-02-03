@@ -64,6 +64,17 @@ export class ChatsService {
     });
   }
 
+  async setPrivateChat(chatPartner: UserProfile): Promise<string> {
+    const currentUser = this.checkCurrentUser();
+    const chatId = this.generateChatId(currentUser.id, chatPartner.id);
+
+    const existingChatId = await this.findExistingChat(chatId);
+    if (existingChatId) {
+      return existingChatId;
+    }
+    return this.createNewPrivateChat(currentUser, chatPartner, chatId);
+  }
+
   setChatPartner() {
     const currentUserId = this.usersService.currentUserSig()?.id;
     if (this.chatData && this.chatData.participantsDetails) {
@@ -103,17 +114,6 @@ export class ChatsService {
   constructor(
     public usersService: UsersDbService,
     public authService: AuthService) { }
-
-  async setPrivateChat(chatPartner: UserProfile): Promise<string> {
-    const currentUser = this.checkCurrentUser();
-    const chatId = this.generateChatId(currentUser.id, chatPartner.id);
-
-    const existingChatId = await this.findExistingChat(chatId);
-    if (existingChatId) {
-      return existingChatId;
-    }
-    return this.createNewPrivateChat(currentUser, chatPartner, chatId);
-  }
 
   private checkCurrentUser() {
     const currentUser = this.usersService.currentUserSig();
@@ -212,30 +212,57 @@ export class ChatsService {
   }
 
   async checkFirstMessage(chatId: string): Promise<boolean> {
+    const lastMessage = await this.getLastMessage(chatId);
+    if (!lastMessage) return true;
+    return this.isNewDay(lastMessage['createdAt'].toDate());
+  }
+
+  private async getLastMessage(chatId: string): Promise<any | null> {
+    const messagesQuery = this.createMessagesQuery(chatId);
+    const querySnapshot = await getDocs(messagesQuery);
+    return querySnapshot.empty ? null : querySnapshot.docs[0].data();
+  }
+
+  private createMessagesQuery(chatId: string) {
     const chatRef = doc(this.getPrivateChatCollection(), chatId);
     const messagesRef = collection(chatRef, 'messages');
-    const messagesQuery = query(
-      messagesRef,
-      orderBy('createdAt', 'desc'),
-      limit(1)
-    );
-  
-    const querySnapshot = await getDocs(messagesQuery);
-  
-    if (querySnapshot.empty) {
-      return true;
-    }
-  
-    const lastMessage = querySnapshot.docs[0].data();
-    const lastMessageDate = lastMessage['createdAt'].toDate();
-  
+    return query(messagesRef, orderBy('createdAt', 'desc'), limit(1));
+  }
+
+  private isNewDay(lastMessageDate: Date): boolean {
     const now = new Date();
-  
-    const isNewDay =
+    return (
       now.getFullYear() > lastMessageDate.getFullYear() ||
       now.getMonth() > lastMessageDate.getMonth() ||
-      now.getDate() > lastMessageDate.getDate();
-  
-    return isNewDay;
+      now.getDate() > lastMessageDate.getDate()
+    );
   }
+
+  // async checkFirstMessage(chatId: string): Promise<boolean> {
+  //   const chatRef = doc(this.getPrivateChatCollection(), chatId);
+  //   const messagesRef = collection(chatRef, 'messages');
+  //   const messagesQuery = query(
+  //     messagesRef,
+  //     orderBy('createdAt', 'desc'),
+  //     limit(1)
+  //   );
+  
+  //   const querySnapshot = await getDocs(messagesQuery);
+  
+  //   if (querySnapshot.empty) {
+  //     return true;
+  //   }
+  
+  //   const lastMessage = querySnapshot.docs[0].data();
+  //   const lastMessageDate = lastMessage['createdAt'].toDate();
+  
+  //   const now = new Date();
+  
+  //   const isNewDay =
+  //     now.getFullYear() > lastMessageDate.getFullYear() ||
+  //     now.getMonth() > lastMessageDate.getMonth() ||
+  //     now.getDate() > lastMessageDate.getDate();
+  
+  //   return isNewDay;
+  // }
 }

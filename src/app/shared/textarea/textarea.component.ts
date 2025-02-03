@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../services/message/chats.service';
 import { CurrentMessage } from '../../interfaces/current-message';
@@ -59,11 +59,11 @@ export class TextareaComponent implements OnInit {
     }
   }
 
-  closeEmojiPicker() {
-    if(this.emojiMartOpen) {
-      this.emojiMartOpen = !this.emojiMartOpen;
-    }
-  }
+  // closeEmojiPicker() {
+  //   if(this.emojiMartOpen) {
+  //     this.emojiMartOpen = !this.emojiMartOpen;
+  //   }
+  // }
 
   toggleEmoji() {
     this.emojiMartOpen = !this.emojiMartOpen;
@@ -76,4 +76,11 @@ export class TextareaComponent implements OnInit {
   addEmojiToMessage(emoji: string) {
     this.message += emoji;
   }
+
+    @HostListener('document:click', ['$event'])
+    clickOutside() {
+      if (this.emojiMartOpen) {
+        this.emojiMartOpen = false;
+      }
+    }
 }
