@@ -1,0 +1,28 @@
+<section class="create-channel-dialog" [ngStyle]="{'display': dialogOpen ? 'flex' : 'none'}">
+    <header class="header-dialog">
+        <h2>Channel erstellen</h2>
+        <div class="close-icon"></div>
+    </header>
+
+    <div>
+        <span>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein</span>
+        <span>#marketing zum Beispiel.</span>
+    </div>
+
+    <form action="">
+        <div>
+            <span>Channel-Name</span>
+            <input class="input-text" type="text" placeholder="#   z.B. Kooperationsprojekt">
+        </div>
+
+        <div>
+            <div>
+                <span>Beschreibung</span>
+                <span class="color-light-gray">(optional)</span>
+            </div>
+            <input class="input-text" type="text" placeholder="Dein Text hier">
+        </div>
+
+        <button class="primary-button">Erstellen</button>
+    </form>
+</section>
