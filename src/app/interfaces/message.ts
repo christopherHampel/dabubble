@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore"
+
 export interface autor {
     name: string,
     id: string

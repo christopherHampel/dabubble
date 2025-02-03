@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { collection, doc, addDoc, updateDoc, query, where, getDocs, onSnapshot, serverTimestamp, orderBy, limit } from 'firebase/firestore';
+import { collection, doc, addDoc, updateDoc, query, where, getDocs, onSnapshot, serverTimestamp, orderBy, limit, DocumentData, Unsubscribe } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 // import { CurrentMessage } from '../../interfaces/current-message';
@@ -8,6 +8,7 @@ import { UserProfile } from '../../interfaces/userProfile';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { ChatData } from '../../interfaces/chat-data';
 import { CurrentMessage } from '../../interfaces/current-message';
+import { Message } from '../../interfaces/message';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,8 @@ export class ChatsService {
   public messages$ = this.messagesSubject.asObservable();
 
   chatPartner: { name: string, avatar: string } = { name: '', avatar: '' };
-  unsubMessage: any;
-  unsubChatInfo: any;
+  private unsubMessage : Unsubscribe | null = null;
+  private unsubChatInfo: Unsubscribe | null = null;
   chatData!: ChatData;
   hasScrolled: boolean = false;
   currentChatId!: string;
@@ -93,22 +94,23 @@ export class ChatsService {
   async getMessagesFromChat(chatId: string) {
     const messagesRef = this.getSubColMessages(chatId)
     const sortedQuery = query(messagesRef, orderBy("createdAt", "asc"));
-    const messages: any = [];
+    const messages: CurrentMessage[] = [];
 
     this.unsubMessage = onSnapshot(sortedQuery, (querySnapshot) => {
       messages.length = 0;
-      querySnapshot.forEach((doc) => {
-        const message = doc.data()
+      querySnapshot.forEach( (doc) => {
+        const message = { ...doc.data() } as CurrentMessage;
+        console.log('single message is:', doc.data())
         messages.push(message);
       });
-      // console.log(messages)
+      console.log('Messages is:', messages)
       this.messagesSubject.next(messages);
     });
   }
 
-  ngonDestroy() {
-    this.unsubChatInfo();
-    this.unsubMessage();
+  ngOnDestroy() {
+    this.unsubChatInfo?.();
+    this.unsubMessage?.();
   }
 
   constructor(
@@ -128,7 +130,7 @@ export class ChatsService {
     return sortedIds.join('_');
   }
 
-  private async findExistingChat(chatId: string): Promise<any> {
+  private async findExistingChat(chatId: string): Promise<string | null> {
     const chatQuery = query(this.getPrivateChatCollection(), where('chatId', '==', chatId));
     const querySnapshot = await getDocs(chatQuery);
 
@@ -217,10 +219,10 @@ export class ChatsService {
     return this.isNewDay(lastMessage['createdAt'].toDate());
   }
 
-  private async getLastMessage(chatId: string): Promise<any | null> {
+  private async getLastMessage(chatId: string): Promise<CurrentMessage | null> {
     const messagesQuery = this.createMessagesQuery(chatId);
     const querySnapshot = await getDocs(messagesQuery);
-    return querySnapshot.empty ? null : querySnapshot.docs[0].data();
+    return querySnapshot.empty ? null : querySnapshot.docs[0].data() as CurrentMessage;
   }
 
   private createMessagesQuery(chatId: string) {
