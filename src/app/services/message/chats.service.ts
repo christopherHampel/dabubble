@@ -251,32 +251,4 @@ export class ChatsService {
       now.getDate() > lastMessageDate.getDate()
     );
   }
-
-  // async checkFirstMessage(chatId: string): Promise<boolean> {
-  //   const chatRef = doc(this.getPrivateChatCollection(), chatId);
-  //   const messagesRef = collection(chatRef, 'messages');
-  //   const messagesQuery = query(
-  //     messagesRef,
-  //     orderBy('createdAt', 'desc'),
-  //     limit(1)
-  //   );
-  
-  //   const querySnapshot = await getDocs(messagesQuery);
-  
-  //   if (querySnapshot.empty) {
-  //     return true;
-  //   }
-  
-  //   const lastMessage = querySnapshot.docs[0].data();
-  //   const lastMessageDate = lastMessage['createdAt'].toDate();
-  
-  //   const now = new Date();
-  
-  //   const isNewDay =
-  //     now.getFullYear() > lastMessageDate.getFullYear() ||
-  //     now.getMonth() > lastMessageDate.getMonth() ||
-  //     now.getDate() > lastMessageDate.getDate();
-  
-  //   return isNewDay;
-  // }
 }

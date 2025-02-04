@@ -26,7 +26,6 @@ export class TextareaComponent implements OnInit {
 
   chatId: string = '';
   users: string[] = [];
-  formattedMessage: string = '';
   userList: boolean = false;
 
   emojiMartOpen: boolean = false;

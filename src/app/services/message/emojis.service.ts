@@ -11,7 +11,6 @@ export class EmojisService {
 
 
   customEmojis = ['👍', '😂', '😍', '✅', '🙂'];
-  // customEmojis: string[] = [];
 
   emojiPickerOpen:boolean = false;
   currentMessage!:CurrentMessage;

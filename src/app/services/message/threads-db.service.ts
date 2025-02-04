@@ -85,8 +85,6 @@ export class ThreadsDbService {
     }
   }
 
-
-
   setMessageObject(object: any): Message {
     return {
       docId: object.docId || '',
