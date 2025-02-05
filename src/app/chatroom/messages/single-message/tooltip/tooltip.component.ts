@@ -20,18 +20,19 @@ export class TooltipComponent {
   testEmoji: any = { char: '😀', name: 'Grinning Face', category: 'Smileys' };
   currentMessage: any;
   emojiMartOpen: boolean = false;
-  menu: boolean = false;
+  // menu: boolean = false;
   private chat = inject(ChatsService);
   private threadsDb = inject(ThreadsDbService);
   @Input() isEditing: boolean = false;
   @Input() message: any;
   @Output() isEditingChange = new EventEmitter<boolean>();
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, public chatService: ChatsService) { }
 
   editMessage() {
     this.isEditing = true;
-    this.menu = false;
+    // this.menu = false;
+    this.chatService.menu = false;
     this.isEditingChange.emit(this.isEditing);
   }
 
@@ -42,7 +43,8 @@ export class TooltipComponent {
   }
 
   toggleMenu() {
-    this.menu = !this.menu;
+    // this.menu = !this.menu;
+    this.chatService.menu = !this.chatService.menu;
   }
 
   async openThread() {

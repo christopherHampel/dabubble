@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../../services/message/chats.service';
 import { TextareaComponent } from '../../../shared/textarea/textarea.component';
-import { SingleMessageComponent } from '../single-message/single-message.component';
-import { Observable } from 'rxjs';
+import { SingleMessageComponent } from '../../messages/single-message/single-message.component';
+import { map, Observable, Subscription } from 'rxjs';
 import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { EmojisService } from '../../../services/message/emojis.service';
 
@@ -20,6 +20,10 @@ export class DirectMessageComponent implements OnInit {
   @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
   @ViewChild(SingleMessageComponent) childComponent!: SingleMessageComponent;
   @ViewChildren(SingleMessageComponent) messageComponents!: QueryList<SingleMessageComponent>;
+
+  // private subscription!: Subscription;
+  // private lastCount = 0;
+
 
   chatId!: string;
   chatMessages$!: Observable<any[]>;

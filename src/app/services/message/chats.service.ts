@@ -15,6 +15,8 @@ import { Message } from '../../interfaces/message';
 })
 export class ChatsService {
 
+  menu: boolean = false;
+
   firestore = inject(Firestore);
   component = signal<'chat' | 'thread'>('chat');
 
@@ -219,7 +221,7 @@ export class ChatsService {
   }
 
   async updateAssociatedThreadId(docId: string, chatId: string, threadId: string) {
-    console.log(docId + '   ' + chatId + '   ' + threadId);
+    // console.log(docId + '   ' + chatId + '   ' + threadId);
     const querySnapshot = await this.getQuerySnapshot(docId, chatId);
     const messageDoc = querySnapshot.docs[0];
     await updateDoc(messageDoc.ref, {associatedThreadId: threadId});

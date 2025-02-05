@@ -41,7 +41,7 @@ export class TextareaComponent implements OnInit {
     })
   }
 
-  scrollDown(){
+  scrollDown() {
     this.childEvent.emit();
   } 
 
@@ -107,7 +107,7 @@ export class TextareaComponent implements OnInit {
 
     detectAtSymbol(event: KeyboardEvent) {
       if (event.key === '@') {
-        event.preventDefault(); // Verhindert, dass '@' in die Textarea geschrieben wird
+        event.preventDefault();
         this.showAllUser();
       }
     }
