@@ -1,9 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { addDoc, collection, doc, Firestore, orderBy, query, serverTimestamp, setDoc, updateDoc } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, Firestore, orderBy, query, serverTimestamp, updateDoc } from '@angular/fire/firestore';
 import { Message } from '../../interfaces/message';
 import { onSnapshot } from 'firebase/firestore';
 import { Thread } from '../../interfaces/thread';
 import { UsersDbService } from '../usersDb/users-db.service';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +23,9 @@ export class ThreadsDbService {
     this.unsubThreadList = this.subThreadList();
   }
 
-
   get threadList() {
     return this.threadListSig();
   }
-
 
   get messageList() {
     return this.messageListSig();
@@ -44,7 +43,6 @@ export class ThreadsDbService {
       });
   }
 
-
   async addMessageToThread(threadId: string, message: Message | string) {
     const threadRef = doc(this.getThredRef(), threadId);
     const messageRef = collection(threadRef, 'messages');
@@ -61,9 +59,10 @@ export class ThreadsDbService {
         text: message,
         firstMessageOfTheDay: false,
         createdAt: serverTimestamp(),
-        emojis: []
+        emojis: [],
       });
     } else {
+      console.log(message);
       messageType = this.getCleanJsonMessage(message);
     }
 
@@ -74,8 +73,6 @@ export class ThreadsDbService {
         });
       });
   }
-
-
 
   setThreadObject(object: any): Thread {
     return {
@@ -97,7 +94,6 @@ export class ThreadsDbService {
     }
   }
 
-
   subThreadList() {
     return onSnapshot(this.getThredRef(), (list) => {
       const threads: Thread[] = [];
@@ -107,7 +103,6 @@ export class ThreadsDbService {
       this.threadListSig.set(threads);
     });
   }
-
 
   subMessageList(threadId: string) {
     const threadRef = doc(this.getThredRef(), threadId);
@@ -122,7 +117,6 @@ export class ThreadsDbService {
       this.messageListSig.set(messages);
     });
   }
-
 
   getCleanJsonMessage(message: Message): {} {
     return {
@@ -139,8 +133,17 @@ export class ThreadsDbService {
     }
   }
 
-
   getThredRef() {
     return collection(this.threads, 'threads');
+  }
+
+  getMessagesCount(threadId: string): Observable<number> {
+    const messagesCollection = collection(this.threads, `threads/${threadId}/messages`);
+    const messagesQuery = query(messagesCollection);
+    
+    // Abonniere die Collection und zähle die Dokumente
+    return collectionData(messagesQuery, { idField: 'id' }).pipe(
+      map(messages => messages.length) // Zählt die Anzahl der Nachrichten
+    );
   }
 }

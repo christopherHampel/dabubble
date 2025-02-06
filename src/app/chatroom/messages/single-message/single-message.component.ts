@@ -1,5 +1,5 @@
-import { Component, HostListener, inject, Input } from '@angular/core';
-import { ChatsService } from '../../../services/message/chats.service';
+import { Component, HostListener, inject, Input, OnInit } from '@angular/core';
+import { ChatsService } from './../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +7,9 @@ import { TooltipComponent } from './tooltip/tooltip.component';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
 import { EmojisService } from '../../../services/message/emojis.service';
+import { ThreadsDbService } from '../../../services/message/threads-db.service';
+import { Message } from '../../../interfaces/message';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-single-message',
@@ -26,12 +29,20 @@ export class SingleMessageComponent {
 
   isEditing: boolean = false;
   emojiQuickBar:boolean = false;
+  // messageCount: number = 0;
+  messageCount$: Observable<number> = new Observable<number>()
 
   constructor(public chatService: ChatsService, 
-              public usersService: UsersDbService) { }
+              public usersService: UsersDbService,
+              private threadService: ThreadsDbService) { }
 
+  
   onIsEditingChange(newValue: boolean) {
     this.isEditing = newValue;
+  }
+
+  ngOnInit(): void {
+    this.messageCount$ = this.threadService.getMessagesCount(this.currentMessage.associatedThreadId);
   }
 
   updateMessage(currentMessage:CurrentMessage) {
@@ -130,5 +141,14 @@ export class SingleMessageComponent {
     if (this.emojiQuickBar) {
       this.emojiQuickBar = false;
     }
+  }
+
+  toggleBoolean() {
+    this.chatService.menu = false;
+    this.emojiQuickBar = false;
+  }
+
+  getMessagesCount(threadId: string) {
+    this.messageCount$ = this.threadService.getMessagesCount(threadId);
   }
 }

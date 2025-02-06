@@ -1,6 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 
 export interface CurrentMessage {
+    accociatedThreadId:string
     name:string,
     uid:string,
     avatar:string,
