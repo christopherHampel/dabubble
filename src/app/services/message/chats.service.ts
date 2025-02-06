@@ -176,7 +176,6 @@ export class ChatsService {
   }
 
   async newMessageContent(text:string, chatId:string): Promise<Message> {
-    //const messageAuthor = await this.getMessageAuthor();
     const isFirstMessageOfDay = await this.checkFirstMessage(chatId);
 
     return {
@@ -192,13 +191,6 @@ export class ChatsService {
       emojis: [],
     }
   }
-
-  //async getMessageAuthor() {
-  //  return {
-  //    name: this.getUserName(),
-  //    id: this.getUserId()
-  //  };
-  //}
 
   async getQuerySnapshot(docId: string, chatId: string,) {
     if (docId) {
