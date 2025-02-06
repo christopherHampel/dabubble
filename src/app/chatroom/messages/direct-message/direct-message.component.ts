@@ -18,12 +18,8 @@ import { EmojisService } from '../../../services/message/emojis.service';
 export class DirectMessageComponent implements OnInit {
 
   @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
-  @ViewChild(SingleMessageComponent) childComponent!: SingleMessageComponent;
+  // @ViewChild(SingleMessageComponent) childComponent!: SingleMessageComponent;
   @ViewChildren(SingleMessageComponent) messageComponents!: QueryList<SingleMessageComponent>;
-
-  // private subscription!: Subscription;
-  // private lastCount = 0;
-
 
   chatId!: string;
   chatMessages$!: Observable<any[]>;
@@ -63,15 +59,6 @@ export class DirectMessageComponent implements OnInit {
   trackByFn(index: number, item: any): number | string {
     return item.id;
   }
-
-  // closeEmojiBars() {
-  //   if (this.childComponent.emojiQuickBar) {
-  //     this.childComponent.toggleEmojiQuickBar();
-  //   }
-  //   if(this.emojiService.emojiPickerOpen) {
-  //     this.emojiService.emojiPickerOpen = false;
-  //   }
-  // }
 
   scrollDown(){
     this.scrollToBottom();

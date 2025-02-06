@@ -20,7 +20,6 @@ export class TooltipComponent {
   testEmoji: any = { char: '😀', name: 'Grinning Face', category: 'Smileys' };
   currentMessage: any;
   emojiMartOpen: boolean = false;
-  // menu: boolean = false;
   private chat = inject(ChatsService);
   private threadsDb = inject(ThreadsDbService);
   @Input() isEditing: boolean = false;

@@ -137,13 +137,23 @@ export class ThreadsDbService {
     return collection(this.threads, 'threads');
   }
 
-  getMessagesCount(threadId: string): Observable<number> {
+  getMessagesCount(threadId: string): Observable<string> {
     const messagesCollection = collection(this.threads, `threads/${threadId}/messages`);
     const messagesQuery = query(messagesCollection);
-    
-    // Abonniere die Collection und zähle die Dokumente
-    return collectionData(messagesQuery, { idField: 'id' }).pipe(
-      map(messages => messages.length) // Zählt die Anzahl der Nachrichten
+
+    return collectionData(messagesQuery).pipe(
+      map(messages => {
+        const count = messages.length;
+        const cleanCount = count - 1;
+        debugger;
+        if (cleanCount === 0) {
+          return '';
+        } else if (cleanCount === 1) {
+          return '1 Antwort';
+        } else {
+          return `${cleanCount} Antworten`;
+        }
+      })
     );
   }
 }
