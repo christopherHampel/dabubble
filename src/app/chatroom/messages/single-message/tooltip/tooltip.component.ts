@@ -57,6 +57,7 @@ export class TooltipComponent {
         participants: this.chat.chatData.participants,
         participantsDetails: this.chat.chatData.participantsDetails
       }
+
       await this.threadsDb.addThread(thread, this.message);
       await this.chat.updateAssociatedThreadId(this.message.docId, this.chat.currentChatId, this.threadsDb.currentThreadId());
     }
