@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, Input, OnInit } from '@angular/core';
+import { Component, HostListener, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { ChatsService } from './../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
@@ -8,7 +8,6 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
 import { EmojisService } from '../../../services/message/emojis.service';
 import { ThreadsDbService } from '../../../services/message/threads-db.service';
-import { Message } from '../../../interfaces/message';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -21,6 +20,8 @@ import { Observable } from 'rxjs';
 })
 export class SingleMessageComponent {
 
+  @ViewChild(TooltipComponent) child:TooltipComponent | undefined;
+
   emojiService = inject(EmojisService);
   @Input() currentMessage!:any;
   @Input() editedText!: string;
@@ -30,19 +31,20 @@ export class SingleMessageComponent {
   isEditing: boolean = false;
   emojiQuickBar:boolean = false;
   // messageCount: number = 0;
-  messageCount$: Observable<number> = new Observable<number>()
+  messageCount$: Observable<string> = new Observable<string>();
 
   constructor(public chatService: ChatsService, 
               public usersService: UsersDbService,
               private threadService: ThreadsDbService) { }
 
-  
   onIsEditingChange(newValue: boolean) {
     this.isEditing = newValue;
   }
 
-  ngOnInit(): void {
-    this.messageCount$ = this.threadService.getMessagesCount(this.currentMessage.associatedThreadId);
+  ngOnChanges(): void {
+    if (this.currentMessage && this.currentMessage.associatedThreadId) {
+      this.messageCount$ = this.threadService.getMessagesCount(this.currentMessage.associatedThreadId);
+    }
   }
 
   updateMessage(currentMessage:CurrentMessage) {
@@ -149,6 +151,12 @@ export class SingleMessageComponent {
   }
 
   getMessagesCount(threadId: string) {
-    this.messageCount$ = this.threadService.getMessagesCount(threadId);
+    if(threadId) {
+      this.messageCount$ = this.threadService.getMessagesCount(threadId);
+    }
+  }
+
+  openThread() {
+    this.child?.openThread();
   }
 }
