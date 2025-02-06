@@ -1,0 +1,110 @@
+@use '../../../chatroom.component.scss';
+@use '../../devspace.component.scss';
+
+* {
+    font-family: 'Nunito';
+}
+
+.add-people-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+
+    width: 710px;
+    height: 279px;
+
+    padding: 40px;
+
+    border-radius: 30px;
+
+    background-color: #FFFFFF;
+
+    z-index: 4;
+
+    filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
+}
+
+form {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 20px;
+
+    label {
+        font-size: 18px;
+    }
+
+    &>div {
+        width: 100%;
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 16px;
+    }
+}
+
+.color-blue {
+    color: #535AF1;
+}
+
+div {
+    position: relative;
+
+    input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+
+        width: 30px;
+        height: 30px;
+
+        left: -16px;
+
+        z-index: 1;
+    }
+
+    label:hover {
+        cursor: pointer;
+    }
+
+    label::before {
+        position: relative;
+
+        display: inline-block;
+
+        content: '';
+
+        padding: 10px;
+
+
+        border: 1px solid #BCBFE0;
+        border-radius: 50%;
+
+        top: 4px;
+        left: -16px;
+    }
+
+    input[type="radio"]:checked + label::before { 
+            background-color: #444DF2;
+
+            box-shadow: inset 0 0 0 3px white;
+
+            transition: all 150ms ease;
+
+            label::before {
+                background-color: black;
+            }
+    }
+
+}

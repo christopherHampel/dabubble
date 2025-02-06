@@ -41,6 +41,10 @@ form {
     justify-content: center;
     gap: 20px;
 
+    p {
+        font-size: 18px;
+    }
+
     &>div {
         width: 100%;
 
@@ -49,27 +53,6 @@ form {
         align-items: flex-start;
         justify-content: center;
         gap: 20px;
-
-        &>span {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        &>div {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-
-            &>span:first-child {
-                font-size: 18px;
-                font-weight: 700;
-            }
-
-            &>span:last-child {
-                font-size: 18px;
-            }
-        }
     }
 }
 
