@@ -151,7 +151,9 @@ export class SingleMessageComponent {
   }
 
   getMessagesCount(threadId: string) {
-    this.messageCount$ = this.threadService.getMessagesCount(threadId);
+    if(threadId) {
+      this.messageCount$ = this.threadService.getMessagesCount(threadId);
+    }
   }
 
   openThread() {
