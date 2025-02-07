@@ -138,7 +138,6 @@ export class ThreadsDbService {
   }
 
   getMessagesCount(threadId: string): Observable<string> {
-    console.log(threadId);
     const messagesCollection = collection(this.threads, `threads/${threadId}/messages`);
     const messagesQuery = query(messagesCollection);
 

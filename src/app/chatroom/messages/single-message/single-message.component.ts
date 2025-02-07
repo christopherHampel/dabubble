@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, inject, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { ChatsService } from './../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
@@ -30,7 +30,6 @@ export class SingleMessageComponent {
 
   isEditing: boolean = false;
   emojiQuickBar:boolean = false;
-  // messageCount: number = 0;
   messageCount$: Observable<string> = new Observable<string>();
 
   constructor(public chatService: ChatsService, 
@@ -41,8 +40,8 @@ export class SingleMessageComponent {
     this.isEditing = newValue;
   }
 
-  ngOnChanges(): void {
-    if (this.currentMessage && this.currentMessage.associatedThreadId) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.currentMessage && this.currentMessage && this.currentMessage.associatedThreadId) {
       this.messageCount$ = this.threadService.getMessagesCount(this.currentMessage.associatedThreadId);
     }
   }
@@ -156,7 +155,7 @@ export class SingleMessageComponent {
     }
   }
 
-  openThread() {
+  openThreadFromSingleMessage() {
     this.child?.openThread();
   }
 }

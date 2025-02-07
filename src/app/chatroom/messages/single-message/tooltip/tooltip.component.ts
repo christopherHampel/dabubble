@@ -24,6 +24,7 @@ export class TooltipComponent {
   private threadsDb = inject(ThreadsDbService);
   @Input() isEditing: boolean = false;
   @Input() message: any;
+  @Input() chatId:string = '';
   @Output() isEditingChange = new EventEmitter<boolean>();
 
   constructor(private router: Router, public chatService: ChatsService) { }
@@ -57,7 +58,7 @@ export class TooltipComponent {
         participantsDetails: this.chat.chatData.participantsDetails
       }
       await this.threadsDb.addThread(thread, this.message);
-      await this.chat.updateAssociatedThreadId(this.message.docId, this.chat.currentChatId, this.threadsDb.currentThreadId());
+      await this.chat.updateAssociatedThreadId(this.message.docId, this.chatId, this.threadsDb.currentThreadId());
     }
 
     this.router.navigate(['/chatroom', { outlets: { thread: ['thread', this.threadsDb.currentThreadId()] } }]);
