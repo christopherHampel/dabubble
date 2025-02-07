@@ -27,7 +27,7 @@ export class ChatsService {
   private unsubMessage : Unsubscribe | null = null;
   private unsubChatInfo: Unsubscribe | null = null;
   chatData!: ChatData;
-  hasScrolled: boolean = false;
+  // hasScrolled: boolean = false;
   currentChatId!: string;
 
   getPrivateChatCollection() {
@@ -214,7 +214,6 @@ export class ChatsService {
 
   async updateAssociatedThreadId(docId: string, chatId: string, threadId: string) {
     // console.log(docId + '   ' + chatId + '   ' + threadId);
-    debugger;
     const querySnapshot = await this.getQuerySnapshot(docId, chatId);
     const messageDoc = querySnapshot.docs[0];
     await updateDoc(messageDoc.ref, {associatedThreadId: threadId});

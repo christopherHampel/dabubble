@@ -14,6 +14,7 @@
         <div [ngClass]="this.isMessageFromCurrentUser() ? 'content' : 'flex-start'">
     
             <div class="time-username" *ngIf="!isEditing">
+                <!-- <span *ngIf="component == 'thread'">{{ showDate() }}</span> -->
                 <span>{{ getTime() }} Uhr</span>
                 <span class="username">{{ currentMessage.messageAuthor.name }}</span>
             </div>

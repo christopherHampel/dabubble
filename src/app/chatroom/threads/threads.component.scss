@@ -47,11 +47,13 @@ section {
 }
 
 .message-field {
+    scroll-behavior: smooth;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
     flex: 1;
     gap: 20px;
+    scrollbar-width: none;
 }
 
 .message-wrapper {

@@ -1,20 +1,30 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SingleMessageComponent } from '../messages/single-message/single-message.component';
 import { TextareaComponent } from '../../shared/textarea/textarea.component';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ScrollService } from '../../services/message/scroll.service';
 
 @Component({
   selector: 'app-threads',
   imports: [CommonModule, TextareaComponent, SingleMessageComponent],
   templateUrl: './threads.component.html',
-  styleUrl: './threads.component.scss'
+  styleUrl: './threads.component.scss',
+  providers: [ScrollService] // Eigene Instanz des Services
 })
 export class ThreadsComponent {
-  threadsDb = inject(ThreadsDbService)
+  threadsDb = inject(ThreadsDbService);
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+    @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
+    @ViewChildren(SingleMessageComponent) messageComponents!: QueryList<SingleMessageComponent>;
+
+    private hasScrolledToBottom: boolean = false;
+
+  constructor(
+    private router: Router, 
+    private activatedRoute: ActivatedRoute,
+    private scrollService: ScrollService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -23,8 +33,23 @@ export class ThreadsComponent {
     });
   }
 
+  ngAfterViewInit() {
+    this.scrollService.setScrollContainer(this.myScrollContainer);
+  }
+
   closeThread() {
     this.threadsDb.currentThreadId.set('');
     this.router.navigate(['/chatroom', {outlets: {thread: null}}]);
+  }
+
+  scrollDown(){
+    this.scrollService.scrollToBottom();
+  }
+
+  ngAfterViewChecked() {
+    if (!this.hasScrolledToBottom && this.messageComponents.length > 0) {
+      this.scrollService.scrollToBottom();
+      this.hasScrolledToBottom = true;
+    }
   }
 }
