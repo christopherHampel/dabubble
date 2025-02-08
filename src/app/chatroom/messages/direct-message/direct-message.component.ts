@@ -16,6 +16,7 @@ import { AuthService } from '../../../services/auth/auth.service';
   imports: [ CommonModule, FormsModule, TextareaComponent, SingleMessageComponent, EmojiPickerComponentComponent ],
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
+  providers: [ScrollService] // Eigene Instanz des Services
 })
 export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -44,7 +45,8 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.getIdFromUrl();
-    this.subcribeLogOut()
+    this.subcribeLogOut();
+    this.scrollDown();
   }
 
   getIdFromUrl() {
@@ -52,15 +54,7 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
       this.chatId = params.get('id')!;
       this.chatService.getChatInformationen(this.chatId);
       this.chatMessages$ = this.chatService.messages$;
-      // this.scrollService.hasScrolled = false;
       this.hasScrolledToBottom = false;
-    });
-
-    this.chatMessages$.pipe(first()).subscribe(() => {
-      setTimeout(() => {
-        this.scrollService.scrollToBottom();
-        this.hasScrolledToBottom = true;
-      }, 100);
     });
   }
 
@@ -76,10 +70,11 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngAfterViewChecked() {
-    // console.log(this.hasScrolledToBottom)
     if (!this.hasScrolledToBottom && this.messageComponents.length > 0) {
-      this.scrollService.scrollToBottom();
-      this.hasScrolledToBottom = true;
+      setTimeout( () => {
+        this.scrollService.scrollToBottom();
+        this.hasScrolledToBottom = true;
+      }, 100)
     }
   }
 

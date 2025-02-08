@@ -19,8 +19,6 @@ export class ThreadsComponent {
     @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
     @ViewChildren(SingleMessageComponent) messageComponents!: QueryList<SingleMessageComponent>;
 
-    private hasScrolledToBottom: boolean = false;
-
   constructor(
     private router: Router, 
     private activatedRoute: ActivatedRoute,
@@ -47,9 +45,13 @@ export class ThreadsComponent {
   }
 
   ngAfterViewChecked() {
-    if (!this.hasScrolledToBottom && this.messageComponents.length > 0) {
-      this.scrollService.scrollToBottom();
-      this.hasScrolledToBottom = true;
+    if (!this.scrollService.hasScrolled && this.messageComponents.length > 0) {
+      this.scrollService.scrollToBottom()
+      // this.scrollToBottom();
+      // setTimeout(() => {
+      //   this.scrollToBottom();
+      //   this.chatService.hasScrolled = true;
+      // }, 100);
     }
   }
 }
