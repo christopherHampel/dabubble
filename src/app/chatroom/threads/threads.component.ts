@@ -47,11 +47,6 @@ export class ThreadsComponent {
   ngAfterViewChecked() {
     if (!this.scrollService.hasScrolled && this.messageComponents.length > 0) {
       this.scrollService.scrollToBottom()
-      // this.scrollToBottom();
-      // setTimeout(() => {
-      //   this.scrollToBottom();
-      //   this.chatService.hasScrolled = true;
-      // }, 100);
     }
   }
 }

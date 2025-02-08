@@ -78,7 +78,6 @@ export class SingleMessageComponent {
 
   addEmoji(emoji:string) {
     this.emojiService.currentMessage = this.currentMessage;
-    console.log('chatid:', this.chatId);
     this.emojiService.addEmoji(emoji, this.chatId);
     this.emojiQuickBar = !this.emojiQuickBar;
   }
@@ -108,7 +107,6 @@ export class SingleMessageComponent {
     }
   }
   
-
   checkTodayYesterday(timestamp: Date | Timestamp): string {
     const date = timestamp instanceof Date ? timestamp : timestamp.toDate();
   

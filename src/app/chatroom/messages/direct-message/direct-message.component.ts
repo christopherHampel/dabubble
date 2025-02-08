@@ -46,7 +46,7 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.getIdFromUrl();
     this.subcribeLogOut();
-    this.scrollDown();
+    // this.scrollDown();
   }
 
   getIdFromUrl() {
@@ -79,8 +79,6 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    this.hasScrolledToBottom = false;
-
     if (this.logoutSubscription) {
       this.logoutSubscription.unsubscribe();
     }
