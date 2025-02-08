@@ -10,6 +10,7 @@ import { ChannelComponent } from './chatroom/messages/channel/channel.component'
 import { ResetPasswordComponent } from './registration/reset-password/reset-password.component';
 import { NewPasswordComponent } from './registration/new-password/new-password.component';
 import { ThreadsComponent } from './chatroom/threads/threads.component';
+import { DefaultComponent } from './chatroom/messages/default/default.component';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,7 @@ export const routes: Routes = [
   {
     path: 'chatroom', component: ChatroomComponent,
     children: [
+      { path: '', component: DefaultComponent, outlet: 'directmessage' },
       { path: 'direct-message/:id', component: DirectMessageComponent, outlet: 'directmessage' },
       { path: 'thread/:threadId', component: ThreadsComponent, outlet: 'thread' },
       { path: 'channel/:id', component: ChannelComponent }

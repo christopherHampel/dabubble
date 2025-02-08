@@ -1,0 +1,33 @@
+@use './../messages.component.scss';
+
+section {
+    height: calc(100vh - 102px - 16px);
+}
+
+.message-head {
+    flex-direction: column;
+    align-items: flex-start;
+
+    div {
+        width: 100%;
+        padding: 15px 20px;
+        border: 1px solid #ADB0D9;
+        border-radius: 30px;
+
+        input {
+            width: 100%;
+            border-width: 0;
+            outline: none;
+            font-size: 18px;
+        }
+
+        input::placeholder {
+            font-size: 18px;
+            color: #686868;
+        }
+    };
+}
+
+.textarea {
+    padding: 32px;
+}

@@ -6,16 +6,12 @@ import { ElementRef, Injectable } from '@angular/core';
 export class ScrollService {
 
   hasScrolled: boolean = false;
+  hasScrolledDirectMessage = false
   private scrollContainer!: ElementRef;
-  // private scrollContainers: ElementRef[] = [];
-
-
   constructor() { }
 
   setScrollContainer(container: ElementRef) {
     this.scrollContainer = container;
-    // this.scrollContainers.push(container);
-
   }
 
   scrolling() {
@@ -23,6 +19,7 @@ export class ScrollService {
     setTimeout(() => {
       this.scrollToBottom();
       this.hasScrolled = true;
+      // this.hasScrolledDirectMessage = true;
     }, 100);
   }
 
@@ -31,9 +28,4 @@ export class ScrollService {
       this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
     }
   }
-  // scrollToBottom(): void {
-  //   this.scrollContainers.forEach(container => {
-  //     container.nativeElement.scrollTop = container.nativeElement.scrollHeight;
-  //   });
-  // }
 }

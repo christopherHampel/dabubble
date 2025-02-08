@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DevspaceChannelsComponent } from './devspace-channels/devspace-channels.component';
 import { DevspaceDirectmessagesComponent } from './devspace-directmessages/devspace-directmessages.component';
 import { HideOrShowNavbarComponent } from './hide-or-show-navbar/hide-or-show-navbar.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-devspace',
@@ -12,4 +13,10 @@ import { HideOrShowNavbarComponent } from './hide-or-show-navbar/hide-or-show-na
 })
 export class DevspaceComponent {
   devspaceClose: boolean = false;
+
+  constructor( private route: Router) {}
+
+  clickDefaultMessage() {
+    this.route.navigate(['/chatroom']);
+  }
 }
