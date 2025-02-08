@@ -105,7 +105,6 @@ export class ChatsService {
         // console.log('single message is:', doc.data())
         messages.push(message);
       });
-      console.log('Messages is:', messages)
       this.messagesSubject.next(messages);
     });
   }

@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { FirebaseApp } from '@angular/fire/app';
 import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, user } from '@angular/fire/auth';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,9 @@ export class AuthService {
   private firebaseapp = inject(FirebaseApp);
   private auth = inject(Auth);
   currentAuthUser = user(this.auth);
+
+  private logoutSubject = new BehaviorSubject<void>(null!); // Startwert setzen
+  logout$ = this.logoutSubject.asObservable();
 
   constructor() { }
 
@@ -43,6 +46,7 @@ export class AuthService {
 
 
   async logout() {
+    this.logoutSubject.next();
     await signOut(this.auth);
   }
 }
