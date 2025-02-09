@@ -259,11 +259,11 @@ export class ChatsService {
     if(threadData) {
       const chatId = threadData['chatId'];
       const currentMessageId = threadData['currentMessageId'];
-      this.getMessageByChatIdAndMessageId(chatId, currentMessageId)
+      this.getMessageByChatIdAndMessageId(chatId, currentMessageId, currentThreadId)
     }
   }
 
-  async getMessageByChatIdAndMessageId(chatId: string, currentMessageId: string): Promise<void> {
+  async getMessageByChatIdAndMessageId(chatId: string, currentMessageId: string, currentThreadId:string): Promise<void> {
     const querySnapshot = await this.getQuerySnapshot(currentMessageId, chatId);
     const messageDoc = querySnapshot.docs[0];
 
@@ -272,6 +272,7 @@ export class ChatsService {
 
     await updateDoc(messageDoc.ref, { 
       associatedThreadId: {
+        threadId: currentThreadId,
         count: currentCount + 1,
       }
     });

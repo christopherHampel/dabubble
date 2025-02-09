@@ -48,7 +48,8 @@ export class TooltipComponent {
   }
 
   async openThread() {
-    if (this.message.associatedThreadId.threadId) {
+    // console.log(this.message);
+    if (this.message.associatedThreadId) {
       this.threadsDb.currentThreadId.set(this.message.associatedThreadId.threadId);
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
     } else {

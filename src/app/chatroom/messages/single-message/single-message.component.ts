@@ -30,7 +30,6 @@ export class SingleMessageComponent {
 
   isEditing: boolean = false;
   emojiQuickBar:boolean = false;
-  messageCount$: Observable<string> = new Observable<string>();
 
   constructor(public chatService: ChatsService, 
               public usersService: UsersDbService,
@@ -40,11 +39,11 @@ export class SingleMessageComponent {
     this.isEditing = newValue;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.currentMessage && this.currentMessage && this.currentMessage.associatedThreadId) {
-      this.messageCount$ = this.threadService.getMessagesCount(this.currentMessage.associatedThreadId);
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (this.currentMessage && this.currentMessage && this.currentMessage.associatedThreadId) {
+  //     this.messageCount$ = this.threadService.getMessagesCount(this.currentMessage.associatedThreadId);
+  //   }
+  // }
 
   updateMessage(currentMessage:CurrentMessage) {
     this.isEditing = false;
@@ -145,12 +144,6 @@ export class SingleMessageComponent {
   toggleBoolean() {
     this.chatService.menu = false;
     this.emojiQuickBar = false;
-  }
-
-  getMessagesCount(threadId: string) {
-    if(threadId) {
-      this.messageCount$ = this.threadService.getMessagesCount(threadId);
-    }
   }
 
   openThreadFromSingleMessage() {
