@@ -29,7 +29,6 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
   hasScrolled: boolean = false;
   emojiService = inject(EmojisService);
   private logoutSubscription!: Subscription;
-  routerSubscription: any;
 
   constructor(  private route: ActivatedRoute, 
                 public chatService: ChatsService,
@@ -76,7 +75,7 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
         this.scrollService.scrollToBottom();
         // this.scrollService.hasScrolledDirectMessage = true;
         this.hasScrolled = true;
-      }, 100)
+      }, 50)
     }
   }
 
@@ -107,8 +106,4 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
   trackByFn(index: number, item: any): number | string {
     return item.id;
   }
-
-  // scrollDown(){
-  //   this.scrollService.scrollToBottom();
-  // }
 }

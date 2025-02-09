@@ -28,8 +28,8 @@ export const routes: Routes = [
   {
     path: 'chatroom', component: ChatroomComponent,
     children: [
-      { path: '', component: DefaultComponent, outlet: 'directmessage' },
-      { path: 'direct-message/:id', component: DirectMessageComponent, outlet: 'directmessage' },
+      { path: '', component: DefaultComponent, outlet: 'chats' },
+      { path: 'direct-message/:id', component: DirectMessageComponent, outlet: 'chats' },
       { path: 'thread/:threadId', component: ThreadsComponent, outlet: 'thread' },
       { path: 'channel/:id', component: ChannelComponent }
     ]

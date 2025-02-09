@@ -16,7 +16,7 @@ export class DevspaceComponent {
 
   constructor( private route: Router) {}
 
-  clickDefaultMessage() {
-    this.route.navigate(['/chatroom']);
+  goToDefault() {
+    this.route.navigate(['/chatroom', {outlets: {chats: null}}]);
   }
 }

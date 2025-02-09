@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { CommonModule } from '@angular/common';
 
@@ -6,7 +6,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-default',
   imports: [ TextareaComponent, CommonModule],
   templateUrl: './default.component.html',
-  styleUrl: './default.component.scss'
+  styleUrl: './default.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DefaultComponent {
 
