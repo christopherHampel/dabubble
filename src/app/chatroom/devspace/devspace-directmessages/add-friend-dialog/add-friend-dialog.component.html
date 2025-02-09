@@ -5,8 +5,8 @@
   </header>
 
   <form (ngSubmit)="selectedUser['id'] ? startChat() : null">
-    <div>
-      <!-- View selected user -->
+
+<!--     <div>
       <div *ngIf="selectedUser['id']" class="input-added-user">
         <div class="user-view-input">
           <img src="{{selectedUser['avatar']}}" alt="">
@@ -18,7 +18,6 @@
       <input #inputField *ngIf="!selectedUser['id']" class="input-text" [(ngModel)]="userName" name="userName" type="text" placeholder="Name eingeben"
         autocomplete="off">
 
-        <!-- Dropdown existed user after input -->
       <ul *ngIf="filteredUsersAfterInput().length > 0 && !selectedUser['id']" class="dropdown-add-user">
         <ng-container *ngFor="let user of getUserList()">
           <li *ngIf="filteredUserForDropdown(user.userName)" (click)="selectUser(user.id)" class="user-view-small">
@@ -31,7 +30,9 @@
         </ng-container>
       </ul>
 
-    </div>
+    </div> -->
+    <app-add-people-input #addPeopleInput class="width-100-percent" (selectedUserOut)="selectUser($event)"></app-add-people-input>
+
     <button class="primary-button" type="submit" [disabled]="!selectedUser['id']">Chat starten</button>
   </form>
 

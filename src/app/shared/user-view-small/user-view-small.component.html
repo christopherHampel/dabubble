@@ -1,0 +1,7 @@
+<li *ngIf="filteredUserForDropdown(user.userName)" (click)="selectUser(user.id)" class="user-view-small">
+    <div>
+        <img src="{{user.avatar}}" alt="">
+        <div class="active-status" [ngClass]="{'online': user.active, 'offline': !user.active}"></div>
+    </div>
+    <span>{{user.userName}}</span>
+</li>

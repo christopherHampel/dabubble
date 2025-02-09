@@ -5,12 +5,15 @@ import { UsersDbService } from '../../../../services/usersDb/users-db.service';
 import { UserProfile } from '../../../../interfaces/userProfile';
 import { ChatsService } from '../../../../services/message/chats.service';
 import { Router } from '@angular/router';
+import { AddPeopleInputComponent } from '../../../../shared/add-people-input/add-people-input.component';
+import { coerceStringArray } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'app-add-friend-dialog',
   imports: [
     FormsModule,
     CommonModule,
+    AddPeopleInputComponent
   ],
   templateUrl: './add-friend-dialog.component.html',
   styleUrl: './add-friend-dialog.component.scss'
@@ -18,83 +21,30 @@ import { Router } from '@angular/router';
 export class AddFriendDialogComponent {
   private usersDb = inject(UsersDbService);
   private chatService = inject(ChatsService);
-  userName: string = '';
   selectedUser: UserProfile = {} as UserProfile;
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
-  @ViewChild('inputField') inputFieldRef!: ElementRef<HTMLInputElement>;
+  @ViewChild('addPeopleInput') addPeopleInput!: any;
 
   constructor(private router: Router) { }
 
   ngOnChanges() {
     if (this.dialogOpen) {
       this.focusInput();
-      this.resetUserName();
-      this.resetSelectedUser();
     }
   }
 
   focusInput() {
-    setTimeout(() => this.inputFieldRef.nativeElement.focus(), 50);
+    this.addPeopleInput.focusInput();
+  }
+
+  selectUser(event: any) {
+    this.selectedUser = event;
   }
 
   closeDialog() {
     this.dialogOpen = false;
     this.dialogClose.emit(true);
-  }
-
-  getUserList() {
-    if (this.usersDb.currentUser) {
-      return this.usersDb.userList.filter(user =>
-        user.id != this.usersDb.currentUser!.id &&
-        !this.usersDb.currentUser!.directmessagesWith.includes(user.id));
-    } else {
-      return [];
-    }
-  }
-
-  removeUser() {
-    this.selectedUser = {} as UserProfile;
-    this.focusInput();
-  }
-
-  selectUser(id: string | undefined) {
-    const user: any = this.getUserList().find(user => user.id == id);
-    this.selectedUser = {
-      id: user.id,
-      userName: user.userName,
-      email: user.emai,
-      avatar: user.avatar,
-      active: user.active,
-      clicked: false,
-      directmessagesWith: user.directmessagesWith
-    }
-
-    this.resetUserName();
-  }
-
-  filteredUsersAfterInput() {
-    if (!this.userName) {
-      return [];
-    } else {
-      return this.getUserList().filter(user => user.userName.toLocaleLowerCase().startsWith(this.userName.toLocaleLowerCase()));
-    }
-  }
-
-  filteredUserForDropdown(currentUser: string): boolean {
-    if (!this.userName) {
-      return false;
-    } else {
-      return currentUser.toLocaleLowerCase().startsWith(this.userName.toLocaleLowerCase());
-    }
-  }
-
-  resetUserName() {
-    this.userName = '';
-  }
-
-  resetSelectedUser() {
-    this.selectedUser = {} as UserProfile;
   }
 
   async startChat() {

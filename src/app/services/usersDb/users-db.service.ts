@@ -58,7 +58,7 @@ export class UsersDbService {
     return {
       id: id || '',
       userName: object.userName || '',
-      email: object.emai || '',
+      email: object.email || '',
       avatar: object.avatar || '',
       active: object.active || false,
       clicked: object.clicked || false,

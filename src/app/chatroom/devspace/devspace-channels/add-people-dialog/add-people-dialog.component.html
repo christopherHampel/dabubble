@@ -1,23 +1,50 @@
-<section class="add-people-dialog" [ngStyle]="{'display': dialogOpen ? 'flex' : 'none'}">
+<section class="add-people-dialog" [ngStyle]="{'display': dialogOpen ? 'flex' : 'none'}"
+    [ngClass]="{'height-option1': selectedOption === 'option1', 'height-option2': selectedOption === 'option2'}">
     <header class="header-dialog">
         <h2>Leute hinzufügen</h2>
         <div class="close-icon"></div>
     </header>
 
     <form action="">
-        <div>
-            <input [(ngModel)]="selectedOption" name="radio" type="radio" value="option 1" checked>
+        <div class="radio-button">
+            <input [(ngModel)]="selectedOption" name="option" type="radio" value="option1">
             <label for="">
-                Alle Mitglieder von <span class="color-blue">Office Team</span> hinzufügen
+                <p>
+                    Alle Mitglieder von <span class="color-blue">Office Team</span> hinzufügen
+                </p>
             </label>
         </div>
 
         <div>
-            <input [(ngModel)]="selectedOption" name="radio" type="radio" value="option 2">
-            <label for="">Bestimmte Leute hinzufügen</label>
+            <div class="radio-button">
+                <input (click)="focusInput(); resetUserName()" [(ngModel)]="selectedOption" name="option" type="radio"
+                    value="option2">
+                <label for="">
+                    <p>
+                        Bestimmte Leute hinzufügen
+                    </p>
+                </label>
+            </div>
+
+<!--             <input #inputField [ngClass]="{'collapsed': selectedOption === 'option1'}" [(ngModel)]="userName"
+                name="userName" class="input-text" type="text" placeholder="Name eingeben">
+
+            <ul [ngClass]="{'collapsed': selectedOption === 'option1'}" class="dropdown-add-user">
+                <ng-container>
+                    <li class="user-view-small">
+                        <div>
+                            <img src="" alt="">
+                            <div class="active-status"></div>
+                        </div>
+                        <span></span>
+                    </li>
+                </ng-container>
+            </ul> -->
+
+            <app-add-people-input #addPeopleInput class="input-text" [ngClass]="{'collapsed': selectedOption === 'option1'}" class="width-100-percent" (selectedUserOut)="selectUser($event)"></app-add-people-input>
         </div>
 
-        <button class="primary-button">Erstellen</button>
+        <button [disabled]="buttonDisabled()" class="primary-button">Erstellen</button>
     </form>
 
 </section>
