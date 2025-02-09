@@ -106,4 +106,11 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
   trackByFn(index: number, item: any): number | string {
     return item.id;
   }
+
+  isDataLoaded(): boolean {
+    return !!this.chatService.chatPartner &&
+           !!this.chatService.chatPartner.avatar &&
+           !!this.chatService.chatPartner.name &&
+           this.chatMessages$ !== undefined;
+}
 }

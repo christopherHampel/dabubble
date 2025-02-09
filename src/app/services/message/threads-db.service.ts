@@ -5,6 +5,7 @@ import { onSnapshot } from 'firebase/firestore';
 import { Thread } from '../../interfaces/thread';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { map, Observable } from 'rxjs';
+import { CurrentMessage } from '../../interfaces/current-message';
 
 @Injectable({
   providedIn: 'root'
@@ -31,14 +32,16 @@ export class ThreadsDbService {
     return this.messageListSig();
   }
 
-  async addThread(thread: any, message: Message) {
+  async addThread(thread: any, message: Message, chatId:string, currentMessage: CurrentMessage) {
     await addDoc(this.getThredRef(), thread)
       .then(async (docRef) => {
         await this.addMessageToThread(docRef.id, message);
         this.currentThreadId.set(docRef.id);
         this.unsubMessageList = this.subMessageList(docRef.id);
         updateDoc(docRef, {
-          docId: docRef.id
+          docId: docRef.id,
+          chatId: chatId,
+          currentMessageId: currentMessage.docId
         });
       });
   }

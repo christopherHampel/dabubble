@@ -41,6 +41,7 @@
             <div class="emoji-reactions" *ngIf="!isEditing">
 
                 <div class="answers-from-thread">
+                    {{ currentMessage.associatedThreadId.count }}
                     <!-- <span (click)="openThreadFromSingleMessage()">{{ messageCount$ | async }}</span> -->
                 </div>
 

@@ -41,11 +41,7 @@ export class TextareaComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.chatId = params.get('id')!;
     })
-  }
-
-  // scrollDown() {
-  //   this.childEvent.emit();
-  // } 
+  } 
 
   async sendText(e: any) {
     e.preventDefault();
@@ -54,6 +50,7 @@ export class TextareaComponent implements OnInit {
         await this.chatService.addMessageToChat(this.message, this.chatId);
       } else if (this.component == 'thread') {
         await this.threadDb.addMessageToThread(this.threadDb.currentThreadId(), this.message);
+        await this.chatService.updateThreadAnswersCount(this.threadDb.currentThreadId());
       }
       this.message = '';
       this.scrollService.scrollToBottom();

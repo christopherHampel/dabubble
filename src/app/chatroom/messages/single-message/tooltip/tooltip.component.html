@@ -11,7 +11,7 @@
     
     <a class="tooltip-icon" (click)="toggleEmoji()"><img src="/img/add_reaction.png" alt="">
         <app-emoji-picker-component 
-        (emojiSelected)="addEmojiToMessage($event, currentMessage)" 
+        (emojiSelected)="addEmojiToMessage($event, message)" 
         *ngIf="emojiMartOpen">
         </app-emoji-picker-component>
     </a>
