@@ -7,18 +7,18 @@ import { ThreadsDbService } from '../../../../services/message/threads-db.servic
 import { ChatsService } from '../../../../services/message/chats.service';
 import { ChatData } from '../../../../interfaces/chat-data';
 import { Router } from '@angular/router';
-
+import { CurrentMessage } from '../../../../interfaces/current-message';
+import { EmojisService } from '../../../../services/message/emojis.service';
 
 @Component({
   selector: 'app-tooltip',
-  imports: [MatMenuModule, MatIconModule, EmojiPickerComponentComponent, CommonModule],
+  imports: [MatMenuModule, MatIconModule, CommonModule],
   templateUrl: './tooltip.component.html',
   styleUrl: './tooltip.component.scss'
 })
 export class TooltipComponent {
 
   testEmoji: any = { char: '😀', name: 'Grinning Face', category: 'Smileys' };
-  currentMessage: any;
   emojiMartOpen: boolean = false;
   private chat = inject(ChatsService);
   private threadsDb = inject(ThreadsDbService);
@@ -27,7 +27,10 @@ export class TooltipComponent {
   @Input() chatId:string = '';
   @Output() isEditingChange = new EventEmitter<boolean>();
 
-  constructor(private router: Router, public chatService: ChatsService) { }
+  constructor(
+    private router: Router, 
+    public chatService: ChatsService,
+    private emojiService: EmojisService) { }
 
   editMessage() {
     this.isEditing = true;
@@ -39,17 +42,17 @@ export class TooltipComponent {
   addEmojiToMessage(placeholder: string, placeholder2: string) { }
 
   toggleEmoji() {
-    this.emojiMartOpen = !this.emojiMartOpen;
+    this.emojiService.currentMessage = this.message;
+    this.emojiService.emojiPickerOpen = !this.emojiService.emojiPickerOpen; 
   }
 
   toggleMenu() {
-    // this.menu = !this.menu;
     this.chatService.menu = !this.chatService.menu;
   }
 
   async openThread() {
     if (this.message.associatedThreadId) {
-      this.threadsDb.currentThreadId.set(this.message.associatedThreadId);
+      this.threadsDb.currentThreadId.set(this.message.associatedThreadId.threadId);
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
     } else {
       let thread: ChatData = {
@@ -57,11 +60,9 @@ export class TooltipComponent {
         participants: this.chat.chatData.participants,
         participantsDetails: this.chat.chatData.participantsDetails
       }
-
-      await this.threadsDb.addThread(thread, this.message);
+      await this.threadsDb.addThread(thread, this.message, this.chatId, this.message);
       await this.chat.updateAssociatedThreadId(this.message.docId, this.chatId, this.threadsDb.currentThreadId());
     }
-
     this.router.navigate(['/chatroom', { outlets: { thread: ['thread', this.threadsDb.currentThreadId()] } }]);
   }
 }

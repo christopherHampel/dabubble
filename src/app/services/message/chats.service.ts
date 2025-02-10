@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { collection, doc, addDoc, updateDoc, query, where, getDocs, onSnapshot, serverTimestamp, orderBy, limit, DocumentData, Unsubscribe } from 'firebase/firestore';
+import { collection, doc, addDoc, updateDoc, query, where, getDocs, onSnapshot, serverTimestamp, orderBy, limit, DocumentData, Unsubscribe, getDoc } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 // import { CurrentMessage } from '../../interfaces/current-message';
@@ -31,12 +31,16 @@ export class ChatsService {
   currentChatId!: string;
 
   getPrivateChatCollection() {
-    // console.log('Component chat service: ', this.component);
+    // console.log('Component chat service: ', this.component());
     if (this.component() == 'chat') {
       return collection(this.firestore, 'messages');
     } else {
       return collection(this.firestore, 'threads');
     }
+  }
+
+  getTesttest() {
+    return collection(this.firestore, 'threads');
   }
 
   getSingleDocRef(collId: string, docId: string) {
@@ -53,6 +57,10 @@ export class ChatsService {
 
   getUserId() {
     return this.usersService.currentUserSig()?.id;
+  }
+
+  getUserAvatar() {
+    return this.usersService.currentUserSig()?.avatar;
   }
 
   async getChatInformationen(chatId: string) {
@@ -182,7 +190,8 @@ export class ChatsService {
       associatedThreadId: '',
       messageAuthor: {
         name: this.getUserName() || '',
-        id: this.getUserId() || ''
+        id: this.getUserId() || '',
+        avatar: this.getUserAvatar() || ''
       },
       text: text,
       createdAt: serverTimestamp(),
@@ -193,6 +202,7 @@ export class ChatsService {
 
   async getQuerySnapshot(docId: string, chatId: string,) {
     if (docId) {
+      // const chatRef = collection(this.getPrivateChatCollection(), chatId, 'messages');
       const chatRef = collection(this.getPrivateChatCollection(), chatId, 'messages');
       const chatQuery = query(chatRef, where('docId', '==', docId));
       return await getDocs(chatQuery);
@@ -212,10 +222,14 @@ export class ChatsService {
   }
 
   async updateAssociatedThreadId(docId: string, chatId: string, threadId: string) {
-    // console.log(docId + '   ' + chatId + '   ' + threadId);
     const querySnapshot = await this.getQuerySnapshot(docId, chatId);
     const messageDoc = querySnapshot.docs[0];
-    await updateDoc(messageDoc.ref, {associatedThreadId: threadId});
+    await updateDoc(messageDoc.ref, { 
+      associatedThreadId: {
+        threadId: threadId,
+        count: 0
+      }
+    });
   }
 
   async checkFirstMessage(chatId: string): Promise<boolean> {
@@ -243,5 +257,34 @@ export class ChatsService {
       now.getMonth() > lastMessageDate.getMonth() ||
       now.getDate() > lastMessageDate.getDate()
     );
+  }
+
+  async updateThreadAnswersCount(currentThreadId: string): Promise<void> {
+    console.log('ThreadId is:', currentThreadId);
+  
+    const docRef = this.getSingleDocRef('threads', currentThreadId);
+    const docSnapshot = await getDoc(docRef);
+    const threadData = docSnapshot.data();
+
+    if(threadData) {
+      const chatId = threadData['chatId'];
+      const currentMessageId = threadData['currentMessageId'];
+      this.getMessageByChatIdAndMessageId(chatId, currentMessageId, currentThreadId)
+    }
+  }
+
+  async getMessageByChatIdAndMessageId(chatId: string, currentMessageId: string, currentThreadId:string): Promise<void> {
+    const querySnapshot = await this.getQuerySnapshot(currentMessageId, chatId);
+    const messageDoc = querySnapshot.docs[0];
+
+    const messageData = messageDoc.data();
+    const currentCount = messageData['associatedThreadId']['count'];
+
+    await updateDoc(messageDoc.ref, { 
+      associatedThreadId: {
+        threadId: currentThreadId,
+        count: currentCount + 1,
+      }
+    });
   }
 }

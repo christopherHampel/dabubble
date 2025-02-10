@@ -59,6 +59,10 @@ export class DevspaceDirectmessagesComponent {
     this.dialog = event;
   }
 
+  trackByUserId(index: number, user: any): number {
+    return user.id;
+  }
+
   getUserList() {
     if (this.usersDb.currentUser) {
       return this.usersDb.userList.filter(user => this.usersDb.currentUser!.directmessagesWith.includes(user.id));
@@ -71,7 +75,7 @@ export class DevspaceDirectmessagesComponent {
     try {
       const chatId = await this.chatService.setPrivateChat(user);
       this.chatService.currentChatId = chatId;
-      this.router.navigate(['/chatroom', {outlets: {directmessage: ['direct-message', chatId]}}]);
+      this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', chatId]}}]);
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);
     }

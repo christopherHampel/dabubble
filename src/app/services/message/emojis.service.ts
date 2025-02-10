@@ -9,7 +9,6 @@ import { CurrentMessage } from '../../interfaces/current-message';
 })
 export class EmojisService {
 
-
   customEmojis = ['👍', '😂', '😍', '✅', '🙂'];
 
   emojiPickerOpen:boolean = false;
@@ -17,35 +16,70 @@ export class EmojisService {
 
   constructor(private usersService: UsersDbService, private chatSerive: ChatsService) { }
 
-  async addEmoji(emoji: string, chatId: string) {
+  async getMessageDocument(chatId: string) {
     const query = await this.chatSerive.getQuerySnapshot(this.currentMessage.docId, chatId);
-    const messageDoc = query.docs[0];
-    const messageData = messageDoc.data();
-    const emojis = messageData['emojis'] || [];
-    
-    const currentUserId = this.usersService.currentUserSig()?.id;
-    const currentUserName = this.usersService.currentUserSig()?.userName;
+    return query.docs[0]; // Die erste (und einzige) Nachricht zurückgeben
+  }
   
-    const existingEmoji = emojis.find((e: any) => e.emoji === emoji);
-    
-    if (existingEmoji) {
-      if (!existingEmoji.id.includes(currentUserId)) {
-        existingEmoji.count += 1;
-        existingEmoji.id.push(currentUserId);
-        existingEmoji.name.push(currentUserName);
+  removeUserExistingReaction(emojis: any[], userId: string) {
+    let reactionIndex = emojis.findIndex((e: any) => e.id.includes(userId));
+  
+    if (reactionIndex !== -1) {
+      let existingEmoji = emojis[reactionIndex];
+      const userIndex = existingEmoji.id.indexOf(userId);
+  
+      if (userIndex !== -1) {
+        existingEmoji.id.splice(userIndex, 1);
+        existingEmoji.name.splice(userIndex, 1);
+        existingEmoji.count -= 1;
+  
+        // Falls das Emoji keine Nutzer mehr hat, aus der Liste entfernen
+        if (existingEmoji.count === 0) {
+          emojis.splice(reactionIndex, 1);
+        }
       }
+    }
+  }
+  
+  addUserReaction(emojis: any[], emoji: string, userId: string, userName: string) {
+    let existingEmoji = emojis.find((e: any) => e.emoji === emoji);
+  
+    if (existingEmoji) {
+      existingEmoji.id.push(userId);
+      existingEmoji.name.push(userName);
+      existingEmoji.count += 1;
     } else {
-      const emojiPackage = {
+      emojis.push({
         emoji: emoji,
         count: 1,
-        id: [currentUserId],
-        name: [currentUserName]
-      };
-      emojis.push(emojiPackage);
+        id: [userId],
+        name: [userName]
+      });
     }
+  }
   
+  async updateMessageEmojis(messageDoc: any, emojis: any[]) {
     await updateDoc(messageDoc.ref, { emojis });
   }
+  
+  async addEmoji(emoji: string, chatId: string) {
+    const messageDoc = await this.getMessageDocument(chatId);
+    const messageData = messageDoc.data();
+    let emojis = messageData['emojis'] || [];
+    this.emojiPickerOpen = false;
+    const currentUserId = this.usersService.currentUserSig()?.id;
+    const currentUserName = this.usersService.currentUserSig()?.userName;
+
+    if (!currentUserId || !currentUserName) {
+      console.error("Fehler: Kein gültiger Benutzer gefunden.");
+      return;
+    }
+  
+    this.removeUserExistingReaction(emojis, currentUserId);
+    this.addUserReaction(emojis, emoji, currentUserId, currentUserName);
+    await this.updateMessageEmojis(messageDoc, emojis);
+ }
+  
 
   loadFrequentlyUsedEmojis() {
     const frequentlyUsed = JSON.parse(localStorage.getItem('emoji-mart.frequently') || '{}');

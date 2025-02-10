@@ -30,7 +30,6 @@ export class SingleMessageComponent {
 
   isEditing: boolean = false;
   emojiQuickBar:boolean = false;
-  messageCount$: Observable<string> = new Observable<string>();
 
   constructor(public chatService: ChatsService, 
               public usersService: UsersDbService,
@@ -40,11 +39,11 @@ export class SingleMessageComponent {
     this.isEditing = newValue;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.currentMessage && this.currentMessage && this.currentMessage.associatedThreadId) {
-      this.messageCount$ = this.threadService.getMessagesCount(this.currentMessage.associatedThreadId);
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (this.currentMessage && this.currentMessage && this.currentMessage.associatedThreadId) {
+  //     this.messageCount$ = this.threadService.getMessagesCount(this.currentMessage.associatedThreadId);
+  //   }
+  // }
 
   updateMessage(currentMessage:CurrentMessage) {
     this.isEditing = false;
@@ -67,7 +66,7 @@ export class SingleMessageComponent {
 
   toggleEmoji(currentMessage: CurrentMessage) {
     this.emojiService.currentMessage = currentMessage;
-    this.emojiQuickBar = !this.emojiQuickBar;
+    // this.emojiQuickBar = !this.emojiQuickBar;
     this.emojiService.emojiPickerOpen = !this.emojiService.emojiPickerOpen;
   }
 
@@ -78,7 +77,14 @@ export class SingleMessageComponent {
 
   addEmoji(emoji:string) {
     this.emojiService.currentMessage = this.currentMessage;
-    this.emojiService.addEmoji(emoji, this.chatId);
+    if(this.component == 'thread') {
+      this.chatService.component.set('thread');
+      this.emojiService.addEmoji(emoji, this.currentMessage.associatedThreadId);
+      this.chatService.component.set('chat');
+    } else {
+      this.emojiService.addEmoji(emoji, this.chatId);
+      console.log(this.currentMessage);
+    }
     this.emojiQuickBar = !this.emojiQuickBar;
   }
 
@@ -147,13 +153,23 @@ export class SingleMessageComponent {
     this.emojiQuickBar = false;
   }
 
-  getMessagesCount(threadId: string) {
-    if(threadId) {
-      this.messageCount$ = this.threadService.getMessagesCount(threadId);
+  openThreadFromSingleMessage() {
+    this.child?.openThread();
+  }
+
+  getThreadCountReplies() {
+    let numberOfThreads = this.currentMessage.associatedThreadId.count;
+
+    if(numberOfThreads == 0 || this.currentMessage.associatedThreadId == '') {
+      return '';
+    } else if(numberOfThreads == 1) {
+      return '1 Antwort';
+    } else {
+      return `${numberOfThreads} Antworten`;
     }
   }
 
-  openThreadFromSingleMessage() {
+  openThread() {
     this.child?.openThread();
   }
 }

@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
 import { UserProfile } from '../../interfaces/userProfile';
+import { ScrollService } from '../../services/message/scroll.service';
 
 @Component({
   selector: 'app-textarea',
@@ -33,16 +34,13 @@ export class TextareaComponent implements OnInit {
   constructor(
     public chatService: ChatsService, 
     private route: ActivatedRoute,
-    private userService: UsersDbService) { }
+    private userService: UsersDbService,
+    private scrollService: ScrollService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.chatId = params.get('id')!;
     })
-  }
-
-  scrollDown() {
-    this.childEvent.emit();
   } 
 
   async sendText(e: any) {
@@ -52,10 +50,11 @@ export class TextareaComponent implements OnInit {
         await this.chatService.addMessageToChat(this.message, this.chatId);
       } else if (this.component == 'thread') {
         await this.threadDb.addMessageToThread(this.threadDb.currentThreadId(), this.message);
+        await this.chatService.updateThreadAnswersCount(this.threadDb.currentThreadId());
       }
       this.message = '';
+      this.scrollService.scrollToBottom();
     }
-    this.scrollDown();
   }
 
   autoGrowTextZone(e: any) {
@@ -82,13 +81,13 @@ export class TextareaComponent implements OnInit {
     this.userList = false;
   }
 
-    @HostListener('document:click', ['$event'])
-    clickOutside() {
-      if (this.emojiMartOpen || this.userList) {
-        this.emojiMartOpen = false;
-        this.userList = false;
-      }
+  @HostListener('document:click', ['$event'])
+  clickOutside() {
+    if (this.emojiMartOpen || this.userList) {
+      this.emojiMartOpen = false;
+      this.userList = false;
     }
+  }
 
     toggleUserList() {
       this.userList = !this.userList;
