@@ -66,7 +66,7 @@ export class SingleMessageComponent {
 
   toggleEmoji(currentMessage: CurrentMessage) {
     this.emojiService.currentMessage = currentMessage;
-    this.emojiQuickBar = !this.emojiQuickBar;
+    // this.emojiQuickBar = !this.emojiQuickBar;
     this.emojiService.emojiPickerOpen = !this.emojiService.emojiPickerOpen;
   }
 
@@ -77,7 +77,14 @@ export class SingleMessageComponent {
 
   addEmoji(emoji:string) {
     this.emojiService.currentMessage = this.currentMessage;
-    this.emojiService.addEmoji(emoji, this.chatId);
+    if(this.component == 'thread') {
+      this.chatService.component.set('thread');
+      this.emojiService.addEmoji(emoji, this.currentMessage.associatedThreadId);
+      this.chatService.component.set('chat');
+    } else {
+      this.emojiService.addEmoji(emoji, this.chatId);
+      console.log(this.currentMessage);
+    }
     this.emojiQuickBar = !this.emojiQuickBar;
   }
 
@@ -160,5 +167,9 @@ export class SingleMessageComponent {
     } else {
       return `${numberOfThreads} Antworten`;
     }
+  }
+
+  openThread() {
+    this.child?.openThread();
   }
 }

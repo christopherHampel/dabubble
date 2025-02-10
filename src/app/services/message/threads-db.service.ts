@@ -54,11 +54,11 @@ export class ThreadsDbService {
     if (typeof message === 'string') {
       messageType = this.getCleanJsonMessage({
         docId: '',
-        associatedThreadId: '',
+        associatedThreadId: this.currentThreadId(),
         messageAuthor: {
           name: this.usersDb.currentUser!.userName,
           id: this.usersDb.currentUser!.id,
-          avatar: '',
+          avatar: this.usersDb.currentUser!.avatar,
         },
         text: message,
         firstMessageOfTheDay: false,
@@ -125,11 +125,11 @@ export class ThreadsDbService {
   getCleanJsonMessage(message: Message): {} {
     return {
       docId: '',
-      accociatedThreadId: '',
+      accociatedThreadId: this.currentThreadId(),
       messageAuthor: {
         name: message.messageAuthor.name,
         id: message.messageAuthor.id,
-        avatar: '',
+        avatar: message.messageAuthor.avatar,
       },
       text: message.text,
       createdAt: message.createdAt,

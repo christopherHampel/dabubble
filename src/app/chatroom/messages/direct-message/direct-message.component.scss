@@ -37,11 +37,13 @@ section {
         align-items: flex-end;
         gap: 25px;
 
-        &>img {
-            width: 100px;
-            height: 100px;
-
-            border-radius: 50%;
+        div {
+            &>img {
+                width: 100px;
+                height: 100px;
+    
+                border-radius: 50%;
+            }
         }
     }
 }

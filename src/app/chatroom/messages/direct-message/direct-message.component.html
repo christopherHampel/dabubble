@@ -19,8 +19,10 @@
 
     <div class="textarea-component">
         <div *ngIf="(chatMessages$ | async)?.length === 0" class="communication-with">
-            <div class="chat-partner">
-                <img [src]="this.chatService.chatPartner.avatar || 'img/empty_profile.png'" alt="">
+            <div>
+                <div>
+                    <img [src]="this.chatService.chatPartner.avatar || 'img/empty_profile.png'" alt="">
+                </div>
                 <span>{{ this.chatService.chatPartner.name }}</span>
             </div>
             <span>Diese Unterhaltung findet nur zwischen &#64;{{ this.chatService.chatPartner.name }} und dir

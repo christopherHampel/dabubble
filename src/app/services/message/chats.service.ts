@@ -31,12 +31,16 @@ export class ChatsService {
   currentChatId!: string;
 
   getPrivateChatCollection() {
-    // console.log('Component chat service: ', this.component);
+    // console.log('Component chat service: ', this.component());
     if (this.component() == 'chat') {
       return collection(this.firestore, 'messages');
     } else {
       return collection(this.firestore, 'threads');
     }
+  }
+
+  getTesttest() {
+    return collection(this.firestore, 'threads');
   }
 
   getSingleDocRef(collId: string, docId: string) {
@@ -198,6 +202,7 @@ export class ChatsService {
 
   async getQuerySnapshot(docId: string, chatId: string,) {
     if (docId) {
+      // const chatRef = collection(this.getPrivateChatCollection(), chatId, 'messages');
       const chatRef = collection(this.getPrivateChatCollection(), chatId, 'messages');
       const chatQuery = query(chatRef, where('docId', '==', docId));
       return await getDocs(chatQuery);

@@ -8,13 +8,12 @@
     <div (mouseleave)="toggleBoolean()" [ngClass]="getUser()" [class.hover-effect]="!isEditing">
 
         <div class="avatar-message">
-            <img *ngIf="currentMessage.messageAuthor?.avatar" [src]="currentMessage.messageAuthor.avatar" alt="">
+            <img [src]="currentMessage.messageAuthor.avatar || '/img/empty_profile.png'" alt="">
         </div>
     
         <div [ngClass]="this.isMessageFromCurrentUser() ? 'content' : 'flex-start'">
     
             <div class="time-username" *ngIf="!isEditing">
-                <!-- <span *ngIf="component == 'thread'">{{ showDate() }}</span> -->
                 <span>{{ getTime() }} Uhr</span>
                 <span class="username">{{ currentMessage.messageAuthor.name }}</span>
             </div>
@@ -41,7 +40,7 @@
             <div class="emoji-reactions" *ngIf="!isEditing">
 
                 <div *ngIf="component == 'chat'" class="answers-from-thread">
-                    {{ getThreadCountReplies() }}
+                    <div (click)="openThread()">{{ getThreadCountReplies() }}</div>
                 </div>
 
                 @for (emoji of currentMessage.emojis; track $index) {
@@ -80,7 +79,7 @@
             </div>
         </div>
     
-        <div class="tooltip-message">
+        <div *ngIf="component == 'chat'" class="tooltip-message">
             <app-tooltip 
                 [isEditing]="isEditing" 
                 [message]="currentMessage" 
