@@ -57,7 +57,8 @@ export class ThreadsDbService {
         associatedThreadId: '',
         messageAuthor: {
           name: this.usersDb.currentUser!.userName,
-          id: this.usersDb.currentUser!.id
+          id: this.usersDb.currentUser!.id,
+          avatar: '',
         },
         text: message,
         firstMessageOfTheDay: false,
@@ -127,7 +128,8 @@ export class ThreadsDbService {
       accociatedThreadId: '',
       messageAuthor: {
         name: message.messageAuthor.name,
-        id: message.messageAuthor.id
+        id: message.messageAuthor.id,
+        avatar: '',
       },
       text: message.text,
       createdAt: message.createdAt,

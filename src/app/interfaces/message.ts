@@ -1,6 +1,7 @@
 export interface autor {
     name: string,
     id: string
+    avatar: string
 }
 
 export interface Message {

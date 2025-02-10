@@ -73,7 +73,6 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
       // if (!this.scrollService.hasScrolledDirectMessage && this.messageComponents.length > 0) {
       setTimeout( () => {
         this.scrollService.scrollToBottom();
-        // this.scrollService.hasScrolledDirectMessage = true;
         this.hasScrolled = true;
       }, 50)
     }
@@ -106,11 +105,4 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
   trackByFn(index: number, item: any): number | string {
     return item.id;
   }
-
-  isDataLoaded(): boolean {
-    return !!this.chatService.chatPartner &&
-           !!this.chatService.chatPartner.avatar &&
-           !!this.chatService.chatPartner.name &&
-           this.chatMessages$ !== undefined;
-}
 }

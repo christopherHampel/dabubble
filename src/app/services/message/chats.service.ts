@@ -55,6 +55,10 @@ export class ChatsService {
     return this.usersService.currentUserSig()?.id;
   }
 
+  getUserAvatar() {
+    return this.usersService.currentUserSig()?.avatar;
+  }
+
   async getChatInformationen(chatId: string) {
     this.unsubChatInfo = onSnapshot(doc(this.getPrivateChatCollection(), chatId), (chat) => {
       if (chat.exists()) {
@@ -182,7 +186,8 @@ export class ChatsService {
       associatedThreadId: '',
       messageAuthor: {
         name: this.getUserName() || '',
-        id: this.getUserId() || ''
+        id: this.getUserId() || '',
+        avatar: this.getUserAvatar() || ''
       },
       text: text,
       createdAt: serverTimestamp(),

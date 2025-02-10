@@ -149,4 +149,16 @@ export class SingleMessageComponent {
   openThreadFromSingleMessage() {
     this.child?.openThread();
   }
+
+  getThreadCountReplies() {
+    let numberOfThreads = this.currentMessage.associatedThreadId.count;
+
+    if(numberOfThreads == 0 || this.currentMessage.associatedThreadId == '') {
+      return '';
+    } else if(numberOfThreads == 1) {
+      return '1 Antwort';
+    } else {
+      return `${numberOfThreads} Antworten`;
+    }
+  }
 }

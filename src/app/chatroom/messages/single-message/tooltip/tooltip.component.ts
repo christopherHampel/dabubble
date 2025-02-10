@@ -48,7 +48,7 @@ export class TooltipComponent {
   }
 
   async openThread() {
-    // console.log(this.message);
+      // console.log(this.message);
     if (this.message.associatedThreadId) {
       this.threadsDb.currentThreadId.set(this.message.associatedThreadId.threadId);
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());

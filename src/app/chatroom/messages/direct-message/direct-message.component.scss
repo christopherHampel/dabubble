@@ -91,6 +91,13 @@ section {
     gap: 40px;
 }
 
+.chat-partner {
+    img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
 .seperator-style {
     border: 1px solid black;
     width: 300px;
