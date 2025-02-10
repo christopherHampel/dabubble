@@ -66,7 +66,7 @@ export class ThreadsDbService {
         emojis: [],
       });
     } else {
-      console.log(message);
+      // console.log(message);
       messageType = this.getCleanJsonMessage(message);
     }
 
