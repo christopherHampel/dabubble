@@ -4,7 +4,7 @@ import { DevspaceComponent } from './devspace/devspace.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ThreadRouterOutletComponent } from './threads/thread-router-outlet/thread-router-outlet.component';
 import { AuthService } from '../services/auth/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { UsersDbService } from '../services/usersDb/users-db.service';
 import { ChatroomHeaderComponent } from './chatroom-header/chatroom-header.component';
 

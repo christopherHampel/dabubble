@@ -25,7 +25,7 @@
         </li>
 
         <!-- Added users in directmessages -->
-        <li *ngFor="let user of getUserList()" class="user-view-small"
+        <li *ngFor="let user of getUserList(); trackBy: trackByUserId" class="user-view-small"
             [ngClass]="{ 'user-view-small-selected': user.id === selectedUserId }"
             (click)="selectChat(user); selectUser(user.id)"
             [ngClass]="{'fold-in-directmessages': !directmessagesOpen, 'fold-out-directmessages': directmessagesOpen}">

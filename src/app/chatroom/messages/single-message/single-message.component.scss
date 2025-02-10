@@ -27,7 +27,6 @@ section {
     justify-content: flex-start;
     font-family: 'Nunito';
     position: relative;
-/*     padding: 10px 146px 10px 45px; */
     padding: 10px 0px 10px 45px;
 }
 
@@ -93,6 +92,8 @@ section {
 }
 
 .avatar-message {
+    width: 70px;
+    height: 70px;
     img {
         width: 70px;
         height: 70px;

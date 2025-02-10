@@ -5,6 +5,7 @@ import { onSnapshot } from 'firebase/firestore';
 import { Thread } from '../../interfaces/thread';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { map, Observable } from 'rxjs';
+import { CurrentMessage } from '../../interfaces/current-message';
 
 @Injectable({
   providedIn: 'root'
@@ -31,14 +32,16 @@ export class ThreadsDbService {
     return this.messageListSig();
   }
 
-  async addThread(thread: any, message: Message) {
+  async addThread(thread: any, message: Message, chatId:string, currentMessage: CurrentMessage) {
     await addDoc(this.getThredRef(), thread)
       .then(async (docRef) => {
         await this.addMessageToThread(docRef.id, message);
         this.currentThreadId.set(docRef.id);
         this.unsubMessageList = this.subMessageList(docRef.id);
         updateDoc(docRef, {
-          docId: docRef.id
+          docId: docRef.id,
+          chatId: chatId,
+          currentMessageId: currentMessage.docId
         });
       });
   }
@@ -51,10 +54,11 @@ export class ThreadsDbService {
     if (typeof message === 'string') {
       messageType = this.getCleanJsonMessage({
         docId: '',
-        associatedThreadId: '',
+        associatedThreadId: this.currentThreadId(),
         messageAuthor: {
           name: this.usersDb.currentUser!.userName,
-          id: this.usersDb.currentUser!.id
+          id: this.usersDb.currentUser!.id,
+          avatar: this.usersDb.currentUser!.avatar,
         },
         text: message,
         firstMessageOfTheDay: false,
@@ -62,7 +66,7 @@ export class ThreadsDbService {
         emojis: [],
       });
     } else {
-      console.log(message);
+      // console.log(message);
       messageType = this.getCleanJsonMessage(message);
     }
 
@@ -121,10 +125,11 @@ export class ThreadsDbService {
   getCleanJsonMessage(message: Message): {} {
     return {
       docId: '',
-      accociatedThreadId: '',
+      accociatedThreadId: this.currentThreadId(),
       messageAuthor: {
         name: message.messageAuthor.name,
-        id: message.messageAuthor.id
+        id: message.messageAuthor.id,
+        avatar: message.messageAuthor.avatar,
       },
       text: message.text,
       createdAt: message.createdAt,
