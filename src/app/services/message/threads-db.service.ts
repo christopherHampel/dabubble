@@ -84,7 +84,7 @@ export class ThreadsDbService {
       docId: object.docId || '',
       participiants: object.participiants || '',
       participiantsDetails: object.participiantsDetails || {},
-      threadName: object.threadName || ''
+      // threadName: object.threadName || ''
     }
   }
 
@@ -119,7 +119,6 @@ export class ThreadsDbService {
     return onSnapshot(sortedMessageRef, (list) => {
       const messages: Message[] = [];
       list.forEach((item) => {
-        console.log('Test is:', item.data());
         messages.push(this.setMessageObject(item.data()));
       });
       this.messageListSig.set(messages);
@@ -171,7 +170,6 @@ export class ThreadsDbService {
 
     onSnapshot(threadRef, (docSnapshot) => {
       this.threadData.set(docSnapshot.data());
-      console.log(this.threadData());
     });
   }
 }

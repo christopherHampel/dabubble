@@ -9,5 +9,5 @@ export interface Thread {
     participiantsDetails: {
         [key: string]: userDetails;
     },
-    threadName: string,
+    // threadName: string,
 }

@@ -24,7 +24,7 @@ export class ThreadsComponent {
       docId: '',
       participiants: [],
       participiantsDetails: {},
-      threadName: ''
+      // threadName: ''
     };
 
   constructor(
