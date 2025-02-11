@@ -30,10 +30,15 @@ export class SingleMessageComponent {
 
   isEditing: boolean = false;
   emojiQuickBar:boolean = false;
+  currentDate:any = '';
 
   constructor(public chatService: ChatsService, 
               public usersService: UsersDbService,
               private threadService: ThreadsDbService) { }
+  
+  // ngOnInit() {
+  //   this.currentDate = this.showDate();
+  // }
 
   onIsEditingChange(newValue: boolean) {
     this.isEditing = newValue;
@@ -83,7 +88,7 @@ export class SingleMessageComponent {
       this.chatService.component.set('chat');
     } else {
       this.emojiService.addEmoji(emoji, this.chatId);
-      console.log(this.currentMessage);
+      // console.log(this.currentMessage);
     }
     this.emojiQuickBar = !this.emojiQuickBar;
   }

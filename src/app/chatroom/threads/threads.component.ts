@@ -56,6 +56,9 @@ export class ThreadsComponent {
   ngAfterViewChecked() {
     if (!this.scrollService.hasScrolled && this.messageComponents.length > 0) {
       this.scrollService.scrollToBottom();
+      setTimeout( () => {
+        this.scrollService.hasScrolled = true;
+      }, 100)
     }
   }
 }

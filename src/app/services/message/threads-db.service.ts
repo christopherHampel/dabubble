@@ -105,7 +105,6 @@ export class ThreadsDbService {
       const threads: Thread[] = [];
       list.forEach((item) => {
         threads.push(this.setThreadObject(item.data()));
-        console.log('Thread is:', item.data());
       });
       this.threadListSig.set(threads);
     });
@@ -165,9 +164,7 @@ export class ThreadsDbService {
   }
 
   subscribeToThread(threadId: string) {
-    console.log(threadId);
     const threadRef = doc(this.getThredRef(), threadId);
-
     onSnapshot(threadRef, (docSnapshot) => {
       this.threadData.set(docSnapshot.data());
     });

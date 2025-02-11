@@ -12,7 +12,7 @@ export class AuthService {
   private auth = inject(Auth);
   currentAuthUser = user(this.auth);
 
-  private logoutSubject = new BehaviorSubject<void>(null!); // Startwert setzen
+  private logoutSubject = new BehaviorSubject<void>(null!);
   logout$ = this.logoutSubject.asObservable();
 
   constructor() { }
