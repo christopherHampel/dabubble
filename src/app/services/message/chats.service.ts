@@ -15,6 +15,15 @@ import { Message } from '../../interfaces/message';
 })
 export class ChatsService {
 
+  // private chatDataSubject = new BehaviorSubject<ChatData | null>(null);
+  // chatData$ = this.chatDataSubject.asObservable();
+  // private chatPartnerSubject = new BehaviorSubject<{ name: string, avatar: string }>({ name: '', avatar: '' });
+  // chatPartner$ = this.chatPartnerSubject.asObservable();
+
+
+
+
+
   menu: boolean = false;
 
   firestore = inject(Firestore);

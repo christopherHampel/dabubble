@@ -7,7 +7,7 @@ section {
 }
 
 .card {
-    min-width: 485px;
+    max-width: 450px;
 
     padding: 0;
 }
@@ -26,8 +26,22 @@ section {
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
 
-    &>div {
+    .thread-title {
+        flex: 1.75;
+        display: flex;
+        justify-content: flex-start;
 
+        span {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 1; /* number of lines to show */
+                    line-clamp: 1; 
+            -webkit-box-orient: vertical;
+        }
+    }
+
+    &>div {
+        
         &>h2 {
             font-size: 24px;
         }
@@ -37,11 +51,13 @@ section {
         align-items: center;
         gap: 5px;
 
-        &>span {
-            color: #797EF3;
-
-            font-weight: 400;
-            font-size: 14px;
+        div {
+            &>span {
+                color: #797EF3;
+    
+                font-weight: 400;
+                font-size: 14px;
+            }
         }
     }
 }
@@ -88,4 +104,24 @@ section {
 
 .textarea-component {
     padding: 32px 20px;
+}
+
+.thread-title-tooltip {
+    position: relative;
+
+    .tooltip {
+        position: absolute;
+        z-index: 10;
+        width: 130%;
+        color: #797EF3;
+        padding: 24px;
+        visibility: hidden;
+        background-color: #FFFF;
+        border: 1px solid #ADB0D9;
+        border-radius: 30px;
+    }
+}
+
+.thread-title-tooltip:hover .tooltip {
+    visibility: visible;
 }

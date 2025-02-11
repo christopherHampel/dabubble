@@ -53,12 +53,12 @@ export class TooltipComponent {
   async openThread() {
     if (this.message.associatedThreadId) {
       this.threadsDb.currentThreadId.set(this.message.associatedThreadId.threadId);
+      this.threadsDb.subscribeToThread(this.message.associatedThreadId.threadId);
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
     } else {
-      let thread: ChatData = {
+      let thread: any = {
         chatId: '',
-        participants: this.chat.chatData.participants,
-        participantsDetails: this.chat.chatData.participantsDetails
+        threadName: this.message.messageAuthor.name
       }
       await this.threadsDb.addThread(thread, this.message, this.chatId, this.message);
       await this.chat.updateAssociatedThreadId(this.message.docId, this.chatId, this.threadsDb.currentThreadId());

@@ -4,6 +4,7 @@ import { DevspaceChannelsComponent } from './devspace-channels/devspace-channels
 import { DevspaceDirectmessagesComponent } from './devspace-directmessages/devspace-directmessages.component';
 import { HideOrShowNavbarComponent } from './hide-or-show-navbar/hide-or-show-navbar.component';
 import { Router } from '@angular/router';
+import { ChatsService } from '../../services/message/chats.service';
 
 @Component({
   selector: 'app-devspace',
@@ -14,9 +15,14 @@ import { Router } from '@angular/router';
 export class DevspaceComponent {
   devspaceClose: boolean = false;
 
-  constructor( private route: Router) {}
+  constructor(
+    private route: Router,
+    private chatService: ChatsService) {}
 
   goToDefault() {
-    this.route.navigate(['/chatroom', {outlets: {chats: null}}]);
+    // this.chatService.chatPartner = {name: '', avatar: ''};
+    // setTimeout( () => {    
+      this.route.navigate(['/chatroom', {outlets: {chats: null}}]);
+    // }, 100)
   }
 }
