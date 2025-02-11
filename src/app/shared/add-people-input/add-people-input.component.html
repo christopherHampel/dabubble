@@ -14,13 +14,8 @@
     <!-- Dropdown existed user after input -->
     <ul *ngIf="filteredUsersAfterInput().length > 0 && !selectedUser['id']" class="dropdown-add-user">
         <ng-container *ngFor="let user of getUserList()">
-            <li *ngIf="filteredUserForDropdown(user.userName)" (click)="selectUser(user.id)" class="user-view-small">
-                <div>
-                    <img src="{{user.avatar}}" alt="">
-                    <div class="active-status" [ngClass]="{'online': user.active, 'offline': !user.active}"></div>
-                </div>
-                <span>{{user.userName}}</span>
-            </li>
+            <app-user-view-small *ngIf="filteredUserForDropdown(user.userName)" (click)="selectUser(user.id)"
+                [user]="user"></app-user-view-small>
         </ng-container>
     </ul>
 

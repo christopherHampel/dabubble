@@ -3,12 +3,14 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
 import { UserProfile } from '../../interfaces/userProfile';
+import { UserViewSmallComponent } from '../user-view-small/user-view-small.component';
 
 @Component({
   selector: 'app-add-people-input',
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    UserViewSmallComponent
   ],
   templateUrl: './add-people-input.component.html',
   styleUrl: './add-people-input.component.scss'

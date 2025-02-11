@@ -26,21 +26,6 @@
                 </label>
             </div>
 
-<!--             <input #inputField [ngClass]="{'collapsed': selectedOption === 'option1'}" [(ngModel)]="userName"
-                name="userName" class="input-text" type="text" placeholder="Name eingeben">
-
-            <ul [ngClass]="{'collapsed': selectedOption === 'option1'}" class="dropdown-add-user">
-                <ng-container>
-                    <li class="user-view-small">
-                        <div>
-                            <img src="" alt="">
-                            <div class="active-status"></div>
-                        </div>
-                        <span></span>
-                    </li>
-                </ng-container>
-            </ul> -->
-
             <app-add-people-input #addPeopleInput class="input-text" [ngClass]="{'collapsed': selectedOption === 'option1'}" class="width-100-percent" (selectedUserOut)="selectUser($event)"></app-add-people-input>
         </div>
 
