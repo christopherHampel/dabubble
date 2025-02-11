@@ -112,10 +112,9 @@ section {
     .tooltip {
         position: absolute;
         z-index: 10;
-        width: 130%;
-        color: #797EF3;
         padding: 24px;
-        visibility: hidden;
+        color: #797EF3;
+        visibility: visible;
         background-color: #FFFF;
         border: 1px solid #ADB0D9;
         border-radius: 30px;

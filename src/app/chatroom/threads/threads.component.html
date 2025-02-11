@@ -5,7 +5,9 @@
             <h2>Thread</h2>
             <div class="thread-title-tooltip">
                 <span *ngIf="this.threadsDb.threadData().threadName">{{ this.threadsDb.threadData().text }}</span>
-                <div class="tooltip">{{ this.threadsDb.threadData().text }}</div>
+                <div>
+                    <div class="tooltip">{{ this.threadsDb.threadData().text }}</div>
+                </div>
             </div>
         </div>
         <div (click)="closeThread()" class="close-icon"></div>
