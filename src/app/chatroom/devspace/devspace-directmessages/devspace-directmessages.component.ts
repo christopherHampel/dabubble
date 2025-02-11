@@ -6,10 +6,16 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.component';
 import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
 import { UserProfile } from '../../../interfaces/userProfile';
+import { UserViewSmallComponent } from '../../../shared/user-view-small/user-view-small.component';
 
 @Component({
   selector: 'app-devspace-directmessages',
-  imports: [CommonModule, AddFriendDialogComponent, TransparentBackgroundComponent],
+  imports: [
+    CommonModule,
+    AddFriendDialogComponent,
+    TransparentBackgroundComponent,
+    UserViewSmallComponent
+  ],
   templateUrl: './devspace-directmessages.component.html',
   styleUrl: './devspace-directmessages.component.scss'
 })

@@ -70,7 +70,7 @@
 }
 
 .fold-in-add-directmessage {
-    animation: fold-in-add-directmessage 0.35s;
+    animation: fold-in-add-directmessage 0.35s linear forwards;
 }
 
 @keyframes fold-in-add-directmessage {
@@ -84,7 +84,7 @@
 
 
 .fold-out-directmessages {
-    animation: fold-out-directmessages 0.35s linear forwards;
+    animation: fold-out-directmessages 0.35s linear;
 }
 
 @keyframes fold-out-directmessages {

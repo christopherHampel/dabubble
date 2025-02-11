@@ -6,32 +6,8 @@
 
   <form (ngSubmit)="selectedUser['id'] ? startChat() : null">
 
-<!--     <div>
-      <div *ngIf="selectedUser['id']" class="input-added-user">
-        <div class="user-view-input">
-          <img src="{{selectedUser['avatar']}}" alt="">
-          <span>{{selectedUser['userName']}}</span>
-          <div (click)="removeUser()" class="close-icon"></div>
-        </div>
-      </div>
-
-      <input #inputField *ngIf="!selectedUser['id']" class="input-text" [(ngModel)]="userName" name="userName" type="text" placeholder="Name eingeben"
-        autocomplete="off">
-
-      <ul *ngIf="filteredUsersAfterInput().length > 0 && !selectedUser['id']" class="dropdown-add-user">
-        <ng-container *ngFor="let user of getUserList()">
-          <li *ngIf="filteredUserForDropdown(user.userName)" (click)="selectUser(user.id)" class="user-view-small">
-            <div>
-                <img src="{{user.avatar}}" alt="">
-                <div class="active-status" [ngClass]="{'online': user.active, 'offline': !user.active}"></div>
-            </div>
-            <span>{{user.userName}}</span>
-          </li>
-        </ng-container>
-      </ul>
-
-    </div> -->
-    <app-add-people-input #addPeopleInput class="width-100-percent" (selectedUserOut)="selectUser($event)"></app-add-people-input>
+    <app-add-people-input #addPeopleInput class="width-100-percent"
+      (selectedUserOut)="selectUser($event)"></app-add-people-input>
 
     <button class="primary-button" type="submit" [disabled]="!selectedUser['id']">Chat starten</button>
   </form>

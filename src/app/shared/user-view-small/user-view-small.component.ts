@@ -1,11 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-view-small',
-  imports: [],
+  imports: [
+    CommonModule
+  ],
   templateUrl: './user-view-small.component.html',
-  styleUrl: './user-view-small.component.scss'
+  styleUrl: './user-view-small.component.scss',
+
 })
 export class UserViewSmallComponent {
+  isLoaded: boolean = true;
+  @Input() user: any;
 
+  ngOnInit() {
+    setTimeout(() => {
+      this.isLoaded = false;
+    }, 25);
+  }
 }
