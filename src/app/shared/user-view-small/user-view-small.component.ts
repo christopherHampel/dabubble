@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class UserViewSmallComponent {
   isLoaded: boolean = true;
+  @Input() selectedUserId: string = '';
   @Input() user: any;
 
   ngOnInit() {

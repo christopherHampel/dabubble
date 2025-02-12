@@ -19,6 +19,8 @@ export class AddPeopleInputComponent {
   private usersDb = inject(UsersDbService);
   userName: string = '';
   selectedUser: UserProfile = {} as UserProfile;
+  selectedUserList: UserProfile[] = [];
+  @Input() component: 'addFriend' | 'addPeople' = 'addFriend';
   @Output() selectedUserOut = new EventEmitter<UserProfile>();
   @ViewChild('inputField') inputFieldRef!: ElementRef<HTMLInputElement>;
 
@@ -30,16 +32,23 @@ export class AddPeopleInputComponent {
 
   getUserList() {
     if (this.usersDb.currentUser) {
-      return this.usersDb.userList.filter(user =>
-        user.id != this.usersDb.currentUser!.id &&
-        !this.usersDb.currentUser!.directmessagesWith.includes(user.id));
+      if (this.component === 'addFriend') {
+        return this.usersDb.userList.filter(user =>
+          user.id != this.usersDb.currentUser!.id &&
+          !this.usersDb.currentUser!.directmessagesWith.includes(user.id));
+      } else {
+        return this.usersDb.userList.filter(user =>
+          user.id != this.usersDb.currentUser!.id &&
+          !this.selectedUserList.find(selectedUser => selectedUser.id == user.id));
+      }
     } else {
       return [];
     }
   }
 
-  removeUser() {
+  removeUser(index: number) {
     this.selectedUser = {} as UserProfile;
+    this.selectedUserList.splice(index, 1);
     this.focusInput();
   }
 
@@ -55,8 +64,16 @@ export class AddPeopleInputComponent {
       directmessagesWith: user.directmessagesWith
     }
 
+    this.selectUserToList();
     this.resetUserName();
     this.emitSelectedUser();
+  }
+
+  selectUserToList() {
+    const userExist = this.selectedUserList.find(user => user.id === this.selectedUser.id);
+    if (!userExist) {
+      this.selectedUserList.push(this.selectedUser);
+    }
   }
 
   emitSelectedUser() {
@@ -86,5 +103,70 @@ export class AddPeopleInputComponent {
   resetSelectedUser() {
     this.selectedUser = {} as UserProfile;
     this.emitSelectedUser();
+  }
+
+  /**
+   * Scroll added user with dragging the mouse
+   */
+  @ViewChild('scrollContent', { static: false }) scrollContent!: ElementRef;
+
+  items = Array.from({ length: 5 }, (_, i) => i + 1);
+  isDragging = false;
+  startX = 0;
+  scrollLeft = 0;
+  lastItemCount = this.items.length;
+  animationFrameId: number | null = null;
+
+  ngAfterViewChecked(): void {
+    if (this.items.length !== this.lastItemCount) {
+      this.scrollToEnd();
+      this.lastItemCount = this.items.length;
+    }
+  }
+
+  addItem(): void {
+    this.items.push(this.items.length + 1);
+  }
+
+  scrollToEnd(): void {
+    setTimeout(() => {
+      const scrollElement = this.scrollContent.nativeElement;
+      scrollElement.style.scrollBehavior = 'smooth';
+      scrollElement.scrollLeft = scrollElement.scrollWidth;
+      setTimeout(() => scrollElement.style.scrollBehavior = 'auto', 500);
+    }, 50);
+  }
+
+  startDragging(event: MouseEvent): void {
+    this.isDragging = true;
+    this.startX = event.pageX - this.scrollContent.nativeElement.offsetLeft;
+    this.scrollLeft = this.scrollContent.nativeElement.scrollLeft;
+
+    document.body.style.userSelect = 'none';
+    this.scrollContent.nativeElement.style.cursor = 'grabbing';
+  }
+
+  stopDragging(): void {
+    this.isDragging = false;
+    document.body.style.userSelect = 'auto';
+    this.scrollContent.nativeElement.style.cursor = 'grab';
+
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+  }
+
+  onDragging(event: MouseEvent): void {
+    if (!this.isDragging) return;
+    event.preventDefault();
+
+    if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+
+    this.animationFrameId = requestAnimationFrame(() => {
+      const x = event.pageX - this.scrollContent.nativeElement.offsetLeft;
+      const walk = (x - this.startX) * 1.5;
+      this.scrollContent.nativeElement.scrollLeft = this.scrollLeft - walk;
+    });
   }
 }
