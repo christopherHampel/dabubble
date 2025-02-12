@@ -20,7 +20,6 @@ import { UserViewSmallComponent } from '../../../shared/user-view-small/user-vie
   styleUrl: './devspace-directmessages.component.scss'
 })
 export class DevspaceDirectmessagesComponent {
-
   usersDb = inject(UsersDbService);
   dialog: boolean = false;
   selectedUserId: string = '';
