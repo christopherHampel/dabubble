@@ -1,10 +1,14 @@
-<section *ngIf="threadsDb.currentThreadId()" class="card">
+<section *ngIf="threadsDb.threadData()" class="card">
 
     <div class="thread-head">
-        <div>
+        <div class="thread-title">
             <h2>Thread</h2>
-            <span>#</span>
-            <span>Entwicklerteam</span>
+            <div class="thread-title-tooltip">
+                <span *ngIf="this.threadsDb.threadData().threadName">{{ this.threadsDb.threadData().text }}</span>
+                <div>
+                    <div class="tooltip">{{ this.threadsDb.threadData().text }}</div>
+                </div>
+            </div>
         </div>
         <div (click)="closeThread()" class="close-icon"></div>
     </div>

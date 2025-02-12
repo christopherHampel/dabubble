@@ -17,6 +17,7 @@ export class ThreadsDbService {
   currentThreadId = signal<string>('');
   threadListSig = signal<Thread[]>([]);
   messageListSig = signal<Message[]>([]);
+  threadData = signal<any>(null);
   unsubThreadList: any;
   unsubMessageList: any;
 
@@ -41,7 +42,8 @@ export class ThreadsDbService {
         updateDoc(docRef, {
           docId: docRef.id,
           chatId: chatId,
-          currentMessageId: currentMessage.docId
+          currentMessageId: currentMessage.docId,
+          text: message.text,
         });
       });
   }
@@ -66,7 +68,6 @@ export class ThreadsDbService {
         emojis: [],
       });
     } else {
-      // console.log(message);
       messageType = this.getCleanJsonMessage(message);
     }
 
@@ -82,7 +83,8 @@ export class ThreadsDbService {
     return {
       docId: object.docId || '',
       participiants: object.participiants || '',
-      participiantsDetails: object.participiantsDetails || {}
+      participiantsDetails: object.participiantsDetails || {},
+      // threadName: object.threadName || ''
     }
   }
 
@@ -159,5 +161,12 @@ export class ThreadsDbService {
         }
       })
     );
+  }
+
+  subscribeToThread(threadId: string) {
+    const threadRef = doc(this.getThredRef(), threadId);
+    onSnapshot(threadRef, (docSnapshot) => {
+      this.threadData.set(docSnapshot.data());
+    });
   }
 }

@@ -15,8 +15,6 @@ import { Message } from '../../interfaces/message';
 })
 export class ChatsService {
 
-  menu: boolean = false;
-
   firestore = inject(Firestore);
   component = signal<'chat' | 'thread'>('chat');
 
@@ -27,6 +25,7 @@ export class ChatsService {
   private unsubMessage : Unsubscribe | null = null;
   private unsubChatInfo: Unsubscribe | null = null;
   chatData!: ChatData;
+  menu: boolean = false;
   // hasScrolled: boolean = false;
   currentChatId!: string;
 
@@ -87,7 +86,16 @@ export class ChatsService {
   }
 
   setChatPartner() {
+    const numberOfParticipants = Object.keys(this.chatData.participantsDetails).length;
+    console.log(numberOfParticipants);
     const currentUserId = this.usersService.currentUserSig()?.id;
+    if(numberOfParticipants == 1) {
+      this.chatPartner = {
+        name: this.usersService.currentUserSig()?.userName || 'Unbekannter Teilnehmer',
+        avatar: this.usersService.currentUserSig()?.avatar || '/img/empty_profile.png',
+      };
+      console.log('hier liegt der Hund begraben');
+    }
     if (this.chatData && this.chatData.participantsDetails) {
       const otherParticipantId = this.chatData.participants.find((id: string) => id !== currentUserId);
 
@@ -151,6 +159,21 @@ export class ChatsService {
   }
 
   private async createNewPrivateChat(currentUser: UserProfile, chatPartner: UserProfile, chatId: string): Promise<string> {
+    if(currentUser.id == chatPartner.id) {
+      console.log('Eiegner Sprachkanal');
+      chatPartner = currentUser;
+      const docRef = await addDoc(this.getPrivateChatCollection(), {
+        participants: [currentUser.id, chatPartner.id].sort(),
+        chatId,
+        participantsDetails: {
+          [currentUser.id]: {
+            name: currentUser.userName,
+            avatar: currentUser.avatar,
+          },
+        },
+      });
+      return docRef.id;
+    } 
     const docRef = await addDoc(this.getPrivateChatCollection(), {
       participants: [currentUser.id, chatPartner.id].sort(),
       chatId,

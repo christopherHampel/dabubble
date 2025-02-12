@@ -5,6 +5,7 @@ import { TextareaComponent } from '../../shared/textarea/textarea.component';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ScrollService } from '../../services/message/scroll.service';
+import { Thread } from '../../interfaces/thread';
 
 @Component({
   selector: 'app-threads',
@@ -19,6 +20,13 @@ export class ThreadsComponent {
     @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
     @ViewChildren(SingleMessageComponent) messageComponents!: QueryList<SingleMessageComponent>;
 
+    threadData: Thread = {
+      docId: '',
+      participiants: [],
+      participiantsDetails: {},
+      // threadName: ''
+    };
+
   constructor(
     private router: Router, 
     private activatedRoute: ActivatedRoute,
@@ -28,6 +36,7 @@ export class ThreadsComponent {
     this.activatedRoute.params.subscribe(params => {
       this.threadsDb.currentThreadId.set(params['threadId']);
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
+      this.threadsDb.subscribeToThread(this.threadsDb.currentThreadId());
     });
   }
 
@@ -47,6 +56,9 @@ export class ThreadsComponent {
   ngAfterViewChecked() {
     if (!this.scrollService.hasScrolled && this.messageComponents.length > 0) {
       this.scrollService.scrollToBottom();
+      setTimeout( () => {
+        this.scrollService.hasScrolled = true;
+      }, 100)
     }
   }
 }
