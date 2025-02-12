@@ -25,8 +25,7 @@
                 </div>
                 <span>{{ this.chatService.chatPartner.name }}</span>
             </div>
-            <span>Diese Unterhaltung findet nur zwischen &#64;{{ this.chatService.chatPartner.name }} und dir
-                statt.</span>
+            <span>{{ getStartText() }}</span>
         </div>
 
         <div class="textarea-emojipicker">

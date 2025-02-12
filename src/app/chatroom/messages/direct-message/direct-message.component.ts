@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, OnInit, OnDestroy, OnChanges, SimpleChanges, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../../services/message/chats.service';
 import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { SingleMessageComponent } from '../../messages/single-message/single-message.component';
-import { Observable, Subscription } from 'rxjs';
+import { async, Observable, Subscription } from 'rxjs';
 import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { EmojisService } from '../../../services/message/emojis.service';
 import { ScrollService } from '../../../services/message/scroll.service';
 import { AuthService } from '../../../services/auth/auth.service';
+import { UsersDbService } from '../../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-direct-message',
@@ -34,7 +35,8 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
   constructor(  private route: ActivatedRoute, 
                 public chatService: ChatsService,
                 private scrollService: ScrollService,
-                private authService: AuthService) { }
+                private authService: AuthService,
+                private usersService: UsersDbService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chatId']) {
@@ -44,7 +46,7 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.getIdFromUrl();
-    this.subcribeLogOut();
+    this.subcribeLogOut();    
   }
   
   getIdFromUrl() {
@@ -104,5 +106,17 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
 
   trackByFn(index: number, item: any): number | string {
     return item.id;
+  }
+
+  emptyChat() {
+    return '(chatMessages$ | async)?.length === 0';
+  }
+
+  getStartText() {
+    if(this.chatService.chatPartner.name == this.usersService.currentUserSig()?.userName) {
+      return 'Hau rein digga'
+    } else {
+      return `Diese Unterhaltung findet nur zwischen @${this.chatService.chatPartner.name} und dir statt.`
+    }
   }
 }
