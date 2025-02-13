@@ -1,8 +1,8 @@
 <section>
 
     <div class="added-user-wrapper">
-        <!-- View selected user -->
-        <div *ngIf="selectedUserList.length > 0" class="input-added-user" #scrollContent
+        @if (component == 'addPeople') {
+        <div *ngIf="selectedUserList.length > 0" class="input-added-user" [class.scrolling]="isDragging" #scrollContent
             (mousedown)="startDragging($event)"
             (mouseleave)="stopDragging()"
             (mouseup)="stopDragging()"
@@ -11,17 +11,24 @@
             <div class="user-view-input">
                 <img src="{{selectedUser['avatar']}}" alt="">
                 <span>{{selectedUser['userName']}}</span>
-                <div (click)="removeUser(i)" class="close-icon"></div>
+                <div (click)="removeUser(i)" class="close-icon" (mousedown)="$event.stopPropagation()"></div>
             </div>
             }
-
         </div>
+        } @else {
+        <div *ngIf="selectedUser['id']" class="input-added-user">
+            <div class="user-view-input">
+                <img src="{{selectedUser['avatar']}}" alt="">
+                <span>{{selectedUser['userName']}}</span>
+                <div (click)="resetSelectedUser()" class="close-icon"></div>
+            </div>
+        </div>
+        }
 
-        <input #inputField class="input-text" [(ngModel)]="userName" name="userName" type="text"
+        <input #inputField *ngIf="!selectedUser['id']" class="input-text" [(ngModel)]="userName" name="userName" type="text"
             placeholder="Name eingeben" autocomplete="off">
     </div>
 
-    <!-- Dropdown existed user after input -->
     <ul *ngIf="filteredUsersAfterInput().length > 0" class="dropdown-add-user">
         <ng-container *ngFor="let user of getUserList()">
             <app-user-view-small *ngIf="filteredUserForDropdown(user.userName)"

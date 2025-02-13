@@ -7,7 +7,7 @@
             <div class="workspaces-img"></div>
             <span>Channels</span>
         </div>
-        <div class="add-icon"></div>
+        <div (click)="openDialog()" class="add-icon"></div>
     </div>
 
     <ul class="channels-directmessages-list">
@@ -62,6 +62,6 @@
 
 </section>
 
-<app-create-channel-dialog [dialogOpen]="false"></app-create-channel-dialog>
+<app-create-channel-dialog [dialogOpen]="dialog" (dialogClose)="closeDialog(!$event)"></app-create-channel-dialog>
 <app-add-people-dialog [dialogOpen]="false"></app-add-people-dialog>
-<app-transparent-background [backgroundOpen]="false"></app-transparent-background>
+<app-transparent-background [backgroundOpen]="dialog" (backgroundClose)="closeDialog(!$event)"></app-transparent-background>

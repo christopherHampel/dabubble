@@ -2,7 +2,7 @@
     [ngClass]="{'height-option1': selectedOption === 'option1', 'height-option2': selectedOption === 'option2'}">
     <header class="header-dialog">
         <h2>Leute hinzufügen</h2>
-        <div class="close-icon"></div>
+        <div (click)="closeDialog()" class="close-icon"></div>
     </header>
 
     <form action="">

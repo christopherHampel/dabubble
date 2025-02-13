@@ -1,7 +1,7 @@
 <section class="create-channel-dialog" [ngStyle]="{'display': dialogOpen ? 'flex' : 'none'}">
     <header class="header-dialog">
         <h2>Channel erstellen</h2>
-        <div class="close-icon"></div>
+        <div (click)="closeDialog()" class="close-icon"></div>
     </header>
 
     <div>
@@ -12,14 +12,16 @@
     <form action="">
         <div>
             <p><b>Channel-Name</b></p>
-            <input class="input-text" type="text" placeholder="#   z.B. Kooperationsprojekt">
+            <input name="channelName" [(ngModel)]="channelName" (ngModelChange)="updateValue($event)" (keydown)="onKeyDown($event)"
+                class="input-text" type="text" placeholder="#   z.B. Kooperationsprojekt">
         </div>
 
         <div>
             <p><b>Beschreibung</b> <span class="color-light-gray"> (optional)</span></p>
-            <input class="input-text" type="text" placeholder="Dein Text hier">
+            <input [(ngModel)]="channelDescription" name="channelDescription" class="input-text" type="text"
+                placeholder="Dein Text hier">
         </div>
 
-        <button class="primary-button">Erstellen</button>
+        <button class="primary-button" (click)="reset()" [disabled]="!channelName">Erstellen</button>
     </form>
 </section>

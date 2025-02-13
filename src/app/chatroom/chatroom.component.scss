@@ -19,8 +19,9 @@
 
 
 
-
-
+/* ----- */
+/* Views */
+/* ----- */
 .channel-view-small {
     display: flex;
     justify-content: center;
@@ -75,6 +76,31 @@
         .add-circle-icon {
             background-image: url('/img/add_circle_hover.svg');
         }
+    }
+}
+
+
+
+/* ------ */
+/* Inputs */
+/* ------ */
+.input-text {
+    width: 100%;
+    max-height: 55px;
+
+    padding: 15px 20px;
+
+    font-family: 'Nunito';
+    font-size: 18px;
+    font-weight: 400;
+
+    outline: none;
+
+    border: 1px solid #ADB0D9;
+    border-radius: 30px;
+
+    &:focus {
+        border-color: #444DF2;
     }
 }
 

@@ -58,10 +58,6 @@ export class DevspaceDirectmessagesComponent {
     this.dialog = event;
   }
 
-  trackByUserId(index: number, user: any): number {
-    return user.id;
-  }
-
   getUserList() {
     if (this.usersDb.currentUser) {
       return this.usersDb.userList.filter(user => this.usersDb.currentUser!.directmessagesWith.includes(user.id));
