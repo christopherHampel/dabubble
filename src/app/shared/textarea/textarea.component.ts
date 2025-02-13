@@ -12,7 +12,7 @@ import { UserViewSmallComponent } from "../user-view-small/user-view-small.compo
 
 @Component({
   selector: 'app-textarea',
-  imports: [FormsModule, EmojiPickerComponentComponent, CommonModule, UserViewSmallComponent],
+  imports: [FormsModule, EmojiPickerComponentComponent, CommonModule],
   templateUrl: './textarea.component.html',
   styleUrl: './textarea.component.scss'
 })
@@ -45,12 +45,13 @@ export class TextareaComponent implements OnInit {
   } 
 
   async sendText(e: any) {
+    const firstThreadMessage = false;
     e.preventDefault();
     if (this.message.length > 0) {
       if (this.component == 'chat') {
         await this.chatService.addMessageToChat(this.message, this.chatId);
       } else if (this.component == 'thread') {
-        await this.threadDb.addMessageToThread(this.threadDb.currentThreadId(), this.message);
+        await this.threadDb.addMessageToThread(this.threadDb.currentThreadId(), this.message, firstThreadMessage);
         await this.chatService.updateThreadAnswersCount(this.threadDb.currentThreadId());
       }
       this.message = '';

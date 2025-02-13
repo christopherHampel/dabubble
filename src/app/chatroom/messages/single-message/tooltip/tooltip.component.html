@@ -1,10 +1,6 @@
 <section>
     
-    <a class="tooltip-icon" (click)="toggleEmoji()"><img src="/img/add_reaction.png" alt="">
-        <!-- <app-emoji-picker-component 
-            (emojiSelected)="addEmojiToMessage($event, message)" 
-            *ngIf="emojiMartOpen"></app-emoji-picker-component> -->
-    </a>
+    <a class="tooltip-icon" (click)="toggleEmoji(); $event.stopPropagation()"><img src="/img/add_reaction.png" alt=""></a>
 
     <a class="tooltip-icon" (click)="openThread()">
         <img src="/img/comment.png" alt="">

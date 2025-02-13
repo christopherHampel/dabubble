@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, Input, Output } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { EmojiPickerComponentComponent } from '../../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
@@ -64,5 +64,12 @@ export class TooltipComponent {
       await this.chat.updateAssociatedThreadId(this.message.docId, this.chatId, this.threadsDb.currentThreadId());
     }
     this.router.navigate(['/chatroom', { outlets: { thread: ['thread', this.threadsDb.currentThreadId()] } }]);
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside() {
+    if (this.emojiService.emojiPickerOpen) {
+      this.emojiService.emojiPickerOpen = false;
+    }
   }
 }

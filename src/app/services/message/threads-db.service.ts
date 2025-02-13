@@ -34,9 +34,10 @@ export class ThreadsDbService {
   }
 
   async addThread(thread: any, message: Message, chatId:string, currentMessage: CurrentMessage) {
+    const firstThreadMessage = true;
     await addDoc(this.getThredRef(), thread)
       .then(async (docRef) => {
-        await this.addMessageToThread(docRef.id, message);
+        await this.addMessageToThread(docRef.id, message, firstThreadMessage);
         this.currentThreadId.set(docRef.id);
         this.unsubMessageList = this.subMessageList(docRef.id);
         updateDoc(docRef, {
@@ -48,7 +49,7 @@ export class ThreadsDbService {
       });
   }
 
-  async addMessageToThread(threadId: string, message: Message | string) {
+  async addMessageToThread(threadId: string, message: Message | string, firstThreadMessage:boolean) {
     const threadRef = doc(this.getThredRef(), threadId);
     const messageRef = collection(threadRef, 'messages');
 
@@ -66,9 +67,9 @@ export class ThreadsDbService {
         firstMessageOfTheDay: false,
         createdAt: serverTimestamp(),
         emojis: [],
-      }, threadId);
+      }, threadId, firstThreadMessage);
     } else {
-      messageType = this.getCleanJsonMessage(message, threadId);
+      messageType = this.getCleanJsonMessage(message, threadId, firstThreadMessage);
     }
 
     await addDoc(messageRef, messageType)
@@ -124,9 +125,10 @@ export class ThreadsDbService {
     });
   }
 
-  getCleanJsonMessage(message: Message, threadId:string): {} {
+  getCleanJsonMessage(message: Message, threadId:string, firstThreadMessage:boolean): {} {
     return {
       docId: '',
+      firstThreadMessage: firstThreadMessage,
       accociatedThreadId: threadId,
       messageAuthor: {
         name: message.messageAuthor.name,

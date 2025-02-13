@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { HostListener, Injectable } from '@angular/core';
 import { updateDoc } from 'firebase/firestore';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { ChatsService } from './chats.service';
@@ -91,4 +91,11 @@ export class EmojisService {
     this.customEmojis = sortedEmojis.length ? sortedEmojis : ['smile', 'heart_eyes', 'thumbsup']; // Fallback
     console.log(this.customEmojis)
   }
+
+  // @HostListener('document:click', ['$event'])
+  // clickOutside() {
+  //   if (this.emojiPickerOpen) {
+  //     this.emojiPickerOpen = false;
+  //   }
+  // }
 }
