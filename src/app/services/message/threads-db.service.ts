@@ -66,9 +66,9 @@ export class ThreadsDbService {
         firstMessageOfTheDay: false,
         createdAt: serverTimestamp(),
         emojis: [],
-      });
+      }, threadId);
     } else {
-      messageType = this.getCleanJsonMessage(message);
+      messageType = this.getCleanJsonMessage(message, threadId);
     }
 
     await addDoc(messageRef, messageType)
@@ -124,10 +124,10 @@ export class ThreadsDbService {
     });
   }
 
-  getCleanJsonMessage(message: Message): {} {
+  getCleanJsonMessage(message: Message, threadId:string): {} {
     return {
       docId: '',
-      accociatedThreadId: this.currentThreadId(),
+      accociatedThreadId: threadId,
       messageAuthor: {
         name: message.messageAuthor.name,
         id: message.messageAuthor.id,
