@@ -87,14 +87,12 @@ export class ChatsService {
 
   setChatPartner() {
     const numberOfParticipants = Object.keys(this.chatData.participantsDetails).length;
-    console.log(numberOfParticipants);
     const currentUserId = this.usersService.currentUserSig()?.id;
     if(numberOfParticipants == 1) {
       this.chatPartner = {
         name: this.usersService.currentUserSig()?.userName || 'Unbekannter Teilnehmer',
         avatar: this.usersService.currentUserSig()?.avatar || '/img/empty_profile.png',
       };
-      console.log('hier liegt der Hund begraben');
     }
     if (this.chatData && this.chatData.participantsDetails) {
       const otherParticipantId = this.chatData.participants.find((id: string) => id !== currentUserId);

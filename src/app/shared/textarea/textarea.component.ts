@@ -8,10 +8,11 @@ import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
 import { UserProfile } from '../../interfaces/userProfile';
 import { ScrollService } from '../../services/message/scroll.service';
+import { UserViewSmallComponent } from "../user-view-small/user-view-small.component";
 
 @Component({
   selector: 'app-textarea',
-  imports: [FormsModule, EmojiPickerComponentComponent, CommonModule],
+  imports: [FormsModule, EmojiPickerComponentComponent, CommonModule, UserViewSmallComponent],
   templateUrl: './textarea.component.html',
   styleUrl: './textarea.component.scss'
 })

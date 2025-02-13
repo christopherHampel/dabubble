@@ -10,6 +10,7 @@
             <div>
                 <div class="emoji-picker" (click)="toggleEmoji()"></div>
                 <div class="tag-user">
+                    <!-- <app-user-view-small></app-user-view-small> -->
                     <div class="at-member" (click)="showAllUser()"></div>
                     <div *ngIf="this.userList" class="user-list">
                         @for (user of this.users; track $index) {
