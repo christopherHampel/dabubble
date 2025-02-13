@@ -17,6 +17,7 @@ import { TransparentBackgroundComponent } from '../../../shared/transparent-back
 })
 export class DevspaceChannelsComponent {
   channelsOpen: boolean = true;
+  dialog: boolean = false;
 
   openChannels() {
     if (this.channelsOpen) {
@@ -24,5 +25,13 @@ export class DevspaceChannelsComponent {
     } else {
       this.channelsOpen = true;
     }
+  }
+
+  openDialog() {
+    this.dialog = true;
+  }
+
+  closeDialog(event: boolean) {
+    this.dialog = event;
   }
 }

@@ -82,3 +82,8 @@
     border: none;
     border-radius: 30px;
 }
+
+.scrolling .close-icon {
+    pointer-events: none;
+    opacity: 0.3;
+}
