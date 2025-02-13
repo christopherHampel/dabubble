@@ -12,13 +12,13 @@
 
     <ul class="channels-directmessages-list">
         <!-- Current user -->
-        <app-user-view-small *ngIf="usersDb.currentUser as user" [user]="user" (click)="selectChat(user);"
-            [ngClass]="{ 'user-view-small-selected': user.id === selectedUserId}"
+        <app-user-view-small *ngIf="usersDb.currentUser as user" [user]="user" (click)="selectChat(user); selectUser(user.id)"
+            [selectedUserId]="selectedUserId"
             [ngClass]="{'fold-in-directmessages': !directmessagesOpen, 'fold-out-directmessages': directmessagesOpen}"></app-user-view-small>
 
         <!-- Added users in directmessages -->
-        <app-user-view-small *ngFor="let user of getUserList()" [user]="user" (click)="selectChat(user);"
-            [ngClass]="{ 'user-view-small-selected': user.id === selectedUserId}"
+        <app-user-view-small *ngFor="let user of getUserList()" [user]="user" (click)="selectChat(user); selectUser(user.id)"
+            [selectedUserId]="selectedUserId"
             [ngClass]="{'fold-in-directmessages': !directmessagesOpen, 'fold-out-directmessages': directmessagesOpen}"></app-user-view-small>
 
     </ul>

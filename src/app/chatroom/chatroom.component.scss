@@ -19,85 +19,7 @@
 
 
 
-/* ----- */
-/* Views */
-/* ----- */
-.user-view-small {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 15px;
 
-    width: max-content;
-
-    padding: 4px 20px;
-
-    transition: all 75ms;
-
-    border-radius: 35px;
-
-    &>div {
-        position: relative;
-
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        justify-content: flex-end;
-    }
-
-    img {
-        width: 50px;
-        height: 50px;
-
-        border-radius: 50%;
-
-        object-fit: contain;
-    }
-
-    span {
-
-        font-size: 18px;
-    }
-
-    &:hover {
-        cursor: pointer;
-
-        background-color: #ECEEFE;
-    }
-}
-
-.user-view-small-selected {
-    font-weight: 700;
-
-    color: #535Af1;
-    background-color: #ECEEFE;
-}
-
-
-
-/* Together with 'input-added-user'-class */
-.user-view-input {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-
-    width: max-content;
-    max-height: 40px;
-
-    padding: 3px 10px !important;
-
-    border-radius: 35px;
-
-    background-color: #ECEEFE;
-
-    img {
-        width: 34px;
-        height: 34px;
-
-        border-radius: 50%;
-    }
-}
 
 .channel-view-small {
     display: flex;
@@ -179,45 +101,6 @@
     background-color: #686868;
 }
 
-
-
-/* ------ */
-/* Inputs */
-/* ------ */
-.input-text {
-    width: 100%;
-    max-height: 55px;
-
-    padding: 15px 20px;
-
-    border: 1px solid #ADB0D9;
-    border-radius: 30px;
-
-    font-family: 'Nunito';
-    font-size: 18px;
-    font-weight: 400;
-
-    outline: none;
-
-    &:focus {
-        border-color: #444DF2;
-    }
-}
-
-/* Together with 'user-view-input'-class */
-.input-added-user {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    width: 100%;
-    max-height: 55px;
-
-    padding: 7.5px 20px;
-
-    border: 1px solid #ADB0D9;
-    border-radius: 30px;
-}
 
 
 

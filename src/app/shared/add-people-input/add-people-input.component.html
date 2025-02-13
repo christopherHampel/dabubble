@@ -1,21 +1,31 @@
 <section>
-    <!-- View selected user -->
-    <div *ngIf="selectedUser['id']" class="input-added-user">
-        <div class="user-view-input">
-            <img src="{{selectedUser['avatar']}}" alt="">
-            <span>{{selectedUser['userName']}}</span>
-            <div (click)="removeUser()" class="close-icon"></div>
+
+    <div class="added-user-wrapper">
+        <!-- View selected user -->
+        <div *ngIf="selectedUserList.length > 0" class="input-added-user" #scrollContent
+            (mousedown)="startDragging($event)"
+            (mouseleave)="stopDragging()"
+            (mouseup)="stopDragging()"
+            (mousemove)="onDragging($event)">
+            @for (selectedUser of selectedUserList; track selectedUser; let i = $index ) {
+            <div class="user-view-input">
+                <img src="{{selectedUser['avatar']}}" alt="">
+                <span>{{selectedUser['userName']}}</span>
+                <div (click)="removeUser(i)" class="close-icon"></div>
+            </div>
+            }
+
         </div>
+
+        <input #inputField class="input-text" [(ngModel)]="userName" name="userName" type="text"
+            placeholder="Name eingeben" autocomplete="off">
     </div>
 
-    <input #inputField *ngIf="!selectedUser['id']" class="input-text" [(ngModel)]="userName" name="userName" type="text"
-        placeholder="Name eingeben" autocomplete="off">
-
     <!-- Dropdown existed user after input -->
-    <ul *ngIf="filteredUsersAfterInput().length > 0 && !selectedUser['id']" class="dropdown-add-user">
+    <ul *ngIf="filteredUsersAfterInput().length > 0" class="dropdown-add-user">
         <ng-container *ngFor="let user of getUserList()">
-            <app-user-view-small *ngIf="filteredUserForDropdown(user.userName)" (click)="selectUser(user.id)"
-                [user]="user"></app-user-view-small>
+            <app-user-view-small *ngIf="filteredUserForDropdown(user.userName)"
+                (click)="selectUser(user.id); focusInput(); addItem()" [user]="user"></app-user-view-small>
         </ng-container>
     </ul>
 

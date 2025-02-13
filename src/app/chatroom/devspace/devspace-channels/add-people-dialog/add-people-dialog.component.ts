@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AddPeopleInputComponent } from '../../../../shared/add-people-input/add-people-input.component';
@@ -23,6 +23,10 @@ export class AddPeopleDialogComponent {
 
   focusInput() {
     this.addPeopleInput.focusInput();
+  }
+
+  startScrollEvent() {
+    this.addPeopleInput.scrollAddedUser();
   }
 
   selectUser(event: any) {
