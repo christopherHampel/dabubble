@@ -14,29 +14,33 @@
         <div [ngClass]="this.isMessageFromCurrentUser() ? 'content' : 'flex-start'">
     
             <div class="time-username" *ngIf="!isEditing">
-                <!-- <span *ngIf="this.currentDate">{{ this.currentDate }}</span> -->
                 <span>{{ getTime() }} Uhr</span>
                 <span class="username">{{ currentMessage.messageAuthor.name }}</span>
             </div>
     
-            <div [ngClass]="isEditing ? 'edit-content' : 'message-content'">
-                <div *ngIf="!isEditing">
-                    <span>{{ currentMessage.text }}</span>
-                </div>
-    
-                <div *ngIf="isEditing">
-                    <textarea (click)="autoGrowTextZone($event)" [(ngModel)]="currentMessage.text"></textarea>
-                    <div class="edittext-buttons">
-                        <div>
-                            <img src="/img/sentiment_satisfied.png" alt="">
-                        </div>
-                        <div>
-                            <button (click)="updateMessage(currentMessage)">Save</button>
-                            <button (click)="cancelEdit()">Cancel</button>
+            <div [ngClass]="isEditing ? 'min-width-150' : ''">
+                <div [ngClass]="isEditing ? 'edit-content' : 'message-content'">
+                    <div *ngIf="!isEditing">
+                        <span>{{ currentMessage.text }}</span>
+                    </div>
+        
+                    <div *ngIf="isEditing">
+                        <textarea (click)="autoGrowTextZone($event)" [(ngModel)]="currentMessage.text"></textarea>
+                        <div class="edittext-buttons">
+                            <div>
+                            <!-- <div (click)="emojiPickerEditMessage(); $event.stopPropagation()"> -->
+                                <img src="/img/sentiment_satisfied.png" alt="">
+                            </div>
+                            <div class="edit-btn-container">
+                                <button class="gast-login-btn" (click)="cancelEdit()">Abbrechen</button>
+                                <button class="main-btn" (click)="updateMessage(currentMessage)">Speichern</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- <app-emoji-picker-component *ngIf="editTextEmoji"></app-emoji-picker-component> -->
             </div>
+
 
             <div class="emoji-reactions" *ngIf="!isEditing">
 

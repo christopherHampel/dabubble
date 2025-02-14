@@ -118,6 +118,10 @@ section {
     }
 }
 
+.min-width-150 {
+    min-width: 150%;
+}
+
 .tooltip-message {
     position: relative;
     visibility: hidden;
@@ -143,6 +147,7 @@ section {
     .edittext-buttons {
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
 
     textarea {
@@ -150,6 +155,8 @@ section {
         background: transparent;
         outline: none;
         font-family: 'Nunito';
+        font-size: 18px;
+        color: #686868;
         width: 100%;
     }
 }
@@ -283,4 +290,9 @@ section {
     right: 0;
     left: 0;
     // background-color: rgba(0, 0, 0, 0.5);
+}
+
+.edit-btn-container {
+    display: flex;
+    gap: 32px;
 }

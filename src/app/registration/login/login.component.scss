@@ -21,25 +21,6 @@ h2{
     margin-bottom: 35px;
   }
 
-.gast-login-btn {
-  width: 8.5rem;
-  height: 3.1rem;
-  border: 1px solid rgba(68, 77, 242, 1);
-  border-radius: 25px;
-  background: white;
-  color: rgba(68, 77, 242, 1);
-  font-family: 'Nunito';
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: border-color 0.3s ease;
-
-  &:hover {
-    background: rgba(68, 77, 242, 1);
-    color: white;
-  }
-}
-
 .input-icon {
   position: absolute;
   margin-left: 30px;

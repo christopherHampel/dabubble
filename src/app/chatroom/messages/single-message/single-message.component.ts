@@ -8,13 +8,13 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
 import { EmojisService } from '../../../services/message/emojis.service';
 import { ThreadsDbService } from '../../../services/message/threads-db.service';
-import { Observable } from 'rxjs';
+import { EmojiPickerComponentComponent } from "../../../shared/textarea/emoji-picker-component/emoji-picker-component.component";
 
 @Component({
   selector: 'app-single-message',
   imports: [CommonModule,
     FormsModule,
-    TooltipComponent],
+    TooltipComponent, EmojiPickerComponentComponent],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
@@ -31,6 +31,7 @@ export class SingleMessageComponent {
   isEditing: boolean = false;
   emojiQuickBar:boolean = false;
   currentDate:any = '';
+  // editTextEmoji:boolean = false;
 
   constructor(public chatService: ChatsService, 
               public usersService: UsersDbService,
@@ -71,7 +72,6 @@ export class SingleMessageComponent {
 
   toggleEmoji(currentMessage: CurrentMessage) {
     this.emojiService.currentMessage = currentMessage;
-    // this.emojiQuickBar = !this.emojiQuickBar;
     this.emojiService.emojiPickerOpen = !this.emojiService.emojiPickerOpen;
   }
 
@@ -148,8 +148,9 @@ export class SingleMessageComponent {
 
   @HostListener('document:click', ['$event'])
   clickOutside() {
-    if (this.emojiQuickBar) {
+    if (this.emojiQuickBar || this.isEditing) {
       this.emojiQuickBar = false;
+      this.isEditing = false;
     }
   }
 
@@ -177,4 +178,8 @@ export class SingleMessageComponent {
   openThread() {
     this.child?.openThread();
   }
+
+  // emojiPickerEditMessage() {
+  //   this.editTextEmoji = !this.editTextEmoji;
+  // }
 }
