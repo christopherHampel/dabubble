@@ -19,6 +19,7 @@ export class DevspaceChannelsComponent {
   channelsOpen: boolean = true;
   dialog: boolean = false;
   dialogComponent: 'none' | 'createChannel' | 'addPeople' = 'none';
+
   @ViewChild('channelDialog') channelDialog!: any;
   @ViewChild('peopleDialog') peopleDialog!: any;
   

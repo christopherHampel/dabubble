@@ -37,6 +37,12 @@ export class AddPeopleDialogComponent {
     this.selectedOption = 'option1'
   }
 
+  async createChannel() {
+    await this.addPeopleInput.createChannel();
+    this.addPeopleInput.resetSelectedUserList();
+    this.closeDialog();
+  }
+
   buttonDisabled(): boolean {
     if (this.selectedOption === 'option1') {
       return false;

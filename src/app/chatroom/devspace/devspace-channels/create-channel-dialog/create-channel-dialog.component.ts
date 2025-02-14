@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ChannelsDbService } from '../../../../services/message/channels-db.service';
 
 @Component({
   selector: 'app-create-channel-dialog',
@@ -12,8 +13,11 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './create-channel-dialog.component.scss'
 })
 export class CreateChannelDialogComponent {
+  private channelsDb = inject(ChannelsDbService);
+
   channelName: string = '';
   channelDescription: string = '';
+
   @Output() dialogComponent = new EventEmitter< 'none' | 'addPeople'>();
 
   ngOnChanges() {
@@ -38,6 +42,17 @@ export class CreateChannelDialogComponent {
   resetInputs() {
     this.channelName = '';
     this.channelDescription = '';
+  }
+
+  
+  createChannel() {
+    this.channelsDb.updateChannel({
+      id: '',
+      name: this.channelName,
+      description: this.channelDescription
+    })
+
+    this.resetInputs();
   }
 
 

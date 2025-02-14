@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
 import { UserProfile } from '../../interfaces/userProfile';
 import { UserViewSmallComponent } from '../user-view-small/user-view-small.component';
+import { ChannelsDbService } from '../../services/message/channels-db.service';
 
 @Component({
   selector: 'app-add-people-input',
@@ -17,6 +18,7 @@ import { UserViewSmallComponent } from '../user-view-small/user-view-small.compo
 })
 export class AddPeopleInputComponent {
   private usersDb = inject(UsersDbService);
+  private channelsDb = inject(ChannelsDbService);
 
   userName: string = '';
   selectedUser: UserProfile = {} as UserProfile;
@@ -116,6 +118,26 @@ export class AddPeopleInputComponent {
     this.selectedUser = {} as UserProfile;
   }
 
+  resetSelectedUserList() {
+    this.selectedUserList = [];
+  }
+
+
+  async createChannel() {
+    let participants: string[] = this.selectedUserList.map(user => user.id);
+    let participantsDetails: { name: string; avatar: string; }[];
+    participantsDetails = this.selectedUserList.map(user => ({
+      name: user.userName,
+      avatar: user.avatar
+    })) || [];
+
+    this.channelsDb.updateChannel({
+      participants: participants,
+      participantsDetails: participantsDetails
+    })
+
+    await this.channelsDb.addChannel();
+  }
 
 
   /**

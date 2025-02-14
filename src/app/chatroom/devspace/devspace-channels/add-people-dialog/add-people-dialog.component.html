@@ -31,7 +31,7 @@
                 (selectedUserOut)="selectUser($event)"></app-add-people-input>
         </div>
 
-        <button [disabled]="buttonDisabled()" class="primary-button">Erstellen</button>
+        <button (click)="createChannel()" [disabled]="buttonDisabled()" class="primary-button">Erstellen</button>
     </form>
 
 </section>
