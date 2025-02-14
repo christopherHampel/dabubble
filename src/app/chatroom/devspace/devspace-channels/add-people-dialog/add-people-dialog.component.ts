@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AddPeopleInputComponent } from '../../../../shared/add-people-input/add-people-input.component';
@@ -16,10 +16,8 @@ import { UserProfile } from '../../../../interfaces/userProfile';
 })
 export class AddPeopleDialogComponent {
   selectedOption: string = 'option1';
-  userName: string = '';
   selectedUser: UserProfile = {} as UserProfile;
-  @Input() dialogOpen: boolean = false;
-  @Output() dialogClose = new EventEmitter<boolean>();
+  @Output() dialogComponent = new EventEmitter<'none'>();
   @ViewChild('addPeopleInput') addPeopleInput!: any;
 
   focusInput() {
@@ -30,13 +28,13 @@ export class AddPeopleDialogComponent {
     this.selectedUser = event;
   }
 
-  resetUserName() {
-    this.userName = '';
+  closeDialog() {
+    this.dialogComponent.emit('none');
+    this.resetOption();
   }
 
-  closeDialog() {
-    this.dialogOpen = false;
-    this.dialogClose.emit(true);
+  resetOption() {
+    this.selectedOption = 'option1'
   }
 
   buttonDisabled(): boolean {
