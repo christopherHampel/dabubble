@@ -45,6 +45,7 @@ section {
 
         &::placeholder {
             @include styleFont;
+            font-size: 18px;
         }
     }
 }

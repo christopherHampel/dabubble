@@ -18,7 +18,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   imports: [ CommonModule, FormsModule, TextareaComponent, SingleMessageComponent, EmojiPickerComponentComponent ],
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
-  providers: [ScrollService]
+  providers: [ScrollService],
 })
 
 export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
@@ -115,15 +115,23 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
     return '(chatMessages$ | async)?.length === 0';
   }
 
-  getStartText(): SafeHtml {
-    if (this.chatService.chatPartner.name === this.usersService.currentUserSig()?.userName) {
-      return this.sanitizer.bypassSecurityTrustHtml(
-        '<span class="bold-font">Dieser Raum ist nur für dich da.</span> Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.'
-      );
-    } else {
-      return this.sanitizer.bypassSecurityTrustHtml(
-        `Diese Unterhaltung findet nur zwischen @${this.chatService.chatPartner.name} und dir statt.`
-      );
-    }
+  isPrivateChat(): boolean {
+    return this.usersService.currentUserSig()?.userName === this.chatService.chatPartner.name;
   }
+
+  showProfile() {
+    console.log("Profil anzeigen!");
+  }
+
+  // getStartText(): SafeHtml {
+  //   if (this.chatService.chatPartner.name === this.usersService.currentUserSig()?.userName) {
+  //     return this.sanitizer.bypassSecurityTrustHtml(
+  //       '<span class="bold-font">Dieser Raum ist nur für dich da.</span> Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.'
+  //     );
+  //   } else {
+  //     return this.sanitizer.bypassSecurityTrustHtml(
+  //       `Diese Unterhaltung findet nur zwischen <span class="chat-with" (click)="showProfile()">@${this.chatService.chatPartner.name}</span> und dir statt.`
+  //     );
+  //   }
+  // }
 }

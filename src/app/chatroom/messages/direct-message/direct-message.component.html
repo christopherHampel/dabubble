@@ -23,9 +23,18 @@
                 <div>
                     <img [src]="this.chatService.chatPartner.avatar || 'img/empty_profile.png'" alt="">
                 </div>
-                <span>{{ this.chatService.chatPartner.name }}</span>
+                <span class="chat-partner-name">{{ this.chatService.chatPartner.name }}</span>
             </div>
-            <span [innerHTML]="getStartText()"></span>
+            <span *ngIf="isPrivateChat()">
+                <span class="bold-font">Dieser Raum ist nur für dich da.</span>
+                Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien griffbereit auf.
+                Du kannst hier auch gerne Dinge mit dir selbst besprechen.
+            </span>
+              
+            <span *ngIf="!isPrivateChat()">
+                Diese Unterhaltung findet nur zwischen 
+                <span class="chat-with" (click)="showProfile()">&#64;{{ this.chatService.chatPartner.name }}</span> und dir statt.
+            </span>
         </div>
 
         <div class="textarea-emojipicker">
