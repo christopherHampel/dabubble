@@ -1,4 +1,4 @@
-<section class="add-people-dialog" [ngStyle]="{'display': dialogOpen ? 'flex' : 'none'}"
+<section class="add-people-dialog slide-in"
     [ngClass]="{'height-option1': selectedOption === 'option1', 'height-option2': selectedOption === 'option2'}">
     <header class="header-dialog">
         <h2>Leute hinzufügen</h2>
@@ -17,7 +17,7 @@
 
         <div>
             <div class="radio-button">
-                <input (click)="focusInput(); resetUserName()" [(ngModel)]="selectedOption" name="option" type="radio"
+                <input (click)="focusInput()" [(ngModel)]="selectedOption" name="option" type="radio"
                     value="option2">
                 <label for="">
                     <p>
@@ -26,7 +26,9 @@
                 </label>
             </div>
 
-            <app-add-people-input #addPeopleInput [component]="'addPeople'" class="input-text" [ngClass]="{'collapsed': selectedOption === 'option1'}" class="width-100-percent" (selectedUserOut)="selectUser($event)"></app-add-people-input>
+            <app-add-people-input #addPeopleInput [component]="'addPeople'" class="input-text"
+                [ngClass]="{'collapsed': selectedOption === 'option1'}" class="width-100-percent"
+                (selectedUserOut)="selectUser($event)"></app-add-people-input>
         </div>
 
         <button [disabled]="buttonDisabled()" class="primary-button">Erstellen</button>

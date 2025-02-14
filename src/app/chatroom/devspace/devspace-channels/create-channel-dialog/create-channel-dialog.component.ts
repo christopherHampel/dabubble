@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -14,31 +14,32 @@ import { FormsModule } from '@angular/forms';
 export class CreateChannelDialogComponent {
   channelName: string = '';
   channelDescription: string = '';
-  @Input() dialogOpen: boolean = false;
-  @Output() dialogClose = new EventEmitter<boolean>();
-  @Output() addPeopleDialogOpen = new EventEmitter<boolean>();
-
+  @Output() dialogComponent = new EventEmitter< 'none' | 'addPeople'>();
 
   ngOnChanges() {
     console.log(this.channelName);
   }
 
+
   closeDialog() {
-    this.dialogOpen = false;
-    this.dialogClose.emit(true);
+    this.dialogComponent.emit('none');
 
-    this.reset();
+    this.resetInputs();
   }
 
 
-  openAddPeopleDialog() {
-    this.addPeopleDialogOpen.emit(true);
+  openDialog() {
+    this.dialogComponent.emit('addPeople');
+
+    this.resetInputs();
   }
 
-  reset() {
+
+  resetInputs() {
     this.channelName = '';
     this.channelDescription = '';
   }
+
 
   Backspace?: KeyboardEvent;
 
@@ -46,13 +47,13 @@ export class CreateChannelDialogComponent {
     this.Backspace = event;
   }
 
+
   updateValue(value: string) {
     if (value === '#   ' && this.Backspace!.key === 'Backspace') {
       this.channelName = '';
     }
 
     if (!value.startsWith('#   ')) {
-      console.log('Update');
       this.channelName = '#   ' + value.trimStart();
     } 
   }
