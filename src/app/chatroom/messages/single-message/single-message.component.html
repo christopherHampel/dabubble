@@ -24,7 +24,7 @@
                         <span>{{ currentMessage.text }}</span>
                     </div>
         
-                    <div *ngIf="isEditing">
+                    <div *ngIf="isEditing" (click)="$event.stopPropagation()">
                         <textarea (click)="autoGrowTextZone($event)" [(ngModel)]="currentMessage.text"></textarea>
                         <div class="edittext-buttons">
                             <div>
