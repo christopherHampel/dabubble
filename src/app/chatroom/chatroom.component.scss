@@ -56,6 +56,19 @@
     }
 }
 
+.channel-view-small.selected {
+    font-weight: 700;
+
+    border-radius: 35px;
+
+    color: #535Af1;
+    background-color: #ECEEFE;
+
+    &>div {
+        background-image: url('/img/hashtag_hover_icon.svg');
+    }
+}
+
 .add-user-or-channel-view {
     display: flex;
     justify-content: flex-start;

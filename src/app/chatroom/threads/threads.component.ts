@@ -17,18 +17,18 @@ import { Thread } from '../../interfaces/thread';
 export class ThreadsComponent {
   threadsDb = inject(ThreadsDbService);
 
-    @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
-    @ViewChildren(SingleMessageComponent) messageComponents!: QueryList<SingleMessageComponent>;
+  @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
+  @ViewChildren(SingleMessageComponent) messageComponents!: QueryList<SingleMessageComponent>;
 
-    threadData: Thread = {
-      docId: '',
-      participiants: [],
-      participiantsDetails: {},
-      // threadName: ''
-    };
+  threadData: Thread = {
+    docId: '',
+    participiants: [],
+    participiantsDetails: {},
+    // threadName: ''
+  };
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private scrollService: ScrollService) { }
 
@@ -46,17 +46,17 @@ export class ThreadsComponent {
 
   closeThread() {
     this.threadsDb.currentThreadId.set('');
-    this.router.navigate(['/chatroom', {outlets: {thread: null}}]);
+    this.router.navigate(['/chatroom', { outlets: { thread: null } }]);
   }
 
-  scrollDown(){
+  scrollDown() {
     this.scrollService.scrollToBottom();
   }
 
   ngAfterViewChecked() {
     if (!this.scrollService.hasScrolled && this.messageComponents.length > 0) {
       this.scrollService.scrollToBottom();
-      setTimeout( () => {
+      setTimeout(() => {
         this.scrollService.hasScrolled = true;
       }, 100)
     }

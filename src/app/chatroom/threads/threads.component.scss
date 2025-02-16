@@ -3,7 +3,7 @@
 }
 
 section {
- height: calc(100vh - 102px - 16px);
+    height: calc(100vh - 102px - 16px);
 }
 
 .card {
@@ -34,14 +34,15 @@ section {
         span {
             overflow: hidden;
             display: -webkit-box;
-            -webkit-line-clamp: 1; /* number of lines to show */
-                    line-clamp: 1; 
+            -webkit-line-clamp: 1;
+            /* number of lines to show */
+            line-clamp: 1;
             -webkit-box-orient: vertical;
         }
     }
 
     &>div {
-        
+
         &>h2 {
             font-size: 24px;
         }
@@ -54,7 +55,7 @@ section {
         div {
             &>span {
                 color: #797EF3;
-    
+
                 font-weight: 400;
                 font-size: 14px;
             }

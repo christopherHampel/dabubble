@@ -22,7 +22,7 @@ export class DevspaceComponent {
   goToDefault() {
     // this.chatService.chatPartner = {name: '', avatar: ''};
     // setTimeout( () => {    
-      this.route.navigate(['/chatroom', {outlets: {chats: null}}]);
+      this.route.navigate(['/chatroom', { outlets: { chats: 'default', channel: null, thread: null } }]);
     // }, 100)
   }
 }

@@ -50,13 +50,16 @@ export class DevspaceDirectmessagesComponent {
     this.selectedUserId = id;
   }
 
+
   openDialog() {
     this.dialog = true;
   }
 
+
   closeDialog(event: boolean) {
     this.dialog = event;
   }
+
 
   getUserList() {
     if (this.usersDb.currentUser) {
@@ -64,13 +67,14 @@ export class DevspaceDirectmessagesComponent {
     } else {
       return [];
     }
-  };
+  }
+
 
   async selectChat(user: UserProfile) {
     try {
       const chatId = await this.chatService.setPrivateChat(user);
       this.chatService.currentChatId = chatId;
-      this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', chatId]}}]);
+      this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', chatId], thread: null}}]);
       // this.router.navigate(['/chatroom', { outlets: { chats: ['direct-message'] } }]);
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);

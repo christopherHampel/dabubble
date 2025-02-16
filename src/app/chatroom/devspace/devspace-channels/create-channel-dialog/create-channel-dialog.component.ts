@@ -18,12 +18,7 @@ export class CreateChannelDialogComponent {
   channelName: string = '';
   channelDescription: string = '';
 
-  @Output() dialogComponent = new EventEmitter< 'none' | 'addPeople'>();
-
-  ngOnChanges() {
-    console.log(this.channelName);
-  }
-
+  @Output() dialogComponent = new EventEmitter<'none' | 'addPeople'>();
 
   closeDialog() {
     this.dialogComponent.emit('none');
@@ -44,11 +39,11 @@ export class CreateChannelDialogComponent {
     this.channelDescription = '';
   }
 
-  
+
   createChannel() {
     this.channelsDb.updateChannel({
       id: '',
-      name: this.channelName,
+      name: this.channelName.substring(2),
       description: this.channelDescription
     })
 
@@ -70,6 +65,6 @@ export class CreateChannelDialogComponent {
 
     if (!value.startsWith('#   ')) {
       this.channelName = '#   ' + value.trimStart();
-    } 
+    }
   }
 }

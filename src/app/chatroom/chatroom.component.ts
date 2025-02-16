@@ -10,7 +10,13 @@ import { ChatroomHeaderComponent } from './chatroom-header/chatroom-header.compo
 
 @Component({
   selector: 'app-chatroom',
-  imports: [CommonModule, DevspaceComponent, MessagesComponent, ThreadRouterOutletComponent, ChatroomHeaderComponent],
+  imports: [
+    CommonModule,
+    DevspaceComponent,
+    MessagesComponent,
+    ThreadRouterOutletComponent,
+    ChatroomHeaderComponent
+  ],
   templateUrl: './chatroom.component.html',
   styleUrl: './chatroom.component.scss'
 })

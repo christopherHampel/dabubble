@@ -11,52 +11,20 @@
     </div>
 
     <ul class="channels-directmessages-list">
-        <li class="channel-view-small"
-            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
+        <li *ngFor="let channel of getChannelList()" class="channel-view-small"
+            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}"
+            [ngClass]="{'selected': channel.id === selectedChannelId}"
+            (click)="selectChannel(channel.id); openChannel(channel.id)">
             <div class="hashtag-icon"></div>
-            <span>Entwicklerteam</span>
-        </li>
-        <li class="channel-view-small"
-            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-            <div class="hashtag-icon"></div>
-            <span>Entwicklerteam</span>
-        </li>
-        <li class="channel-view-small"
-            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-            <div class="hashtag-icon"></div>
-            <span>Entwicklerteam</span>
-        </li>
-        <li class="channel-view-small"
-            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-            <div class="hashtag-icon"></div>
-            <span>Entwicklerteam</span>
-        </li>
-        <li class="channel-view-small"
-            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-            <div class="hashtag-icon"></div>
-            <span>Entwicklerteam</span>
-        </li>
-        <li class="channel-view-small"
-            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-            <div class="hashtag-icon"></div>
-            <span>Entwicklerteam</span>
-        </li>
-        <li class="channel-view-small"
-            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-            <div class="hashtag-icon"></div>
-            <span>Entwicklerteam</span>
-        </li>
-        <li class="channel-view-small"
-            [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}">
-            <div class="hashtag-icon"></div>
-            <span>Entwicklerteam</span>
+            <span>{{channel.name}}</span>
         </li>
     </ul>
 
     <!-- Add user -->
     <div class="add-user-or-channel-view"
-        [ngClass]="{'fold-in-add-channel': !channelsOpen, 'fold-out-add-channel': channelsOpen}">
-        <div class="add-circle-icon"></div>
+        [ngClass]="{'fold-in-add-channel': !channelsOpen, 'fold-out-add-channel': channelsOpen}"
+        (click)="openDialog()">
+        <div class="add-circle-icon" [ngClass]="{'add-circle-icon-hover': dialog}"></div>
         <span>Channel hinzufügen</span>
     </div>
 

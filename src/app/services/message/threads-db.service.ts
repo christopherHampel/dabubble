@@ -15,19 +15,11 @@ export class ThreadsDbService {
   private usersDb = inject(UsersDbService);
 
   currentThreadId = signal<string>('');
-  threadListSig = signal<Thread[]>([]);
   messageListSig = signal<Message[]>([]);
   threadData = signal<any>(null);
-  unsubThreadList: any;
   unsubMessageList: any;
 
-  constructor() {
-    this.unsubThreadList = this.subThreadList();
-  }
-
-  get threadList() {
-    return this.threadListSig();
-  }
+  constructor() { }
 
   get messageList() {
     return this.messageListSig();
@@ -99,16 +91,6 @@ export class ThreadsDbService {
       firstMessageOfTheDay: object.firstMessageOfTheDay || false,
       emojis: object.emojis || []
     }
-  }
-
-  subThreadList() {
-    return onSnapshot(this.getThredRef(), (list) => {
-      const threads: Thread[] = [];
-      list.forEach((item) => {
-        threads.push(this.setThreadObject(item.data()));
-      });
-      this.threadListSig.set(threads);
-    });
   }
 
   subMessageList(threadId: string) {
