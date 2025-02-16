@@ -25,7 +25,7 @@
                     </div>
         
                     <div *ngIf="isEditing" (click)="$event.stopPropagation()">
-                        <textarea (click)="autoGrowTextZone($event)" [(ngModel)]="currentMessage.text"></textarea>
+                        <textarea cdkTextareaAutosize #textArea (click)="autoGrowTextZone($event)" [(ngModel)]="currentMessage.text"></textarea>
                         <div class="edittext-buttons">
                             <div>
                             <!-- <div (click)="emojiPickerEditMessage(); $event.stopPropagation()"> -->
@@ -40,7 +40,6 @@
                 </div>
                 <!-- <app-emoji-picker-component *ngIf="editTextEmoji"></app-emoji-picker-component> -->
             </div>
-
 
             <div class="emoji-reactions" *ngIf="!isEditing">
 

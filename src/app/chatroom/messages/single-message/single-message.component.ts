@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, Input, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { ChatsService } from './../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
@@ -21,6 +21,7 @@ import { EmojiPickerComponentComponent } from "../../../shared/textarea/emoji-pi
 export class SingleMessageComponent {
 
   @ViewChild(TooltipComponent) child:TooltipComponent | undefined;
+  @ViewChild('textArea') textArea!: ElementRef;
 
   emojiService = inject(EmojisService);
   @Input() currentMessage!:any;
@@ -40,6 +41,20 @@ export class SingleMessageComponent {
   // ngOnInit() {
   //   this.currentDate = this.showDate();
   // }
+
+  ngAfterViewChecked() {
+    if (this.isEditing) {
+      setTimeout(() => this.adjustTextAreaHeight(), 0);
+    }
+  }
+
+  adjustTextAreaHeight() {
+    if (this.textArea) {
+      const textarea = this.textArea.nativeElement;
+      textarea.style.height = '25px';
+      textarea.style.height = textarea.scrollHeight + 25 + 'px';
+    }
+  }
 
   onIsEditingChange(newValue: boolean) {
     this.isEditing = newValue;
