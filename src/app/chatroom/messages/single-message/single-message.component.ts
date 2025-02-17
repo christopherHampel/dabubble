@@ -169,7 +169,7 @@ export class SingleMessageComponent {
     }
   }
 
-  toggleBoolean() {
+  toggleMenuAndQuickbar() {
     this.chatService.menu = false;
     this.emojiQuickBar = false;
   }

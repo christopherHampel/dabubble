@@ -1,4 +1,12 @@
-import { Component, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../services/message/chats.service';
 import { EmojiPickerComponentComponent } from './emoji-picker-component/emoji-picker-component.component';
@@ -6,15 +14,20 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
-import { UserProfile } from '../../interfaces/userProfile';
+// import { UserProfile } from '../../interfaces/userProfile';
 import { ScrollService } from '../../services/message/scroll.service';
-import { UserViewSmallComponent } from "../user-view-small/user-view-small.component";
+import { UserViewSmallComponent } from '../user-view-small/user-view-small.component';
 
 @Component({
   selector: 'app-textarea',
-  imports: [FormsModule, EmojiPickerComponentComponent, CommonModule],
+  imports: [
+    FormsModule,
+    EmojiPickerComponentComponent,
+    CommonModule,
+    UserViewSmallComponent,
+  ],
   templateUrl: './textarea.component.html',
-  styleUrl: './textarea.component.scss'
+  styleUrl: './textarea.component.scss',
 })
 export class TextareaComponent implements OnInit {
   private threadDb = inject(ThreadsDbService);
@@ -33,16 +46,17 @@ export class TextareaComponent implements OnInit {
   emojiMartOpen: boolean = false;
 
   constructor(
-    public chatService: ChatsService, 
+    public chatService: ChatsService,
     private route: ActivatedRoute,
     private userService: UsersDbService,
-    private scrollService: ScrollService) { }
+    private scrollService: ScrollService,
+  ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.chatId = params.get('id')!;
-    })
-  } 
+    });
+  }
 
   async sendText(e: any) {
     const firstThreadMessage = false;
@@ -51,8 +65,14 @@ export class TextareaComponent implements OnInit {
       if (this.component == 'chat') {
         await this.chatService.addMessageToChat(this.message, this.chatId);
       } else if (this.component == 'thread') {
-        await this.threadDb.addMessageToThread(this.threadDb.currentThreadId(), this.message, firstThreadMessage);
-        await this.chatService.updateThreadAnswersCount(this.threadDb.currentThreadId());
+        await this.threadDb.addMessageToThread(
+          this.threadDb.currentThreadId(),
+          this.message,
+          firstThreadMessage
+        );
+        await this.chatService.updateThreadAnswersCount(
+          this.threadDb.currentThreadId()
+        );
       }
       this.message = '';
       this.scrollService.scrollToBottom();
@@ -60,9 +80,9 @@ export class TextareaComponent implements OnInit {
   }
 
   autoGrowTextZone(e: any) {
-    if(e.key !== "Enter") {
-      e.target.style.height = "25px";
-      e.target.style.height = (e.target.scrollHeight + 25) + "px";
+    if (e.key !== 'Enter') {
+      e.target.style.height = '25px';
+      e.target.style.height = e.target.scrollHeight + 25 + 'px';
     }
   }
 
@@ -78,7 +98,7 @@ export class TextareaComponent implements OnInit {
     this.message += emoji;
   }
 
-  addUserToMessage(user:string) {
+  addUserToMessage(user: string) {
     this.message += '@' + user;
     this.userList = false;
   }
@@ -91,25 +111,35 @@ export class TextareaComponent implements OnInit {
     }
   }
 
-    toggleUserList() {
-      this.userList = !this.userList;
-    }
+  toggleUserList() {
+    this.userList = !this.userList;
+  }
 
-    showAllUser() {
-      this.toggleUserList();
-      if(this.userList) {
-        this.users = [];
-        const users = this.users;
-        this.userService.userListSig().forEach(user => {
-          users.push(user.userName)
-        });
-      }
+  showAllUser() {
+    this.toggleUserList();
+    if (this.userList) {
+      this.users = [];
+      const users = this.users;
+      this.userService.userListSig().forEach((user) => {
+        users.push(user.userName);
+      });
     }
+  }
 
-    detectAtSymbol(event: KeyboardEvent) {
-      if (event.key === '@') {
-        event.preventDefault();
-        this.showAllUser();
-      }
+  detectAtSymbol(event: KeyboardEvent) {
+    if (event.key === '@') {
+      event.preventDefault();
+      this.showAllUser();
     }
+  }
+
+  getUserList() {
+    if (this.userService.currentUser) {
+      return this.userService.userList.filter((user) =>
+        this.userService.currentUser!.directmessagesWith.includes(user.id)
+      );
+    } else {
+      return [];
+    }
+  }
 }

@@ -25,17 +25,9 @@ export class DevspaceDirectmessagesComponent {
   selectedUserId: string = '';
   directmessagesOpen: boolean = true;
 
-  exampleUserProfile: UserProfile = {
-    id: '12345abcde',
-    userName: 'johndoe',
-    email: 'johndoe@example.com',
-    avatar: '/img/johndoe-avatar.png',
-    active: true,
-    clicked: false,
-    directmessagesWith: ['67890fghij', '11223klmno']
-  };
-
-  constructor(private chatService: ChatsService, private router: Router) { }
+  constructor(private chatService: ChatsService, private router: Router) {
+    console.log(this.selectedUserId);
+   }
 
   openDirectmessages() {
     if (this.directmessagesOpen) {
