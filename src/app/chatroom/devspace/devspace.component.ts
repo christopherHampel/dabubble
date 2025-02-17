@@ -5,25 +5,32 @@ import { DevspaceDirectmessagesComponent } from './devspace-directmessages/devsp
 import { HideOrShowNavbarComponent } from './hide-or-show-navbar/hide-or-show-navbar.component';
 import { Router } from '@angular/router';
 import { ChatsService } from '../../services/message/chats.service';
+import { ThreadsDbService } from '../../services/message/threads-db.service';
 
 @Component({
   selector: 'app-devspace',
-  imports: [ CommonModule, DevspaceChannelsComponent, DevspaceDirectmessagesComponent, HideOrShowNavbarComponent ],
+  imports: [
+    CommonModule,
+    DevspaceChannelsComponent,
+    DevspaceDirectmessagesComponent,
+    HideOrShowNavbarComponent,
+  ],
   templateUrl: './devspace.component.html',
-  styleUrl: './devspace.component.scss'
+  styleUrl: './devspace.component.scss',
 })
 export class DevspaceComponent {
   devspaceClose: boolean = false;
 
   constructor(
     private route: Router,
-    private chatService: ChatsService) {}
+    private chatService: ChatsService,
+    private threadService: ThreadsDbService
+  ) {}
 
   goToDefault() {
-    // this.chatService.chatPartner = {name: '', avatar: ''};
-    // setTimeout( () => {    
-      // this.route.navigate(['/chatroom', {outlets: {chats: null}}]);
-      this.route.navigate(['/chatroom', { outlets: { chats: 'default', channel: null, thread: null } }]);
-    // }, 100)
+    if (this.threadService.currentThreadId()) {
+      this.threadService.closeThread();
+    }
+    this.route.navigate(['/chatroom']);
   }
 }

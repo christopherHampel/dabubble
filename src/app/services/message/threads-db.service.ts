@@ -6,6 +6,7 @@ import { Thread } from '../../interfaces/thread';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { map, Observable } from 'rxjs';
 import { CurrentMessage } from '../../interfaces/current-message';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class ThreadsDbService {
   threadData = signal<any>(null);
   unsubMessageList: any;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   get messageList() {
     return this.messageListSig();
@@ -152,5 +153,10 @@ export class ThreadsDbService {
     onSnapshot(threadRef, (docSnapshot) => {
       this.threadData.set(docSnapshot.data());
     });
+  }
+
+  closeThread() {
+    this.currentThreadId.set('');
+    this.router.navigate(['/chatroom', { outlets: { thread: null } }]);
   }
 }

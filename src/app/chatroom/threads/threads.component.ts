@@ -45,8 +45,7 @@ export class ThreadsComponent {
   }
 
   closeThread() {
-    this.threadsDb.currentThreadId.set('');
-    this.router.navigate(['/chatroom', { outlets: { thread: null } }]);
+    this.threadsDb.closeThread()
   }
 
   scrollDown() {

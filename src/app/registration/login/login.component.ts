@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     this.auth.login(rawForm.email, rawForm.password)
       .then(() => {
         // this.router.navigateByUrl('/chatroom');
-        this.router.navigate(['/chatroom', { outlets: { chats: 'default', channel: null, thread: null } }]);
+        this.router.navigate(['/chatroom']);
       })
 
   }
