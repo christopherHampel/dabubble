@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.auth.currentAuthUser.subscribe((user) => {
       if (user) {
-        //this.router.navigateByUrl('/chatroom');
+        // this.router.navigateByUrl('/chatroom');
       }
     });
   }
@@ -38,7 +38,8 @@ export class LoginComponent implements OnInit {
     const rawForm = this.loginForm.getRawValue();
     this.auth.login(rawForm.email, rawForm.password)
       .then(() => {
-        this.router.navigateByUrl('/chatroom');
+        // this.router.navigateByUrl('/chatroom');
+        this.router.navigate(['/chatroom', { outlets: { chats: 'default', channel: null, thread: null } }]);
       })
 
   }
