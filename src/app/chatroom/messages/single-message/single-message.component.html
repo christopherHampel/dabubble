@@ -5,7 +5,7 @@
         <div></div>
     </div>
 
-    <div (mouseleave)="toggleBoolean()" [ngClass]="getUser()" [class.hover-effect]="!isEditing">
+    <div (mouseleave)="toggleMenuAndQuickbar()" [ngClass]="getUser()" [class.hover-effect]="!isEditing">
 
         <div class="avatar-message">
             <img [src]="currentMessage.messageAuthor.avatar || '/img/empty_profile.png'" alt="">
@@ -13,13 +13,14 @@
     
         <div [ngClass]="this.isMessageFromCurrentUser() ? 'content' : 'flex-start'">
     
-            <div class="time-username" *ngIf="!isEditing">
+            <div class="time-username" *ngIf="!isEditing" [ngStyle]="isMessageFromCurrentUser() ? {} : {'flex-direction': 'row-reverse'}">
                 <span>{{ getTime() }} Uhr</span>
                 <span class="username">{{ currentMessage.messageAuthor.name }}</span>
             </div>
     
             <div [ngClass]="isEditing ? 'min-width-150' : ''">
-                <div [ngClass]="isEditing ? 'edit-content' : 'message-content'">
+                <!-- <div [ngClass]="isEditing ? 'edit-content' : 'message-content'"> -->
+                <div [ngClass]="[isEditing ? 'edit-content' : 'message-content', isMessageFromCurrentUser() ? '' : 'mirrored-message-content']">
                     <div *ngIf="!isEditing">
                         <span>{{ currentMessage.text }}</span>
                     </div>
@@ -41,7 +42,7 @@
                 <!-- <app-emoji-picker-component *ngIf="editTextEmoji"></app-emoji-picker-component> -->
             </div>
 
-            <div class="emoji-reactions" *ngIf="!isEditing">
+            <div class="emoji-reactions" *ngIf="!isEditing" [ngStyle]="isMessageFromCurrentUser() ? {} : {'flex-direction': 'row-reverse'}">
 
                 <div *ngIf="component == 'chat'" class="answers-from-thread">
                     <div (click)="openThread()">{{ getThreadCountReplies() }}</div>
@@ -71,7 +72,7 @@
 
                 <div class="click-emoji">
                     <a (click)="toggleEmojiQuickBar(); $event.stopPropagation()"><img src="/img/add_reaction.png" alt=""></a>
-                    <div *ngIf="this.emojiQuickBar" class="quick-emoji-bar">
+                    <div *ngIf="this.emojiQuickBar" class="quick-emoji-bar" [ngStyle]="isMessageFromCurrentUser() ? {} : {'left': '30px', 'right': 'auto'}">
                        @for (emoji of this.emojiService.customEmojis; track $index) {
                         <div class="quick-emoji">
                             <a (click)="addEmoji(emoji)">{{ emoji }}</a>

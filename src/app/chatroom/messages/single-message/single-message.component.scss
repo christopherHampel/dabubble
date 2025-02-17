@@ -296,3 +296,10 @@ section {
     display: flex;
     gap: 32px;
 }
+
+.mirrored-message-content {
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-top-left-radius: 0;
+}

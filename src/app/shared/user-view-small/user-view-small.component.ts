@@ -16,6 +16,7 @@ export class UserViewSmallComponent {
   @Input() user: any;
 
   ngOnInit() {
+    console.log(this.selectedUserId, this.user)
     setTimeout(() => {
       this.isLoaded = false;
     }, 25);

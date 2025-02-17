@@ -13,10 +13,15 @@
                     <!-- <app-user-view-small></app-user-view-small> -->
                     <div class="at-member" (click)="showAllUser()"></div>
                     <div *ngIf="this.userList" class="user-list">
+                        <div *ngFor="let user of getUserList()">
+                            <app-user-view-small [user]="user"></app-user-view-small>
+                        </div>
+                    </div>
+                    <!-- <div *ngIf="this.userList" class="user-list">
                         @for (user of this.users; track $index) {
                             <span (click)="addUserToMessage(user)">&#64;{{ user }}</span>
                         }
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <a (click)="sendText($event)"><img src="/img/send.png" alt="send"></a>
