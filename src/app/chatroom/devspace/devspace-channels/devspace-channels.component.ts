@@ -65,6 +65,6 @@ export class DevspaceChannelsComponent {
 
 
   openChannel(id: string) {
-    this.router.navigate(['/chatroom', { outlets: { chats: ['channel', id],  thread: null } }]);
+    this.router.navigate(['/chatroom', { outlets: { chats: ['channel', id], thread: null } }]);
   }
 }

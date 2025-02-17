@@ -416,3 +416,51 @@ body {
     background-image: url('/img/devspace_new_hover_icon.svg');
   }
 }
+
+.arrow-drop-down-icon {
+  width: 30px;
+  height: 30px;
+
+  background-image: url('/img/arrow_drop_down_profil.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.person-add-icon {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #ECEEFE;
+
+  border-radius: 50%;
+
+  &>div {
+    width: 24px;
+    height: 24px;
+
+    background-image: url('/img/person_add_icon.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    &:hover {
+      cursor: pointer;
+
+      background-image: url('/img/person_add_hover_icon.svg');
+    }
+
+  }
+}
+
+.hashtag-icon {
+  width: 32px;
+  height: 32px;
+
+  background-image: url('/img/hashtag_icon.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}

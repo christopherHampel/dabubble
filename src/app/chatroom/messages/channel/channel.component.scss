@@ -1,1 +1,83 @@
 @use '../direct-message/direct-message.component.scss';
+
+* {
+    font-family: 'Nunito';
+}
+
+.message-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.head-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    padding: 6px 10px;
+
+    transition: all 150ms ease-in-out;
+
+    h2 {
+        font-weight: 700;
+        font-size: 24px;
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        border-radius: 100px;
+        background-color: #ECEEFE;
+
+        .hashtag-icon {
+            background-image: url('/img/hashtag_hover_icon.svg');
+        }
+
+        h2 {
+            color: #535Af1;
+        }
+
+        .arrow-drop-down-icon {
+            background-image: url('/img/arrow_drop_down_profil_hover.svg');
+        }
+    }
+}
+
+.head-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    &>div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        padding: 3px 10px;
+
+        &>.profil-picture-wrapper {
+
+            &>img {
+                width: 40px;
+                height: 40px;
+
+                object-fit: contain;
+
+                border: 2px solid #ffffff;
+                border-radius: 50%;
+
+                margin-left: -10px;
+            }
+        }
+
+        &>span {
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+    }
+}
