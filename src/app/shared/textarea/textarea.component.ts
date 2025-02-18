@@ -40,8 +40,9 @@ export class TextareaComponent implements OnInit {
   @Input() id: string = '';
 
   chatId: string = '';
-  users: string[] = [];
+  // users: string[] = [];
   userList: boolean = false;
+  selectedUserId: string = '';
 
   emojiMartOpen: boolean = false;
 
@@ -115,21 +116,10 @@ export class TextareaComponent implements OnInit {
     this.userList = !this.userList;
   }
 
-  showAllUser() {
-    this.toggleUserList();
-    if (this.userList) {
-      this.users = [];
-      const users = this.users;
-      this.userService.userListSig().forEach((user) => {
-        users.push(user.userName);
-      });
-    }
-  }
-
   detectAtSymbol(event: KeyboardEvent) {
     if (event.key === '@') {
       event.preventDefault();
-      this.showAllUser();
+      this.userList = true;
     }
   }
 
@@ -140,6 +130,19 @@ export class TextareaComponent implements OnInit {
       );
     } else {
       return [];
+    }
+  }
+
+  tagUser(user:any) {    
+    this.message += '@' + user.userName;
+    this.toggleUserList();
+    this.focusTextarea();
+  }
+
+  focusTextarea() {
+    const textarea = document.querySelector('textarea');
+    if (textarea) {
+      textarea.focus();
     }
   }
 }

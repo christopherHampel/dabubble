@@ -1,33 +1,36 @@
 <section>
-    <div class="send-text">
-        <textarea 
-        (keydown.enter)="sendText($event)" 
-        (keydown)="detectAtSymbol($event)"
-        (keyup)="autoGrowTextZone($event)" 
-        [(ngModel)]="message" name="" 
-        placeholder="Nachricht an {{ chatPartnerName }}"></textarea>
-        <div class="reactions" (click)="preventClose($event)">
-            <div>
-                <div class="emoji-picker" (click)="toggleEmoji()"></div>
-                <div class="tag-user">
-                    <!-- <app-user-view-small></app-user-view-small> -->
-                    <div class="at-member" (click)="showAllUser()"></div>
-                    <div *ngIf="this.userList" class="user-list">
-                        <div *ngFor="let user of getUserList()">
-                            <app-user-view-small [user]="user"></app-user-view-small>
-                        </div>
-                    </div>
-                    <!-- <div *ngIf="this.userList" class="user-list">
-                        @for (user of this.users; track $index) {
-                            <span (click)="addUserToMessage(user)">&#64;{{ user }}</span>
-                        }
-                    </div> -->
-                </div>
-            </div>
-            <a (click)="sendText($event)"><img src="/img/send.png" alt="send"></a>
+  <div class="send-text">
+    <textarea
+      (keydown.enter)="sendText($event)"
+      (keydown)="detectAtSymbol($event)"
+      (keyup)="autoGrowTextZone($event)"
+      [(ngModel)]="message"
+      placeholder="Nachricht an {{ chatPartnerName }}"
+    ></textarea>
+    <div class="reactions" (click)="preventClose($event)">
+      <div>
+        <div class="emoji-picker" (click)="toggleEmoji()"></div>
+        <div class="tag-user">
+          <div class="at-member" (click)="toggleUserList()"></div>
+          <div *ngIf="this.userList" class="user-list">
+            <app-user-view-small
+              *ngFor="let user of getUserList()"
+              [user]="user"
+              (click)="tagUser(user)"
+            ></app-user-view-small>
+          </div>
         </div>
+      </div>
+      <a (click)="sendText($event)"><img src="/img/send.png" alt="send" /></a>
     </div>
-    <div class="emoji-component" *ngIf="emojiMartOpen" (click)="preventClose($event)">
-        <app-emoji-picker-component (emojiSelected)="addEmojiToMessage($event)"></app-emoji-picker-component>
-    </div>
+  </div>
+  <div
+    class="emoji-component"
+    *ngIf="emojiMartOpen"
+    (click)="preventClose($event)"
+  >
+    <app-emoji-picker-component
+      (emojiSelected)="addEmojiToMessage($event)"
+    ></app-emoji-picker-component>
+  </div>
 </section>

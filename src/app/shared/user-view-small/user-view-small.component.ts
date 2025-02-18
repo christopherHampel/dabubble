@@ -11,14 +11,13 @@ import { CommonModule } from '@angular/common';
 
 })
 export class UserViewSmallComponent {
-  isLoaded: boolean = true;
+  // isLoaded: boolean = true;
   @Input() selectedUserId: string = '';
   @Input() user: any;
 
   ngOnInit() {
-    console.log(this.selectedUserId, this.user)
-    setTimeout(() => {
-      this.isLoaded = false;
-    }, 25);
+    // setTimeout(() => {
+    //   this.isLoaded = false;
+    // }, 25);    
   }
 }

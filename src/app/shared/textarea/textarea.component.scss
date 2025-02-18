@@ -98,18 +98,7 @@ a {
         padding: 24px 12px;
         position: absolute;
         bottom: 100%;
-        right: 50%;
-        transform: translateX(50%);
         display: flex;
         flex-direction: column;
-        white-space: nowrap; 
-
-        span {
-            padding: 8px;
-            &:hover {
-                background-color: rgba(0, 0, 0, 0.2);
-                cursor: pointer;
-            }
-        }
     }
 }

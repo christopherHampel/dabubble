@@ -1,4 +1,4 @@
-<div *ngIf="!isLoaded" class="user-view-small" [ngClass]="{'selected': user.id === selectedUserId}">
+<div *ngIf="user" class="user-view-small" [ngClass]="{'selected': user.id === selectedUserId}">
     <div>
         <img src="{{user.avatar}}" alt="Avatar">
         <div class="active-status" [ngClass]="{'online': user.active, 'offline': !user.active}"
