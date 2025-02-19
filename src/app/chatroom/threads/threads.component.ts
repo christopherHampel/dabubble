@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SingleMessageComponent } from '../messages/single-message/single-message.component';
 import { TextareaComponent } from '../../shared/textarea/textarea.component';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ScrollService } from '../../services/message/scroll.service';
 import { Thread } from '../../interfaces/thread';
 
@@ -28,7 +28,6 @@ export class ThreadsComponent {
   };
 
   constructor(
-    private router: Router,
     private activatedRoute: ActivatedRoute,
     private scrollService: ScrollService) { }
 

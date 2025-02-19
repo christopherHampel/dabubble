@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { collection, Firestore, onSnapshot, updateDoc } from '@angular/fire/firestore';
+import { collection, doc, Firestore, onSnapshot, updateDoc } from '@angular/fire/firestore';
 import { addDoc } from 'firebase/firestore';
 import { Channel } from '../../interfaces/channel';
 
@@ -11,6 +11,7 @@ export class ChannelsDbService {
 
   channelSig = signal<Channel>({} as Channel);
   channelListSig = signal<Channel[]>([]);
+  channelDataSig = signal<any>(null);
   unsubChannelList: any;
 
   constructor() {
@@ -20,6 +21,11 @@ export class ChannelsDbService {
 
   get channelList() {
     return this.channelListSig();
+  }
+
+
+  get channelData() {
+    return this.channelDataSig();
   }
 
 
@@ -46,6 +52,14 @@ export class ChannelsDbService {
       participants: object.participants || [],
       participantsDetails: object.participantsDetails || {}
     }
+  }
+
+
+  subToChannel(id: string) {
+    const channelRef = doc(this.getChannelRef(), id);
+    onSnapshot(channelRef, (docSnapshot) => {
+      this.channelDataSig.set(docSnapshot.data());
+    });
   }
 
 

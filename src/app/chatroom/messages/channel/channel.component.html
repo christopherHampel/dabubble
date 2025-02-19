@@ -1,4 +1,4 @@
-<section class="card">
+<section *ngIf="channelDb.channelData" class="card">
 
     <div class="message-head">
         <div class="head-left">
@@ -7,14 +7,12 @@
             <div class="arrow-drop-down-icon"></div>
         </div>
 
-        <div class="head-right">
+        <div *ngIf="getChannelParticipantsDetails().length > 0" class="head-right">
             <div>
                 <div class="profil-picture-wrapper">
-                    <img src="/img/sofia_müller.png" alt="">
-                    <img src="/img/sofia_müller.png" alt="">
-                    <img src="/img/sofia_müller.png" alt="">
+                    <img *ngFor="let channel of getChannelParticipantsDetails()" src="{{channel.avatar}}" alt="">
                 </div>
-                <span>3</span>
+                <span>{{getChannelParticipantsDetails().length}} </span>
             </div>
             <div class="person-add-icon">
                 <div></div>
