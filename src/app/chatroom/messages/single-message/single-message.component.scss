@@ -178,7 +178,7 @@ section {
 }
 
 .emoji-hover {
-    visibility: hidden;
+    visibility: visible;
     position: absolute;
     bottom: 100%;
     left: 50%;
@@ -190,7 +190,7 @@ section {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 15px;
+    gap: 5px;
     font-family: 'Nunito';
     font-weight: 400;
 
@@ -204,9 +204,20 @@ section {
     }
 }
 
-.emoji-from-where {
+.emoji-from-whom {
     display: flex;
-    flex-direction: column;
+    // flex-direction: column;
+
+    span {
+        color: #FFFF;
+        font-size: 16px;
+        font-weight: 700;
+    }
+}
+
+.has-reacted {
+    color: #FFFF;
+    font-size: 16px;
 }
 
 .show-reactions {

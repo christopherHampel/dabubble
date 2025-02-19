@@ -194,7 +194,10 @@ export class SingleMessageComponent {
     this.child?.openThread();
   }
 
-  // emojiPickerEditMessage() {
-  //   this.editTextEmoji = !this.editTextEmoji;
-  // }
+  getEmojiNames(emoji: any) {
+    const emojiNames = emoji.name
+    console.log(emojiNames, emoji.emoji);
+    
+    return emojiNames;
+  }
 }

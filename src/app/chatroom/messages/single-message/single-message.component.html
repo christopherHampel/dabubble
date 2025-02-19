@@ -19,7 +19,6 @@
             </div>
     
             <div [ngClass]="isEditing ? 'min-width-150' : ''">
-                <!-- <div [ngClass]="isEditing ? 'edit-content' : 'message-content'"> -->
                 <div [ngClass]="[isEditing ? 'edit-content' : 'message-content', isMessageFromCurrentUser() ? '' : 'mirrored-message-content']">
                     <div *ngIf="!isEditing">
                         <span>{{ currentMessage.text }}</span>
@@ -55,17 +54,17 @@
                             <div *ngIf="emoji.count > 1">{{ emoji.count }}</div>
                         </div>
                         <div class="emoji-hover">
-                            <div>{{ emoji.emoji }}</div>
-                            <div class="emoji-from-where">
-                            @for (name of emoji.name; track $index) {
-                                @if (name === this.usersService.currentUserSig()?.userName) {
-                                    <span>Du</span>
-                                } @else {
-                                    <span>{{ name }}</span>
+                            <span>{{ emoji.emoji }}</span>
+                            <div class="emoji-from-whom">
+                                @for (name of getEmojiNames(emoji); track $index) {
+                                    @if (name === this.usersService.currentUserSig()?.userName) {
+                                        <span>Du</span>
+                                    } @else {
+                                        <span>{{ name }}</span>
+                                    }
                                 }
-                            }
                             </div>
-                            <span>hat reagiert</span>
+                            <span class="has-reacted">hat reagiert</span>
                         </div>
                     </div>
                 }
