@@ -76,7 +76,7 @@ export class TextareaComponent implements OnInit {
         );
       }
       this.message = '';
-      this.scrollService.scrollToBottom();
+      // this.scrollService.scrollToBottom();
     }
   }
 

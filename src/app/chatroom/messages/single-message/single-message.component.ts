@@ -196,7 +196,7 @@ export class SingleMessageComponent {
 
   getEmojiNames(emoji: any) {
     const emojiNames = emoji.name
-    console.log(emojiNames, emoji.emoji);
+    // console.log(emojiNames, emoji.emoji);
     
     return emojiNames;
   }

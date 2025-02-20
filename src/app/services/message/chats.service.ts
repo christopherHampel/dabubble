@@ -28,9 +28,9 @@ export class ChatsService {
   menu: boolean = false;
   // hasScrolled: boolean = false;
   currentChatId!: string;
+  lastMessageDocId = signal<string | null>(null);
 
   getPrivateChatCollection() {
-    // console.log('Component chat service: ', this.component());
     if (this.component() == 'chat') {
       return collection(this.firestore, 'messages');
     } else {
@@ -68,6 +68,7 @@ export class ChatsService {
         this.chatData = chat.data() as ChatData;
         this.getMessagesFromChat(chatId);
         this.setChatPartner();
+        this.watchLastMessageDocId(chatId);
       } else {
         console.log("Chat-Daten existieren nicht.");
       }
@@ -175,6 +176,7 @@ export class ChatsService {
     const docRef = await addDoc(this.getPrivateChatCollection(), {
       participants: [currentUser.id, chatPartner.id].sort(),
       chatId,
+      lastMessageDocId: '',
       participantsDetails: {
         [currentUser.id]: {
           name: currentUser.userName,
@@ -200,6 +202,8 @@ export class ChatsService {
       updateDoc(docRef, {
         docId: docRef.id,
       })
+      const docId = docRef.id;
+      this.updateLastMessageDocId(docId, chatRef);
     })
   }
 
@@ -305,6 +309,30 @@ export class ChatsService {
       associatedThreadId: {
         threadId: currentThreadId,
         count: currentCount + 1,
+      }
+    });
+  }
+
+  async updateLastMessageDocId(docId: string, chatRef:any) {
+    await updateDoc(chatRef, {
+      lastMessageDocId: docId,
+    })
+  }
+
+  watchLastMessageDocId(chatId: string) {
+    const chatDocRef = doc(this.getPrivateChatCollection(), chatId);
+  
+    // Setze ein Firestore-Snapshot-Listener
+    onSnapshot(chatDocRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+        const lastMessage = data['lastMessageDocId'] || null;
+        
+        // Aktualisiere das Signal nur, wenn sich die ID ändert
+        if (this.lastMessageDocId() !== lastMessage) {
+          this.lastMessageDocId.set(lastMessage);
+          console.log('Last Message Doc ID updated:', lastMessage);
+        }
       }
     });
   }

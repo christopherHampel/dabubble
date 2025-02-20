@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, OnInit, OnDestroy, OnChanges, SimpleChanges, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, OnDestroy, OnChanges, SimpleChanges, QueryList, ViewChild, ViewChildren, effect } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../../services/message/chats.service';
@@ -11,7 +11,6 @@ import { EmojisService } from '../../../services/message/emojis.service';
 import { ScrollService } from '../../../services/message/scroll.service';
 import { AuthService } from '../../../services/auth/auth.service';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-direct-message',
@@ -38,27 +37,39 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
                 public chatService: ChatsService,
                 private scrollService: ScrollService,
                 private authService: AuthService,
-                private usersService: UsersDbService,
-                private sanitizer: DomSanitizer) { }
+                private usersService: UsersDbService) { 
+                  effect( () => {
+                    const currentDocId = this.chatService.lastMessageDocId();
+                    if(currentDocId) {
+                      this.scrollService.scrollToBottom();
+                    }
+                  })
+                }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chatId']) {
+      debugger;
       this.scrollService.hasScrolled = false;
     }
   }
 
   ngOnInit(): void {
     this.getIdFromUrl();
-    this.subcribeLogOut();    
+    this.subcribeLogOut();
+    // this.watchSignalforScroll()
   }
   
   getIdFromUrl() {
     this.paramMapSubscription = this.route.paramMap.subscribe(params => {
-      this.chatId = params.get('id')!;
-      this.chatService.getChatInformationen(this.chatId);
-      this.chatMessages$ = this.chatService.messages$;
+      const newChatId = params.get('id');
+      if (newChatId && newChatId !== this.chatId) {
+        this.chatId = newChatId;
+        this.chatService.getChatInformationen(this.chatId);
+        this.chatMessages$ = this.chatService.messages$;
+        this.scrollService.hasScrolled = false;
+      }
     });
-  }
+  }  
 
   subcribeLogOut() {
     this.logoutSubscription = this.authService.logout$.subscribe(() => {
@@ -68,9 +79,12 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
 
   ngAfterViewInit() {
     this.scrollService.setScrollContainer(this.myScrollContainer);
+    console.log(this.scrollService.hasScrolled);
   }
 
   ngAfterViewChecked() {
+    // console.log('Current sig is:', this.chatService.lastMessageDocId())    
+
     if (!this.scrollService.hasScrolled && this.messageComponents.length > 0) {
       setTimeout( () => {
         this.scrollService.scrollToBottom();
@@ -123,15 +137,7 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
     console.log("Profil anzeigen!");
   }
 
-  // getStartText(): SafeHtml {
-  //   if (this.chatService.chatPartner.name === this.usersService.currentUserSig()?.userName) {
-  //     return this.sanitizer.bypassSecurityTrustHtml(
-  //       '<span class="bold-font">Dieser Raum ist nur für dich da.</span> Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.'
-  //     );
-  //   } else {
-  //     return this.sanitizer.bypassSecurityTrustHtml(
-  //       `Diese Unterhaltung findet nur zwischen <span class="chat-with" (click)="showProfile()">@${this.chatService.chatPartner.name}</span> und dir statt.`
-  //     );
-  //   }
+  // watchSignalforScroll() {
+
   // }
 }

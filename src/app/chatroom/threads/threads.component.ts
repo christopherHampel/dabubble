@@ -6,13 +6,15 @@ import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ActivatedRoute } from '@angular/router';
 import { ScrollService } from '../../services/message/scroll.service';
 import { Thread } from '../../interfaces/thread';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-threads',
   imports: [CommonModule, TextareaComponent, SingleMessageComponent],
   templateUrl: './threads.component.html',
   styleUrl: './threads.component.scss',
-  providers: [ScrollService] // Eigene Instanz des Services
+  providers: [ScrollService]
 })
 export class ThreadsComponent {
   threadsDb = inject(ThreadsDbService);
@@ -26,10 +28,13 @@ export class ThreadsComponent {
     participiantsDetails: {},
     // threadName: ''
   };
-
+  hasScrolled:boolean = false;
+  // private logoutSubscription!: Subscription;
+  
   constructor(
     private activatedRoute: ActivatedRoute,
-    private scrollService: ScrollService) { }
+    private scrollService: ScrollService,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -39,8 +44,18 @@ export class ThreadsComponent {
     });
   }
 
+  // subcribeLogOut() {
+  //   this.logoutSubscription = this.authService.logout$.subscribe(() => {
+  //     this.scrollService.hasScrolled = false;
+  //   });
+  // }
+
   ngAfterViewInit() {
-    this.scrollService.setScrollContainer(this.myScrollContainer);
+    if (this.myScrollContainer) {
+      this.scrollService.setScrollContainer(this.myScrollContainer);      
+    } else {
+      console.warn('myScrollContainer is not available in ngAfterViewInit');
+    }
   }
 
   closeThread() {
@@ -56,7 +71,7 @@ export class ThreadsComponent {
       this.scrollService.scrollToBottom();
       setTimeout(() => {
         this.scrollService.hasScrolled = true;
-      }, 100)
+      }, 300)
     }
   }
 }
