@@ -6,13 +6,17 @@ import { EmojisService } from '../../../services/message/emojis.service';
 import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { ChatsService } from '../../../services/message/chats.service';
+import { ChannelDataWindowComponent } from './channel-data-window/channel-data-window.component';
+import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
 
 @Component({
   selector: 'app-channel',
   imports: [
     CommonModule,
     EmojiPickerComponentComponent,
-    TextareaComponent
+    TextareaComponent,
+    ChannelDataWindowComponent,
+    TransparentBackgroundComponent
   ],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss'
