@@ -32,10 +32,14 @@ export class ChatsService {
 
   getPrivateChatCollection() {
     if (this.component() == 'chat') {
-      return collection(this.firestore, 'messages');
+      return collection(this.firestore, 'messages'); // wichtig hier anzusetzen!
     } else {
       return collection(this.firestore, 'threads');
     }
+  }
+
+  getChatCollection(component:string) {
+    return collection(this.firestore, component);
   }
 
   getTesttest() {
@@ -191,8 +195,9 @@ export class ChatsService {
     return docRef.id;
   }
 
-  async addMessageToChat(text: string, chatId: string): Promise<void> {
-    const chatRef = doc(this.getPrivateChatCollection(), chatId);
+  async addMessageToChat(text: string, chatId: string, component:string): Promise<void> {
+    // const chatRef = doc(this.getPrivateChatCollection(), chatId);
+    const chatRef = doc(this.getChatCollection(component), chatId);
     const messagesRef = collection(chatRef, 'messages');
     const messageContent = await this.newMessageContent(text, chatId);
 

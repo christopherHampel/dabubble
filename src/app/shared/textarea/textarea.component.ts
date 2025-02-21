@@ -36,7 +36,8 @@ export class TextareaComponent implements OnInit {
 
   @Input() message: string = '';
   @Input() chatPartnerName!: string;
-  @Input() component: 'chat' | 'thread' = 'chat';
+  // @Input() component: 'chat' | 'thread' | 'channels' = 'chat';
+  @Input() component:string = '';
   @Input() id: string = '';
 
   chatId: string = '';
@@ -61,26 +62,30 @@ export class TextareaComponent implements OnInit {
   }
 
   async sendText(e: any) {
-    const firstThreadMessage = false;
     e.preventDefault();
-    debugger;
-
+    
     if (this.message.length > 0) {
-      if (this.component == 'chat') {
-        await this.chatService.addMessageToChat(this.message, this.chatId);
-      } else if (this.component == 'thread') {
-        await this.threadDb.addMessageToThread(
-          this.threadDb.currentThreadId(),
-          this.message,
-          firstThreadMessage
-        );
-        await this.chatService.updateThreadAnswersCount(
-          this.threadDb.currentThreadId()
-        );
+      
+      if (this.component == 'thread') {
+        this.sendNewThread()
+      } else {
+        await this.chatService.addMessageToChat(this.message, this.chatId, this.component);
       }
       this.message = '';
-      // this.scrollService.scrollToBottom();
     }
+  }
+
+  async sendNewThread() {
+    const firstThreadMessage = false;
+
+    await this.threadDb.addMessageToThread(
+      this.threadDb.currentThreadId(),
+      this.message,
+      firstThreadMessage
+    );
+    await this.chatService.updateThreadAnswersCount(
+      this.threadDb.currentThreadId()
+    );
   }
 
   autoGrowTextZone(e: any) {
