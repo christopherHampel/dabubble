@@ -136,8 +136,4 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
   showProfile() {
     console.log("Profil anzeigen!");
   }
-
-  // watchSignalforScroll() {
-
-  // }
 }

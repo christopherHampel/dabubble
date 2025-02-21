@@ -9,3 +9,15 @@
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
 }
+
+.textarea-emojipicker {
+    position: relative;
+
+    .emoji-component {
+        position: absolute;
+        z-index: 6;
+        bottom: 0;
+        right: 50%;
+        transform: translateX(50%);
+    }
+}

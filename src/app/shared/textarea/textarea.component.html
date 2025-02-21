@@ -7,6 +7,7 @@
       [(ngModel)]="message"
       placeholder="Nachricht an {{ chatPartnerName }}"
     ></textarea>
+    
     <div class="reactions" (click)="preventClose($event)">
       <div>
         <div class="emoji-picker" (click)="toggleEmoji()"></div>

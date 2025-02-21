@@ -130,15 +130,3 @@ section {
     border: 1px solid black;
     width: 300px;
 }
-
-.textarea-emojipicker {
-    position: relative;
-
-    .emoji-component {
-        position: absolute;
-        z-index: 6;
-        bottom: 0;
-        right: 50%;
-        transform: translateX(50%);
-    }
-}

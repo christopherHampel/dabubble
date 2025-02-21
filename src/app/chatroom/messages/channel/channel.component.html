@@ -20,4 +20,14 @@
         </div>
     </div>
 
+    <div class="textarea-emojipicker">
+        <div class="emoji-component" *ngIf="this.emojiService.emojiPickerOpen">
+            <app-emoji-picker-component
+                (emojiSelected)="this.addEmoji($event)"></app-emoji-picker-component>
+        </div>
+        <app-textarea 
+            [chatPartnerName]="this.chatService.chatPartner.name" 
+            [component]="'chat'"></app-textarea>
+    </div>
+
 </section>

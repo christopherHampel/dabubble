@@ -56,12 +56,15 @@ export class TextareaComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.chatId = params.get('id')!;
+      console.log('Id From Textarea is:', this.chatId)
     });
   }
 
   async sendText(e: any) {
     const firstThreadMessage = false;
     e.preventDefault();
+    debugger;
+
     if (this.message.length > 0) {
       if (this.component == 'chat') {
         await this.chatService.addMessageToChat(this.message, this.chatId);
