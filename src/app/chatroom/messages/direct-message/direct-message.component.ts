@@ -63,7 +63,7 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
       const newChatId = params.get('id');
       if (newChatId && newChatId !== this.chatId) {
         this.chatId = newChatId;
-        this.chatService.getChatInformationen(this.chatId);
+        this.chatService.getChatInformationen(this.chatId, "messages");
         this.chatMessages$ = this.chatService.messages$;
         this.scrollService.hasScrolled = false;
       }
@@ -78,7 +78,6 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
 
   ngAfterViewInit() {
     this.scrollService.setScrollContainer(this.myScrollContainer);
-    console.log(this.scrollService.hasScrolled);
   }
 
   ngAfterViewChecked() {
@@ -117,16 +116,16 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
 
   addEmoji(event:string) {
     console.log(event);
-    this.emojiService.addEmoji(event, this.chatId);
+    this.emojiService.addEmoji(event, this.chatId, 'messages');
   }
 
   trackByFn(index: number, item: any): number | string {
     return item.id;
   }
 
-  emptyChat() {
-    return '(chatMessages$ | async)?.length === 0';
-  }
+  // emptyChat() {
+  //   return '(chatMessages$ | async)?.length === 0';
+  // }
 
   isPrivateChat(): boolean {
     return this.usersService.currentUserSig()?.userName === this.chatService.chatPartner.name;

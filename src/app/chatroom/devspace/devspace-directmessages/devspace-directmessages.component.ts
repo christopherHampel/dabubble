@@ -64,7 +64,7 @@ export class DevspaceDirectmessagesComponent {
 
   async selectChat(user: UserProfile) {
     try {
-      const chatId = await this.chatService.setPrivateChat(user);
+      const chatId = await this.chatService.setPrivateChat(user, "messages");
       this.chatService.currentChatId = chatId;
       this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', chatId], thread: null}}]);
       // this.router.navigate(['/chatroom', { outlets: { chats: ['direct-message'] } }]);

@@ -3,7 +3,6 @@ import { Firestore } from '@angular/fire/firestore';
 import { collection, doc, addDoc, updateDoc, query, where, getDocs, onSnapshot, serverTimestamp, orderBy, limit, DocumentData, Unsubscribe, getDoc } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-// import { CurrentMessage } from '../../interfaces/current-message';
 import { UserProfile } from '../../interfaces/userProfile';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { ChatData } from '../../interfaces/chat-data';
@@ -26,17 +25,16 @@ export class ChatsService {
   private unsubChatInfo: Unsubscribe | null = null;
   chatData!: ChatData;
   menu: boolean = false;
-  // hasScrolled: boolean = false;
   currentChatId!: string;
   lastMessageDocId = signal<string | null>(null);
 
-  getPrivateChatCollection() {
-    if (this.component() == 'chat') {
-      return collection(this.firestore, 'channels'); // wichtig hier anzusetzen!
-    } else {
-      return collection(this.firestore, 'threads');
-    }
-  }
+  // getPrivateChatCollection() {
+  //   if (this.component() == 'chat') {
+  //     return collection(this.firestore, 'messages'); // wichtig hier anzusetzen!
+  //   } else {
+  //     return collection(this.firestore, 'threads');
+  //   }
+  // }
 
   getChatCollection(component:string) {
     return collection(this.firestore, component);
@@ -50,8 +48,9 @@ export class ChatsService {
     return doc(collection(this.firestore, collId), docId);
   }
 
-  getSubColMessages(chatId: string) {
-    return collection(this.getPrivateChatCollection(), chatId, "messages");
+  getSubColMessages(chatId: string, component:string) {
+    // return collection(this.getPrivateChatCollection(), chatId, "messages");
+    return collection(this.getChatCollection(component), chatId, "messages");
   }
 
   getUserName() {
@@ -66,28 +65,28 @@ export class ChatsService {
     return this.usersService.currentUserSig()?.avatar;
   }
 
-  async getChatInformationen(chatId: string) {
-    this.unsubChatInfo = onSnapshot(doc(this.getPrivateChatCollection(), chatId), (chat) => {
+  async getChatInformationen(chatId: string, component:string) {
+    this.unsubChatInfo = onSnapshot(doc(this.getChatCollection(component), chatId), (chat) => {
       if (chat.exists()) {
         this.chatData = chat.data() as ChatData;
-        this.getMessagesFromChat(chatId);
+        this.getMessagesFromChat(chatId, 'messages');
         this.setChatPartner();
-        this.watchLastMessageDocId(chatId);
+        this.watchLastMessageDocId(chatId, component);
       } else {
         console.log("Chat-Daten existieren nicht.");
       }
     });
   }
 
-  async setPrivateChat(chatPartner: UserProfile): Promise<string> {
+  async setPrivateChat(chatPartner: UserProfile, component:string): Promise<string> {
     const currentUser = this.checkCurrentUser();
     const chatId = this.generateChatId(currentUser.id, chatPartner.id);
 
-    const existingChatId = await this.findExistingChat(chatId);
+    const existingChatId = await this.findExistingChat(chatId, component);
     if (existingChatId) {
       return existingChatId;
     }
-    return this.createNewPrivateChat(currentUser, chatPartner, chatId);
+    return this.createNewPrivateChat(currentUser, chatPartner, chatId, component);
   }
 
   setChatPartner() {
@@ -112,8 +111,8 @@ export class ChatsService {
     }
   }
 
-  async getMessagesFromChat(chatId: string) {
-    const messagesRef = this.getSubColMessages(chatId)
+  async getMessagesFromChat(chatId: string, component:string) {
+    const messagesRef = this.getSubColMessages(chatId, component)
     const sortedQuery = query(messagesRef, orderBy("createdAt", "asc"));
     const messages: CurrentMessage[] = [];
 
@@ -150,8 +149,8 @@ export class ChatsService {
     return sortedIds.join('_');
   }
 
-  private async findExistingChat(chatId: string): Promise<string | null> {
-    const chatQuery = query(this.getPrivateChatCollection(), where('chatId', '==', chatId));
+  private async findExistingChat(chatId: string, component:string): Promise<string | null> {
+    const chatQuery = query(this.getChatCollection(component), where('chatId', '==', chatId));
     const querySnapshot = await getDocs(chatQuery);
 
     if (!querySnapshot.empty) {
@@ -161,11 +160,11 @@ export class ChatsService {
     return null;
   }
 
-  private async createNewPrivateChat(currentUser: UserProfile, chatPartner: UserProfile, chatId: string): Promise<string> {
+  private async createNewPrivateChat(currentUser: UserProfile, chatPartner: UserProfile, chatId: string, component:string): Promise<string> {
     if(currentUser.id == chatPartner.id) {
       console.log('Eiegner Sprachkanal');
       chatPartner = currentUser;
-      const docRef = await addDoc(this.getPrivateChatCollection(), {
+      const docRef = await addDoc(this.getChatCollection(component), {
         participants: [currentUser.id, chatPartner.id].sort(),
         chatId,
         participantsDetails: {
@@ -177,7 +176,7 @@ export class ChatsService {
       });
       return docRef.id;
     } 
-    const docRef = await addDoc(this.getPrivateChatCollection(), {
+    const docRef = await addDoc(this.getChatCollection(component), {
       participants: [currentUser.id, chatPartner.id].sort(),
       chatId,
       lastMessageDocId: '',
@@ -196,10 +195,9 @@ export class ChatsService {
   }
 
   async addMessageToChat(text: string, chatId: string, component:string): Promise<void> {
-    // const chatRef = doc(this.getPrivateChatCollection(), chatId);
     const chatRef = doc(this.getChatCollection(component), chatId);
     const messagesRef = collection(chatRef, 'messages');
-    const messageContent = await this.newMessageContent(text, chatId);
+    const messageContent = await this.newMessageContent(text, chatId, component);
 
     await addDoc(messagesRef, {
       ...messageContent
@@ -212,8 +210,8 @@ export class ChatsService {
     })
   }
 
-  async newMessageContent(text:string, chatId:string): Promise<Message> {
-    const isFirstMessageOfDay = await this.checkFirstMessage(chatId);
+  async newMessageContent(text:string, chatId:string, component:string): Promise<Message> {
+    const isFirstMessageOfDay = await this.checkFirstMessage(chatId, component);
 
     return {
       docId: '',
@@ -230,18 +228,18 @@ export class ChatsService {
     }
   }
 
-  async getQuerySnapshot(docId: string, chatId: string,) {
+  async getQuerySnapshot(docId: string, chatId: string, component:string) {
     if (docId) {
       // const chatRef = collection(this.getPrivateChatCollection(), chatId, 'messages');
-      const chatRef = collection(this.getPrivateChatCollection(), chatId, 'messages');
+      const chatRef = collection(this.getChatCollection(component), chatId, 'messages');
       const chatQuery = query(chatRef, where('docId', '==', docId));
       return await getDocs(chatQuery);
     }
     throw new Error('chatId ist nicht definiert');
   }
 
-  async updateMessage(docId: string, newText: string, chatId: string) {
-    const querySnapshot = await this.getQuerySnapshot(docId, chatId);
+  async updateMessage(docId: string, newText: string, chatId: string, component:string) {
+    const querySnapshot = await this.getQuerySnapshot(docId, chatId, component);
 
     if (!querySnapshot.empty) {
       const messageDoc = querySnapshot.docs[0];
@@ -251,8 +249,8 @@ export class ChatsService {
     }
   }
 
-  async updateAssociatedThreadId(docId: string, chatId: string, threadId: string) {
-    const querySnapshot = await this.getQuerySnapshot(docId, chatId);
+  async updateAssociatedThreadId(docId: string, chatId: string, threadId: string, component:string) {
+    const querySnapshot = await this.getQuerySnapshot(docId, chatId, component);
     const messageDoc = querySnapshot.docs[0];
     await updateDoc(messageDoc.ref, { 
       associatedThreadId: {
@@ -262,20 +260,20 @@ export class ChatsService {
     });
   }
 
-  async checkFirstMessage(chatId: string): Promise<boolean> {
-    const lastMessage = await this.getLastMessage(chatId);
+  async checkFirstMessage(chatId: string, component:string): Promise<boolean> {
+    const lastMessage = await this.getLastMessage(chatId, component);
     if (!lastMessage) return true;
     return this.isNewDay(lastMessage['createdAt'].toDate());
   }
 
-  private async getLastMessage(chatId: string): Promise<CurrentMessage | null> {
-    const messagesQuery = this.createMessagesQuery(chatId);
+  private async getLastMessage(chatId: string, component:string): Promise<CurrentMessage | null> {
+    const messagesQuery = this.createMessagesQuery(chatId, component);
     const querySnapshot = await getDocs(messagesQuery);
     return querySnapshot.empty ? null : querySnapshot.docs[0].data() as CurrentMessage;
   }
 
-  private createMessagesQuery(chatId: string) {
-    const chatRef = doc(this.getPrivateChatCollection(), chatId);
+  private createMessagesQuery(chatId: string, component:string) {
+    const chatRef = doc(this.getChatCollection(component), chatId);
     const messagesRef = collection(chatRef, 'messages');
     return query(messagesRef, orderBy('createdAt', 'desc'), limit(1));
   }
@@ -289,7 +287,7 @@ export class ChatsService {
     );
   }
 
-  async updateThreadAnswersCount(currentThreadId: string): Promise<void> {
+  async updateThreadAnswersCount(currentThreadId: string, component:string): Promise<void> {
     console.log('ThreadId is:', currentThreadId);
   
     const docRef = this.getSingleDocRef('threads', currentThreadId);
@@ -299,12 +297,12 @@ export class ChatsService {
     if(threadData) {
       const chatId = threadData['chatId'];
       const currentMessageId = threadData['currentMessageId'];
-      this.getMessageByChatIdAndMessageId(chatId, currentMessageId, currentThreadId)
+      this.getMessageByChatIdAndMessageId(chatId, currentMessageId, currentThreadId, component)
     }
   }
 
-  async getMessageByChatIdAndMessageId(chatId: string, currentMessageId: string, currentThreadId:string): Promise<void> {
-    const querySnapshot = await this.getQuerySnapshot(currentMessageId, chatId);
+  async getMessageByChatIdAndMessageId(chatId: string, currentMessageId: string, currentThreadId:string, component:string): Promise<void> {
+    const querySnapshot = await this.getQuerySnapshot(currentMessageId, chatId, component);
     const messageDoc = querySnapshot.docs[0];
 
     const messageData = messageDoc.data();
@@ -324,8 +322,8 @@ export class ChatsService {
     })
   }
 
-  watchLastMessageDocId(chatId: string) {
-    const chatDocRef = doc(this.getPrivateChatCollection(), chatId);
+  watchLastMessageDocId(chatId: string, component:string) {
+    const chatDocRef = doc(this.getChatCollection(component), chatId);
   
     // Setze ein Firestore-Snapshot-Listener
     onSnapshot(chatDocRef, (docSnapshot) => {

@@ -1,6 +1,5 @@
-<section *ngIf="channelDb.channelData" class="card">
-
-    <div class="message-head">
+<section class="card">
+    <div *ngIf="channelDb.channelData" class="message-head">
         <div class="head-left">
             <div class="hashtag-icon"></div>
             <h2>Entwicklerteam</h2>
@@ -26,7 +25,7 @@
                 <app-single-message 
                     [currentMessage]="message" 
                     [chatId]="this.chatId"
-                    [component]="'channel'"
+                    [component]="'channels'"
                     ></app-single-message>
             </div>
         </div>

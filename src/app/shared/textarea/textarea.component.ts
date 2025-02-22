@@ -84,7 +84,8 @@ export class TextareaComponent implements OnInit {
       firstThreadMessage
     );
     await this.chatService.updateThreadAnswersCount(
-      this.threadDb.currentThreadId()
+      this.threadDb.currentThreadId(),
+      this.component
     );
   }
 

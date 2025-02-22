@@ -61,7 +61,7 @@ export class TooltipComponent {
         threadName: this.message.messageAuthor.name
       }
       await this.threadsDb.addThread(thread, this.message, this.chatId, this.message);
-      await this.chat.updateAssociatedThreadId(this.message.docId, this.chatId, this.threadsDb.currentThreadId());
+      await this.chat.updateAssociatedThreadId(this.message.docId, this.chatId, this.threadsDb.currentThreadId(), 'thread');
     }
     this.router.navigate(['/chatroom', { outlets: { thread: ['thread', this.threadsDb.currentThreadId()] } }]);
   }

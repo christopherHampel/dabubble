@@ -83,7 +83,7 @@
             </div>
         </div>
     
-        <div *ngIf="component == 'chat'" class="tooltip-message">
+        <div *ngIf="component != 'thread'" class="tooltip-message">
             <app-tooltip 
                 [isEditing]="isEditing" 
                 [message]="currentMessage" 

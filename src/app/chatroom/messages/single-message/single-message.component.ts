@@ -70,7 +70,7 @@ export class SingleMessageComponent {
   updateMessage(currentMessage:CurrentMessage) {
     this.isEditing = false;
     const docId = currentMessage.docId;
-    this.chatService.updateMessage(docId, this.currentMessage.text, this.chatId);
+    this.chatService.updateMessage(docId, this.currentMessage.text, this.chatId, this.component);
   }
 
   cancelEdit() {
@@ -100,10 +100,10 @@ export class SingleMessageComponent {
     this.emojiService.currentMessage = this.currentMessage;
     if(this.component == 'thread') {
       this.chatService.component.set('thread');
-      this.emojiService.addEmoji(emoji, this.currentMessage.associatedThreadId);
+      this.emojiService.addEmoji(emoji, this.currentMessage.associatedThreadId, this.component);
       this.chatService.component.set('chat');
     } else {
-      this.emojiService.addEmoji(emoji, this.chatId);
+      this.emojiService.addEmoji(emoji, this.chatId, this.component);
       // console.log(this.currentMessage);
     }
     this.emojiQuickBar = !this.emojiQuickBar;
