@@ -230,6 +230,8 @@ export class ChatsService {
 
   async getQuerySnapshot(docId: string, chatId: string, component:string) {
     if (docId) {
+      console.log(component);
+      
       // const chatRef = collection(this.getPrivateChatCollection(), chatId, 'messages');
       const chatRef = collection(this.getChatCollection(component), chatId, 'messages');
       const chatQuery = query(chatRef, where('docId', '==', docId));
