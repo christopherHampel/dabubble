@@ -8,13 +8,12 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
 import { EmojisService } from '../../../services/message/emojis.service';
 import { ThreadsDbService } from '../../../services/message/threads-db.service';
-import { EmojiPickerComponentComponent } from "../../../shared/textarea/emoji-picker-component/emoji-picker-component.component";
 
 @Component({
   selector: 'app-single-message',
   imports: [CommonModule,
     FormsModule,
-    TooltipComponent, EmojiPickerComponentComponent],
+    TooltipComponent],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
@@ -27,7 +26,7 @@ export class SingleMessageComponent {
   @Input() currentMessage!:any;
   @Input() editedText!: string;
   @Input() chatId!: string;
-  @Input() component: 'chat' | 'thread' = 'chat';
+  @Input() component:string = '';
 
   isEditing: boolean = false;
   emojiQuickBar:boolean = false;
@@ -38,9 +37,11 @@ export class SingleMessageComponent {
               public usersService: UsersDbService,
               private threadService: ThreadsDbService) { }
   
-  // ngOnInit() {
-  //   this.currentDate = this.showDate();
-  // }
+  ngOnInit() {
+    // this.currentDate = this.showDate();
+    console.log(this.currentMessage, 'this chatid:', this.chatId);
+  
+  }
 
   ngAfterViewChecked() {
     if (this.isEditing) {

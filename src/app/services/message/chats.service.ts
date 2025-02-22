@@ -32,7 +32,7 @@ export class ChatsService {
 
   getPrivateChatCollection() {
     if (this.component() == 'chat') {
-      return collection(this.firestore, 'messages'); // wichtig hier anzusetzen!
+      return collection(this.firestore, 'channels'); // wichtig hier anzusetzen!
     } else {
       return collection(this.firestore, 'threads');
     }

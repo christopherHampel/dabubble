@@ -7,7 +7,7 @@
 
     <div class="message-field" #myScrollContainer>
         <div class="flex-end">
-            <div *ngFor="let message of chatMessages$ | async,  trackBy: trackByFn" class="message-wrapper">
+            <div *ngFor="let message of this.chatService.messages$ | async,  trackBy: trackByFn" class="message-wrapper">
                 <app-single-message 
                     [currentMessage]="message" 
                     [chatId]="this.chatId"

@@ -56,7 +56,6 @@ export class DirectMessageComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.getIdFromUrl();
     this.subcribeLogOut();
-    // this.watchSignalforScroll()
   }
   
   getIdFromUrl() {
