@@ -1,9 +1,47 @@
 <section *ngIf="dialog" class="channel-data-window">
-    <header class="header-dialog">
+
+    <header class="width-100-procent">
         <div>
             <div class="hashtag-icon"></div>
             <h2>Entwicklerteam</h2>
         </div>
         <div class="close-icon"></div>
     </header>
+
+    <form action="">
+
+        <div class="box width-100-procent">
+            <div class="width-100-procent">
+                <span class="headline">Channel Name</span>
+                <button class="edit-button">Bearteiten</button>
+            </div>
+            <div>
+                <div class="hashtag-icon"></div>
+                <span>Entwicklerteam</span>
+            </div>
+            <input *ngIf="false" type="text" placeholder="#   Entwicklerteam">
+        </div>
+
+        <div class="box width-100-procent">
+            <div class="width-100-procent">
+                <span class="headline">Beschreibung</span>
+                <button class="edit-button">Bearbeiten</button>
+            </div>
+            <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora cupiditate, voluptates, suscipit
+                doloribus voluptatem inventore aperiam magnam explicabo omnis, rem quod ipsa nulla delectus enim
+                provident nesciunt vero non molestias!
+            </p>
+            <textarea *ngIf="false" placeholder="Dein Text hier"></textarea>
+            <div class="separater width-100-procent"></div>
+            <div>
+                <span class="headline">Erstellt von</span>
+                <h2>Noah Braun</h2>
+            </div>
+        </div>
+
+        <button class="primary-button" type="submit">Channel verlassen</button>
+
+    </form>
+
 </section>

@@ -1,13 +1,49 @@
-@use '../../../chatroom.component.scss';
-@use '../../../devspace/devspace.component.scss';
-@use '../../../devspace/devspace-channels/create-channel-dialog/create-channel-dialog.component.scss';
-@use '../../channel/channel.component.scss';
+@mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
+    display: flex;
+    flex-direction: $fD;
+    justify-content: $jC;
+    align-items: $aI;
+    gap: $g;
+}
+
+
 
 * {
     font-family: 'Nunito';
 }
 
+.box {
+    border: 1px solid #ADB0D9;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.width-100-procent {
+    width: 100%;
+}
+
+.edit-button {
+    border: none;    
+    background-color: transparent;
+
+    font-weight: 600;
+    font-size: 18px;
+    
+    color: #535AF1;
+}
+
+.headline {
+    font-weight: 700;
+    font-size: 18px;
+
+    color: black;
+}
+
+
+
 .channel-data-window {
+    @include d-flex($fD: column, $jC: flex-start, $g: 30px);
+
     position: absolute;
     top: 0;
     left: 0;
@@ -30,12 +66,54 @@
     filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
 }
 
-.header-dialog {
+header {
+    @include d-flex($jC: space-between);
 
     &>div:nth-child(1) {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 15px;
+        @include d-flex($g: 15px);
     }
+}
+
+form {
+    @include d-flex($fD: column, $aI: flex-end, $g: 20px);
+}
+
+.box {
+    @include d-flex($fD: column, $aI: flex-start);
+
+    &>div:nth-child(1) {
+        @include d-flex($jC: space-between);
+    }
+
+    &:has(.hashtag-icon) {
+        gap: 20px;
+
+        &>div:nth-child(2) {
+            @include d-flex($g: 10px)
+        }
+    }
+
+    &:has(.separater) {
+        gap: 30px;
+
+        &>div:nth-child(4) {
+            @include d-flex($fD: column, $aI: flex-start, $g: 20px);
+
+            &>h2 {
+                font-weight: 400;
+                font-size: 24px;
+
+                color: #535AF1;
+            }
+        }
+    }
+
+    .hashtag-icon {
+        width: 23px;
+        height: 23px;
+    }
+}
+
+.separater {
+    border: 1px solid #ADB0D9;
 }
