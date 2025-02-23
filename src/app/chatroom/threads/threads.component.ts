@@ -44,12 +44,6 @@ export class ThreadsComponent {
     });
   }
 
-  // subcribeLogOut() {
-  //   this.logoutSubscription = this.authService.logout$.subscribe(() => {
-  //     this.scrollService.hasScrolled = false;
-  //   });
-  // }
-
   ngAfterViewInit() {
     if (this.myScrollContainer) {
       this.scrollService.setScrollContainer(this.myScrollContainer);      

@@ -38,9 +38,7 @@ export class SingleMessageComponent {
               private threadService: ThreadsDbService) { }
   
   ngOnInit() {
-    // this.currentDate = this.showDate();
-    console.log(this.currentMessage, 'this chatid:', this.chatId);
-  
+    // this.currentDate = this.showDate();  
   }
 
   ngAfterViewChecked() {
@@ -97,6 +95,8 @@ export class SingleMessageComponent {
   }
 
   addEmoji(emoji:string) {
+    console.log(this.component);
+    
     this.emojiService.currentMessage = this.currentMessage;
     if(this.component == 'thread') {
       this.chatService.component.set('thread');
@@ -104,7 +104,6 @@ export class SingleMessageComponent {
       this.chatService.component.set('chat');
     } else {
       this.emojiService.addEmoji(emoji, this.chatId, this.component);
-      // console.log(this.currentMessage);
     }
     this.emojiQuickBar = !this.emojiQuickBar;
   }

@@ -36,7 +36,6 @@ export class TextareaComponent implements OnInit {
 
   @Input() message: string = '';
   @Input() chatPartnerName!: string;
-  // @Input() component: 'chat' | 'thread' | 'channels' = 'chat';
   @Input() component:string = '';
   @Input() id: string = '';
 
@@ -65,8 +64,7 @@ export class TextareaComponent implements OnInit {
     e.preventDefault();
     
     if (this.message.length > 0) {
-      
-      if (this.component == 'thread') {
+      if (this.component == 'threads') {
         this.sendNewThread()
       } else {
         await this.chatService.addMessageToChat(this.message, this.chatId, this.component);
@@ -82,10 +80,10 @@ export class TextareaComponent implements OnInit {
       this.threadDb.currentThreadId(),
       this.message,
       firstThreadMessage
-    );
+    );    
     await this.chatService.updateThreadAnswersCount(
       this.threadDb.currentThreadId(),
-      this.component
+      this.component /// hier muss channels oder messages sein anstatt threads
     );
   }
 

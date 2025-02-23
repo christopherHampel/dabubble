@@ -225,13 +225,14 @@ export class ChatsService {
       createdAt: serverTimestamp(),
       firstMessageOfTheDay: isFirstMessageOfDay,
       emojis: [],
+      component: component
     }
   }
 
   async getQuerySnapshot(docId: string, chatId: string, component:string) {
+    console.log('QuerySnapshot:', docId, chatId, component);
+
     if (docId) {
-      console.log(component);
-      
       // const chatRef = collection(this.getPrivateChatCollection(), chatId, 'messages');
       const chatRef = collection(this.getChatCollection(component), chatId, 'messages');
       const chatQuery = query(chatRef, where('docId', '==', docId));
@@ -289,22 +290,21 @@ export class ChatsService {
     );
   }
 
-  async updateThreadAnswersCount(currentThreadId: string, component:string): Promise<void> {
-    console.log('ThreadId is:', currentThreadId);
-  
+  async updateThreadAnswersCount(currentThreadId: string, component:string): Promise<void> {  
     const docRef = this.getSingleDocRef('threads', currentThreadId);
     const docSnapshot = await getDoc(docRef);
     const threadData = docSnapshot.data();
-
+  
+    
     if(threadData) {
       const chatId = threadData['chatId'];
       const currentMessageId = threadData['currentMessageId'];
-      this.getMessageByChatIdAndMessageId(chatId, currentMessageId, currentThreadId, component)
+      this.getMessageByChatIdAndMessageId(chatId, currentMessageId, currentThreadId, threadData['component'])
     }
   }
 
   async getMessageByChatIdAndMessageId(chatId: string, currentMessageId: string, currentThreadId:string, component:string): Promise<void> {
-    const querySnapshot = await this.getQuerySnapshot(currentMessageId, chatId, component);
+    const querySnapshot = await this.getQuerySnapshot(currentMessageId, chatId, component); ///////wichtig!!!!
     const messageDoc = querySnapshot.docs[0];
 
     const messageData = messageDoc.data();

@@ -26,7 +26,7 @@ export class ThreadsDbService {
     return this.messageListSig();
   }
 
-  async addThread(thread: any, message: Message, chatId:string, currentMessage: CurrentMessage) {
+  async addThread(thread: any, message: Message, chatId:string, currentMessage: CurrentMessage, component:string) {
     const firstThreadMessage = true;
     await addDoc(this.getThredRef(), thread)
       .then(async (docRef) => {
@@ -38,6 +38,7 @@ export class ThreadsDbService {
           chatId: chatId,
           currentMessageId: currentMessage.docId,
           text: message.text,
+          component: component
         });
       });
   }
@@ -57,6 +58,7 @@ export class ThreadsDbService {
           avatar: this.usersDb.currentUser!.avatar,
         },
         text: message,
+        component: '',
         firstMessageOfTheDay: false,
         createdAt: serverTimestamp(),
         emojis: [],
@@ -90,7 +92,8 @@ export class ThreadsDbService {
       text: object.text || '',
       createdAt: object.createdAt || '',
       firstMessageOfTheDay: object.firstMessageOfTheDay || false,
-      emojis: object.emojis || []
+      emojis: object.emojis || [],
+      component: ''
     }
   }
 

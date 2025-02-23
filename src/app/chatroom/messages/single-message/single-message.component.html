@@ -43,7 +43,7 @@
 
             <div class="emoji-reactions" *ngIf="!isEditing" [ngStyle]="isMessageFromCurrentUser() ? {} : {'flex-direction': 'row-reverse'}">
 
-                <div *ngIf="component == 'chat'" class="answers-from-thread">
+                <div *ngIf="component != 'threads'" class="answers-from-thread">
                     <div (click)="openThread()">{{ getThreadCountReplies() }}</div>
                 </div>
 

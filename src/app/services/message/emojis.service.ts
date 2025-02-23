@@ -18,7 +18,7 @@ export class EmojisService {
 
   async getMessageDocument(chatId: string, component:string) {
     const query = await this.chatSerive.getQuerySnapshot(this.currentMessage.docId, chatId, component);
-    return query.docs[0]; // Die erste (und einzige) Nachricht zurückgeben
+    return query.docs[0];
   }
   
   removeUserExistingReaction(emojis: any[], userId: string) {

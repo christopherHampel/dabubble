@@ -11,5 +11,6 @@ export interface Message {
     text: string,
     createdAt: any,
     firstMessageOfTheDay: boolean,
-    emojis: []
+    emojis: [],
+    component:string
 }
