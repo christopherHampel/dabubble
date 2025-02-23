@@ -94,12 +94,10 @@ export class SingleMessageComponent {
     e.target.style.height = (e.target.scrollHeight + 25)+"px";
   }
 
-  addEmoji(emoji:string) {
-    console.log(this.component);
-    
+  addEmoji(emoji:string) {    
     this.emojiService.currentMessage = this.currentMessage;
     if(this.component == 'thread') {
-      this.chatService.component.set('thread');
+      this.chatService.component.set(this.component);
       this.emojiService.addEmoji(emoji, this.currentMessage.associatedThreadId, this.component);
       this.chatService.component.set('chat');
     } else {

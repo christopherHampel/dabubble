@@ -15,7 +15,7 @@ import { Message } from '../../interfaces/message';
 export class ChatsService {
 
   firestore = inject(Firestore);
-  component = signal<'chat' | 'thread'>('chat');
+  component = signal<string>('chat');
 
   private messagesSubject = new BehaviorSubject<CurrentMessage[]>([]);
   public messages$ = this.messagesSubject.asObservable();
@@ -38,10 +38,6 @@ export class ChatsService {
 
   getChatCollection(component:string) {
     return collection(this.firestore, component);
-  }
-
-  getTesttest() {
-    return collection(this.firestore, 'threads');
   }
 
   getSingleDocRef(collId: string, docId: string) {
@@ -304,7 +300,7 @@ export class ChatsService {
   }
 
   async getMessageByChatIdAndMessageId(chatId: string, currentMessageId: string, currentThreadId:string, component:string): Promise<void> {
-    const querySnapshot = await this.getQuerySnapshot(currentMessageId, chatId, component); ///////wichtig!!!!
+    const querySnapshot = await this.getQuerySnapshot(currentMessageId, chatId, component);
     const messageDoc = querySnapshot.docs[0];
 
     const messageData = messageDoc.data();
