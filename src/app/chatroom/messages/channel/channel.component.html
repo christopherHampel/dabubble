@@ -19,26 +19,17 @@
         </div>
     </div>
 
-    <div class="message-field" #myScrollContainer>
-        <div class="flex-end">
-            <div *ngFor="let message of this.chatService.messages$ | async, trackBy: trackByFn" class="message-wrapper">
-                <app-single-message 
-                    [currentMessage]="message" 
-                    [chatId]="this.chatId"
-                    [component]="'channels'"
-                    ></app-single-message>
+    <app-messages-field class="message-field" [chatId]="chatId" [component]="'channels'"></app-messages-field>
+
+    <div class="textarea-component">
+        <div class="textarea-emojipicker">
+            <div class="emoji-component" *ngIf="this.emojiService.emojiPickerOpen">
+                <app-emoji-picker-component
+                    (emojiSelected)="this.addEmoji($event)"></app-emoji-picker-component>
             </div>
+            <app-textarea 
+                [chatPartnerName]="this.chatService.chatPartner.name" 
+                [component]="'channels'"></app-textarea>
         </div>
     </div>
-
-    <div class="textarea-emojipicker">
-        <div class="emoji-component" *ngIf="this.emojiService.emojiPickerOpen">
-            <app-emoji-picker-component
-                (emojiSelected)="this.addEmoji($event)"></app-emoji-picker-component>
-        </div>
-        <app-textarea 
-            [chatPartnerName]="this.chatService.chatPartner.name" 
-            [component]="'channels'"></app-textarea>
-    </div>
-
 </section>

@@ -5,17 +5,7 @@
         <h2>{{ this.chatService.chatPartner.name }}</h2>
     </div>
 
-    <div class="message-field" #myScrollContainer>
-        <div class="flex-end">
-            <div *ngFor="let message of this.chatService.messages$ | async,  trackBy: trackByFn" class="message-wrapper">
-                <app-single-message 
-                    [currentMessage]="message" 
-                    [chatId]="this.chatId"
-                    [component]="'messages'"
-                    ></app-single-message>
-            </div>
-        </div>
-    </div>
+    <app-messages-field class="message-field" [chatId]="chatId" [component]="'messages'"></app-messages-field>
 
     <div class="textarea-component">
         <div *ngIf="(chatMessages$ | async)?.length === 0" class="communication-with">

@@ -1,4 +1,13 @@
-import { Component, effect, ElementRef, inject, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  effect,
+  ElementRef,
+  inject,
+  Input,
+  signal,
+  ViewChild,
+  WritableSignal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChannelsDbService } from '../../../services/message/channels-db.service';
 import { ActivatedRoute } from '@angular/router';
@@ -8,6 +17,7 @@ import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { ChatsService } from '../../../services/message/chats.service';
 import { SingleMessageComponent } from '../single-message/single-message.component';
 import { ScrollService } from '../../../services/message/scroll.service';
+import { MessagesFieldComponent } from '../../../shared/messages-field/messages-field.component';
 
 @Component({
   selector: 'app-channel',
@@ -16,6 +26,7 @@ import { ScrollService } from '../../../services/message/scroll.service';
     EmojiPickerComponentComponent,
     TextareaComponent,
     SingleMessageComponent,
+    MessagesFieldComponent,
   ],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss',
@@ -24,6 +35,7 @@ import { ScrollService } from '../../../services/message/scroll.service';
 export class ChannelComponent {
   channelDb = inject(ChannelsDbService);
   chatId: string = '';
+  lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
 
   @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
 
@@ -32,21 +44,13 @@ export class ChannelComponent {
     public emojiService: EmojisService,
     public chatService: ChatsService,
     private scrollService: ScrollService
-  ) {
-    effect(() => {
-      const currentDocId = this.chatService.lastMessageDocId();
-      if (currentDocId) {
-        this.scrollService.scrollToBottom();
-      }
-    });
-  }
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       this.channelDb.subToChannel(params['id']);
       this.chatId = params['id'];
       this.getMessages();
-      this.chatService.watchLastMessageDocId(this.chatId, 'channels')
     });
   }
 
@@ -63,11 +67,7 @@ export class ChannelComponent {
     this.emojiService.addEmoji(event, this.chatId, 'channels');
   }
 
-  trackByFn(index: number, item: any): number | string {
-    return item.id;
-  }
-
-  ngAfterViewInit() {
-    this.scrollService.setScrollContainer(this.myScrollContainer);
-  }
+  // ngAfterViewInit() {
+  //   this.scrollService.setScrollContainer(this.myScrollContainer);
+  // }
 }

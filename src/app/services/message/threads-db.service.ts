@@ -1,15 +1,25 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { addDoc, collection, collectionData, doc, Firestore, orderBy, query, serverTimestamp, updateDoc } from '@angular/fire/firestore';
+import {
+  addDoc,
+  collection,
+  collectionData,
+  doc,
+  Firestore,
+  orderBy,
+  query,
+  serverTimestamp,
+  updateDoc,
+} from '@angular/fire/firestore';
 import { Message } from '../../interfaces/message';
 import { onSnapshot } from 'firebase/firestore';
 import { Thread } from '../../interfaces/thread';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { map, Observable } from 'rxjs';
 import { CurrentMessage } from '../../interfaces/current-message';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThreadsDbService {
   private threads = inject(Firestore);
@@ -20,59 +30,77 @@ export class ThreadsDbService {
   threadData = signal<any>(null);
   unsubMessageList: any;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   get messageList() {
     return this.messageListSig();
   }
 
-  async addThread(thread: any, message: Message, chatId:string, currentMessage: CurrentMessage, component:string) {
+  async addThread(
+    thread: any,
+    message: Message,
+    chatId: string,
+    currentMessage: CurrentMessage,
+    component: string
+  ) {
     const firstThreadMessage = true;
-    await addDoc(this.getThredRef(), thread)
-      .then(async (docRef) => {
-        await this.addMessageToThread(docRef.id, message, firstThreadMessage);
-        this.currentThreadId.set(docRef.id);
-        this.unsubMessageList = this.subMessageList(docRef.id);
-        updateDoc(docRef, {
-          docId: docRef.id,
-          chatId: chatId,
-          currentMessageId: currentMessage.docId,
-          text: message.text,
-          component: component
-        });
+    await addDoc(this.getThredRef(), thread).then(async (docRef) => {
+      await this.addMessageToThread(docRef.id, message, firstThreadMessage);
+      this.currentThreadId.set(docRef.id);
+      this.unsubMessageList = this.subMessageList(docRef.id);
+      updateDoc(docRef, {
+        docId: docRef.id,
+        chatId: chatId,
+        currentMessageId: currentMessage.docId,
+        text: message.text,
+        component: component,
       });
+    });
   }
 
-  async addMessageToThread(threadId: string, message: Message | string, firstThreadMessage:boolean) {
+  async addMessageToThread(
+    threadId: string,
+    message: Message | string,
+    firstThreadMessage: boolean
+  ) {
     const threadRef = doc(this.getThredRef(), threadId);
     const messageRef = collection(threadRef, 'messages');
 
     let messageType;
     if (typeof message === 'string') {
-      messageType = this.getCleanJsonMessage({
-        docId: '',
-        associatedThreadId: this.currentThreadId(),
-        messageAuthor: {
-          name: this.usersDb.currentUser!.userName,
-          id: this.usersDb.currentUser!.id,
-          avatar: this.usersDb.currentUser!.avatar,
+      messageType = this.getCleanJsonMessage(
+        {
+          docId: '',
+          associatedThreadId: this.currentThreadId(),
+          messageAuthor: {
+            name: this.usersDb.currentUser!.userName,
+            id: this.usersDb.currentUser!.id,
+            avatar: this.usersDb.currentUser!.avatar,
+          },
+          text: message,
+          component: '',
+          firstMessageOfTheDay: false,
+          createdAt: serverTimestamp(),
+          emojis: [],
         },
-        text: message,
-        component: '',
-        firstMessageOfTheDay: false,
-        createdAt: serverTimestamp(),
-        emojis: [],
-      }, threadId, firstThreadMessage);
+        threadId,
+        firstThreadMessage
+      );
     } else {
-      messageType = this.getCleanJsonMessage(message, threadId, firstThreadMessage);
+      messageType = this.getCleanJsonMessage(
+        message,
+        threadId,
+        firstThreadMessage
+      );
     }
 
-    await addDoc(messageRef, messageType)
-      .then((docRef) => {
-        updateDoc(docRef, {
-          docId: docRef.id
-        });
+    await addDoc(messageRef, messageType).then((docRef) => {
+      updateDoc(docRef, {
+        docId: docRef.id,
       });
+      this.updateLastMessageDocId(docRef.id, threadRef)
+
+    });
   }
 
   setThreadObject(object: any): Thread {
@@ -81,7 +109,7 @@ export class ThreadsDbService {
       participiants: object.participiants || '',
       participiantsDetails: object.participiantsDetails || {},
       // threadName: object.threadName || ''
-    }
+    };
   }
 
   setMessageObject(object: any): Message {
@@ -93,8 +121,8 @@ export class ThreadsDbService {
       createdAt: object.createdAt || '',
       firstMessageOfTheDay: object.firstMessageOfTheDay || false,
       emojis: object.emojis || [],
-      component: ''
-    }
+      component: '',
+    };
   }
 
   subMessageList(threadId: string) {
@@ -111,7 +139,11 @@ export class ThreadsDbService {
     });
   }
 
-  getCleanJsonMessage(message: Message, threadId:string, firstThreadMessage:boolean): {} {
+  getCleanJsonMessage(
+    message: Message,
+    threadId: string,
+    firstThreadMessage: boolean
+  ): {} {
     return {
       docId: '',
       firstThreadMessage: firstThreadMessage,
@@ -124,8 +156,8 @@ export class ThreadsDbService {
       text: message.text,
       createdAt: message.createdAt,
       firstMessageOfTheDay: '',
-      emojis: message.emojis
-    }
+      emojis: message.emojis,
+    };
   }
 
   getThredRef() {
@@ -133,11 +165,14 @@ export class ThreadsDbService {
   }
 
   getMessagesCount(threadId: string): Observable<string> {
-    const messagesCollection = collection(this.threads, `threads/${threadId}/messages`);
+    const messagesCollection = collection(
+      this.threads,
+      `threads/${threadId}/messages`
+    );
     const messagesQuery = query(messagesCollection);
 
     return collectionData(messagesQuery).pipe(
-      map(messages => {
+      map((messages) => {
         const count = messages.length;
         const cleanCount = count - 1;
         if (cleanCount === 0) {
@@ -161,5 +196,11 @@ export class ThreadsDbService {
   closeThread() {
     this.currentThreadId.set('');
     this.router.navigate(['/chatroom', { outlets: { thread: null } }]);
+  }
+
+  async updateLastMessageDocId(docId: string, chatRef: any) {
+    await updateDoc(chatRef, {
+      lastMessageDocId: docId,
+    });
   }
 }

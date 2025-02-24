@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, Query, QueryList } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +8,15 @@ export class ScrollService {
   hasScrolled: boolean = false;
   hasScrolledDirectMessage = false
   private scrollContainer!: ElementRef;
+  private scrollContainerThread!: ElementRef;
   constructor() { }
 
   setScrollContainer(container: ElementRef) {
-    this.scrollContainer = container;
+    this.scrollContainer = container;    
+  }
+
+  setScrollContainerThread(container: ElementRef) {
+    this.scrollContainerThread = container;    
   }
 
   scrolling() {
@@ -19,13 +24,16 @@ export class ScrollService {
     setTimeout(() => {
       this.scrollToBottom();
       this.hasScrolled = true;
-      // this.hasScrolledDirectMessage = true;
     }, 100);
   }
 
   scrollToBottom(): void {
-    if (this.scrollContainer) {
+    if (this.scrollContainer) {      
       this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
     }
-  }
+
+    if(this.scrollContainerThread) {      
+      this.scrollContainerThread.nativeElement.scrollTop = this.scrollContainerThread.nativeElement.scrollHeight;
+    }
+  }  
 }

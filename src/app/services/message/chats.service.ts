@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, Signal, WritableSignal, inject, signal } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { collection, doc, addDoc, updateDoc, query, where, getDocs, onSnapshot, serverTimestamp, orderBy, limit, DocumentData, Unsubscribe, getDoc } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
@@ -26,7 +26,7 @@ export class ChatsService {
   chatData!: ChatData;
   menu: boolean = false;
   currentChatId!: string;
-  lastMessageDocId = signal<string | null>(null);
+  // lastMessageDocId = signal<string | null>(null);
 
   // getPrivateChatCollection() {
   //   if (this.component() == 'chat') {
@@ -67,7 +67,6 @@ export class ChatsService {
         this.chatData = chat.data() as ChatData;
         this.getMessagesFromChat(chatId, 'messages');
         this.setChatPartner();
-        this.watchLastMessageDocId(chatId, component);
       } else {
         console.log("Chat-Daten existieren nicht.");
       }
@@ -320,21 +319,23 @@ export class ChatsService {
     })
   }
 
-  watchLastMessageDocId(chatId: string, component:string) {
+  watchLastMessageDocId(chatId: string, component: string, lastMessageDocId: WritableSignal<string | null>) {
     const chatDocRef = doc(this.getChatCollection(component), chatId);
-  
-    // Setze ein Firestore-Snapshot-Listener
+
     onSnapshot(chatDocRef, (docSnapshot) => {
       if (docSnapshot.exists()) {
+        console.log(docSnapshot.data());
+        
         const data = docSnapshot.data();
         const lastMessage = data['lastMessageDocId'] || null;
         
-        // Aktualisiere das Signal nur, wenn sich die ID ändert
-        if (this.lastMessageDocId() !== lastMessage) {
-          this.lastMessageDocId.set(lastMessage);
+        if (lastMessageDocId() !== lastMessage) {
+          lastMessageDocId.set(lastMessage);  // Hier wird das Signal aktualisiert
           console.log('Last Message Doc ID updated:', lastMessage);
         }
       }
     });
   }
+  
+  
 }

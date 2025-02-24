@@ -10,6 +10,13 @@
     border-top-right-radius: 30px;
 }
 
+.textarea-component {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
 .textarea-emojipicker {
     position: relative;
 

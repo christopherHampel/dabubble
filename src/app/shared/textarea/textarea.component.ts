@@ -83,7 +83,7 @@ export class TextareaComponent implements OnInit {
     );    
     await this.chatService.updateThreadAnswersCount(
       this.threadDb.currentThreadId(),
-      this.component /// hier muss channels oder messages sein anstatt threads
+      this.component
     );
   }
 

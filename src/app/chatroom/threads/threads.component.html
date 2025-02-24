@@ -13,8 +13,9 @@
         <div (click)="closeThread()" class="close-icon"></div>
     </div>
 
-    <div class="message-field" #myScrollContainer>
-        <div *ngIf="threadsDb.threadData()">
+    <!-- <app-messages-field class="message-field" [chatId]="threadsDb.currentThreadId()" [component]="'threads'"></app-messages-field> -->
+    <div class="message-field" #myScrollContainerThread>
+        <div class="flex-end">
             <div *ngFor="let message of threadsDb.messageList; let i = index" class="message-wrapper">
                 <app-single-message [currentMessage]="message" [chatId]="threadsDb.currentThreadId()"
                     [component]="'threads'"></app-single-message>
@@ -28,7 +29,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <app-textarea (childEvent)="scrollDown()" [component]="'threads'" class="textarea-component"></app-textarea>
