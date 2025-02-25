@@ -1,3 +1,5 @@
+@use '../../../chatroom.component.scss';
+
 @mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
     display: flex;
     flex-direction: $fD;
@@ -16,6 +18,26 @@
     border: 1px solid #ADB0D9;
     border-radius: 20px;
     padding: 20px;
+
+    transition: all 0.1s linear, border 0.15s linear;
+
+    &:has(.input-text) {
+        border: none;
+
+        padding: 0;
+    }
+
+    &:has(.textarea-text) {
+        border: none;
+
+        padding: 0;
+
+        .separater {
+            width: calc(100% - 40px);
+
+            margin-left: 20px;
+        }
+    }
 }
 
 .width-100-procent {
@@ -23,13 +45,17 @@
 }
 
 .edit-button {
-    border: none;    
+    border: none;
     background-color: transparent;
 
     font-weight: 600;
     font-size: 18px;
-    
+
     color: #535AF1;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .headline {
@@ -51,7 +77,7 @@
     transform: translate(16px, 56px);
 
     width: 872px;
-    height: 616px;
+    height: max-content;
 
     padding: 40px;
 
@@ -75,7 +101,9 @@ header {
 }
 
 form {
-    @include d-flex($fD: column, $aI: flex-end, $g: 20px);
+    width: 100%;
+
+    @include d-flex($fD: column, $aI: flex-end, $g: 30px);
 }
 
 .box {
@@ -85,7 +113,7 @@ form {
         @include d-flex($jC: space-between);
     }
 
-    &:has(.hashtag-icon) {
+    &:has(.hashtag-icon, .input-text) {
         gap: 20px;
 
         &>div:nth-child(2) {
@@ -116,4 +144,19 @@ form {
 
 .separater {
     border: 1px solid #ADB0D9;
+}
+
+.animation {
+    opacity: 1;
+    animation: animation 0.25s;
+}
+
+@keyframes animation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }

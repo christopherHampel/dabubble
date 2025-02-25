@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChannelsDbService } from '../../../services/message/channels-db.service';
 import { ActivatedRoute } from '@angular/router';
@@ -24,6 +24,9 @@ import { TransparentBackgroundComponent } from '../../../shared/transparent-back
 export class ChannelComponent {
   channelDb = inject(ChannelsDbService);
   chatId:string = "";
+  dialog: boolean = false;
+
+  @ViewChild('channelDataWindow') channelDataWindow!: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -39,9 +42,21 @@ export class ChannelComponent {
   }
 
 
-  getChannelParticipantsDetails() {
-    return this.channelDb.channelData.participantsDetails;
+  openDialog() {
+    this.dialog = true;
   }
+
+
+  closeDialog(event: boolean) {
+    this.channelDataWindow.closeDialog();
+    this.dialog = event;
+  }
+
+
+  getChannelParticipantsDetails() {
+    return this.channelDb.channel.participantsDetails;
+  }
+
 
   addEmoji(event:string) {
     console.log(event);

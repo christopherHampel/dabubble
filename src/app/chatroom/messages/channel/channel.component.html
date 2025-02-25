@@ -1,14 +1,15 @@
-<section *ngIf="channelDb.channelData" class="card">
+<section *ngIf="channelDb.channel" class="card">
 
     <div class="message-head">
         <div class="head-left-wrapper">
-            <div class="head-left">
+            <div (click)="openDialog()" class="head-left" [ngClass]="{'head-left-highlight': dialog}">
                 <div class="hashtag-icon"></div>
-                <h2>Entwicklerteam</h2>
+                <h2>{{channelDb.channel.name}}</h2>
                 <div class="arrow-drop-down-icon"></div>
             </div>
 
-            <app-channel-data-window [dialog]="true"></app-channel-data-window>
+            <app-channel-data-window #channelDataWindow [dialogOpen]="dialog"
+                (dialogClose)="closeDialog(!$event)"></app-channel-data-window>
         </div>
 
         <div *ngIf="getChannelParticipantsDetails().length > 0" class="head-right">
@@ -33,4 +34,5 @@
 
 </section>
 
-<app-transparent-background [backgroundOpen]="true"></app-transparent-background>
+<app-transparent-background [backgroundOpen]="dialog"
+    (backgroundClose)="closeDialog(!$event)"></app-transparent-background>

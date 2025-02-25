@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersDbService } from '../../../../services/usersDb/users-db.service';
@@ -6,7 +6,6 @@ import { UserProfile } from '../../../../interfaces/userProfile';
 import { ChatsService } from '../../../../services/message/chats.service';
 import { Router } from '@angular/router';
 import { AddPeopleInputComponent } from '../../../../shared/add-people-input/add-people-input.component';
-import { coerceStringArray } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'app-add-friend-dialog',
@@ -22,6 +21,7 @@ export class AddFriendDialogComponent {
   private usersDb = inject(UsersDbService);
   private chatService = inject(ChatsService);
   selectedUser: UserProfile = {} as UserProfile;
+
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
   @ViewChild('addPeopleInput') addPeopleInput!: any;

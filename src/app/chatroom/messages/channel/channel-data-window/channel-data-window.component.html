@@ -1,42 +1,45 @@
-<section *ngIf="dialog" class="channel-data-window">
+<section *ngIf="dialogOpen" class="channel-data-window animation">
 
     <header class="width-100-procent">
         <div>
             <div class="hashtag-icon"></div>
-            <h2>Entwicklerteam</h2>
+            <h2>{{channelDb.channel.name}}</h2>
         </div>
-        <div class="close-icon"></div>
+        <div (click)="closeDialog()" class="close-icon"></div>
     </header>
 
-    <form action="">
+    <form action="" onsubmit="return false">
 
         <div class="box width-100-procent">
             <div class="width-100-procent">
                 <span class="headline">Channel Name</span>
-                <button class="edit-button">Bearteiten</button>
+                <button ([ngModel])="editNameButton" class="edit-button"
+                    (click)="editChannelName(); saveChannel()">{{editNameButton}}</button>
             </div>
-            <div>
+            <div *ngIf="!channelNameEdit">
                 <div class="hashtag-icon"></div>
-                <span>Entwicklerteam</span>
+                <span>{{channelDb.channel.name}}</span>
             </div>
-            <input *ngIf="false" type="text" placeholder="#   Entwicklerteam">
+            <input class="input-text" [(ngModel)]="channelName" (ngModelChange)="updateValue($event)" name="channelName"
+                *ngIf="channelNameEdit" type="text" placeholder="#   Entwicklerteam" (keydown)="onKeyDown($event)">
         </div>
 
         <div class="box width-100-procent">
             <div class="width-100-procent">
                 <span class="headline">Beschreibung</span>
-                <button class="edit-button">Bearbeiten</button>
+                <button ([ngModel])="editDescriptionButton" class="edit-button"
+                    (click)="editChannelDescription(); saveChannel()">{{editDescriptionButton}}</button>
             </div>
-            <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora cupiditate, voluptates, suscipit
-                doloribus voluptatem inventore aperiam magnam explicabo omnis, rem quod ipsa nulla delectus enim
-                provident nesciunt vero non molestias!
+            <p *ngIf="!channelDescriptionEdit">
+                {{channelDb.channel.description}}
             </p>
-            <textarea *ngIf="false" placeholder="Dein Text hier"></textarea>
+            <textarea class="textarea-text" [(ngModel)]="channelDescription" name="channelDescription" name="channelDescription"
+                *ngIf="channelDescriptionEdit" placeholder="Dein Text hier"
+                maxlength="120"></textarea>
             <div class="separater width-100-procent"></div>
             <div>
                 <span class="headline">Erstellt von</span>
-                <h2>Noah Braun</h2>
+                <h2>{{channelDb.channel.createdBy}}</h2>
             </div>
         </div>
 

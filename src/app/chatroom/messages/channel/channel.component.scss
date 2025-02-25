@@ -50,6 +50,23 @@
     }
 }
 
+.head-left-highlight {
+    border-radius: 100px;
+    background-color: #ECEEFE;
+
+    .hashtag-icon {
+        background-image: url('/img/hashtag_hover_icon.svg');
+    }
+
+    h2 {
+        color: #535Af1;
+    }
+
+    .arrow-drop-down-icon {
+        background-image: url('/img/arrow_drop_down_profil_hover.svg');
+    }
+}
+
 .head-right {
     display: flex;
     justify-content: center;
