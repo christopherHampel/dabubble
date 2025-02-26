@@ -22,28 +22,6 @@
     padding: 10px 20px;
 }
 
-.answers {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-
-    color: #ADB0D9;
-
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.separater {
-    width: auto;
-    height: 1px;
-    flex-grow: 1;
-
-    background-color: #ADB0D9;
-
-    border-radius: 0.75px;
-}
-
 .overflow {
     overflow: scroll;
 }

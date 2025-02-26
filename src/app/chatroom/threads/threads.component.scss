@@ -123,3 +123,29 @@ section {
 .thread-title-tooltip:hover .tooltip {
     visibility: visible;
 }
+
+.answers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    color: #ADB0D9;
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+    span {
+        white-space: nowrap;
+    }
+}
+
+.separater {
+    width: auto;
+    height: 1px;
+    flex-grow: 1;
+
+    background-color: #ADB0D9;
+
+    border-radius: 0.75px;
+}

@@ -28,8 +28,7 @@
   <div
     class="emoji-component"
     *ngIf="emojiMartOpen"
-    (click)="preventClose($event)"
-  >
+    (click)="preventClose($event)">
     <app-emoji-picker-component
       (emojiSelected)="addEmojiToMessage($event)"
     ></app-emoji-picker-component>

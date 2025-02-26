@@ -62,14 +62,17 @@ export class ThreadsComponent {
     private chatService: ChatsService
   ) {
     effect(() => {
-      const currentDocId = this.lastMessageDocId();
-      console.log(this.lastMessageDocId());
-
+      let currentDocId = this.lastMessageDocId();
+      console.log(currentDocId)
       if (currentDocId) {
         this.scrollService.scrollToBottom();
       } 
       if(this.threadsDb.currentThreadId()) {
-        this.scrollService.scrollToBottom();
+        this.chatService.watchLastMessageDocId(
+          this.threadsDb.currentThreadId(),
+          'threads',
+          this.lastMessageDocId
+        );
       }
     });
   }
@@ -92,13 +95,18 @@ export class ThreadsComponent {
   }
 
   // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes['threadId']) {
-  //     this.scrollService.hasScrolled = false;
+  //   if (changes[this.threadsDb.currentThreadId()]) {
+  //     // this.scrollService.hasScrolled = false;
+  //     this.currentDocId = this.lastMessageDocId();
   //   }
   // }
 
   ngAfterViewInit() {
     this.scrollService.setScrollContainerThread(this.myScrollContainerThread);
+
+    if(this.threadsDb.currentThreadId()) {
+      
+    }
   }
 
   closeThread() {

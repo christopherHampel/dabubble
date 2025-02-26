@@ -1,95 +1,137 @@
 <section>
-    <div *ngIf="currentMessage.firstMessageOfTheDay" class="day-seperator">
-        <div></div>
-        <span class="date">{{ showDate() }}</span>
-        <div></div>
+  <div *ngIf="currentMessage.firstMessageOfTheDay" class="day-seperator">
+    <div></div>
+    <span class="date">{{ showDate() }}</span>
+    <div></div>
+  </div>
+
+  <div
+    (mouseleave)="toggleMenuAndQuickbar()"
+    [ngClass]="getUser()"
+    [class.hover-effect]="!isEditing"
+  >
+    <div class="avatar-message">
+      <img
+        [src]="currentMessage.messageAuthor.avatar || '/img/empty_profile.png'"
+        alt=""
+      />
     </div>
 
-    <div (mouseleave)="toggleMenuAndQuickbar()" [ngClass]="getUser()" [class.hover-effect]="!isEditing">
+    <div [ngClass]="this.isMessageFromCurrentUser() ? 'content' : 'flex-start'">
+      <div
+        class="time-username"
+        *ngIf="!isEditing"
+        [ngStyle]="
+          isMessageFromCurrentUser() ? {} : { 'flex-direction': 'row-reverse' }
+        "
+      >
+        <span>{{ getTime() }} Uhr</span>
+        <span class="username">{{ currentMessage.messageAuthor.name }}</span>
+      </div>
 
-        <div class="avatar-message">
-            <img [src]="currentMessage.messageAuthor.avatar || '/img/empty_profile.png'" alt="">
-        </div>
-    
-        <div [ngClass]="this.isMessageFromCurrentUser() ? 'content' : 'flex-start'">
-    
-            <div class="time-username" *ngIf="!isEditing" [ngStyle]="isMessageFromCurrentUser() ? {} : {'flex-direction': 'row-reverse'}">
-                <span>{{ getTime() }} Uhr</span>
-                <span class="username">{{ currentMessage.messageAuthor.name }}</span>
+      <div [ngClass]="isEditing ? 'min-width-150' : ''">
+        <div
+          [ngClass]="[
+            isEditing ? 'edit-content' : 'message-content',
+            isMessageFromCurrentUser() ? '' : 'mirrored-message-content'
+          ]"
+        >
+          <div *ngIf="!isEditing">
+            <span>{{ currentMessage.text }}</span>
+          </div>
+
+          <div *ngIf="isEditing" (click)="$event.stopPropagation()">
+            <textarea
+              cdkTextareaAutosize
+              #textArea
+              (click)="autoGrowTextZone($event)"
+              [(ngModel)]="currentMessage.text"
+            ></textarea>
+            <div class="edittext-buttons">
+              <div>
+                <img src="/img/sentiment_satisfied.png" alt="" />
+              </div>
+              <div class="edit-btn-container">
+                <button class="gast-login-btn" (click)="cancelEdit()">
+                  Abbrechen
+                </button>
+                <button
+                  class="main-btn"
+                  (click)="updateMessage(currentMessage)"
+                >
+                  Speichern
+                </button>
+              </div>
             </div>
-    
-            <div [ngClass]="isEditing ? 'min-width-150' : ''">
-                <div [ngClass]="[isEditing ? 'edit-content' : 'message-content', isMessageFromCurrentUser() ? '' : 'mirrored-message-content']">
-                    <div *ngIf="!isEditing">
-                        <span>{{ currentMessage.text }}</span>
-                    </div>
-        
-                    <div *ngIf="isEditing" (click)="$event.stopPropagation()">
-                        <textarea cdkTextareaAutosize #textArea (click)="autoGrowTextZone($event)" [(ngModel)]="currentMessage.text"></textarea>
-                        <div class="edittext-buttons">
-                            <div>
-                            <!-- <div (click)="emojiPickerEditMessage(); $event.stopPropagation()"> -->
-                                <img src="/img/sentiment_satisfied.png" alt="">
-                            </div>
-                            <div class="edit-btn-container">
-                                <button class="gast-login-btn" (click)="cancelEdit()">Abbrechen</button>
-                                <button class="main-btn" (click)="updateMessage(currentMessage)">Speichern</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- <app-emoji-picker-component *ngIf="editTextEmoji"></app-emoji-picker-component> -->
-            </div>
-
-            <div class="emoji-reactions" *ngIf="!isEditing" [ngStyle]="isMessageFromCurrentUser() ? {} : {'flex-direction': 'row-reverse'}">
-
-                <div *ngIf="component != 'threads'" class="answers-from-thread">
-                    <div (click)="openThread()">{{ getThreadCountReplies() }}</div>
-                </div>
-
-                @for (emoji of currentMessage.emojis; track $index) {
-                    <div class="show-reactions">
-                        <div class="displayed-emojii">
-                            <div>{{ emoji.emoji }}</div>
-                            <div *ngIf="emoji.count > 1">{{ emoji.count }}</div>
-                        </div>
-                        <div class="emoji-hover">
-                            <span>{{ emoji.emoji }}</span>
-                            <div class="emoji-from-whom">
-                                @for (name of getEmojiNames(emoji); track $index) {
-                                    @if (name === this.usersService.currentUserSig()?.userName) {
-                                        <span>Du</span>
-                                    } @else {
-                                        <span>{{ name }}</span>
-                                    }
-                                }
-                            </div>
-                            <span class="has-reacted">hat reagiert</span>
-                        </div>
-                    </div>
-                }
-
-                <div class="click-emoji">
-                    <a (click)="toggleEmojiQuickBar(); $event.stopPropagation()"><img src="/img/add_reaction.png" alt=""></a>
-                    <div *ngIf="this.emojiQuickBar" class="quick-emoji-bar" [ngStyle]="isMessageFromCurrentUser() ? {} : {'left': '30px', 'right': 'auto'}">
-                       @for (emoji of this.emojiService.customEmojis; track $index) {
-                        <div class="quick-emoji">
-                            <a (click)="addEmoji(emoji)">{{ emoji }}</a>
-                        </div>
-                       }
-                        <a class="more-emoji" (click)="toggleEmoji(currentMessage); $event.stopPropagation()"></a>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-    
-        <div *ngIf="component != 'thread'" class="tooltip-message">
-            <app-tooltip 
-                [isEditing]="isEditing" 
-                [message]="currentMessage" 
-                (isEditingChange)="onIsEditingChange($event)"
-                [chatId]="chatId"
-                [component]="component"></app-tooltip>
+      </div>
+
+      <div
+        class="emoji-reactions"
+        *ngIf="!isEditing"
+        [ngStyle]="
+          isMessageFromCurrentUser() ? {} : { 'flex-direction': 'row-reverse' }
+        "
+      >
+        <div *ngIf="component != 'threads'" class="answers-from-thread">
+          <div (click)="openThread()">{{ getThreadCountReplies() }}</div>
         </div>
+
+        @for (emoji of currentMessage.emojis; track $index) {
+        <div class="show-reactions">
+          <div class="displayed-emojii">
+            <div>{{ emoji.emoji }}</div>
+            <div *ngIf="emoji.count > 1">{{ emoji.count }}</div>
+          </div>
+          <div class="emoji-hover">
+            <span>{{ emoji.emoji }}</span>
+            <div class="emoji-from-whom">
+              @for (name of getEmojiNames(emoji); track $index) { @if (name ===
+              this.usersService.currentUserSig()?.userName) {
+              <span>Du</span>
+              } @else {
+              <span>{{ name }}</span>
+              } }
+            </div>
+            <span class="has-reacted">hat reagiert</span>
+          </div>
+        </div>
+        }
+
+        <div class="click-emoji">
+          <a (click)="toggleEmojiQuickBar(); $event.stopPropagation()"
+            ><img src="/img/add_reaction.png" alt=""
+          /></a>
+          <div
+            *ngIf="this.emojiQuickBar"
+            class="quick-emoji-bar"
+            [ngStyle]="
+              isMessageFromCurrentUser() ? {} : { left: '30px', right: 'auto' }
+            "
+          >
+            @for (emoji of this.emojiService.customEmojis; track $index) {
+            <div class="quick-emoji">
+              <a (click)="addEmoji(emoji)">{{ emoji }}</a>
+            </div>
+            }
+            <a
+              class="more-emoji"
+              (click)="toggleEmoji(currentMessage); $event.stopPropagation()"
+            ></a>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div *ngIf="this.component != 'threads'" class="tooltip-message" [ngClass]="getTooltipPosition()">
+      <app-tooltip
+        [isEditing]="isEditing"
+        [message]="currentMessage"
+        (isEditingChange)="onIsEditingChange($event)"
+        [chatId]="chatId"
+        [component]="component"
+      ></app-tooltip>
+    </div>
+  </div>
 </section>

@@ -323,15 +323,12 @@ export class ChatsService {
     const chatDocRef = doc(this.getChatCollection(component), chatId);
 
     onSnapshot(chatDocRef, (docSnapshot) => {
-      if (docSnapshot.exists()) {
-        console.log(docSnapshot.data());
-        
+      if (docSnapshot.exists()) {        
         const data = docSnapshot.data();
         const lastMessage = data['lastMessageDocId'] || null;
         
         if (lastMessageDocId() !== lastMessage) {
-          lastMessageDocId.set(lastMessage);  // Hier wird das Signal aktualisiert
-          console.log('Last Message Doc ID updated:', lastMessage);
+          lastMessageDocId.set(lastMessage);
         }
       }
     });

@@ -13,7 +13,6 @@
         <div (click)="closeThread()" class="close-icon"></div>
     </div>
 
-    <!-- <app-messages-field class="message-field" [chatId]="threadsDb.currentThreadId()" [component]="'threads'"></app-messages-field> -->
     <div class="message-field" #myScrollContainerThread>
         <div class="flex-end">
             <div *ngFor="let message of threadsDb.messageList; let i = index" class="message-wrapper">

@@ -85,6 +85,8 @@ export class SingleMessageComponent {
   }
 
   toggleEmoji(currentMessage: CurrentMessage) {
+    console.log('Geht');
+    
     this.emojiService.currentMessage = currentMessage;
     this.emojiService.emojiPickerOpen = !this.emojiService.emojiPickerOpen;
   }
@@ -111,6 +113,14 @@ export class SingleMessageComponent {
       return 'own-message'
     } else {
       return 'other-message'
+    }
+  }
+
+  getTooltipPosition() {
+    if(this.isMessageFromCurrentUser()) {
+      return 'tooltip-position-left'
+    } else {
+      return 'tooltip-position-right'
     }
   }
 
