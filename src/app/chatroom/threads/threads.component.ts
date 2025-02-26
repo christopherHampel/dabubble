@@ -5,6 +5,7 @@ import {
   inject,
   QueryList,
   signal,
+  SimpleChanges,
   ViewChild,
   ViewChildren,
   WritableSignal,
@@ -63,8 +64,11 @@ export class ThreadsComponent {
     effect(() => {
       const currentDocId = this.lastMessageDocId();
       console.log(this.lastMessageDocId());
-      
+
       if (currentDocId) {
+        this.scrollService.scrollToBottom();
+      } 
+      if(this.threadsDb.currentThreadId()) {
         this.scrollService.scrollToBottom();
       }
     });
@@ -72,7 +76,11 @@ export class ThreadsComponent {
 
   ngOnInit(): void {
     this.subscribeThreadData();
-    this.chatService.watchLastMessageDocId(this.threadsDb.currentThreadId(), 'threads', this.lastMessageDocId);
+    this.chatService.watchLastMessageDocId(
+      this.threadsDb.currentThreadId(),
+      'threads',
+      this.lastMessageDocId
+    );
   }
 
   subscribeThreadData() {
@@ -83,8 +91,14 @@ export class ThreadsComponent {
     });
   }
 
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['threadId']) {
+  //     this.scrollService.hasScrolled = false;
+  //   }
+  // }
+
   ngAfterViewInit() {
-    this.scrollService.setScrollContainerThread(this.myScrollContainerThread);    
+    this.scrollService.setScrollContainerThread(this.myScrollContainerThread);
   }
 
   closeThread() {
