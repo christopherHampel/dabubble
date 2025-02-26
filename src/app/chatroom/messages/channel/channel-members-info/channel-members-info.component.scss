@@ -1,0 +1,94 @@
+@mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
+    display: flex;
+    flex-direction: $fD;
+    justify-content: $jC;
+    align-items: $aI;
+    gap: $g;
+}
+
+
+* {
+    font-family: 'Nunito';
+}
+
+
+
+.width-100-percent {
+    width: 100%;
+}
+
+
+
+.channel-members-info {
+    @include d-flex($fD: column, $aI: flex-start, $g: 20px);
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    transform: translate(0, 56px);
+
+    width: 415px;
+    height: max-content;
+
+    padding: 40px;
+
+    background-color: #FFFFFF;
+
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+
+    z-index: 4;
+
+    filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
+}
+
+header {
+    @include d-flex($jC: space-between);
+}
+
+.member-list {
+    @include d-flex($fD: column, $aI: flex-start, $g: 15px);
+
+    &>div {
+        @include d-flex($g: 15px);
+
+        padding: 12px 28px;
+
+        .person-add-icon {
+            width: 32px;
+            height: 32px;
+
+            &>div {
+                &:hover {
+                    background-image: url('/img/person_add_icon.svg');
+                }
+            }
+        }
+
+        &>span {
+            font-weight: 400;
+            font-size: 18px;
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            border-radius: 100px;
+
+            background-color: #ECEEFE;
+
+            .person-add-icon {
+
+                &>div {
+                    background-image: url('/img/person_add_hover_icon.svg');
+                }
+            }
+
+            &>span {
+                color: #535AF1;
+            }
+        }
+    }
+}

@@ -42,11 +42,10 @@ export class ChannelsDbService {
   getCleanJson(channel: Channel): {} {
     return {
       id: channel.id,
-      createdBy: channel.createdBy,
       name: channel.name,
       description: channel.description,
-      participants: channel.participants,
-      participantsDetails: channel.participantsDetails
+      createdBy: channel.createdBy,
+      participants: channel.participants
     }
   }
 
@@ -64,11 +63,10 @@ export class ChannelsDbService {
   setChannelObject(object: any): Channel {
     return {
       id: object.id || '',
-      createdBy: object.createdBy || '',
       name: object.name || '',
       description: object.description || '',
-      participants: object.participants || [],
-      participantsDetails: object.participantsDetails || {}
+      createdBy: object.createdBy || {},
+      participants: object.participants || {}
     }
   }
 

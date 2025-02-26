@@ -74,6 +74,8 @@
     gap: 10px;
 
     &>div {
+        position: relative;
+
         display: flex;
         justify-content: center;
         align-items: center;
@@ -83,6 +85,10 @@
 
         &>.profil-picture-wrapper {
 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
             &>img {
                 width: 40px;
                 height: 40px;
@@ -91,8 +97,11 @@
 
                 border: 2px solid #ffffff;
                 border-radius: 50%;
-
                 margin-left: -10px;
+
+                &:first-child {
+                    margin-left: 0;
+                }
             }
         }
 
@@ -101,5 +110,17 @@
             font-size: 20px;
         }
 
+        &:hover {
+            cursor: pointer;
+
+            border-radius: 30px;
+            background-color: #ECEEFE;
+
+            &>span {
+                font-weight: 700;
+
+                color: #535Af1;
+            }
+        }
     }
 }

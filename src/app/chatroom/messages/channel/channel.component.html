@@ -12,13 +12,17 @@
                 (dialogClose)="closeDialog(!$event)"></app-channel-data-window>
         </div>
 
-        <div *ngIf="channel.participantsDetails.length > 0" class="head-right">
+        <div *ngIf="channel.participants.length > 0" class="head-right">
             <div>
                 <div class="profil-picture-wrapper">
-                    <img *ngFor="let channel of channel.participantsDetails" src="{{channel.avatar}}" alt="">
+                    <img *ngFor="let channel of channel.participants" src="{{channel.avatar}}" alt="">
+                    <img *ngIf="channel.createdBy as currentUser" src="{{currentUser.avatar}}" alt="">
                 </div>
-                <span>{{channel.participantsDetails.length}} </span>
+                <span>{{channel.participants.length + 1}} </span>
+
+                <app-channel-members-info [dialogOpen]="true"></app-channel-members-info>
             </div>
+
             <div class="person-add-icon">
                 <div></div>
             </div>

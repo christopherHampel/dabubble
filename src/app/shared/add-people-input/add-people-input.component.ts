@@ -124,16 +124,16 @@ export class AddPeopleInputComponent {
 
 
   async createChannel() {
-    let participants: string[] = this.selectedUserList.map(user => user.id);
-    let participantsDetails: { name: string; avatar: string; }[];
-    participantsDetails = this.selectedUserList.map(user => ({
-      name: user.userName,
-      avatar: user.avatar
+    let participants: { id: string; userName: string; avatar: string; active: boolean; }[];
+    participants = this.selectedUserList.map(user => ({
+      id: user.id,
+      userName: user.userName,
+      avatar: user.avatar,
+      active: user.active
     })) || [];
 
     this.channelsDb.updateChannel({
-      participants: participants,
-      participantsDetails: participantsDetails
+      participants: participants
     })
 
     await this.channelsDb.addChannel();

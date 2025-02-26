@@ -7,6 +7,7 @@ import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-pi
 import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { ChatsService } from '../../../services/message/chats.service';
 import { ChannelDataWindowComponent } from './channel-data-window/channel-data-window.component';
+import { ChannelMembersInfoComponent } from './channel-members-info/channel-members-info.component';
 import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
 
 @Component({
@@ -16,6 +17,7 @@ import { TransparentBackgroundComponent } from '../../../shared/transparent-back
     EmojiPickerComponentComponent,
     TextareaComponent,
     ChannelDataWindowComponent,
+    ChannelMembersInfoComponent,
     TransparentBackgroundComponent
   ],
   templateUrl: './channel.component.html',

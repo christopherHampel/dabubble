@@ -45,7 +45,12 @@ export class CreateChannelDialogComponent {
   createChannel() {
     this.channelsDb.updateChannel({
       id: '',
-      createdBy: this.usersDb.currentUser?.userName,
+      createdBy: {
+        id: this.usersDb.currentUser!.id,
+        userName: this.usersDb.currentUser!.userName,
+        avatar: this.usersDb.currentUser!.avatar,
+        active: this.usersDb.currentUser!.active,
+      },
       name: this.channelName.substring(2),
       description: this.channelDescription
     })
