@@ -1,10 +1,10 @@
-<section *ngIf="channelDb.channel" class="card">
+<section *ngIf="channelDb.channel as channel" class="card">
 
     <div class="message-head">
         <div class="head-left-wrapper">
             <div (click)="openDialog()" class="head-left" [ngClass]="{'head-left-highlight': dialog}">
                 <div class="hashtag-icon"></div>
-                <h2>{{channelDb.channel.name}}</h2>
+                <h2>{{channel.name}}</h2>
                 <div class="arrow-drop-down-icon"></div>
             </div>
 
@@ -12,12 +12,12 @@
                 (dialogClose)="closeDialog(!$event)"></app-channel-data-window>
         </div>
 
-        <div *ngIf="getChannelParticipantsDetails().length > 0" class="head-right">
+        <div *ngIf="channel.participantsDetails.length > 0" class="head-right">
             <div>
                 <div class="profil-picture-wrapper">
-                    <img *ngFor="let channel of getChannelParticipantsDetails()" src="{{channel.avatar}}" alt="">
+                    <img *ngFor="let channel of channel.participantsDetails" src="{{channel.avatar}}" alt="">
                 </div>
-                <span>{{getChannelParticipantsDetails().length}} </span>
+                <span>{{channel.participantsDetails.length}} </span>
             </div>
             <div class="person-add-icon">
                 <div></div>

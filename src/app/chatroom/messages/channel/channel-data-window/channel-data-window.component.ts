@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelsDbService } from '../../../../services/message/channels-db.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-channel-data-window',
@@ -18,15 +19,35 @@ export class ChannelDataWindowComponent {
   editDescriptionButton: string = 'Bearbeiten';
   channelNameEdit: boolean = false;
   channelDescriptionEdit: boolean = false;
-  channelName: string = this.channelDb.channel.name;
-  channelDescription: string = this.channelDb.channel.description;
+  channelName: string = '';
+  channelDescription: string = '';
 
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
 
+  constructor(private activatedRoute: ActivatedRoute) { }
+
+
+  ngOnInit() {
+    this.activatedRoute.params.subscribe(params => {
+      this.channelDb.subToChannel(params['id']);
+    });
+
+    if (this.channelDb.channel) {
+      this.channelName = this.channelDb.channel.name;
+      this.channelDescription = this.channelDb.channel.description;
+    }
+  }
+
+
   closeDialog() {
     this.dialogOpen = false;
     this.dialogClose.emit(true);
+    this.resetOnClose();
+  }
+
+
+  resetOnClose() {
     this.channelNameEdit = false;
     this.editNameButton = 'Bearbeiten';
     this.channelDescriptionEdit = false;
@@ -41,7 +62,7 @@ export class ChannelDataWindowComponent {
     } else {
       this.channelNameEdit = true;
       this.editNameButton = 'Speichern';
-      this.updateValue(this.channelDb.channel.name);
+      this.channelDb.channel ? this.updateValue(this.channelDb.channel.name) : '';
     }
   }
 
@@ -53,7 +74,7 @@ export class ChannelDataWindowComponent {
     } else {
       this.channelDescriptionEdit = true;
       this.editDescriptionButton = 'Speichern';
-      this.channelDescription = this.channelDb.channel.description;
+      this.channelDb.channel ? this.channelDescription = this.channelDb.channel.description : '';
     }
   }
 

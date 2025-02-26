@@ -23,7 +23,7 @@ import { TransparentBackgroundComponent } from '../../../shared/transparent-back
 })
 export class ChannelComponent {
   channelDb = inject(ChannelsDbService);
-  chatId:string = "";
+  chatId: string = "";
   dialog: boolean = false;
 
   @ViewChild('channelDataWindow') channelDataWindow!: any;
@@ -31,7 +31,7 @@ export class ChannelComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     public emojiService: EmojisService,
-    public chatService: ChatsService ) { }
+    public chatService: ChatsService) { }
 
 
   ngOnInit() {
@@ -48,17 +48,12 @@ export class ChannelComponent {
 
 
   closeDialog(event: boolean) {
-    this.channelDataWindow.closeDialog();
+    this.channelDataWindow.resetOnClose();
     this.dialog = event;
   }
 
 
-  getChannelParticipantsDetails() {
-    return this.channelDb.channel.participantsDetails;
-  }
-
-
-  addEmoji(event:string) {
+  addEmoji(event: string) {
     console.log(event);
     this.emojiService.addEmoji(event, this.chatId);
   }

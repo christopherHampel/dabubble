@@ -1,9 +1,9 @@
-<section *ngIf="dialogOpen" class="channel-data-window animation">
+<section *ngIf="dialogOpen && channelDb.channel as channel" class="channel-data-window animation">
 
     <header class="width-100-procent">
         <div>
             <div class="hashtag-icon"></div>
-            <h2>{{channelDb.channel.name}}</h2>
+            <h2>{{channel.name}}</h2>
         </div>
         <div (click)="closeDialog()" class="close-icon"></div>
     </header>
@@ -18,7 +18,7 @@
             </div>
             <div *ngIf="!channelNameEdit">
                 <div class="hashtag-icon"></div>
-                <span>{{channelDb.channel.name}}</span>
+                <span>{{channel.name}}</span>
             </div>
             <input class="input-text" [(ngModel)]="channelName" (ngModelChange)="updateValue($event)" name="channelName"
                 *ngIf="channelNameEdit" type="text" placeholder="#   Entwicklerteam" (keydown)="onKeyDown($event)">
@@ -31,15 +31,15 @@
                     (click)="editChannelDescription(); saveChannel()">{{editDescriptionButton}}</button>
             </div>
             <p *ngIf="!channelDescriptionEdit">
-                {{channelDb.channel.description}}
+                {{channel.description}}
             </p>
-            <textarea class="textarea-text" [(ngModel)]="channelDescription" name="channelDescription" name="channelDescription"
+            <textarea class="textarea-text" [(ngModel)]="channelDescription" name="channelDescription"
                 *ngIf="channelDescriptionEdit" placeholder="Dein Text hier"
                 maxlength="120"></textarea>
             <div class="separater width-100-procent"></div>
             <div>
                 <span class="headline">Erstellt von</span>
-                <h2>{{channelDb.channel.createdBy}}</h2>
+                <h2>{{channel.createdBy}}</h2>
             </div>
         </div>
 

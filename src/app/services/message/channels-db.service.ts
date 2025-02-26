@@ -9,7 +9,7 @@ import { Channel } from '../../interfaces/channel';
 export class ChannelsDbService {
   private channels = inject(Firestore);
 
-  channelSig = signal<Channel>({} as Channel);
+  channelSig = signal<Channel | null>(null);
   channelListSig = signal<Channel[]>([]);
   unsubChannelList: any;
 
@@ -29,13 +29,13 @@ export class ChannelsDbService {
 
 
   updateChannel(channel: Partial<Channel>) {
-    this.channelSig.update((currentData) => ({ ...currentData, ...channel }));
+    this.channelSig.update((currentData) => ({ ...currentData!, ...channel }));
   }
 
 
   async changeChannel() {
-    const channelRef = this.getSingleDocRef('channels', this.channel.id);
-    await updateDoc(channelRef, this.getCleanJson(this.channel));
+    const channelRef = this.getSingleDocRef('channels', this.channel!.id);
+    await updateDoc(channelRef, this.getCleanJson(this.channel!));
   }
 
 
@@ -74,9 +74,9 @@ export class ChannelsDbService {
 
 
   subToChannel(id: string) {
-    const channelRef = doc(this.getChannelRef(), id);
+    const channelRef = this.getSingleDocRef('channels', id);
     onSnapshot(channelRef, (docSnapshot) => {
-      this.channelSig.set(docSnapshot.data() as Channel);
+      this.channelSig.set(this.setChannelObject(docSnapshot.data()));
     });
   }
 
