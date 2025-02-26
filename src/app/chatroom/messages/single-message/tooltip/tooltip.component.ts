@@ -26,6 +26,7 @@ export class TooltipComponent {
   @Input() message: any;
   @Input() chatId:string = '';
   @Input() component:string = '';
+  @Input() currentUser:boolean = false;
   @Output() isEditingChange = new EventEmitter<boolean>();
 
   constructor(

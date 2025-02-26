@@ -6,7 +6,7 @@
         <img src="/img/comment.png" alt="">
     </a>
 
-    <div class="tooltip-icon">
+    <div class="tooltip-icon" *ngIf="this.currentUser">
         <a class="vert" (click)="toggleMenu()">
             <img src="/img/more_vert.png" alt="">
         </a>
