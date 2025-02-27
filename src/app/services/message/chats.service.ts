@@ -189,10 +189,10 @@ export class ChatsService {
     return docRef.id;
   }
 
-  async addMessageToChat(text: string, chatId: string, component:string): Promise<void> {
+  async addMessageToChat(text: string, chatId: string, component:string, mentionedUsers:any): Promise<void> {
     const chatRef = doc(this.getChatCollection(component), chatId);
     const messagesRef = collection(chatRef, 'messages');
-    const messageContent = await this.newMessageContent(text, chatId, component);
+    const messageContent = await this.newMessageContent(text, chatId, component, mentionedUsers);
 
     await addDoc(messagesRef, {
       ...messageContent
@@ -205,7 +205,7 @@ export class ChatsService {
     })
   }
 
-  async newMessageContent(text:string, chatId:string, component:string): Promise<Message> {
+  async newMessageContent(text:string, chatId:string, component:string, mentionedUsers:string): Promise<any> {
     const isFirstMessageOfDay = await this.checkFirstMessage(chatId, component);
 
     return {
@@ -217,6 +217,7 @@ export class ChatsService {
         avatar: this.getUserAvatar() || ''
       },
       text: text,
+      mentionedUsers: mentionedUsers,
       createdAt: serverTimestamp(),
       firstMessageOfTheDay: isFirstMessageOfDay,
       emojis: [],
@@ -333,6 +334,4 @@ export class ChatsService {
       }
     });
   }
-  
-  
 }

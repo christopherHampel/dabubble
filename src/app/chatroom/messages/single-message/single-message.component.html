@@ -37,7 +37,8 @@
           ]"
         >
           <div *ngIf="!isEditing">
-            <span>{{ currentMessage.text }}</span>
+            <!-- <span>{{ currentMessage.text }}</span> -->
+            <span [innerHTML]="formatMessage(currentMessage.text, currentMessage.mentionedUsers)"></span>
           </div>
 
           <div *ngIf="isEditing" (click)="$event.stopPropagation()">
@@ -71,8 +72,7 @@
         class="emoji-reactions"
         *ngIf="!isEditing"
         [ngStyle]="
-          isMessageFromCurrentUser() ? {} : { 'flex-direction': 'row-reverse' }
-        "
+          isMessageFromCurrentUser() ? {} : { 'flex-direction': 'row-reverse' }"
       >
         <div *ngIf="component != 'threads'" class="answers-from-thread">
           <div (click)="openThread()">{{ getThreadCountReplies() }}</div>

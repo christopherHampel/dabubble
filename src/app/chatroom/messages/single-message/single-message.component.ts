@@ -8,6 +8,7 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
 import { EmojisService } from '../../../services/message/emojis.service';
 import { ThreadsDbService } from '../../../services/message/threads-db.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-single-message',
@@ -35,7 +36,8 @@ export class SingleMessageComponent {
 
   constructor(public chatService: ChatsService, 
               public usersService: UsersDbService,
-              private threadService: ThreadsDbService) { }
+              private threadService: ThreadsDbService,
+              private sanitizer: DomSanitizer) { }
   
   ngOnInit() {
     // this.currentDate = this.showDate();  
@@ -208,4 +210,28 @@ export class SingleMessageComponent {
     
     return emojiNames;
   }
+
+  formatMessage(text: string, mentionedUsers: string[]): SafeHtml {
+    if (!mentionedUsers || mentionedUsers.length === 0) {
+      return text;
+    }
+  
+    mentionedUsers.forEach(user => {
+      const mentionRegex = new RegExp(`@${user.replace(/ /g, '\\s')}`, 'g');
+      text = text.replace(mentionRegex, `<span class="mention">@${user}</span>`);
+    });
+  
+    return this.sanitizer.bypassSecurityTrustHtml(text);
+  }
+
+  // addClickEventToMentions() {
+  //   setTimeout(() => { // Timeout, damit Angular das DOM fertig rendert
+  //     const mentions = this.elRef.nativeElement.querySelectorAll('.mention');
+  //     mentions.forEach((mention: HTMLElement) => {
+  //       this.renderer.listen(mention, 'click', () => {
+  //         this.openUserProfile(mention.innerText.replace('@', '')); // Entfernt das '@'
+  //       });
+  //     });
+  //   }, 0);
+  // }
 }

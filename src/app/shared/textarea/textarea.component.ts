@@ -64,10 +64,12 @@ export class TextareaComponent implements OnInit {
     e.preventDefault();
     
     if (this.message.length > 0) {
+      const mentionedUsers = this.extractMentionedUsers(this.message);
+
       if (this.component == 'threads') {
         this.sendNewThread()
       } else {
-        await this.chatService.addMessageToChat(this.message, this.chatId, this.component);
+        await this.chatService.addMessageToChat(this.message, this.chatId, this.component, mentionedUsers);
       }
       this.message = '';
     }
@@ -106,10 +108,10 @@ export class TextareaComponent implements OnInit {
     this.message += emoji;
   }
 
-  addUserToMessage(user: string) {
-    this.message += '@' + user;
-    this.userList = false;
-  }
+  // addUserToMessage(user: string) {
+  //   this.message += '@' + user;
+  //   this.userList = false;
+  // }
 
   @HostListener('document:click', ['$event'])
   clickOutside() {
@@ -152,4 +154,14 @@ export class TextareaComponent implements OnInit {
       textarea.focus();
     }
   }
+
+  extractMentionedUsers(text: string): string[] {
+    const mentionPattern = /@([\wäöüÄÖÜß-]+\s[\wäöüÄÖÜß-]+)/g;
+    let matches = text.match(mentionPattern);
+    
+    if (!matches) return [];
+  
+    return matches.map(mention => mention.substring(1));
+  }
+  
 }
