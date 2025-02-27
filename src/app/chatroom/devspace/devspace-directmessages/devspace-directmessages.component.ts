@@ -67,7 +67,6 @@ export class DevspaceDirectmessagesComponent {
       const chatId = await this.chatService.setPrivateChat(user, "messages");
       this.chatService.currentChatId = chatId;
       this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', chatId], thread: null}}]);
-      // this.router.navigate(['/chatroom', { outlets: { chats: ['direct-message'] } }]);
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);
     }

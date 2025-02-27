@@ -9,13 +9,17 @@ import { Channel } from '../../interfaces/channel';
 export class ChannelsDbService {
   private channels = inject(Firestore);
 
-  channelSig = signal<Channel>({} as Channel);
+  channelSig = signal<Channel | null>(null);
   channelListSig = signal<Channel[]>([]);
-  channelDataSig = signal<any>(null);
   unsubChannelList: any;
 
   constructor() {
     this.unsubChannelList = this.subChannelList();
+  }
+
+
+  get channel() {
+    return this.channelSig();
   }
 
 
@@ -24,13 +28,25 @@ export class ChannelsDbService {
   }
 
 
-  get channelData() {
-    return this.channelDataSig();
+  updateChannel(channel: Partial<Channel>) {
+    this.channelSig.update((currentData) => ({ ...currentData!, ...channel }));
   }
 
 
-  updateChannel(channel: Partial<Channel>) {
-    this.channelSig.update((currentData) => ({ ...currentData, ...channel }));
+  async changeChannel() {
+    const channelRef = this.getSingleDocRef('channels', this.channel!.id);
+    await updateDoc(channelRef, this.getCleanJson(this.channel!));
+  }
+
+
+  getCleanJson(channel: Channel): {} {
+    return {
+      id: channel.id,
+      name: channel.name,
+      description: channel.description,
+      createdBy: channel.createdBy,
+      participants: channel.participants
+    }
   }
 
 
@@ -49,16 +65,16 @@ export class ChannelsDbService {
       id: object.id || '',
       name: object.name || '',
       description: object.description || '',
-      participants: object.participants || [],
-      participantsDetails: object.participantsDetails || {}
+      createdBy: object.createdBy || {},
+      participants: object.participants || {}
     }
   }
 
 
   subToChannel(id: string) {
-    const channelRef = doc(this.getChannelRef(), id);
+    const channelRef = this.getSingleDocRef('channels', id);
     onSnapshot(channelRef, (docSnapshot) => {
-      this.channelDataSig.set(docSnapshot.data());
+      this.channelSig.set(this.setChannelObject(docSnapshot.data()));
     });
   }
 
@@ -76,5 +92,10 @@ export class ChannelsDbService {
 
   getChannelRef() {
     return collection(this.channels, 'channels');
+  }
+
+
+  getSingleDocRef(colId: string, docId: string) {
+    return doc(collection(this.channels, colId), docId);
   }
 }

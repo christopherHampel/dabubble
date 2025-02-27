@@ -1,0 +1,162 @@
+@use '../../../chatroom.component.scss';
+
+@mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
+    display: flex;
+    flex-direction: $fD;
+    justify-content: $jC;
+    align-items: $aI;
+    gap: $g;
+}
+
+
+
+* {
+    font-family: 'Nunito';
+}
+
+.box {
+    border: 1px solid #ADB0D9;
+    border-radius: 20px;
+    padding: 20px;
+
+    transition: all 0.1s linear, border 0.15s linear;
+
+    &:has(.input-text) {
+        border: none;
+
+        padding: 0;
+    }
+
+    &:has(.textarea-text) {
+        border: none;
+
+        padding: 0;
+
+        .separater {
+            width: calc(100% - 40px);
+
+            margin-left: 20px;
+        }
+    }
+}
+
+.width-100-percent {
+    width: 100%;
+}
+
+.edit-button {
+    border: none;
+    background-color: transparent;
+
+    font-weight: 600;
+    font-size: 18px;
+
+    color: #535AF1;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.headline {
+    font-weight: 700;
+    font-size: 18px;
+
+    color: black;
+}
+
+
+
+.channel-data-window {
+    @include d-flex($fD: column, $jC: flex-start, $g: 30px);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    transform: translate(0, 56px);
+
+    width: 872px;
+    height: max-content;
+
+    padding: 40px;
+
+    background-color: #FFFFFF;
+
+    border-bottom-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+
+    z-index: 4;
+
+    filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
+}
+
+header {
+    @include d-flex($jC: space-between);
+
+    &>div:nth-child(1) {
+        @include d-flex($g: 15px);
+    }
+}
+
+form {
+    width: 100%;
+
+    @include d-flex($fD: column, $aI: flex-end, $g: 30px);
+}
+
+.box {
+    @include d-flex($fD: column, $aI: flex-start);
+
+    &>div:nth-child(1) {
+        @include d-flex($jC: space-between);
+    }
+
+    &:has(.hashtag-icon, .input-text) {
+        gap: 20px;
+
+        &>div:nth-child(2) {
+            @include d-flex($g: 10px)
+        }
+    }
+
+    &:has(.separater) {
+        gap: 30px;
+
+        &>div:nth-child(4) {
+            @include d-flex($fD: column, $aI: flex-start, $g: 20px);
+
+            &>h2 {
+                font-weight: 400;
+                font-size: 24px;
+
+                color: #535AF1;
+            }
+        }
+    }
+
+    .hashtag-icon {
+        width: 23px;
+        height: 23px;
+    }
+}
+
+.separater {
+    border: 1px solid #ADB0D9;
+}
+
+.animation {
+    opacity: 1;
+    animation: animation 0.25s;
+}
+
+@keyframes animation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

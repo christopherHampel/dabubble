@@ -1,18 +1,28 @@
-<section class="card">
-    <div *ngIf="channelDb.channelData" class="message-head">
-        <div class="head-left">
-            <div class="hashtag-icon"></div>
-            <h2>Entwicklerteam</h2>
-            <div class="arrow-drop-down-icon"></div>
+
+<section *ngIf="channelDb.channel as channel" class="card">
+    <div class="message-head">
+        <div class="head-left-wrapper">
+            <div (click)="openDialog()" class="head-left" [ngClass]="{'head-left-highlight': dialog}">
+                <div class="hashtag-icon"></div>
+                <h2>{{channel.name}}</h2>
+                <div class="arrow-drop-down-icon"></div>
+            </div>
+
+            <app-channel-data-window #channelDataWindow [dialogOpen]="dialog"
+                (dialogClose)="closeDialog(!$event)"></app-channel-data-window>
         </div>
 
-        <div *ngIf="getChannelParticipantsDetails().length > 0" class="head-right">
+        <div *ngIf="channel.participants.length > 0" class="head-right">
             <div>
                 <div class="profil-picture-wrapper">
-                    <img *ngFor="let channel of getChannelParticipantsDetails()" src="{{channel.avatar}}" alt="">
+                    <img *ngFor="let channel of channel.participants" src="{{channel.avatar}}" alt="">
+                    <img *ngIf="channel.createdBy as currentUser" src="{{currentUser.avatar}}" alt="">
                 </div>
-                <span>{{getChannelParticipantsDetails().length}} </span>
+                <span>{{channel.participants.length + 1}} </span>
+
+                <app-channel-members-info [dialogOpen]="true"></app-channel-members-info>
             </div>
+
             <div class="person-add-icon">
                 <div></div>
             </div>
@@ -33,3 +43,6 @@
         </div>
     </div>
 </section>
+
+<app-transparent-background [backgroundOpen]="dialog"
+    (backgroundClose)="closeDialog(!$event)"></app-transparent-background>

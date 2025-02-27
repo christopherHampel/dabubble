@@ -9,3 +9,18 @@
 
     z-index: 3;
 }
+
+.animation {
+    opacity: 1;
+    animation: animation 0.25s;
+}
+
+@keyframes animation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

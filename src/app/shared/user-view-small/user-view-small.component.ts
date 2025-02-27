@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UsersDbService } from '../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-user-view-small',
@@ -11,13 +12,8 @@ import { CommonModule } from '@angular/common';
 
 })
 export class UserViewSmallComponent {
-  // isLoaded: boolean = true;
+  usersDb = inject(UsersDbService);
+
   @Input() selectedUserId: string = '';
   @Input() user: any;
-
-  ngOnInit() {
-    // setTimeout(() => {
-    //   this.isLoaded = false;
-    // }, 25);    
-  }
 }

@@ -9,19 +9,20 @@
         <span>#marketing zum Beispiel.</span>
     </div>
 
-    <form action="">
+    <form class="create-channel-form" action="">
         <div>
             <p><b>Channel-Name</b></p>
-            <input name="channelName" [(ngModel)]="channelName" (ngModelChange)="updateValue($event)" (keydown)="onKeyDown($event)"
-                class="input-text" type="text" placeholder="#   z.B. Kooperationsprojekt">
+            <input name="channelName" [(ngModel)]="channelName" (ngModelChange)="updateValue($event)"
+                (keydown)="onKeyDown($event)" class="input-text" type="text" placeholder="#   z.B. Kooperationsprojekt">
         </div>
 
         <div>
             <p><b>Beschreibung</b> <span class="color-light-gray"> (optional)</span></p>
-            <input [(ngModel)]="channelDescription" name="channelDescription" class="input-text" type="text"
-                placeholder="Dein Text hier">
+            <textarea [(ngModel)]="channelDescription" name="channelDescription" class="textarea-text"
+                placeholder="Dein Text hier" maxlength="120"></textarea>
         </div>
 
-        <button class="primary-button" (click)="createChannel(); openDialog()" [disabled]="!channelName">Erstellen</button>
+        <button class="primary-button" (click)="createChannel(); openDialog()"
+            [disabled]="!channelName">Erstellen</button>
     </form>
 </section>
