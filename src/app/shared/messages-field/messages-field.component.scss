@@ -1,0 +1,31 @@
+.message-field {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    display: grid;
+    flex: 1;
+    scrollbar-width: none;
+    position: relative;
+
+    .flex-end {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        position: relative;
+    }
+
+    div {
+        width: 100%;
+    }
+}
+
+.message-wrapper {
+    padding: 10px 20px;
+}
+
+.overflow {
+    overflow: scroll;
+}
+
+.d-none {
+    display: none;
+}

@@ -27,7 +27,7 @@ section {
     justify-content: flex-start;
     font-family: 'Nunito';
     position: relative;
-    padding: 10px 0px 10px 45px;
+    padding: 10px 0px 10px 0;
 }
 
 .flex-start {
@@ -75,6 +75,7 @@ section {
     display: flex;
     justify-content: flex-end;
     gap: 20px;
+    white-space: nowrap;
 
     .username {
         font-weight: 700;
@@ -128,12 +129,22 @@ section {
     background-color: #FFFF;
     padding: 3px 15px 3px 20px;
     @include border();
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    border-bottom-left-radius: 25px;
     position: absolute;
     top: -10px;
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
+}
+
+.tooltip-position-left {
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 0;
     left: 70px;
+}
+
+.tooltip-position-right {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 25px;
+    right: 70px;
 }
 
 .edit-content {
@@ -148,6 +159,7 @@ section {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 60px;
     }
 
     textarea {
@@ -178,7 +190,7 @@ section {
 }
 
 .emoji-hover {
-    visibility: visible;
+    visibility: hidden;
     position: absolute;
     bottom: 100%;
     left: 50%;

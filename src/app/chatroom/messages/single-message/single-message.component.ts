@@ -8,13 +8,13 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
 import { EmojisService } from '../../../services/message/emojis.service';
 import { ThreadsDbService } from '../../../services/message/threads-db.service';
-import { EmojiPickerComponentComponent } from "../../../shared/textarea/emoji-picker-component/emoji-picker-component.component";
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-single-message',
   imports: [CommonModule,
     FormsModule,
-    TooltipComponent, EmojiPickerComponentComponent],
+    TooltipComponent],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
@@ -27,7 +27,7 @@ export class SingleMessageComponent {
   @Input() currentMessage!:any;
   @Input() editedText!: string;
   @Input() chatId!: string;
-  @Input() component: 'chat' | 'thread' = 'chat';
+  @Input() component:string = '';
 
   isEditing: boolean = false;
   emojiQuickBar:boolean = false;
@@ -36,11 +36,12 @@ export class SingleMessageComponent {
 
   constructor(public chatService: ChatsService, 
               public usersService: UsersDbService,
-              private threadService: ThreadsDbService) { }
+              private threadService: ThreadsDbService,
+              private sanitizer: DomSanitizer) { }
   
-  // ngOnInit() {
-  //   this.currentDate = this.showDate();
-  // }
+  ngOnInit() {
+    // this.currentDate = this.showDate();  
+  }
 
   ngAfterViewChecked() {
     if (this.isEditing) {
@@ -69,7 +70,7 @@ export class SingleMessageComponent {
   updateMessage(currentMessage:CurrentMessage) {
     this.isEditing = false;
     const docId = currentMessage.docId;
-    this.chatService.updateMessage(docId, this.currentMessage.text, this.chatId);
+    this.chatService.updateMessage(docId, this.currentMessage.text, this.chatId, this.component);
   }
 
   cancelEdit() {
@@ -86,6 +87,8 @@ export class SingleMessageComponent {
   }
 
   toggleEmoji(currentMessage: CurrentMessage) {
+    console.log('Geht');
+    
     this.emojiService.currentMessage = currentMessage;
     this.emojiService.emojiPickerOpen = !this.emojiService.emojiPickerOpen;
   }
@@ -95,15 +98,14 @@ export class SingleMessageComponent {
     e.target.style.height = (e.target.scrollHeight + 25)+"px";
   }
 
-  addEmoji(emoji:string) {
+  addEmoji(emoji:string) {    
     this.emojiService.currentMessage = this.currentMessage;
     if(this.component == 'thread') {
-      this.chatService.component.set('thread');
-      this.emojiService.addEmoji(emoji, this.currentMessage.associatedThreadId);
+      this.chatService.component.set(this.component);
+      this.emojiService.addEmoji(emoji, this.currentMessage.associatedThreadId, this.component);
       this.chatService.component.set('chat');
     } else {
-      this.emojiService.addEmoji(emoji, this.chatId);
-      // console.log(this.currentMessage);
+      this.emojiService.addEmoji(emoji, this.chatId, this.component);
     }
     this.emojiQuickBar = !this.emojiQuickBar;
   }
@@ -113,6 +115,14 @@ export class SingleMessageComponent {
       return 'own-message'
     } else {
       return 'other-message'
+    }
+  }
+
+  getTooltipPosition() {
+    if(this.isMessageFromCurrentUser()) {
+      return 'tooltip-position-left'
+    } else {
+      return 'tooltip-position-right'
     }
   }
 
@@ -200,4 +210,28 @@ export class SingleMessageComponent {
     
     return emojiNames;
   }
+
+  formatMessage(text: string, mentionedUsers: string[]): SafeHtml {
+    if (!mentionedUsers || mentionedUsers.length === 0) {
+      return text;
+    }
+  
+    mentionedUsers.forEach(user => {
+      const mentionRegex = new RegExp(`@${user.replace(/ /g, '\\s')}`, 'g');
+      text = text.replace(mentionRegex, `<span class="mention">@${user}</span>`);
+    });
+  
+    return this.sanitizer.bypassSecurityTrustHtml(text);
+  }
+
+  // addClickEventToMentions() {
+  //   setTimeout(() => { // Timeout, damit Angular das DOM fertig rendert
+  //     const mentions = this.elRef.nativeElement.querySelectorAll('.mention');
+  //     mentions.forEach((mention: HTMLElement) => {
+  //       this.renderer.listen(mention, 'click', () => {
+  //         this.openUserProfile(mention.innerText.replace('@', '')); // Entfernt das '@'
+  //       });
+  //     });
+  //   }, 0);
+  // }
 }

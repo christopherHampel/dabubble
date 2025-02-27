@@ -49,7 +49,7 @@ export class AddFriendDialogComponent {
 
   async startChat() {
     try {
-      const chatId = await this.chatService.setPrivateChat(this.selectedUser);
+      const chatId = await this.chatService.setPrivateChat(this.selectedUser, 'messages');
       this.chatService.currentChatId = chatId;
       this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', chatId]}}]);
       await this.usersDb.addDirectMessageWith(this.selectedUser['id']);

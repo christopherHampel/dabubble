@@ -1,0 +1,11 @@
+<div class="message-field" #myScrollContainer [ngClass]="threadComponent() ? 'd-none' : ''">
+    <div class="flex-end">
+        <div *ngFor="let message of this.chatService.messages$ | async,  trackBy: trackByFn" class="message-wrapper">
+            <app-single-message 
+                [currentMessage]="message" 
+                [chatId]="this.chatId"
+                [component]="component"
+                ></app-single-message>
+        </div>
+    </div>
+</div>

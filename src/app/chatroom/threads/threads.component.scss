@@ -64,13 +64,23 @@ section {
 }
 
 .message-field {
-    scroll-behavior: smooth;
     overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
+    scroll-behavior: smooth;
+    display: grid;
     flex: 1;
-    gap: 20px;
     scrollbar-width: none;
+    position: relative;
+
+    .flex-end {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        position: relative;
+    }
+
+    div {
+        width: 100%;
+    }
 }
 
 .message-wrapper {
@@ -79,18 +89,6 @@ section {
     &:first-child {
         margin-top: auto;
     }
-}
-
-.answers {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-
-    color: #ADB0D9;
-
-    padding-left: 10px;
-    padding-right: 10px;
 }
 
 .separater {
@@ -124,4 +122,30 @@ section {
 
 .thread-title-tooltip:hover .tooltip {
     visibility: visible;
+}
+
+.answers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    color: #ADB0D9;
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+    span {
+        white-space: nowrap;
+    }
+}
+
+.separater {
+    width: auto;
+    height: 1px;
+    flex-grow: 1;
+
+    background-color: #ADB0D9;
+
+    border-radius: 0.75px;
 }

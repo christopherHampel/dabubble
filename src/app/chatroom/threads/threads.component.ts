@@ -1,4 +1,15 @@
-import { Component, ElementRef, inject, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  Component,
+  effect,
+  ElementRef,
+  inject,
+  QueryList,
+  signal,
+  SimpleChanges,
+  ViewChild,
+  ViewChildren,
+  WritableSignal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SingleMessageComponent } from '../messages/single-message/single-message.component';
 import { TextareaComponent } from '../../shared/textarea/textarea.component';
@@ -6,21 +17,30 @@ import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ActivatedRoute } from '@angular/router';
 import { ScrollService } from '../../services/message/scroll.service';
 import { Thread } from '../../interfaces/thread';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
+import { MessagesFieldComponent } from '../../shared/messages-field/messages-field.component';
+import { ChatsService } from '../../services/message/chats.service';
 
 @Component({
   selector: 'app-threads',
-  imports: [CommonModule, TextareaComponent, SingleMessageComponent],
+  imports: [
+    CommonModule,
+    TextareaComponent,
+    SingleMessageComponent,
+    MessagesFieldComponent,
+  ],
   templateUrl: './threads.component.html',
   styleUrl: './threads.component.scss',
-  providers: [ScrollService]
+  providers: [ScrollService],
 })
 export class ThreadsComponent {
   threadsDb = inject(ThreadsDbService);
 
-  @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
-  @ViewChildren(SingleMessageComponent) messageComponents!: QueryList<SingleMessageComponent>;
+  @ViewChild('myScrollContainerThread')
+  private myScrollContainerThread!: ElementRef;
+  @ViewChildren(SingleMessageComponent)
+  messageComponents!: QueryList<SingleMessageComponent>;
 
   threadData: Thread = {
     docId: '',
@@ -28,38 +48,69 @@ export class ThreadsComponent {
     participiantsDetails: {},
     // threadName: ''
   };
-  hasScrolled:boolean = false;
-  // private logoutSubscription!: Subscription;
-  
+  hasScrolled: boolean = false;
+  private paramMapSubscription!: Subscription;
+  chatId: string = '';
+  chatMessages$!: Observable<any[]>;
+  lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private scrollService: ScrollService,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private chatService: ChatsService
+  ) {
+    effect(() => {
+      let currentDocId = this.lastMessageDocId();
+      console.log(currentDocId)
+      if (currentDocId) {
+        this.scrollService.scrollToBottom();
+      } 
+      if(this.threadsDb.currentThreadId()) {
+        this.chatService.watchLastMessageDocId(
+          this.threadsDb.currentThreadId(),
+          'threads',
+          this.lastMessageDocId
+        );
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(params => {
+    this.subscribeThreadData();
+    this.chatService.watchLastMessageDocId(
+      this.threadsDb.currentThreadId(),
+      'threads',
+      this.lastMessageDocId
+    );
+  }
+
+  subscribeThreadData() {
+    this.activatedRoute.params.subscribe((params) => {
       this.threadsDb.currentThreadId.set(params['threadId']);
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
       this.threadsDb.subscribeToThread(this.threadsDb.currentThreadId());
     });
   }
 
-  // subcribeLogOut() {
-  //   this.logoutSubscription = this.authService.logout$.subscribe(() => {
-  //     this.scrollService.hasScrolled = false;
-  //   });
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes[this.threadsDb.currentThreadId()]) {
+  //     // this.scrollService.hasScrolled = false;
+  //     this.currentDocId = this.lastMessageDocId();
+  //   }
   // }
 
   ngAfterViewInit() {
-    if (this.myScrollContainer) {
-      this.scrollService.setScrollContainer(this.myScrollContainer);      
-    } else {
-      console.warn('myScrollContainer is not available in ngAfterViewInit');
+    this.scrollService.setScrollContainerThread(this.myScrollContainerThread);
+
+    if(this.threadsDb.currentThreadId()) {
+      
     }
   }
 
   closeThread() {
-    this.threadsDb.closeThread()
+    this.threadsDb.closeThread();
   }
 
   scrollDown() {
@@ -71,7 +122,7 @@ export class ThreadsComponent {
       this.scrollService.scrollToBottom();
       setTimeout(() => {
         this.scrollService.hasScrolled = true;
-      }, 300)
+      }, 300);
     }
   }
 }

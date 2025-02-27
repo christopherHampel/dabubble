@@ -16,9 +16,9 @@ export class EmojisService {
 
   constructor(private usersService: UsersDbService, private chatSerive: ChatsService) { }
 
-  async getMessageDocument(chatId: string) {
-    const query = await this.chatSerive.getQuerySnapshot(this.currentMessage.docId, chatId);
-    return query.docs[0]; // Die erste (und einzige) Nachricht zurückgeben
+  async getMessageDocument(chatId: string, component:string) {
+    const query = await this.chatSerive.getQuerySnapshot(this.currentMessage.docId, chatId, component);
+    return query.docs[0];
   }
   
   removeUserExistingReaction(emojis: any[], userId: string) {
@@ -62,8 +62,8 @@ export class EmojisService {
     await updateDoc(messageDoc.ref, { emojis });
   }
   
-  async addEmoji(emoji: string, chatId: string) {
-    const messageDoc = await this.getMessageDocument(chatId);
+  async addEmoji(emoji: string, chatId: string, component:string) {
+    const messageDoc = await this.getMessageDocument(chatId, component);
     const messageData = messageDoc.data();
     let emojis = messageData['emojis'] || [];
     this.emojiPickerOpen = false;

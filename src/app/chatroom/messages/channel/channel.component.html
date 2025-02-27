@@ -1,5 +1,5 @@
-<section *ngIf="channelDb.channel as channel" class="card">
 
+<section *ngIf="channelDb.channel as channel" class="card">
     <div class="message-head">
         <div class="head-left-wrapper">
             <div (click)="openDialog()" class="head-left" [ngClass]="{'head-left-highlight': dialog}">
@@ -29,13 +29,19 @@
         </div>
     </div>
 
-    <div class="textarea-emojipicker">
-        <div class="emoji-component" *ngIf="this.emojiService.emojiPickerOpen">
-            <app-emoji-picker-component (emojiSelected)="this.addEmoji($event)"></app-emoji-picker-component>
-        </div>
-        <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'channels'"></app-textarea>
-    </div>
+    <app-messages-field class="message-field" [chatId]="chatId" [component]="'channels'"></app-messages-field>
 
+    <div class="textarea-component">
+        <div class="textarea-emojipicker">
+            <div class="emoji-component" *ngIf="this.emojiService.emojiPickerOpen">
+                <app-emoji-picker-component
+                    (emojiSelected)="this.addEmoji($event)"></app-emoji-picker-component>
+            </div>
+            <app-textarea 
+                [chatPartnerName]="this.chatService.chatPartner.name" 
+                [component]="'channels'"></app-textarea>
+        </div>
+    </div>
 </section>
 
 <app-transparent-background [backgroundOpen]="dialog"
