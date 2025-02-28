@@ -8,7 +8,6 @@ import {
   ViewChild,
   WritableSignal,
 } from '@angular/core';
-import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChannelsDbService } from '../../../services/message/channels-db.service';
 import { ActivatedRoute } from '@angular/router';
@@ -45,7 +44,6 @@ export class ChannelComponent {
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
 
   @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
-  chatId: string = "";
   dialog: boolean = false;
 
   @ViewChild('channelDataWindow') channelDataWindow!: any;
@@ -53,8 +51,6 @@ export class ChannelComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     public emojiService: EmojisService,
-    public chatService: ChatsService,
-    private scrollService: ScrollService,
     public chatService: ChatsService) { }
 
   ngOnInit() {

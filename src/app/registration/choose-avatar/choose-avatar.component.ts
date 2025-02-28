@@ -9,7 +9,7 @@ import { UserProfile } from '../../interfaces/userProfile';
   selector: 'app-choose-avatar',
   imports: [RouterLink],
   templateUrl: './choose-avatar.component.html',
-  styleUrl: './choose-avatar.component.scss'
+  styleUrl: './choose-avatar.component.scss',
 })
 export class ChooseAvatarComponent {
   private auth = inject(AuthService);
@@ -28,7 +28,7 @@ export class ChooseAvatarComponent {
     '/img/steffen_hoffmann.png',
   ];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
     this.setNavParam();
   }
 
@@ -41,24 +41,26 @@ export class ChooseAvatarComponent {
     const state = navigation?.extras.state as UserRegister | undefined;
 
     if (state) {
-      this.userName = state.userName,
-        this.email = state.email,
-        this.password = state.password
+      (this.userName = state.userName),
+        (this.email = state.email),
+        (this.password = state.password);
     } else {
       this.router.navigateByUrl('/register/create-account');
     }
   }
 
   onRegister() {
-    this.auth.register(this.userName, this.email, this.password, this.currentAvatar)
+    this.authService.userFeedback('Konto erfolgreich erstellt!');
+    this.router.navigateByUrl('/register/login');
+    this.auth
+      .register(this.userName, this.email, this.password, this.currentAvatar)
       .then(async (uid) => {
-        await this.saveUser(uid);
         this.auth.logout();
-        this.router.navigateByUrl('/register/login');
+        await this.saveUser(uid);
       })
       .catch(() => {
         this.router.navigateByUrl('/register/create-account');
-      })
+      });
   }
 
   async saveUser(uid: string) {
@@ -69,9 +71,8 @@ export class ChooseAvatarComponent {
       avatar: this.currentAvatar,
       active: false,
       clicked: false,
-      directmessagesWith: []
-    }
+      directmessagesWith: [],
+    };
     await this.usersDb.addUser(user);
   }
-
 }

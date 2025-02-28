@@ -1,0 +1,35 @@
+section {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+
+    div {
+        background: #444DF2;
+        box-shadow: 0px 6px 10px 0px #00000033;
+        padding: 50px;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        border-bottom-left-radius: 30px;
+        color: #FFFF;
+        font-size: 36px;
+        font-weight: 700;
+        animation: showFeedback 1s linear;
+    }
+}
+
+@keyframes showFeedback {
+    0% {
+        transform: translateX(200%);
+        // opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        // opacity: 1;
+    }
+}

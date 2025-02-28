@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { FirebaseApp } from '@angular/fire/app';
 import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, user } from '@angular/fire/auth';
 import { sendPasswordResetEmail } from 'firebase/auth';
@@ -11,6 +11,8 @@ export class AuthService {
   private firebaseapp = inject(FirebaseApp);
   private auth = inject(Auth);
   currentAuthUser = user(this.auth);
+  feedback = signal<boolean>(false);
+  feedbackMessage = signal<string>('');
 
   private logoutSubject = new BehaviorSubject<void>(null!);
   logout$ = this.logoutSubject.asObservable();
@@ -48,5 +50,13 @@ export class AuthService {
   async logout() {
     this.logoutSubject.next();
     await signOut(this.auth);
+  }
+
+  userFeedback(message:string) {
+    this.feedbackMessage.set(message);
+    this.feedback.set(true);
+    setTimeout( () => {
+      this.feedback.set(false);
+    }, 2000);
   }
 }
