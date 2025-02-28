@@ -3,6 +3,9 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.vh-100 {
   height: 100vh;
 }
 
@@ -202,5 +205,22 @@ form {
     left: 50%;
     transform: translateX(-50%);
     color: red;
+  }
+}
+
+.disabled {
+  background: rgba(104, 104, 104, 1);
+}
+
+.enabled {
+  background: #444DF2;
+
+  &:hover {
+    background: #797EF3;
+    cursor: pointer;
+  }
+
+  &:active {
+    background: #444DF2;
   }
 }
