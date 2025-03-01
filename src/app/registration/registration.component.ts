@@ -3,20 +3,22 @@ import { LoginComponent } from './login/login.component';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { interval, map, take } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { OverlayUserfeedbackComponent } from "../shared/overlay-userfeedback/overlay-userfeedback.component";
+import { OverlayUserfeedbackComponent } from '../shared/overlay-userfeedback/overlay-userfeedback.component';
 
 @Component({
   selector: 'app-registration',
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     RouterLink,
-    RouterOutlet, OverlayUserfeedbackComponent],
+    RouterOutlet,
+    OverlayUserfeedbackComponent,
+  ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
-  standalone: true
+  standalone: true,
 })
 export class RegistrationComponent {
-
-  feedback:boolean = true;
+  feedback: boolean = true;
 
   images: string[] = [
     '/img/D.png',

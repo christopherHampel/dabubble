@@ -13,7 +13,15 @@
         <span>Neu bei DABubble?</span>
         <a [routerLink]="['/register/create-account']" class="signup-link">Konto erstellen</a>
     </div>
-    <router-outlet></router-outlet>
+
+    <div class="start-container">
+        <router-outlet></router-outlet>
+        <div class="privacy-imprint">
+            <div [routerLink]="['/register/imprint']">Impressum</div>
+            <div [routerLink]="['/register/privacy-police']">Datenschutz</div>
+        </div>
+    </div>
+
 </section>
 
 <app-overlay-userfeedback></app-overlay-userfeedback>
