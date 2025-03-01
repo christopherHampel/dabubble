@@ -91,13 +91,11 @@ h2{
     margin: 40px;
     cursor: pointer;
 
-    &:hover {
-      color: rgba(68, 77, 242, 1);
-      font-weight: 700;
-      border: 1px solid rgba(68, 77, 242, 1);
+      &:hover {
+        color: rgba(68, 77, 242, 1);
+        font-weight: 700;
+        border: 1px solid rgba(68, 77, 242, 1);
+      }
     }
   }
 }
-}
-
-

@@ -20,11 +20,20 @@ export class CreateAccountComponent {
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(6)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      name: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern(/^\S+\s\S+$/)
+      ]],      email: ['', [Validators.required, Validators.email]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)
+      ]],
+      privacy: [false, [Validators.requiredTrue]]
     });
   }
+
 
   goToAvatar() {
     const rawForm = this.loginForm.getRawValue();

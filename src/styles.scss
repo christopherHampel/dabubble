@@ -253,27 +253,6 @@ body {
   border-radius: 30px;
 }
 
-.back-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  // position: absolute;
-  // top: 65px;
-  // left: 32px;
-
-  .back-arrow {
-    background-image: url("../public/img/arrow_back.svg");
-    width: 40px;
-    height: 40px;
-
-    &:hover {
-      cursor: pointer;
-      border-radius: 50%;
-      background-image: url("../public/img/arrow_back_hover.svg");
-    }
-  }
-}
-
 .card {
   background-color: #ffff;
   display: flex;
@@ -341,11 +320,11 @@ body {
   }
 }
 
-.further-button {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
+// .further-button {
+//   width: 100%;
+//   display: flex;
+//   justify-content: flex-end;
+// }
 
 /* ----- */
 /* Icons */
