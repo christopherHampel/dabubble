@@ -37,7 +37,6 @@
           ]"
         >
           <div *ngIf="!isEditing">
-            <!-- <span>{{ currentMessage.text }}</span> -->
             <span [innerHTML]="formatMessage(currentMessage.text, currentMessage.mentionedUsers)"></span>
           </div>
 

@@ -115,16 +115,13 @@ section {
 }
 
 .input-card {
-  // width: 38rem;
-  // height: 48rem;
+  display: flex;
+  flex-direction: column;
   background-color: #ffff;
   border-radius: 30px;
   position: relative;
 }
 .input-card-container {
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: center;
 
   .input-container {
     display: flex;
@@ -191,17 +188,17 @@ form {
 
 .input-wrapper {
   position: relative;
+}
 
-  .form-error {
-    position: absolute;
-    line-height: 12px;
-    left: 0;
-    top: calc(6px + 100%);
+.form-error {
+  position: absolute;
+  line-height: 12px;
+  left: 0;
+  top: calc(6px + 100%);
 
-    small {
-      color: red;
-      font-size: 14px;
-    }
+  small {
+    color: red;
+    font-size: 14px;
   }
 }
 

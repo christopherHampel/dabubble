@@ -12,32 +12,42 @@ import { AuthService } from '../../services/auth/auth.service';
   styleUrl: './login.component.scss',
   standalone: true,
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   private auth = inject(AuthService);
   loginForm: FormGroup;
   signOut = false;
   errorMessage: string | null = null;
-  //private auth = inject(AuthService);
 
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
-  ngOnInit() {
-    this.auth.currentAuthUser.subscribe((user) => {
-      if (user) {
-        // this.router.navigateByUrl('/chatroom');
-      }
-    });
-  }
+  // ngOnInit() {
+  //   this.auth.currentAuthUser.subscribe((user) => {
+  //     if (user) {
+  //       // this.router.navigateByUrl('/chatroom');
+  //     }
+  //   });
+  // }
 
   onLogin() {
     const rawForm = this.loginForm.getRawValue();
-    this.forwardToChatroom();
-    this.auth.login(rawForm.email, rawForm.password).then(() => {});
+    this.auth
+    .login(rawForm.email, rawForm.password)
+    .then(() => {
+      this.forwardToChatroom();
+    })
+    .catch( () => {
+      console.log('Fehlerhafte Anmeldedaten');
+      this.loginForm.setErrors({ invalidCredentials: true });
+    })
   }
 
   onGaestLogin() {
@@ -46,24 +56,16 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onLoginWithGoogle() {
+  onLoginWithGoogle(e: any) {
+    e.preventdefault();
     this.auth.loginWithGoogle().then(() => {
       this.forwardToChatroom();
     });
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      console.log('Formularwert:', this.loginForm.value);
-      this.onLogin();
-    } else {
-      console.log('Formular ist ungültig');
-    }
-  }
-
   forwardToChatroom() {
     this.authService.userFeedback('Anmelden');
-    setTimeout( () => {
+    setTimeout(() => {
       this.router.navigate(['/chatroom']);
     }, 1500);
   }
