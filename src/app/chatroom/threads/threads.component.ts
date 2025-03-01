@@ -97,7 +97,7 @@ export class ThreadsComponent {
   }
 
   addEmoji(event:string) {
-    this.emojiService.addEmoji(event, this.chatId, 'messages');
+    this.emojiService.addEmoji(event, this.threadsDb.currentThreadId(), 'threads');
   }
 
   ngAfterViewInit() {
