@@ -21,6 +21,8 @@ import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import { MessagesFieldComponent } from '../../shared/messages-field/messages-field.component';
 import { ChatsService } from '../../services/message/chats.service';
+import { EmojiPickerComponentComponent } from "../../shared/textarea/emoji-picker-component/emoji-picker-component.component";
+import { EmojisService } from '../../services/message/emojis.service';
 
 @Component({
   selector: 'app-threads',
@@ -29,7 +31,8 @@ import { ChatsService } from '../../services/message/chats.service';
     TextareaComponent,
     SingleMessageComponent,
     MessagesFieldComponent,
-  ],
+    EmojiPickerComponentComponent
+],
   templateUrl: './threads.component.html',
   styleUrl: './threads.component.scss',
   providers: [ScrollService],
@@ -57,8 +60,7 @@ export class ThreadsComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private scrollService: ScrollService,
-    private authService: AuthService,
-    private route: ActivatedRoute,
+    public emojiService: EmojisService,
     private chatService: ChatsService
   ) {
     effect(() => {
@@ -94,12 +96,9 @@ export class ThreadsComponent {
     });
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes[this.threadsDb.currentThreadId()]) {
-  //     // this.scrollService.hasScrolled = false;
-  //     this.currentDocId = this.lastMessageDocId();
-  //   }
-  // }
+  addEmoji(event:string) {
+    this.emojiService.addEmoji(event, this.chatId, 'messages');
+  }
 
   ngAfterViewInit() {
     this.scrollService.setScrollContainerThread(this.myScrollContainerThread);

@@ -5,9 +5,10 @@
       (keydown)="detectAtSymbol($event)"
       (keyup)="autoGrowTextZone($event)"
       [(ngModel)]="message"
-      placeholder="Nachricht an {{ chatPartnerName }}"
+      placeholder="{{ this.getPlaceholder() }}"
     ></textarea>
-    
+    <!-- placeholder="Nachricht an {{ chatPartnerName }}" -->
+
     <div class="reactions" (click)="preventClose($event)">
       <div>
         <div class="emoji-picker" (click)="toggleEmoji()"></div>

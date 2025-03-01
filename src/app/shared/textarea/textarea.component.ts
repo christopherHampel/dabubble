@@ -14,7 +14,6 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
-// import { UserProfile } from '../../interfaces/userProfile';
 import { ScrollService } from '../../services/message/scroll.service';
 import { UserViewSmallComponent } from '../user-view-small/user-view-small.component';
 
@@ -35,8 +34,8 @@ export class TextareaComponent implements OnInit {
   @Output() childEvent = new EventEmitter();
 
   @Input() message: string = '';
-  @Input() chatPartnerName!: string;
-  @Input() component:string = '';
+  @Input() chatPartnerName: string = '';
+  @Input() component: string = '';
   @Input() id: string = '';
 
   chatId: string = '';
@@ -50,26 +49,31 @@ export class TextareaComponent implements OnInit {
     public chatService: ChatsService,
     private route: ActivatedRoute,
     private userService: UsersDbService,
-    private scrollService: ScrollService,
+    private scrollService: ScrollService
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.chatId = params.get('id')!;
-      console.log('Id From Textarea is:', this.chatId)
+      console.log('Id From Textarea is:', this.chatId);
     });
   }
 
   async sendText(e: any) {
     e.preventDefault();
-    
+
     if (this.message.length > 0) {
       const mentionedUsers = this.extractMentionedUsers(this.message);
 
       if (this.component == 'threads') {
-        this.sendNewThread()
+        this.sendNewThread();
       } else {
-        await this.chatService.addMessageToChat(this.message, this.chatId, this.component, mentionedUsers);
+        await this.chatService.addMessageToChat(
+          this.message,
+          this.chatId,
+          this.component,
+          mentionedUsers
+        );
       }
       this.message = '';
     }
@@ -82,7 +86,7 @@ export class TextareaComponent implements OnInit {
       this.threadDb.currentThreadId(),
       this.message,
       firstThreadMessage
-    );    
+    );
     await this.chatService.updateThreadAnswersCount(
       this.threadDb.currentThreadId(),
       this.component
@@ -142,7 +146,7 @@ export class TextareaComponent implements OnInit {
     }
   }
 
-  tagUser(user:any) {    
+  tagUser(user: any) {
     this.message += '@' + user.userName;
     this.toggleUserList();
     this.focusTextarea();
@@ -158,10 +162,17 @@ export class TextareaComponent implements OnInit {
   extractMentionedUsers(text: string): string[] {
     const mentionPattern = /@([\wäöüÄÖÜß-]+\s[\wäöüÄÖÜß-]+)/g;
     let matches = text.match(mentionPattern);
-    
+
     if (!matches) return [];
-  
-    return matches.map(mention => mention.substring(1));
+
+    return matches.map((mention) => mention.substring(1));
   }
-  
+
+  getPlaceholder() {
+    if (this.component != 'threads') {
+      return 'Nachricht an ' + this.chatPartnerName;
+    } else {
+      return 'Antworten...';
+    }
+  }
 }

@@ -52,7 +52,6 @@ export class DirectMessageComponent implements OnDestroy {
   }
 
   addEmoji(event:string) {
-    console.log(event);
     this.emojiService.addEmoji(event, this.chatId, 'messages');
   }
 

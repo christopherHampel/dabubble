@@ -30,5 +30,15 @@
         </div>
     </div>
 
-    <app-textarea (childEvent)="scrollDown()" [component]="'threads'" class="textarea-component"></app-textarea>
+    <div class="textarea-component">
+        <div class="textarea-emojipicker">
+            <div class="emoji-component" *ngIf="this.emojiService.emojiPickerOpen">
+                <app-emoji-picker-component
+                    (emojiSelected)="this.addEmoji($event)"></app-emoji-picker-component>
+            </div>
+            <app-textarea 
+                [component]="'threads'"></app-textarea>
+        </div>
+    </div>
+    <!-- <app-textarea (childEvent)="scrollDown()" [component]="'threads'" class="textarea-component"></app-textarea> -->
 </section>
