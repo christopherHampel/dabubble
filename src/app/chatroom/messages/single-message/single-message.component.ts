@@ -1,4 +1,11 @@
-import { Component, ElementRef, HostListener, inject, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { ChatsService } from './../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
@@ -12,35 +19,34 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-single-message',
-  imports: [CommonModule,
-    FormsModule,
-    TooltipComponent],
+  imports: [CommonModule, FormsModule, TooltipComponent],
   templateUrl: './single-message.component.html',
-  styleUrl: './single-message.component.scss'
+  styleUrl: './single-message.component.scss',
 })
 export class SingleMessageComponent {
-
-  @ViewChild(TooltipComponent) child:TooltipComponent | undefined;
+  @ViewChild(TooltipComponent) child: TooltipComponent | undefined;
   @ViewChild('textArea') textArea!: ElementRef;
 
   emojiService = inject(EmojisService);
-  @Input() currentMessage!:any;
+  @Input() currentMessage!: any;
   @Input() editedText!: string;
   @Input() chatId!: string;
-  @Input() component:string = '';
+  @Input() component: string = '';
 
   isEditing: boolean = false;
-  emojiQuickBar:boolean = false;
-  currentDate:any = '';
+  emojiQuickBar: boolean = false;
+  currentDate: any = '';
   // editTextEmoji:boolean = false;
 
-  constructor(public chatService: ChatsService, 
-              public usersService: UsersDbService,
-              private threadService: ThreadsDbService,
-              private sanitizer: DomSanitizer) { }
-  
+  constructor(
+    public chatService: ChatsService,
+    public usersService: UsersDbService,
+    private threadService: ThreadsDbService,
+    private sanitizer: DomSanitizer
+  ) {}
+
   ngOnInit() {
-    // this.currentDate = this.showDate();  
+    // this.currentDate = this.showDate();
   }
 
   ngAfterViewChecked() {
@@ -67,10 +73,15 @@ export class SingleMessageComponent {
   //   }
   // }
 
-  updateMessage(currentMessage:CurrentMessage) {
+  updateMessage(currentMessage: CurrentMessage) {
     this.isEditing = false;
     const docId = currentMessage.docId;
-    this.chatService.updateMessage(docId, this.currentMessage.text, this.chatId, this.component);
+    this.chatService.updateMessage(
+      docId,
+      this.currentMessage.text,
+      this.chatId,
+      this.component
+    );
   }
 
   cancelEdit() {
@@ -89,23 +100,28 @@ export class SingleMessageComponent {
   toggleEmoji(currentMessage: CurrentMessage) {
     this.emojiService.currentMessage = currentMessage;
 
-    if(this.component != 'threads') {
+    if (this.component != 'threads') {
       this.emojiService.emojiPickerOpen = !this.emojiService.emojiPickerOpen;
     } else {
-      this.emojiService.emojiPickerOpenThreads = !this.emojiService.emojiPickerOpenThreads;
+      this.emojiService.emojiPickerOpenThreads =
+        !this.emojiService.emojiPickerOpenThreads;
     }
   }
 
-  autoGrowTextZone(e:any) {
-    e.target.style.height = "25px";
-    e.target.style.height = (e.target.scrollHeight + 25)+"px";
+  autoGrowTextZone(e: any) {
+    e.target.style.height = '25px';
+    e.target.style.height = e.target.scrollHeight + 25 + 'px';
   }
 
-  addEmoji(emoji:string) {    
+  addEmoji(emoji: string) {
     this.emojiService.currentMessage = this.currentMessage;
-    if(this.component == 'thread') {
+    if (this.component == 'thread') {
       this.chatService.component.set(this.component);
-      this.emojiService.addEmoji(emoji, this.currentMessage.associatedThreadId, this.component);
+      this.emojiService.addEmoji(
+        emoji,
+        this.currentMessage.associatedThreadId,
+        this.component
+      );
       this.chatService.component.set('chat');
     } else {
       this.emojiService.addEmoji(emoji, this.chatId, this.component);
@@ -114,29 +130,32 @@ export class SingleMessageComponent {
   }
 
   getUser() {
-    if(this.isMessageFromCurrentUser()) {
-      return 'own-message'
+    if (this.isMessageFromCurrentUser()) {
+      return 'own-message';
     } else {
-      return 'other-message'
+      return 'other-message';
     }
   }
 
   getTooltipPosition() {
-    if(this.isMessageFromCurrentUser()) {
-      return 'tooltip-position-left'
+    if (this.isMessageFromCurrentUser()) {
+      return 'tooltip-position-left';
     } else {
-      return 'tooltip-position-right'
+      return 'tooltip-position-right';
     }
   }
 
   isMessageFromCurrentUser() {
-    return this.currentMessage.messageAuthor.id == this.usersService.currentUserSig()?.id;
+    return (
+      this.currentMessage.messageAuthor.id ==
+      this.usersService.currentUserSig()?.id
+    );
   }
 
   showDate() {
     const rawTimestamp = this.currentMessage.createdAt;
-  
-    if (rawTimestamp && typeof rawTimestamp.toMillis === "function") {
+
+    if (rawTimestamp && typeof rawTimestamp.toMillis === 'function') {
       const timestampInMs = rawTimestamp.toMillis();
       const date = new Date(timestampInMs);
       const messageDate = this.checkTodayYesterday(date);
@@ -145,28 +164,63 @@ export class SingleMessageComponent {
       return 'No Current Date available.';
     }
   }
-  
+
   checkTodayYesterday(timestamp: Date | Timestamp): string {
     const date = timestamp instanceof Date ? timestamp : timestamp.toDate();
-  
+
     const now = new Date();
     const yesterday = new Date();
     yesterday.setDate(now.getDate() - 1);
-  
-    const inputDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+    const inputDate = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const yesterdayStart = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
-  
+    const yesterdayStart = new Date(
+      yesterday.getFullYear(),
+      yesterday.getMonth(),
+      yesterday.getDate()
+    );
+
     if (inputDate.getTime() === today.getTime()) {
-      return "Heute";
+      return 'Heute';
     } else if (inputDate.getTime() === yesterdayStart.getTime()) {
-      return "Gestern";
+      return 'Gestern';
     }
 
     const day = String(inputDate.getDate()).padStart(2, '0');
     const month = String(inputDate.getMonth() + 1).padStart(2, '0');
     const year = inputDate.getFullYear();
     return `${day}.${month}.${year}`;
+  }
+
+  getLastThreadTime() {
+    if (this.currentMessage.associatedThreadId.lastMessage == '') {
+      return '';
+    } else {
+      const timestamp = this.currentMessage.associatedThreadId.lastMessage;
+      const date = new Date(
+        timestamp.seconds * 1000 + timestamp.nanoseconds / 1e6
+      );
+      const time = this.checkTodayYesterday(date);
+      const formattedTime = date.toLocaleTimeString('de-DE', {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      return this.returnTimeValue(time, formattedTime);
+    }
+  }
+
+  returnTimeValue(time: string, formattedTime: string) {
+    if (time == 'Heute') {
+      return 'Letzte Nachricht ' + formattedTime + ' Uhr';
+    } else if (time == 'Gestern') {
+      return 'Letzte Nachricht ' + time;
+    } else {
+      return 'Letzte Nachricht am ' + time;
+    }
   }
 
   toggleEmojiQuickBar() {
@@ -193,9 +247,9 @@ export class SingleMessageComponent {
   getThreadCountReplies() {
     let numberOfThreads = this.currentMessage.associatedThreadId.count;
 
-    if(numberOfThreads == 0 || this.currentMessage.associatedThreadId == '') {
+    if (numberOfThreads == 0 || this.currentMessage.associatedThreadId == '') {
       return '';
-    } else if(numberOfThreads == 1) {
+    } else if (numberOfThreads == 1) {
       return '1 Antwort';
     } else {
       return `${numberOfThreads} Antworten`;
@@ -207,35 +261,23 @@ export class SingleMessageComponent {
   }
 
   getEmojiNames(emoji: any) {
-    const emojiNames = emoji.name    
+    const emojiNames = emoji.name;
     return emojiNames;
-  }
-
-  getLastMessageTime() {
-    if(this.currentMessage.associatedThreadId.lastMessage == '') {
-      return ''
-    } else {
-      const timestamp = this.currentMessage.associatedThreadId.lastMessage;
-      const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1e6);
-      const formattedTime = date.toLocaleTimeString("de-DE", {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-      const returnValue = 'Letzte Antwort ' + formattedTime + ' Uhr';
-      return returnValue;
-    }
   }
 
   formatMessage(text: string, mentionedUsers: string[]): SafeHtml {
     if (!mentionedUsers || mentionedUsers.length === 0) {
       return text;
     }
-  
-    mentionedUsers.forEach(user => {
+
+    mentionedUsers.forEach((user) => {
       const mentionRegex = new RegExp(`@${user.replace(/ /g, '\\s')}`, 'g');
-      text = text.replace(mentionRegex, `<span class="mention">@${user}</span>`);
+      text = text.replace(
+        mentionRegex,
+        `<span class="mention">@${user}</span>`
+      );
     });
-  
+
     return this.sanitizer.bypassSecurityTrustHtml(text);
   }
 
