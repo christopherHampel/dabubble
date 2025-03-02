@@ -210,27 +210,18 @@ export class SingleMessageComponent {
   }
 
   getLastMessageTime() {
-    if(this.currentMessage.associatedThreadId == '') {
+    if(this.currentMessage.associatedThreadId.lastMessage == '') {
       return ''
     } else {
-      if(this.currentMessage.associatedThreadId.lastMessage) {
-        const returnValue = this.getTimeThread()
-        return returnValue
-      } else {
-        return ''
-      }
+      const timestamp = this.currentMessage.associatedThreadId.lastMessage;
+      const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1e6);
+      const formattedTime = date.toLocaleTimeString("de-DE", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      const returnValue = 'Letzte Antwort ' + formattedTime + ' Uhr';
+      return returnValue;
     }
-  }
-
-  getTimeThread() {
-    const timestamp = this.currentMessage.associatedThreadId.lastMessage;
-    const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1e6);
-    const formattedTime = date.toLocaleTimeString("de-DE", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    const returnValue = 'Letzte Antwort ' + formattedTime + ' Uhr';
-    return returnValue;
   }
 
   formatMessage(text: string, mentionedUsers: string[]): SafeHtml {

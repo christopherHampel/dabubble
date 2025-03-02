@@ -210,7 +210,11 @@ export class ChatsService {
 
     return {
       docId: '',
-      associatedThreadId: '',
+      associatedThreadId: {
+        count: 0,
+        lastMessage: '',
+        threadId: ''
+      },
       messageAuthor: {
         name: this.getUserName() || '',
         id: this.getUserId() || '',
