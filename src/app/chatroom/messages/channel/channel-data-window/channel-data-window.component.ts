@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelsDbService } from '../../../../services/message/channels-db.service';
 import { ActivatedRoute } from '@angular/router';
+import { UserProfile } from 'firebase/auth';
 
 @Component({
   selector: 'app-channel-data-window',
@@ -14,13 +15,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './channel-data-window.component.scss'
 })
 export class ChannelDataWindowComponent {
-  channelDb = inject(ChannelsDbService);
+  channelsDb = inject(ChannelsDbService);
   editNameButton: string = 'Bearbeiten';
   editDescriptionButton: string = 'Bearbeiten';
   channelNameEdit: boolean = false;
   channelDescriptionEdit: boolean = false;
   channelName: string = '';
   channelDescription: string = '';
+  createdUser: any;
 
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
@@ -29,14 +31,15 @@ export class ChannelDataWindowComponent {
 
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      this.channelDb.subToChannel(params['id']);
-    });
-
-    if (this.channelDb.channel) {
-      this.channelName = this.channelDb.channel.name;
-      this.channelDescription = this.channelDb.channel.description;
+    if (this.channelsDb.channel) {
+      this.channelName = this.channelsDb.channel.name;
+      this.channelDescription = this.channelsDb.channel.description;
     }
+  }
+
+
+  getUserCreated(id: string) {
+    return this.channelsDb.channel?.participants.find(user => user.id === id)?.createdBy;
   }
 
 
@@ -62,7 +65,7 @@ export class ChannelDataWindowComponent {
     } else {
       this.channelNameEdit = true;
       this.editNameButton = 'Speichern';
-      this.channelDb.channel ? this.updateValue(this.channelDb.channel.name) : '';
+      this.channelsDb.channel ? this.updateValue(this.channelsDb.channel.name) : '';
     }
   }
 
@@ -74,7 +77,7 @@ export class ChannelDataWindowComponent {
     } else {
       this.channelDescriptionEdit = true;
       this.editDescriptionButton = 'Speichern';
-      this.channelDb.channel ? this.channelDescription = this.channelDb.channel.description : '';
+      this.channelsDb.channel ? this.channelDescription = this.channelsDb.channel.description : '';
     }
   }
 
@@ -98,11 +101,11 @@ export class ChannelDataWindowComponent {
 
 
   async saveChannel() {
-    this.channelDb.updateChannel({
+    this.channelsDb.updateChannel({
       name: this.channelName.substring(2),
       description: this.channelDescription
     })
 
-    await this.channelDb.changeChannel();
+    await this.channelsDb.changeChannel();
   }
 }

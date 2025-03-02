@@ -2,14 +2,18 @@ import { inject, Injectable, signal } from '@angular/core';
 import { collection, doc, Firestore, onSnapshot, updateDoc } from '@angular/fire/firestore';
 import { addDoc } from 'firebase/firestore';
 import { Channel } from '../../interfaces/channel';
+import { UserProfile } from '../../interfaces/userProfile';
+import { UsersDbService } from '../usersDb/users-db.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChannelsDbService {
   private channels = inject(Firestore);
+  private usersDb = inject(UsersDbService);
 
   channelSig = signal<Channel | null>(null);
+  channelUserDataListSig = signal<UserProfile[]>([]);
   channelListSig = signal<Channel[]>([]);
   unsubChannelList: any;
 
@@ -20,6 +24,11 @@ export class ChannelsDbService {
 
   get channel() {
     return this.channelSig();
+  }
+
+
+  get channelUserDataList() {
+    return this.channelUserDataListSig();
   }
 
 
@@ -44,7 +53,6 @@ export class ChannelsDbService {
       id: channel.id,
       name: channel.name,
       description: channel.description,
-      createdBy: channel.createdBy,
       participants: channel.participants
     }
   }
@@ -65,7 +73,6 @@ export class ChannelsDbService {
       id: object.id || '',
       name: object.name || '',
       description: object.description || '',
-      createdBy: object.createdBy || {},
       participants: object.participants || {}
     }
   }
@@ -74,8 +81,38 @@ export class ChannelsDbService {
   subToChannel(id: string) {
     const channelRef = this.getSingleDocRef('channels', id);
     onSnapshot(channelRef, (docSnapshot) => {
-      this.channelSig.set(this.setChannelObject(docSnapshot.data()));
+      const channelData = this.setChannelObject(docSnapshot.data());
+
+      this.channelSig.set(channelData);
+
+      this.loadChannelUserDatas(channelData.participants);
     });
+  }
+
+
+  loadChannelUserDatas(participants: { id: string, createdBy: boolean }[]) {
+    this.channelUserDataListSig.set([]);
+
+    participants.forEach(participant => {
+      this.usersDb.subUser(participant.id, (updateUser) => {
+        const currentList = this.channelUserDataListSig();
+
+        this.channelUserDataListSig.set([updateUser, ...currentList]);
+      })
+    });
+  }
+
+
+  setUserObject(object: any, id: string): UserProfile {
+    return {
+      id: id || '',
+      userName: object.userName || '',
+      email: object.email || '',
+      avatar: object.avatar || '',
+      active: object.active || false,
+      clicked: object.clicked || false,
+      directmessagesWith: object.directmessagesWith || []
+    }
   }
 
 

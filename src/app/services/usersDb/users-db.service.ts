@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { arrayUnion, collection, doc, Firestore, onSnapshot, setDoc, updateDoc } from '@angular/fire/firestore';
 import { UserProfile } from '../../interfaces/userProfile';
 import { AuthService } from '../auth/auth.service';
@@ -11,22 +11,34 @@ export class UsersDbService {
   auth = inject(AuthService)
 
   currentUserSig = signal<UserProfile | null>(null);
-  unsubUser: any;
+  userSig = signal<UserProfile | null>(null);
   userListSig = signal<UserProfile[]>([]);
-  unsubUserList;
+  unsubUser: any;
+  unsubUserList: any;
+
 
   constructor() {
     this.auth.currentAuthUser.subscribe((user) => {
       if (user) {
-        this.unsubUser = this.subUser(user.uid);
+        this.subUser(user.uid, (updateUser) => {
+          this.currentUserSig.set(updateUser);
+        });
       }
     })
-    this.unsubUserList = this.subUserList();
+
+    effect(() => {
+      this.subUserList();
+    })
   }
 
 
   get currentUser() {
     return this.currentUserSig();
+  }
+
+
+  get user() {
+    return this.userSig();
   }
 
 
@@ -42,15 +54,15 @@ export class UsersDbService {
 
 
   async addUser(user: any) {
-      const userRef = doc(this.getUserRef(), user.id);
-      await setDoc(userRef, user);
+    const userRef = doc(this.getUserRef(), user.id);
+    await setDoc(userRef, user);
   }
 
 
   async addDirectMessageWith(id: string) {
-      await updateDoc(this.getSingleDocRef('users', this.currentUser!.id), {
-        directmessagesWith: arrayUnion(id)
-      })
+    await updateDoc(this.getSingleDocRef('users', this.currentUser!.id), {
+      directmessagesWith: arrayUnion(id)
+    })
   }
 
 
@@ -67,9 +79,13 @@ export class UsersDbService {
   }
 
 
-  subUser(id: string) {
+  subUser(id: string, callback?: (user: UserProfile) => void) {
     return onSnapshot(this.getSingleDocRef('users', id), (doc) => {
-      this.currentUserSig.set(this.setUserObject(doc.data(), id));
+      const updateUser = this.setUserObject(doc.data(), id)
+
+      if (callback) {
+        callback(updateUser);
+      }
     });
   }
 
@@ -77,6 +93,7 @@ export class UsersDbService {
   subUserList() {
     return onSnapshot(this.getUserRef(), (list) => {
       const users: UserProfile[] = [];
+      console.log('list.docs: ', list.docs);
       list.forEach((item) => {
         users.push(this.setUserObject(item.data(), item.id));
       });
@@ -118,12 +135,12 @@ export class UsersDbService {
 
   updateClickStatus(userId: string, clicked: boolean) {
     const userRef = this.getSingleDocRef('users', userId);
-    setDoc(userRef, { clicked: clicked }, { merge: true });
+    updateDoc(userRef, { clicked: clicked });
   }
 
 
   updateUserStatus(userId: string, active: boolean) {
     const userRef = this.getSingleDocRef('users', userId);
-    setDoc(userRef, { active: active }, { merge: true });
+    updateDoc(userRef, { active: active });
   }
 }

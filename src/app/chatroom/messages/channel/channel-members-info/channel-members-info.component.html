@@ -1,4 +1,4 @@
-<section *ngIf="dialogOpen && channelsDb.channel as channel" class="channel-members-info">
+<section *ngIf="dialogOpen && channelUserDataListReverse" class="channel-members-info">
 
     <header class="width-100-percent">
         <h2>Mitglieder</h2>
@@ -6,9 +6,7 @@
     </header>
 
     <div class="member-list width-100-percent">
-        <app-user-view-small *ngIf="channel.createdBy as currentUser" [user]="currentUser"></app-user-view-small>
-
-        <app-user-view-small *ngFor="let user of channel.participants" [user]="user"></app-user-view-small>
+        <app-user-view-small *ngFor="let user of channelUserDataListReverse" [user]="user"></app-user-view-small>
 
         <div>
             <div class="person-add-icon">

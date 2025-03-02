@@ -1,14 +1,4 @@
-import {
-  Component,
-  effect,
-  ElementRef,
-  inject,
-  Input,
-  signal,
-  ViewChild,
-  WritableSignal,
-} from '@angular/core';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, signal, ViewChild, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChannelsDbService } from '../../../services/message/channels-db.service';
 import { ActivatedRoute } from '@angular/router';
@@ -22,6 +12,7 @@ import { MessagesFieldComponent } from '../../../shared/messages-field/messages-
 import { ChannelDataWindowComponent } from './channel-data-window/channel-data-window.component';
 import { ChannelMembersInfoComponent } from './channel-members-info/channel-members-info.component';
 import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
+import { UsersDbService } from '../../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-channel',
@@ -40,12 +31,12 @@ import { TransparentBackgroundComponent } from '../../../shared/transparent-back
   providers: [ScrollService],
 })
 export class ChannelComponent {
-  channelDb = inject(ChannelsDbService);
+  channelsDb = inject(ChannelsDbService);
+  usersDb = inject(UsersDbService);
   chatId: string = '';
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
 
   @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
-  chatId: string = "";
   dialog: boolean = false;
 
   @ViewChild('channelDataWindow') channelDataWindow!: any;
@@ -53,13 +44,12 @@ export class ChannelComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     public emojiService: EmojisService,
-    public chatService: ChatsService,
     private scrollService: ScrollService,
     public chatService: ChatsService) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe((params) => {
-      this.channelDb.subToChannel(params['id']);
+    this.activatedRoute.params.subscribe(async (params) => {
+      this.channelsDb.subToChannel(params['id']);
       this.chatId = params['id'];
       this.getMessages();
     });
