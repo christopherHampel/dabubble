@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, inject, Input, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Input, ViewChild } from '@angular/core';
 import { ChatsService } from './../../../services/message/chats.service';
 import { CommonModule } from '@angular/common';
 import { CurrentMessage } from '../../../interfaces/current-message';
@@ -87,10 +87,13 @@ export class SingleMessageComponent {
   }
 
   toggleEmoji(currentMessage: CurrentMessage) {
-    console.log('Geht');
-    
     this.emojiService.currentMessage = currentMessage;
-    this.emojiService.emojiPickerOpen = !this.emojiService.emojiPickerOpen;
+
+    if(this.component != 'threads') {
+      this.emojiService.emojiPickerOpen = !this.emojiService.emojiPickerOpen;
+    } else {
+      this.emojiService.emojiPickerOpenThreads = !this.emojiService.emojiPickerOpenThreads;
+    }
   }
 
   autoGrowTextZone(e:any) {
@@ -167,7 +170,6 @@ export class SingleMessageComponent {
   }
 
   toggleEmojiQuickBar() {
-    // this.emojiService.loadFrequentlyUsedEmojis();
     this.emojiQuickBar = !this.emojiQuickBar;
   }
 

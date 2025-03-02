@@ -2,10 +2,10 @@ import {
   Component,
   effect,
   ElementRef,
+  HostListener,
   inject,
   QueryList,
   signal,
-  SimpleChanges,
   ViewChild,
   ViewChildren,
   WritableSignal,
@@ -18,10 +18,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ScrollService } from '../../services/message/scroll.service';
 import { Thread } from '../../interfaces/thread';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService } from '../../services/auth/auth.service';
-import { MessagesFieldComponent } from '../../shared/messages-field/messages-field.component';
 import { ChatsService } from '../../services/message/chats.service';
-import { EmojiPickerComponentComponent } from "../../shared/textarea/emoji-picker-component/emoji-picker-component.component";
+import { EmojiPickerComponentComponent } from '../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { EmojisService } from '../../services/message/emojis.service';
 
 @Component({
@@ -30,9 +28,8 @@ import { EmojisService } from '../../services/message/emojis.service';
     CommonModule,
     TextareaComponent,
     SingleMessageComponent,
-    MessagesFieldComponent,
-    EmojiPickerComponentComponent
-],
+    EmojiPickerComponentComponent,
+  ],
   templateUrl: './threads.component.html',
   styleUrl: './threads.component.scss',
   providers: [ScrollService],
@@ -49,10 +46,8 @@ export class ThreadsComponent {
     docId: '',
     participiants: [],
     participiantsDetails: {},
-    // threadName: ''
   };
   hasScrolled: boolean = false;
-  private paramMapSubscription!: Subscription;
   chatId: string = '';
   chatMessages$!: Observable<any[]>;
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
@@ -65,11 +60,10 @@ export class ThreadsComponent {
   ) {
     effect(() => {
       let currentDocId = this.lastMessageDocId();
-      console.log(currentDocId)
       if (currentDocId) {
         this.scrollService.scrollToBottom();
-      } 
-      if(this.threadsDb.currentThreadId()) {
+      }
+      if (this.threadsDb.currentThreadId()) {
         this.chatService.watchLastMessageDocId(
           this.threadsDb.currentThreadId(),
           'threads',
@@ -96,15 +90,18 @@ export class ThreadsComponent {
     });
   }
 
-  addEmoji(event:string) {
-    this.emojiService.addEmoji(event, this.threadsDb.currentThreadId(), 'threads');
+  addEmoji(event: string) {
+    this.emojiService.addEmoji(
+      event,
+      this.threadsDb.currentThreadId(),
+      'threads'
+    );
   }
 
   ngAfterViewInit() {
     this.scrollService.setScrollContainerThread(this.myScrollContainerThread);
 
-    if(this.threadsDb.currentThreadId()) {
-      
+    if (this.threadsDb.currentThreadId()) {
     }
   }
 
@@ -122,6 +119,13 @@ export class ThreadsComponent {
       setTimeout(() => {
         this.scrollService.hasScrolled = true;
       }, 300);
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside() {
+    if (this.emojiService.emojiPickerOpenThreads) {
+      this.emojiService.emojiPickerOpenThreads = false;
     }
   }
 }

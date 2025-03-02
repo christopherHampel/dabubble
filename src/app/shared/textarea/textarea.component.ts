@@ -55,7 +55,6 @@ export class TextareaComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.chatId = params.get('id')!;
-      console.log('Id From Textarea is:', this.chatId);
     });
   }
 
