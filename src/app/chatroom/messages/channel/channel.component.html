@@ -38,7 +38,7 @@
                     (emojiSelected)="this.addEmoji($event)"></app-emoji-picker-component>
             </div>
             <app-textarea 
-                [chatPartnerName]="this.chatService.chatPartner.name" 
+                [chatPartnerName]="channel.name" 
                 [component]="'channels'"></app-textarea>
         </div>
     </div>

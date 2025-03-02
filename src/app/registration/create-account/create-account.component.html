@@ -60,7 +60,7 @@
       <input
         id="password"
         formControlName="password"
-        type="text"
+        type="password"
         class="input-field"
         placeholder="Passwort"
       />
@@ -88,7 +88,7 @@
       <input type="checkbox" id="privacy" formControlName="privacy" />
       <label for="privacy"
         >Ich stimme der
-        <a href="/datenschutz">Datenschutzerklärung</a> zu.</label
+        <a [routerLink]="['/register/privacy-police']">Datenschutzerklärung</a> zu.</label
       >
     </div>
 

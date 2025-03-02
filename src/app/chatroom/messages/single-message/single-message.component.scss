@@ -240,6 +240,17 @@ section {
     visibility: visible;
 }
 
+.answers-from-thread {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    span {
+        font-size: 14px;
+        color: #686868;
+    }
+}
+
 .day-seperator {
     display: flex;
     justify-content: center;

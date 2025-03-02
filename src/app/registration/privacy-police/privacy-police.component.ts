@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -8,5 +9,11 @@ import { RouterLink } from '@angular/router';
   styleUrl: './privacy-police.component.scss'
 })
 export class PrivacyPoliceComponent {
+
+  constructor(private location: Location) {}
+
+  locationBack() {
+    this.location.back();
+  }
 
 }

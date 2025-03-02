@@ -49,7 +49,7 @@ export class AuthService {
   }
 
   async login(email: string, password: string) {
-    await signInWithEmailAndPassword(this.auth, email, password)
+    await signInWithEmailAndPassword(this.auth, email, password);
     // .catch((error) => {
     //   console.log(error);
     //   return;

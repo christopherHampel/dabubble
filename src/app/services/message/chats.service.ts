@@ -1,6 +1,6 @@
 import { Injectable, Signal, WritableSignal, inject, signal } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { collection, doc, addDoc, updateDoc, query, where, getDocs, onSnapshot, serverTimestamp, orderBy, limit, DocumentData, Unsubscribe, getDoc } from 'firebase/firestore';
+import { collection, doc, addDoc, updateDoc, query, where, getDocs, onSnapshot, serverTimestamp, orderBy, limit, DocumentData, Unsubscribe, getDoc, Timestamp } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { UserProfile } from '../../interfaces/userProfile';
@@ -254,7 +254,8 @@ export class ChatsService {
     await updateDoc(messageDoc.ref, { 
       associatedThreadId: {
         threadId: threadId,
-        count: 0
+        count: 0,
+        lastMessage: '',
       }
     });
   }
@@ -291,7 +292,6 @@ export class ChatsService {
     const docSnapshot = await getDoc(docRef);
     const threadData = docSnapshot.data();
   
-    
     if(threadData) {
       const chatId = threadData['chatId'];
       const currentMessageId = threadData['currentMessageId'];
@@ -310,6 +310,7 @@ export class ChatsService {
       associatedThreadId: {
         threadId: currentThreadId,
         count: currentCount + 1,
+        lastMessage: new Date(),
       }
     });
   }

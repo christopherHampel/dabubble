@@ -29,14 +29,6 @@ export class LoginComponent {
     });
   }
 
-  // ngOnInit() {
-  //   this.auth.currentAuthUser.subscribe((user) => {
-  //     if (user) {
-  //       // this.router.navigateByUrl('/chatroom');
-  //     }
-  //   });
-  // }
-
   onLogin() {
     const rawForm = this.loginForm.getRawValue();
     this.auth
@@ -51,7 +43,7 @@ export class LoginComponent {
   }
 
   onGaestLogin() {
-    this.auth.login('gaest@gaest.com', '123456').then(() => {
+    this.auth.login('gaest@gaest.com', '123456Aa!').then(() => {
       this.forwardToChatroom();
     });
   }
