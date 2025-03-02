@@ -1,15 +1,15 @@
 <section>
-  <div class="send-text">
+  <div class="send-text" (click)="$event.stopPropagation()">
     <textarea
+      #textAreaRef
       (keydown.enter)="sendText($event)"
       (keydown)="detectAtSymbol($event)"
       (keyup)="autoGrowTextZone($event)"
       [(ngModel)]="message"
       placeholder="{{ this.getPlaceholder() }}"
     ></textarea>
-    <!-- placeholder="Nachricht an {{ chatPartnerName }}" -->
 
-    <div class="reactions" (click)="preventClose($event)">
+    <div class="reactions" (click)="$event.stopPropagation()">
       <div>
         <div class="emoji-picker" (click)="toggleEmoji()"></div>
         <div class="tag-user">
@@ -29,7 +29,8 @@
   <div
     class="emoji-component"
     *ngIf="emojiMartOpen"
-    (click)="preventClose($event)">
+    (click)="$event.stopPropagation()"
+  >
     <app-emoji-picker-component
       (emojiSelected)="addEmojiToMessage($event)"
     ></app-emoji-picker-component>

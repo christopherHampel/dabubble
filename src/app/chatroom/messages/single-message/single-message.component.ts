@@ -125,10 +125,19 @@ export class SingleMessageComponent {
     this.emojiQuickBar = !this.emojiQuickBar;
   }
 
-  addEmojiToEdit(emoji:string) {    
-    console.log(this.currentMessage.text);
-    
-    this.currentMessage.text += emoji;
+  addEmojiToEdit(emoji: string) {
+    if (!this.textArea || !this.textArea.nativeElement) return;
+
+    const textarea = this.textArea.nativeElement;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+
+    this.currentMessage.text = this.currentMessage.text.substring(0, start) + emoji + this.currentMessage.text.substring(end);
+
+    setTimeout(() => {
+      textarea.selectionStart = textarea.selectionEnd = start + emoji.length;
+      textarea.focus();
+    }, 0);
   }
 
   getUser() {
@@ -299,8 +308,6 @@ export class SingleMessageComponent {
   // }
 
   addEmojiEditMessage() {
-    console.log('Hier entlang');
-    // this.emojiPickerEdit = !this.emojiPickerEdit;
     this.emojiPickerEdit = !this.emojiPickerEdit;
   }
 }

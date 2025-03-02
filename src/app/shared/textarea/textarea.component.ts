@@ -1,11 +1,13 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   HostListener,
   inject,
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../services/message/chats.service';
@@ -32,6 +34,7 @@ export class TextareaComponent implements OnInit {
   private threadDb = inject(ThreadsDbService);
 
   @Output() childEvent = new EventEmitter();
+  @ViewChild('textAreaRef') textArea!: ElementRef<HTMLTextAreaElement>;
 
   @Input() message: string = '';
   @Input() chatPartnerName: string = '';
@@ -39,7 +42,6 @@ export class TextareaComponent implements OnInit {
   @Input() id: string = '';
 
   chatId: string = '';
-  // users: string[] = [];
   userList: boolean = false;
   selectedUserId: string = '';
 
@@ -49,7 +51,6 @@ export class TextareaComponent implements OnInit {
     public chatService: ChatsService,
     private route: ActivatedRoute,
     private userService: UsersDbService,
-    private scrollService: ScrollService
   ) {}
 
   ngOnInit(): void {
@@ -103,18 +104,24 @@ export class TextareaComponent implements OnInit {
     this.emojiMartOpen = !this.emojiMartOpen;
   }
 
-  preventClose(event: MouseEvent): void {
-    event.stopPropagation();
-  }
+  // addEmojiToMessage(emoji: string) {
+  //   this.message += emoji;
+  // }
 
   addEmojiToMessage(emoji: string) {
-    this.message += emoji;
-  }
+    if (!this.textArea || !this.textArea.nativeElement) return;
 
-  // addUserToMessage(user: string) {
-  //   this.message += '@' + user;
-  //   this.userList = false;
-  // }
+    const textarea = this.textArea.nativeElement;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+
+    this.message = this.message.substring(0, start) + emoji + this.message.substring(end);
+
+    setTimeout(() => {
+      textarea.selectionStart = textarea.selectionEnd = start + emoji.length;
+      textarea.focus();
+    }, 0);
+  }
 
   @HostListener('document:click', ['$event'])
   clickOutside() {
@@ -168,10 +175,10 @@ export class TextareaComponent implements OnInit {
   }
 
   getPlaceholder() {
-    if (this.component != 'threads') {
-      return 'Nachricht an ' + this.chatPartnerName;
-    } else {
+    if (this.component == 'threads') {
       return 'Antworten...';
+    } else {
+      return 'Nachricht an ' + this.chatPartnerName;
     }
   }
 }
