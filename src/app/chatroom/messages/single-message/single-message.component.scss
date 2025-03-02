@@ -1,5 +1,3 @@
-// @use './../../../shared/textarea/textarea.component.scss';
-
 @mixin border {
     border: 1px solid #ADB0D9;
 }
@@ -160,12 +158,19 @@ section {
         justify-content: space-between;
         align-items: center;
         gap: 60px;
+
+        .emoji-btn {
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
 
     textarea {
         border: none;
         background: transparent;
         outline: none;
+        resize: none;
         font-family: 'Nunito';
         font-size: 18px;
         color: #686868;
@@ -337,4 +342,10 @@ section {
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     border-top-left-radius: 0;
+}
+
+.emoji-picker-edittext {
+    position: absolute;
+    right: 105%;
+    z-index: 10;
 }

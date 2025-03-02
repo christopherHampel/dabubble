@@ -87,7 +87,6 @@ export class EmojisService {
       .sort((a, b) => frequentlyUsed[b] - frequentlyUsed[a]) // Sortiere nach Nutzungshäufigkeit
       .slice(0, 5); // Nimm die obersten 5
 
-    // Emoji-Namen in Unicode Emojis umwandeln
     this.customEmojis = sortedEmojis.length ? sortedEmojis : ['smile', 'heart_eyes', 'thumbsup']; // Fallback
     console.log(this.customEmojis)
   }

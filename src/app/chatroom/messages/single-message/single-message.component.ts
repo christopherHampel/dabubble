@@ -16,10 +16,11 @@ import { Timestamp } from 'firebase/firestore';
 import { EmojisService } from '../../../services/message/emojis.service';
 import { ThreadsDbService } from '../../../services/message/threads-db.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { EmojiPickerComponentComponent } from "../../../shared/textarea/emoji-picker-component/emoji-picker-component.component";
 
 @Component({
   selector: 'app-single-message',
-  imports: [CommonModule, FormsModule, TooltipComponent],
+  imports: [CommonModule, FormsModule, TooltipComponent, EmojiPickerComponentComponent],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss',
 })
@@ -29,19 +30,18 @@ export class SingleMessageComponent {
 
   emojiService = inject(EmojisService);
   @Input() currentMessage!: any;
-  @Input() editedText!: string;
+  @Input() editedText!: any;
   @Input() chatId!: string;
   @Input() component: string = '';
 
   isEditing: boolean = false;
   emojiQuickBar: boolean = false;
   currentDate: any = '';
-  // editTextEmoji:boolean = false;
+  emojiPickerEdit:boolean = false;
 
   constructor(
     public chatService: ChatsService,
     public usersService: UsersDbService,
-    private threadService: ThreadsDbService,
     private sanitizer: DomSanitizer
   ) {}
 
@@ -67,13 +67,8 @@ export class SingleMessageComponent {
     this.isEditing = newValue;
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (this.currentMessage && this.currentMessage && this.currentMessage.associatedThreadId) {
-  //     this.messageCount$ = this.threadService.getMessagesCount(this.currentMessage.associatedThreadId);
-  //   }
-  // }
-
   updateMessage(currentMessage: CurrentMessage) {
+    this.emojiPickerEdit = false;
     this.isEditing = false;
     const docId = currentMessage.docId;
     this.chatService.updateMessage(
@@ -86,6 +81,7 @@ export class SingleMessageComponent {
 
   cancelEdit() {
     this.isEditing = false;
+    this.emojiPickerEdit = false;
   }
 
   getTime(): string | null {
@@ -127,6 +123,12 @@ export class SingleMessageComponent {
       this.emojiService.addEmoji(emoji, this.chatId, this.component);
     }
     this.emojiQuickBar = !this.emojiQuickBar;
+  }
+
+  addEmojiToEdit(emoji:string) {    
+    console.log(this.currentMessage.text);
+    
+    this.currentMessage.text += emoji;
   }
 
   getUser() {
@@ -233,6 +235,10 @@ export class SingleMessageComponent {
       this.emojiQuickBar = false;
       this.isEditing = false;
     }
+
+    if(this.emojiPickerEdit) {
+      this.emojiPickerEdit = false
+    }
   }
 
   toggleMenuAndQuickbar() {
@@ -291,4 +297,10 @@ export class SingleMessageComponent {
   //     });
   //   }, 0);
   // }
+
+  addEmojiEditMessage() {
+    console.log('Hier entlang');
+    // this.emojiPickerEdit = !this.emojiPickerEdit;
+    this.emojiPickerEdit = !this.emojiPickerEdit;
+  }
 }

@@ -52,13 +52,12 @@
 
           <div *ngIf="isEditing" (click)="$event.stopPropagation()">
             <textarea
-              cdkTextareaAutosize
               #textArea
               (click)="autoGrowTextZone($event)"
               [(ngModel)]="currentMessage.text"
             ></textarea>
             <div class="edittext-buttons">
-              <div>
+              <div class="emoji-btn" (click)="addEmojiEditMessage(); $event.stopPropagation()">
                 <img src="/img/sentiment_satisfied.png" alt="" />
               </div>
               <div class="edit-btn-container">
@@ -75,6 +74,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div (click)="$event.stopPropagation()" class="emoji-picker-edittext" *ngIf="emojiPickerEdit">
+        <app-emoji-picker-component (emojiSelected)="this.addEmojiToEdit($event)"></app-emoji-picker-component>
       </div>
 
       <div
@@ -151,9 +153,9 @@
       <app-tooltip
         [isEditing]="isEditing"
         [message]="currentMessage"
-        (isEditingChange)="onIsEditingChange($event)"
         [chatId]="chatId"
         [component]="component"
+        (isEditingChange)="onIsEditingChange($event)"
         [currentUser]="isMessageFromCurrentUser()"
       ></app-tooltip>
     </div>
