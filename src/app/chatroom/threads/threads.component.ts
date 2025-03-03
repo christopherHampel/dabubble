@@ -56,7 +56,7 @@ export class ThreadsComponent {
     private activatedRoute: ActivatedRoute,
     private scrollService: ScrollService,
     public emojiService: EmojisService,
-    private chatService: ChatsService
+    public chatService: ChatsService
   ) {
     effect(() => {
       let currentDocId = this.lastMessageDocId();
@@ -79,7 +79,7 @@ export class ThreadsComponent {
       this.threadsDb.currentThreadId(),
       'threads',
       this.lastMessageDocId
-    );
+    );        
   }
 
   subscribeThreadData() {
@@ -100,9 +100,6 @@ export class ThreadsComponent {
 
   ngAfterViewInit() {
     this.scrollService.setScrollContainerThread(this.myScrollContainerThread);
-
-    if (this.threadsDb.currentThreadId()) {
-    }
   }
 
   closeThread() {
@@ -126,6 +123,18 @@ export class ThreadsComponent {
   clickOutside() {
     if (this.emojiService.emojiPickerOpenThreads) {
       this.emojiService.emojiPickerOpenThreads = false;
+    }
+  }
+
+  getThreadAnswers() {
+    let threadAnswers = this.chatService.firstThreadMessage().associatedThreadId.count;
+
+    if(threadAnswers == 0) {
+      return ''
+    } else if(threadAnswers == 1) {
+      return threadAnswers + 'Anwort'
+    } else {
+      return threadAnswers + 'Antworten'
     }
   }
 }

@@ -1,6 +1,6 @@
 <section>
   <div
-    *ngIf="currentMessage.firstMessageOfTheDay && currentMessage.createdAt"
+    *ngIf="currentMessage.firstMessageOfTheDay && currentMessage.createdAt && component != 'threads'"
     class="day-seperator"
   >
     <div></div>
@@ -121,7 +121,7 @@
         }
 
         <div class="click-emoji">
-          <a (click)="toggleEmojiQuickBar(); $event.stopPropagation()"
+          <a *ngIf="component != 'threads'" (click)="toggleEmojiQuickBar(); $event.stopPropagation()"
             ><img src="/img/add_reaction.png" alt=""
           /></a>
           <div

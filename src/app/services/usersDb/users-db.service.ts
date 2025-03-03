@@ -24,7 +24,6 @@ export class UsersDbService {
     this.unsubUserList = this.subUserList();
   }
 
-
   get currentUser() {
     return this.currentUserSig();
   }

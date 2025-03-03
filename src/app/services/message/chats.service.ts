@@ -16,6 +16,7 @@ export class ChatsService {
 
   firestore = inject(Firestore);
   component = signal<string>('chat');
+  firstThreadMessage = signal<any | null>(null);
 
   private messagesSubject = new BehaviorSubject<CurrentMessage[]>([]);
   public messages$ = this.messagesSubject.asObservable();
@@ -26,15 +27,6 @@ export class ChatsService {
   chatData!: ChatData;
   menu: boolean = false;
   currentChatId!: string;
-  // lastMessageDocId = signal<string | null>(null);
-
-  // getPrivateChatCollection() {
-  //   if (this.component() == 'chat') {
-  //     return collection(this.firestore, 'messages'); // wichtig hier anzusetzen!
-  //   } else {
-  //     return collection(this.firestore, 'threads');
-  //   }
-  // }
 
   getChatCollection(component:string) {
     return collection(this.firestore, component);
@@ -45,7 +37,6 @@ export class ChatsService {
   }
 
   getSubColMessages(chatId: string, component:string) {
-    // return collection(this.getPrivateChatCollection(), chatId, "messages");
     return collection(this.getChatCollection(component), chatId, "messages");
   }
 
@@ -115,7 +106,6 @@ export class ChatsService {
       messages.length = 0;
       querySnapshot.forEach( (doc) => {
         const message = { ...doc.data() } as CurrentMessage;
-        // console.log('single message is:', doc.data())
         messages.push(message);
       });
       this.messagesSubject.next(messages);
@@ -335,5 +325,17 @@ export class ChatsService {
         }
       }
     });
+  }
+
+  subscribeFirstThreadMessage(chatId: string, docId: string) {
+    const messagesCollection = this.getSubColMessages(chatId, 'messages');
+    const messageDocRef = doc(messagesCollection, docId);
+
+    onSnapshot(messageDocRef, (docSnapshot) => {
+      if(docSnapshot.exists()) {
+        this.firstThreadMessage.set(docSnapshot.data());
+        console.log(docSnapshot.data());
+      }
+    })
   }
 }

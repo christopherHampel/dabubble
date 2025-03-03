@@ -45,7 +45,7 @@ export class ThreadsDbService {
   ) {
     const firstThreadMessage = true;
     await addDoc(this.getThredRef(), thread).then(async (docRef) => {
-      await this.addMessageToThread(docRef.id, message, firstThreadMessage);
+      // await this.addMessageToThread(docRef.id, message, firstThreadMessage);
       this.currentThreadId.set(docRef.id);
       this.unsubMessageList = this.subMessageList(docRef.id);
       updateDoc(docRef, {
@@ -54,6 +54,10 @@ export class ThreadsDbService {
         currentMessageId: currentMessage.docId,
         text: message.text,
         component: component,
+        threadMessageData: {
+          chatId: chatId,
+          messageId: message.docId
+        }
       });
     });
   }
