@@ -59,29 +59,31 @@ export class TextareaComponent implements OnInit {
     });
   }
 
-  async sendText(e: any) {
+  checkTextLength(e: any) {
     e.preventDefault();
 
     if (this.message.length > 0) {
-      const mentionedUsers = this.extractMentionedUsers(this.message);
-
-      if (this.component == 'threads') {
-        this.sendNewThread();
-      } else {
-        await this.chatService.addMessageToChat(
-          this.message,
-          this.chatId,
-          this.component,
-          mentionedUsers
-        );
-      }
+      this.sendText();
       this.message = '';
+    }
+  }
+
+  async sendText() {
+    const mentionedUsers = this.extractMentionedUsers(this.message);
+    if (this.component == 'threads') {
+      this.sendNewThread();
+    } else {
+      await this.chatService.addMessageToChat(
+        this.message,
+        this.chatId,
+        this.component,
+        mentionedUsers
+      );
     }
   }
 
   async sendNewThread() {
     const firstThreadMessage = false;
-
     await this.threadDb.addMessageToThread(
       this.threadDb.currentThreadId(),
       this.message,

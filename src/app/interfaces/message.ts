@@ -12,5 +12,6 @@ export interface Message {
     createdAt: any,
     firstMessageOfTheDay: boolean,
     emojis: [],
-    component:string
+    component:string,
+    chatId:string
 }

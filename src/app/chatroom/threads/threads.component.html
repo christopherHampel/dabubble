@@ -3,11 +3,11 @@
     <div class="thread-title">
       <h2>Thread</h2>
       <div class="thread-title-tooltip">
-        <span *ngIf="this.threadsDb.threadData()?.threadName">{{
-          this.threadsDb.threadData()?.text
+        <span *ngIf="this.chatService.firstThreadMessage()">{{
+          this.chatService.firstThreadMessage()?.text
         }}</span>
         <div>
-          <div class="tooltip">{{ this.threadsDb.threadData()?.text }}</div>
+          <div class="tooltip">{{ this.chatService.firstThreadMessage()?.text }}</div>
         </div>
       </div>
     </div>

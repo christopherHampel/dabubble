@@ -2,7 +2,7 @@
   <div class="send-text" (click)="$event.stopPropagation()">
     <textarea
       #textAreaRef
-      (keydown.enter)="sendText($event)"
+      (keydown.enter)="checkTextLength($event)"
       (keydown)="detectAtSymbol($event)"
       (keyup)="autoGrowTextZone($event)"
       [(ngModel)]="message"
@@ -23,7 +23,7 @@
           </div>
         </div>
       </div>
-      <a (click)="sendText($event)"><img src="/img/send.png" alt="send" /></a>
+      <a (click)="checkTextLength($event)"><img src="/img/send.png" alt="send" /></a>
     </div>
   </div>
   <div

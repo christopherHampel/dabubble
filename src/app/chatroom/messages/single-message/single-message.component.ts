@@ -111,17 +111,18 @@ export class SingleMessageComponent {
 
   addEmoji(emoji: string) {
     this.emojiService.currentMessage = this.currentMessage;
-    if (this.component == 'thread') {
-      this.chatService.component.set(this.component);
-      this.emojiService.addEmoji(
-        emoji,
-        this.currentMessage.associatedThreadId,
-        this.component
-      );
-      this.chatService.component.set('chat');
-    } else {
-      this.emojiService.addEmoji(emoji, this.chatId, this.component);
-    }
+    // if (this.component == 'threads') {
+    //   this.chatService.component.set(this.component);
+    //   this.emojiService.addEmoji(
+    //     emoji,
+    //     this.currentMessage.associatedThreadId,
+    //     this.component
+    //   );
+    //   this.chatService.component.set('chat');
+    // } else {
+      // this.emojiService.addEmoji(emoji, this.chatId, this.component);
+      this.emojiService.addEmoji(emoji, this.currentMessage.chatId, this.currentMessage.component);
+    // }
     this.emojiQuickBar = !this.emojiQuickBar;
   }
 

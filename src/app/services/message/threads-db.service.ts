@@ -45,7 +45,6 @@ export class ThreadsDbService {
   ) {
     const firstThreadMessage = true;
     await addDoc(this.getThredRef(), thread).then(async (docRef) => {
-      // await this.addMessageToThread(docRef.id, message, firstThreadMessage);
       this.currentThreadId.set(docRef.id);
       this.unsubMessageList = this.subMessageList(docRef.id);
       updateDoc(docRef, {
@@ -69,7 +68,6 @@ export class ThreadsDbService {
   ) {
     const threadRef = doc(this.getThredRef(), threadId);
     const messageRef = collection(threadRef, 'messages');
-
     let messageType;
     if (typeof message === 'string') {
       messageType = this.getCleanJsonMessage(
@@ -82,7 +80,8 @@ export class ThreadsDbService {
             avatar: this.usersDb.currentUser!.avatar,
           },
           text: message,
-          component: '',
+          component: 'threads',
+          chatId: this.currentThreadId(),
           firstMessageOfTheDay: false,
           createdAt: serverTimestamp(),
           emojis: [],
@@ -125,7 +124,8 @@ export class ThreadsDbService {
       createdAt: object.createdAt || '',
       firstMessageOfTheDay: object.firstMessageOfTheDay || false,
       emojis: object.emojis || [],
-      component: '',
+      component: 'threads',
+      chatId: object.chatId || '',
     };
   }
 
@@ -150,6 +150,8 @@ export class ThreadsDbService {
   ): {} {
     return {
       docId: '',
+      chatId: this.currentThreadId(),
+      component: 'threads',
       firstThreadMessage: firstThreadMessage,
       accociatedThreadId: threadId,
       messageAuthor: {

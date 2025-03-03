@@ -121,7 +121,7 @@
         }
 
         <div class="click-emoji">
-          <a *ngIf="component != 'threads'" (click)="toggleEmojiQuickBar(); $event.stopPropagation()"
+          <a (click)="toggleEmojiQuickBar(); $event.stopPropagation()"
             ><img src="/img/add_reaction.png" alt=""
           /></a>
           <div

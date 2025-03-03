@@ -63,7 +63,9 @@ export class EmojisService {
   }
   
   async addEmoji(emoji: string, chatId: string, component:string) {
-    const messageDoc = await this.getMessageDocument(chatId, component);
+    const messageDoc = await this.getMessageDocument(chatId, component || 'threads');
+    // const messageDoc = await this.getMessageDocument('3ksFyMhQQd3jj5HcyE0J', 'messages');
+
     const messageData = messageDoc.data();
     let emojis = messageData['emojis'] || [];
     this.emojiPickerOpen = false;
