@@ -93,7 +93,6 @@ export class UsersDbService {
   subUserList() {
     return onSnapshot(this.getUserRef(), (list) => {
       const users: UserProfile[] = [];
-      console.log('list.docs: ', list.docs);
       list.forEach((item) => {
         users.push(this.setUserObject(item.data(), item.id));
       });

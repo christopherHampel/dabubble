@@ -1,0 +1,77 @@
+@use '../../../chatroom.component.scss';
+@use '../../../devspace/devspace.component.scss';
+
+@mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
+    display: flex;
+    flex-direction: $fD;
+    justify-content: $jC;
+    align-items: $aI;
+    gap: $g;
+}
+
+
+* {
+    font-family: 'Nunito';
+}
+
+
+
+.width-100-percent {
+    width: 100%;
+}
+
+
+.channel-add-members-dialog {
+    @include d-flex($fD: column, $aI: flex-start, $g: 20px);
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    transform: translate(0, 56px);
+
+    width: 514px;
+    height: 294px;
+
+    background-color: #FFFFFF;
+
+    padding: 40px;
+
+    background-color: #FFFFFF;
+
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+
+    z-index: 4;
+
+    filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
+}
+
+header {
+    @include d-flex($fD: column, $aI: flex-start, $g: 5px);
+
+    &>div:nth-child(2) {
+        @include d-flex($g: 15px);
+
+        .hashtag-icon {
+            width: 24px;
+            height: 24px;
+
+            background-image: url('/img/hashtag_add_member_dialog_icon.svg');
+        }
+
+        span {
+            font-weight: 400;
+            font-size: 18px;
+
+            color: #797FF3;
+        }
+    }
+}
+
+form {
+    width: 100%;
+
+    @include d-flex($fD: column, $aI: flex-end, $g: 20px);
+}

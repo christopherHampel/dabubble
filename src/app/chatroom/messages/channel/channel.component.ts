@@ -13,6 +13,7 @@ import { ChannelDataWindowComponent } from './channel-data-window/channel-data-w
 import { ChannelMembersInfoComponent } from './channel-members-info/channel-members-info.component';
 import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
+import { ChannelAddMembersDialogComponent } from './channel-add-members-dialog/channel-add-members-dialog.component';
 
 @Component({
   selector: 'app-channel',
@@ -24,7 +25,8 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
     MessagesFieldComponent,
     ChannelDataWindowComponent,
     ChannelMembersInfoComponent,
-    TransparentBackgroundComponent
+    TransparentBackgroundComponent,
+    ChannelAddMembersDialogComponent
   ],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss',

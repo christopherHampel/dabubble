@@ -18,11 +18,15 @@
                 </div>
                 <span>{{channelsDb.channelUserDataList.length}} </span>
 
-                <app-channel-members-info [dialogOpen]="true"></app-channel-members-info>
+                <app-channel-members-info [dialogOpen]="false"></app-channel-members-info>
             </div>
 
-            <div class="person-add-icon">
-                <div></div>
+            <div>
+                <div class="person-add-icon">
+                    <div></div>
+                </div>
+
+                <app-channel-add-members-dialog></app-channel-add-members-dialog>
             </div>
         </div>
     </div>

@@ -111,10 +111,20 @@
         }
 
         &:hover {
-            cursor: pointer;
 
-            border-radius: 30px;
-            background-color: #ECEEFE;
+            &:has(.profil-picture-wrapper) {
+                cursor: pointer;
+
+                border-radius: 30px;
+                background-color: #ECEEFE;
+            }
+
+            &:has(.person-add-icon)>div {
+                cursor: pointer;
+
+                border-radius: 30px;
+                background-color: #ECEEFE;
+            }
 
             &>span {
                 font-weight: 700;
