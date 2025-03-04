@@ -13,7 +13,7 @@ export class EmojisService {
 
   emojiPickerOpen:boolean = false;
   emojiPickerOpenThreads:boolean = false;
-  currentMessage!:CurrentMessage;
+  currentMessage:any = '';
 
   constructor(private usersService: UsersDbService, private chatSerive: ChatsService) { }
 
@@ -63,7 +63,12 @@ export class EmojisService {
   }
   
   async addEmoji(emoji: string, chatId: string, component:string) {
-    const messageDoc = await this.getMessageDocument(chatId, component || 'threads');
+    // console.log(this.currentMessage);
+    
+    // debugger
+    // const messageDoc = await this.getMessageDocument(chatId, component || 'threads');
+
+    const messageDoc = await this.getMessageDocument(this.currentMessage.chatId, this.currentMessage.component || 'threads');
     // const messageDoc = await this.getMessageDocument('3ksFyMhQQd3jj5HcyE0J', 'messages');
 
     const messageData = messageDoc.data();

@@ -17,7 +17,6 @@ import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ActivatedRoute } from '@angular/router';
 import { ScrollService } from '../../services/message/scroll.service';
 import { Thread } from '../../interfaces/thread';
-import { Observable, Subscription } from 'rxjs';
 import { ChatsService } from '../../services/message/chats.service';
 import { EmojiPickerComponentComponent } from '../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { EmojisService } from '../../services/message/emojis.service';
@@ -47,9 +46,9 @@ export class ThreadsComponent {
     participiants: [],
     participiantsDetails: {},
   };
-  hasScrolled: boolean = false;
-  chatId: string = '';
-  chatMessages$!: Observable<any[]>;
+  // hasScrolled: boolean = false;
+  // chatId: string = '';
+  // chatMessages$!: Observable<any[]>;
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
 
   constructor(

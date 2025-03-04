@@ -17,6 +17,7 @@ import { EmojisService } from '../../../services/message/emojis.service';
 import { ThreadsDbService } from '../../../services/message/threads-db.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { EmojiPickerComponentComponent } from "../../../shared/textarea/emoji-picker-component/emoji-picker-component.component";
+import { debugErrorMap } from 'firebase/auth';
 
 @Component({
   selector: 'app-single-message',
@@ -94,6 +95,7 @@ export class SingleMessageComponent {
   }
 
   toggleEmoji(currentMessage: CurrentMessage) {
+    debugger;
     this.emojiService.currentMessage = currentMessage;
 
     if (this.component != 'threads') {
@@ -109,7 +111,7 @@ export class SingleMessageComponent {
     e.target.style.height = e.target.scrollHeight + 25 + 'px';
   }
 
-  addEmoji(emoji: string) {
+  addEmoji(emoji: string) {    
     this.emojiService.currentMessage = this.currentMessage;
     // if (this.component == 'threads') {
     //   this.chatService.component.set(this.component);
