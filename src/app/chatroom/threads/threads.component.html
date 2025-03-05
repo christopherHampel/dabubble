@@ -23,7 +23,7 @@
       ></app-single-message>
 
       <div class="answers">
-        {{ getThreadAnswers() }}
+        <span>{{ getThreadAnswers() }}</span>
         <div *ngIf="this.chatService.firstThreadMessage().associatedThreadId.count > 0" class="separater"></div>
       </div>
 

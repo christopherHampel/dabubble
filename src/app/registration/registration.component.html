@@ -11,14 +11,14 @@
 
     <div class="to-signup" *ngIf="currentRoute()">
         <span>Neu bei DABubble?</span>
-        <a [routerLink]="['/register/create-account']" class="signup-link">Konto erstellen</a>
+        <a [routerLink]="['/register/create-account']" class="signup-link style-a">Konto erstellen</a>
     </div>
 
     <div class="start-container">
         <router-outlet></router-outlet>
         <div class="privacy-imprint">
-            <div [routerLink]="['/register/imprint']">Impressum</div>
-            <div [routerLink]="['/register/privacy-police']">Datenschutz</div>
+            <div class="style-a" [routerLink]="['/register/imprint']">Impressum</div>
+            <div class="style-a" [routerLink]="['/register/privacy-police']">Datenschutz</div>
         </div>
     </div>
 

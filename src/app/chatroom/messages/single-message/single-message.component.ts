@@ -95,7 +95,6 @@ export class SingleMessageComponent {
   }
 
   toggleEmoji(currentMessage: CurrentMessage) {
-    debugger;
     this.emojiService.currentMessage = currentMessage;
 
     if (this.component != 'threads') {

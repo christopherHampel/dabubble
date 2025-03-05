@@ -131,9 +131,9 @@ export class ThreadsComponent {
     if(threadAnswers == 0) {
       return ''
     } else if(threadAnswers == 1) {
-      return threadAnswers + 'Anwort'
+      return threadAnswers + ' Antwort'
     } else {
-      return threadAnswers + 'Antworten'
+      return threadAnswers + ' Antworten'
     }
   }
 }

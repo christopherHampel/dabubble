@@ -62,21 +62,6 @@ section {
       font-size: 1.1;
       font-weight: 400;
     }
-
-    a {
-      color: rgba(121, 126, 243, 1);
-      font-size: 1.1rem;
-      font-weight: 400;
-      text-decoration: none;
-
-      &:hover {
-        font-weight: 500;
-        color: rgba(68, 77, 242, 1);
-        border: 1px solid rgba(173, 176, 217, 1);
-        border-radius: 30px;
-        padding: 10px 15px;
-      }
-    }
   }
 
   .typewriter {
@@ -177,7 +162,25 @@ input {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 5px;
+  font-size: 18px;
+}
+
+.style-a {
+  font-family: 'Figtree';
+  text-decoration: none;
+  font-size: 18px;
+  color: #797EF3;
+  border: 1px solid transparent;
+  padding: 10px 15px;
+  border-radius: 30px;
+
+  &:hover {
+    color: #444Df2;
+    font-weight: 500;
+    border-color: #ADB0D9;
+    cursor: pointer;
+  }
 }
 
 form {
@@ -271,20 +274,10 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 25px;
 
   .privacy-imprint {
     display: flex;
     gap: 16px;
-
-    div {
-      padding: 10px 15px;
-      font-size: 18px;
-      color: #797EF3;
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
   }
 }
