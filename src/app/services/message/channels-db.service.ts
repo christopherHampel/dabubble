@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { collection, doc, Firestore, onSnapshot, updateDoc } from '@angular/fire/firestore';
+import { arrayUnion, collection, doc, Firestore, onSnapshot, updateDoc } from '@angular/fire/firestore';
 import { addDoc } from 'firebase/firestore';
 import { Channel } from '../../interfaces/channel';
 import { UserProfile } from '../../interfaces/userProfile';
@@ -18,7 +18,7 @@ export class ChannelsDbService {
   unsubChannelList: any;
 
   constructor() {
-    this.unsubChannelList = this.subChannelList();
+    this.subChannelList();
   }
 
 
@@ -117,7 +117,7 @@ export class ChannelsDbService {
 
 
   subChannelList() {
-    return onSnapshot(this.getChannelRef(), (list) => {
+    onSnapshot(this.getChannelRef(), (list) => {
       const channels: Channel[] = [];
       list.forEach((item) => {
         channels.push(this.setChannelObject(item.data()));
@@ -134,5 +134,11 @@ export class ChannelsDbService {
 
   getSingleDocRef(colId: string, docId: string) {
     return doc(collection(this.channels, colId), docId);
+  }
+
+
+  async updateParticipiants(participants: {id: string; createdBy: boolean}[]) {
+    const channelRef = this.getSingleDocRef('channels', this.channel!.id);
+    await updateDoc(channelRef, { participants: arrayUnion(...participants) });
   }
 }
