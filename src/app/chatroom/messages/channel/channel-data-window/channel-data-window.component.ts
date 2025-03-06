@@ -2,8 +2,6 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelsDbService } from '../../../../services/message/channels-db.service';
-import { ActivatedRoute } from '@angular/router';
-import { UserProfile } from 'firebase/auth';
 
 @Component({
   selector: 'app-channel-data-window',
@@ -26,8 +24,6 @@ export class ChannelDataWindowComponent {
 
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
-
-  constructor(private activatedRoute: ActivatedRoute) { }
 
 
   ngOnInit() {

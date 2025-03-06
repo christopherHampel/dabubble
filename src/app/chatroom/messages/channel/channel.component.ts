@@ -38,10 +38,13 @@ export class ChannelComponent {
   chatId: string = '';
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
 
-  @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
-  dialog: boolean = false;
+  dataWindow: boolean = false;
+  membersInfo: boolean = false;
+  addMembers: boolean = false;
 
   @ViewChild('channelDataWindow') channelDataWindow!: any;
+  @ViewChild('channelAddMembersInfo') channelAddMembersInfo!: any;
+  @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -61,13 +64,35 @@ export class ChannelComponent {
     this.chatService.getMessagesFromChat(this.chatId, 'channels');
   }
 
-  openDialog() {
-    this.dialog = true;
+  openDialog(child: string) {
+    switch (child) {
+      case 'dataWindow':
+        this.dataWindow = true;
+        break;
+      case 'membersInfo':
+        this.membersInfo = true;
+        break;
+      case 'addMembers':
+        this.addMembers = true;
+        this.channelAddMembersInfo.resetAfterViewChecked();
+        break;
+    }
   }
 
+
+  openAddMembers(event: boolean) {
+    this.membersInfo = !event;
+    this.addMembers = event;
+    this.channelAddMembersInfo.resetAfterViewChecked();
+  }
+
+
   closeDialog(event: boolean) {
+    this.dataWindow = event;
     this.channelDataWindow.resetOnClose();
-    this.dialog = event;
+
+    this.membersInfo = event;
+    this.addMembers = event;
   }
 
   addEmoji(event: string) {

@@ -1,5 +1,6 @@
 @use '../../../chatroom.component.scss';
 @use '../../../devspace/devspace.component.scss';
+@use '../channel.component.scss';
 
 @mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
     display: flex;

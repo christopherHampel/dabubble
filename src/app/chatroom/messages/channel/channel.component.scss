@@ -73,9 +73,12 @@
     align-items: center;
     gap: 10px;
 
-    &>div {
-        position: relative;
+}
 
+.members-info-wrapper {
+    position: relative;
+
+    &>div {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -83,8 +86,7 @@
 
         padding: 3px 10px;
 
-        &>.profil-picture-wrapper {
-
+        &>div {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -111,20 +113,10 @@
         }
 
         &:hover {
+            cursor: pointer;
 
-            &:has(.profil-picture-wrapper) {
-                cursor: pointer;
-
-                border-radius: 30px;
-                background-color: #ECEEFE;
-            }
-
-            &:has(.person-add-icon)>div {
-                cursor: pointer;
-
-                border-radius: 30px;
-                background-color: #ECEEFE;
-            }
+            border-radius: 30px;
+            background-color: #ECEEFE;
 
             &>span {
                 font-weight: 700;
@@ -132,6 +124,18 @@
                 color: #535Af1;
             }
         }
+
+    }
+}
+
+.add-members-wrapper {
+    position: relative;
+
+    &:hover {
+        cursor: pointer;
+
+        border-radius: 30px;
+        background-color: #ECEEFE;
     }
 }
 
@@ -157,4 +161,19 @@
 
 .message-wrapper {
     padding: 10px 20px;
+}
+
+.animation {
+    opacity: 1;
+    animation: animation 0.25s;
+}
+
+@keyframes animation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }

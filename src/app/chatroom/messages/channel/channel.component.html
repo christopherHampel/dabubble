@@ -1,32 +1,37 @@
 <section *ngIf="channelsDb.channel as channel" class="card">
     <div class="message-head">
         <div class="head-left-wrapper">
-            <div (click)="openDialog()" class="head-left" [ngClass]="{'head-left-highlight': dialog}">
+            <div (click)="openDialog('dataWindow')" class="head-left" [ngClass]="{'head-left-highlight': dataWindow}">
                 <div class="hashtag-icon"></div>
                 <h2>{{channel.name}}</h2>
                 <div class="arrow-drop-down-icon"></div>
             </div>
 
-            <app-channel-data-window #channelDataWindow [dialogOpen]="dialog"
+            <app-channel-data-window #channelDataWindow [dialogOpen]="dataWindow"
                 (dialogClose)="closeDialog(!$event)"></app-channel-data-window>
         </div>
 
         <div *ngIf="channelsDb.channelUserDataList" class="head-right">
-            <div>
-                <div class="profil-picture-wrapper">
-                    <img *ngFor="let user of channelsDb.channelUserDataList" src="{{user.avatar}}" alt="">
+            <div class="members-info-wrapper">
+                <div (click)="openDialog('membersInfo')">
+                    <div>
+                        <img *ngFor="let user of channelsDb.channelUserDataList" src="{{user.avatar}}" alt="">
+                    </div>
+                    <span>{{channelsDb.channelUserDataList.length}} </span>
                 </div>
-                <span>{{channelsDb.channelUserDataList.length}} </span>
 
-                <app-channel-members-info [dialogOpen]="false"></app-channel-members-info>
+                <app-channel-members-info [dialogOpen]="membersInfo" (addMembersOpen)="false"
+                    (dialogClose)="closeDialog(!$event)"
+                    (addMembersOpen)="openAddMembers($event)"></app-channel-members-info>
             </div>
 
-            <div>
-                <div class="person-add-icon">
+            <div class="add-members-wrapper">
+                <div (click)="openDialog('addMembers')" class="person-add-icon">
                     <div></div>
                 </div>
 
-                <app-channel-add-members-dialog></app-channel-add-members-dialog>
+                <app-channel-add-members-dialog #channelAddMembersInfo [dialogOpen]="addMembers"
+                    (dialogClose)="closeDialog(!$event)"></app-channel-add-members-dialog>
             </div>
         </div>
     </div>
@@ -43,5 +48,5 @@
     </div>
 </section>
 
-<app-transparent-background [backgroundOpen]="dialog"
+<app-transparent-background [backgroundOpen]="dataWindow ||membersInfo || addMembers"
     (backgroundClose)="closeDialog(!$event)"></app-transparent-background>
