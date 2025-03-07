@@ -52,7 +52,7 @@ export class TooltipComponent {
     this.chatService.menu = !this.chatService.menu;
   }
 
-  async openThread() {    
+  async openThread() {
     if (this.message.associatedThreadId.threadId) {
       this.threadsDb.currentThreadId.set(this.message.associatedThreadId.threadId);
       this.threadsDb.subscribeToThread(this.message.associatedThreadId.threadId);

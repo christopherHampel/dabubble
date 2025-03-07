@@ -41,14 +41,11 @@ export class ThreadsComponent {
   @ViewChildren(SingleMessageComponent)
   messageComponents!: QueryList<SingleMessageComponent>;
 
-  threadData: Thread = {
-    docId: '',
-    participiants: [],
-    participiantsDetails: {},
-  };
-  // hasScrolled: boolean = false;
-  // chatId: string = '';
-  // chatMessages$!: Observable<any[]>;
+  // threadData: Thread = {
+  //   docId: '',
+  //   participiants: [],
+  //   participiantsDetails: {},
+  // };
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
 
   constructor(
@@ -74,6 +71,8 @@ export class ThreadsComponent {
 
   ngOnInit(): void {
     this.subscribeThreadData();
+    // console.log(this.chatService.firstThreadMessage()); // hier wichtig!!
+    
     this.chatService.watchLastMessageDocId(
       this.threadsDb.currentThreadId(),
       'threads',
@@ -84,6 +83,8 @@ export class ThreadsComponent {
   subscribeThreadData() {
     this.activatedRoute.params.subscribe((params) => {
       this.threadsDb.currentThreadId.set(params['threadId']);
+      // console.log(this.threadsDb.currentThreadId());
+      
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
       this.threadsDb.subscribeToThread(this.threadsDb.currentThreadId());
     });
@@ -98,6 +99,10 @@ export class ThreadsComponent {
   }
 
   ngAfterViewInit() {
+    this.setScrollContainer();
+  }
+
+  setScrollContainer() {
     this.scrollService.setScrollContainerThread(this.myScrollContainerThread);
   }
 

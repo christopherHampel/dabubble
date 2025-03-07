@@ -15,7 +15,9 @@
   </div>
 
   <div class="message-field" #myScrollContainerThread *ngIf="this.chatService.firstThreadMessage()">
+    <!-- <div class="message-field" #myScrollContainerThread *ngIf="this.chatService.firstThreadMessage()"> -->
     <div class="flex-end">
+
       <app-single-message
         [currentMessage]="this.chatService.firstThreadMessage()"
         [component]="'threads'"
