@@ -1,17 +1,17 @@
-<div class="color chatroom">
+<div class="bg-color">
+  <div class="color chatroom max-width">
     <app-chatroom-header></app-chatroom-header>
 
     <section class="communication-wrapper color">
-
-        <div class="devspace-area">
-            <app-devspace></app-devspace>
-        </div>
-        <div class="channel-messages">
-            <app-messages [currentUser]="currentUser"></app-messages>
-        </div>
-        <div>
-            <app-thread-router-outlet></app-thread-router-outlet>
-        </div>
-
+      <div class="devspace-area">
+        <app-devspace></app-devspace>
+      </div>
+      <div class="channel-messages">
+        <app-messages [currentUser]="currentUser"></app-messages>
+      </div>
+      <div class="threads-area">
+        <app-thread-router-outlet></app-thread-router-outlet>
+      </div>
     </section>
+  </div>
 </div>

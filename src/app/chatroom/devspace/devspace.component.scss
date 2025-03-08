@@ -1,106 +1,111 @@
 .card {
-    height: calc(100vh - 102px - 16px);
+  height: calc(100vh - 102px - 16px);
 
-    justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 .slide-out {
-    opacity: 0;
-    display: none;
-    margin-left: -500px;
-    animation: slide-out 0.5s;
+  opacity: 0;
+  display: none;
+  margin-left: -500px;
+  animation: slide-out 0.5s;
 }
 
 @keyframes slide-out {
-    from {
-        opacity: 1;
-        display: flex;
-        margin-left: 0;
-    }
-
-    to {
-        opacity: 0;
-        display: none;
-        margin-left: -500px;
-    }
-}
-
-.slide-in {
+  from {
     opacity: 1;
     display: flex;
     margin-left: 0;
-    animation: slide-in 0.5s;
+  }
+
+  to {
+    opacity: 0;
+    display: none;
+    margin-left: -500px;
+  }
+}
+
+.slide-in {
+  opacity: 1;
+  display: flex;
+  margin-left: 0;
+  animation: slide-in 0.5s;
 }
 
 @keyframes slide-in {
-    from {
-        opacity: 0;
-        display: none;
-        margin-left: -500px;
-    }
+  from {
+    opacity: 0;
+    display: none;
+    margin-left: -500px;
+  }
 
-    to {
-        opacity: 1;
-        display: flex;
-        margin-left: 0;
-    }
+  to {
+    opacity: 1;
+    display: flex;
+    margin-left: 0;
+  }
 }
 
 .devspace-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  > div {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 15px;
 
-    >div {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-
-        >span {
-            font-family: 'Nunito';
-            font-size: 24px;
-            font-weight: 700;
-        }
+    > span {
+      font-family: "Nunito";
+      font-size: 24px;
+      font-weight: 700;
     }
+  }
+}
+
+.distance-chatroom {
+  margin-right: 40px;
+//   margin-left: 20px;
 }
 
 .padding-card {
-    padding: 32px 30px;
+  padding: 32px 30px;
 }
 
 .child-component {
-    display: flex;
-    flex-direction: column;
-    max-height: calc(50% - 60px);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(50% - 60px);
 }
 
 .channel-directmessage-section {
-    max-height: 100%;
+  max-height: 100%;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 25px;
 }
 
 .channels-directmessages-list {
-    width: 100%;
+  width: 100%;
 
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
 
-    overflow-y: scroll;
+  overflow-y: scroll;
 
-    padding-inline-start: 20px;
+  padding-inline-start: 20px;
 }
 
 .header-dialog {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    width: 100%;
+  width: 100%;
 
-    font-weight: 700;
+  font-weight: 700;
 }

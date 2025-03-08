@@ -1,14 +1,26 @@
 <section class="card">
-    <div class="header-default">
-        <h2>Neue Nachricht</h2>
-        <div>
-            <input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse">
-        </div>
+  <div class="header-default">
+    <h2>Neue Nachricht</h2>
+    <div>
+      <input
+        [(ngModel)]="searchText"
+        (input)="searchChat()"
+        type="text"
+        placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
+      />
     </div>
+  </div>
 
-    <div></div>
+  <div *ngIf="this.userList" class="user-list">
+    <app-user-view-small
+      *ngFor="let user of filteredUser"
+      [user]="user"
+    ></app-user-view-small>
+  </div>
 
-    <div class="textarea">
-        <app-textarea></app-textarea>
-    </div>
+  <div></div>
+
+  <div class="textarea">
+    <app-textarea></app-textarea>
+  </div>
 </section>
