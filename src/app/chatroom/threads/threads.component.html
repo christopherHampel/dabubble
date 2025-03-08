@@ -14,9 +14,8 @@
     <div (click)="closeThread()" class="close-icon"></div>
   </div>
 
-  <div class="message-field" #myScrollContainerThread *ngIf="this.chatService.firstThreadMessage()">
-    <!-- <div class="message-field" #myScrollContainerThread *ngIf="this.chatService.firstThreadMessage()"> -->
-    <div class="flex-end">
+  <div class="message-field" #myScrollContainerThread>
+    <div class="flex-end" *ngIf="this.chatService.firstThreadMessage()">
 
       <app-single-message
         [currentMessage]="this.chatService.firstThreadMessage()"

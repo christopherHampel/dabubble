@@ -41,7 +41,7 @@ export class DirectMessageComponent implements OnDestroy {
       const newChatId = params.get('id');
       if (newChatId && newChatId !== this.chatId) {
         this.chatId = newChatId;
-        // this.threadsDB.closeThread();
+        this.threadsDB.closeThread();
         this.chatService.getChatInformationen(this.chatId, "messages");
         this.chatMessages$ = this.chatService.messages$;
       }
