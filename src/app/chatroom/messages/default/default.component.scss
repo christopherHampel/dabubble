@@ -13,10 +13,10 @@
     border-top-right-radius: 30px;
 
     div {
-        width: 100%;
         padding: 15px 20px;
         border: 1px solid #ADB0D9;
         border-radius: 30px;
+        width: 100%;
 
         input {
             width: 100%;
@@ -34,4 +34,17 @@
 
 .textarea {
     padding: 32px;
+}
+
+.search-chats {
+    position: relative;
+
+    .user-list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        height: 300px;
+        overflow-y: auto;
+        width: auto;
+    }
 }

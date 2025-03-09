@@ -1,21 +1,21 @@
 <section class="card">
   <div class="header-default">
     <h2>Neue Nachricht</h2>
-    <div>
+    <div class="search-chats">
       <input
         [(ngModel)]="searchText"
         (input)="searchChat()"
         type="text"
         placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
       />
+      <div *ngIf="this.userList" class="user-list">
+        <app-user-view-small
+          *ngFor="let user of filteredUser"
+          [user]="user"
+          (click)="selectChat(user)"
+        ></app-user-view-small>
+      </div>
     </div>
-  </div>
-
-  <div *ngIf="this.userList" class="user-list">
-    <app-user-view-small
-      *ngFor="let user of filteredUser"
-      [user]="user"
-    ></app-user-view-small>
   </div>
 
   <div></div>
