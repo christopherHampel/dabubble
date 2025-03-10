@@ -40,8 +40,8 @@ export class DefaultComponent {
   }
 
   searchChat() {
-    if (this.searchText == '#') {
-      console.log('Piep');
+    if (this.searchText.startsWith('#')) {
+      console.log('Channels');
     } else if (this.searchText.startsWith('@')) {
       this.userList = true;
       this.searchUserList();
