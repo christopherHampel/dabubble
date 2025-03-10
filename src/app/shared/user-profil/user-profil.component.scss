@@ -1,0 +1,57 @@
+@mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
+    display: flex;
+    flex-direction: $fD;
+    justify-content: $jC;
+    align-items: $aI;
+    gap: $g;
+}
+
+
+* {
+    font-family: 'Nunito';
+}
+
+
+.width-100-percent {
+    width: 100%;
+}
+
+
+header {
+    @include d-flex($jC: space-between);
+}
+
+
+.user-profil {
+    @include d-flex($fD: column, $jC: flex-start, $g: 45px);
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 500px;
+    height: 705px;
+
+    padding: 40px;
+
+    background-color: #FFFFFF;
+
+    border-radius: 30px;
+
+    filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
+}
+
+.profil-icon {
+    width: 200px;
+    height: 200px;
+
+    border-radius: 50%;
+}
+
+.name-wrapper {
+    @include d-flex($jC: space-between, $aI: flex-start);
+
+    width: inherit;
+}

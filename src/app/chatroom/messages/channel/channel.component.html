@@ -12,7 +12,7 @@
         </div>
 
         <div *ngIf="channelsDb.channelUserDataList" class="head-right">
-            <div class="members-info-wrapper">
+            <div class="members-info-wrapper" [ngClass]="{'members-info-wrapper-highlight': membersInfo}">
                 <div (click)="openDialog('membersInfo')">
                     <div>
                         <img *ngFor="let user of channelsDb.channelUserDataList" src="{{user.avatar}}" alt="">
@@ -27,7 +27,7 @@
 
             <div class="add-members-wrapper">
                 <div (click)="openDialog('addMembers')" class="person-add-icon">
-                    <div></div>
+                    <div [ngClass]="{'person-add-icon-highlight': addMembers}"></div>
                 </div>
 
                 <app-channel-add-members-dialog #channelAddMembersInfo [dialogOpen]="addMembers"

@@ -1,19 +1,22 @@
 <section *ngIf="dialogOpen && channelUserDataListReverse" class="channel-members-info animation">
 
-    <header class="width-100-percent">
-        <h2>Mitglieder</h2>
-        <div (click)="closeDialog()" class="close-icon"></div>
-    </header>
+        <header class="width-100-percent">
+            <h2>Mitglieder</h2>
+            <div (click)="closeDialog()" class="close-icon"></div>
+        </header>
 
-    <div class="member-list width-100-percent">
-        <app-user-view-small *ngFor="let user of channelUserDataListReverse" [user]="user"></app-user-view-small>
-
-        <div (click)="openAddMembers()">
-            <div class="person-add-icon">
-                <div></div>
+        <div class="member-list-wrapper width-100-percent">
+            <div class="member-list">
+                <app-user-view-small *ngFor="let user of channelUserDataListReverse"
+                    [user]="user"></app-user-view-small>
             </div>
-            <span>Mitglieder hinzufügen</span>
+
+            <div (click)="openAddMembers()">
+                <div class="person-add-icon">
+                    <div></div>
+                </div>
+                <span>Mitglieder hinzufügen</span>
+            </div>
         </div>
-    </div>
 
 </section>
