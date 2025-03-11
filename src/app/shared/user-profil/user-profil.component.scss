@@ -1,3 +1,5 @@
+@use '../../chatroom/chatroom.component.scss';
+
 @mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
     display: flex;
     flex-direction: $fD;
@@ -14,6 +16,21 @@
 
 .width-100-percent {
     width: 100%;
+}
+
+
+.edit-button {
+    border: none;
+    background-color: transparent;
+
+    font-weight: 600;
+    font-size: 18px;
+
+    color: #535AF1;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 
@@ -36,11 +53,19 @@ header {
 
     padding: 40px;
 
+    z-index: 4;
+
     background-color: #FFFFFF;
 
     border-radius: 30px;
 
     filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
+}
+
+.image-container {
+    position: relative;
+
+    @include d-flex();
 }
 
 .profil-icon {
@@ -50,8 +75,94 @@ header {
     border-radius: 50%;
 }
 
+.circle-container {
+    position: relative;
+    top: -25px;
+    left: calc(-50% - 25px);
+}
+
+.circle-image {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    position: absolute;
+
+    cursor: pointer;
+
+    transition: transform 0.3s;
+}
+
+.circle-image:hover {
+    transform: scale(1.1);
+}
+
+form {
+    @include d-flex($fD: column, $g: 45px)
+}
+
 .name-wrapper {
     @include d-flex($jC: space-between, $aI: flex-start);
 
     width: inherit;
+}
+
+.name {
+    @include d-flex($fD: column, $aI: flex-start, $g: 15px);
+
+    &>div {
+        @include d-flex($g: 15px);
+
+        &>span {
+            font-weight: 400;
+            font-size: 20px;
+        }
+    }
+}
+
+.active-status {
+    position: static;
+
+    width: 16px;
+    height: 16px;
+
+    border-radius: 50%;
+}
+
+.online-text {
+    color: #92C83E;
+}
+
+.offline-text {
+    color: #686868;
+}
+
+.email-wrapper {
+    @include d-flex($jC: flex-start, $aI: flex-start, $g: 15px);
+
+    width: inherit;
+
+    &>img {
+        width: 30px;
+        height: 30px;
+
+        object-fit: contain;
+    }
+}
+
+.email {
+    @include d-flex($fD: column, $aI: flex-start, $g: 15px);
+
+    &>span:nth-child(1) {
+        font-weight: 700;
+        font-size: 20px;
+    }
+
+    &>span:nth-child(2) {
+        font-weight: 400;
+        font-size: 18px;
+
+        color: #1381ff;
+    }
 }

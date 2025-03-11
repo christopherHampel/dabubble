@@ -5,21 +5,43 @@
         <div class="close-icon"></div>
     </header>
 
-    <img class="profil-icon" src="/img/sofia_müller.png" alt="">
+
+
+    <div class="image-container">
+        <img class="profil-icon" [src]="selectedImage" alt="">
+        <div class="circle-container">
+            <img *ngFor="let img of images; let i = index" [src]="img" class="circle-image" [ngStyle]="getPosition(i)"
+                (click)="selectImage(img)" />
+        </div>
+    </div>
+
+
+
+
 
     <form class="width-100-percent" onSubmit="return false">
 
         <div class="name-wrapper">
-            <div>
-                <span>Mäuschen</span>
+            <div class="name">
+                <h2>Mäuschen</h2>
                 <div>
-                    <div>*</div>
-                    <span>Abwesend</span>
+                    <div class="active-status offline"></div>
+                    <span class="offline-text">Abwesend</span>
                 </div>
             </div>
 
-            <button>Bearbeiten</button>
+            <button class="edit-button">Bearbeiten</button>
         </div>
+
+        <div class="email-wrapper">
+            <img src="/img/mail-icon.svg" alt="">
+            <div class="email">
+                <span>E-Mail-Adresse</span>
+                <span>mäuschen&#64;sweet.poehnix</span>
+            </div>
+        </div>
+
+        <button class="primary-button">Nachricht</button>
 
     </form>
 
