@@ -127,9 +127,13 @@ export class TextareaComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   clickOutside() {
-    if (this.emojiMartOpen || this.userList) {
+    if (this.emojiMartOpen) {
       this.emojiMartOpen = false;
-      this.userList = false;
+    }
+     else if(this.userList) {
+      this.userList = false; 
+      console.log(this.userList);
+       
     }
   }
 

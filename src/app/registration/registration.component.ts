@@ -21,17 +21,16 @@ export class RegistrationComponent {
   feedback: boolean = true;
 
   images: string[] = [
-    // '/img/D.png',
-    '/img/D_white.png',
-    '/img/A_white.png',
-    '/img/B_white.png',
-    '/img/U_white.png',
-    '/img/small_b_white.png',
-    '/img/small_b_white.png',
-    // '/img/small_b1.png',
-    // '/img/small_b2.png',
-    '/img/l_white.png',
-    '/img/e_white.png',
+    '/img/D.png',
+    '/img/A.png',
+    '/img/B.png',
+    '/img/u.png',
+    // '/img/small_b_white.png',
+    // '/img/small_b_white.png',
+    '/img/small_b1.png',
+    '/img/small_b2.png',
+    '/img/l.png',
+    '/img/e.png',
   ];
 
   currentImages: string[] = [];

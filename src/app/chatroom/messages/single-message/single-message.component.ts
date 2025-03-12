@@ -14,10 +14,8 @@ import { TooltipComponent } from './tooltip/tooltip.component';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
 import { EmojisService } from '../../../services/message/emojis.service';
-import { ThreadsDbService } from '../../../services/message/threads-db.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { EmojiPickerComponentComponent } from "../../../shared/textarea/emoji-picker-component/emoji-picker-component.component";
-import { debugErrorMap } from 'firebase/auth';
 
 @Component({
   selector: 'app-single-message',
@@ -312,4 +310,21 @@ export class SingleMessageComponent {
   addEmojiEditMessage() {
     this.emojiPickerEdit = !this.emojiPickerEdit;
   }
+
+  getFormattedEmojiNames(emoji: any, returnNames: boolean): string {
+    const names = this.getEmojiNames(emoji)
+      .map((name: string) => name === this.usersService.currentUserSig()?.userName ? 'Du' : name);
+  
+    if (names.length === 0) return '';
+  
+    if (returnNames) {
+      if (names.length === 2) {
+        return names.join(' & ');
+      } else {
+        return names.slice(0, -1).join(', ') + (names.length > 2 ? ' & ' : '') + names.slice(-1);
+      }
+    } else {
+      return names.length === 1 ? 'hat reagiert' : 'haben reagiert';
+    }
+  }  
 }
