@@ -6,7 +6,7 @@ import {
   onSnapshot,
   updateDoc,
 } from '@angular/fire/firestore';
-import { addDoc, collectionGroup, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, getDocs } from 'firebase/firestore';
 import { Channel } from '../../interfaces/channel';
 
 @Injectable({
@@ -21,14 +21,16 @@ export class ChannelsDbService {
 
   searchTextSig = signal<string>(''); // Suchtext als Signal
   filteredChannelsSig = signal<Channel[]>([]); // Gefilterte Channels
+  results: any[] = [];
 
   constructor() {
     this.unsubChannelList = this.subChannelList();
-    // Effekt für Live-Suche
     effect(() => {
       const searchText = this.searchTextSig().toLowerCase();
       if (searchText.length > 2) {
         this.searchMessagesInChannels(searchText);
+      } else {
+        this.results = [];
       }
     });
   }
@@ -36,35 +38,36 @@ export class ChannelsDbService {
   async searchMessagesInChannels(searchText: string) {
     const channelsRef = collection(this.channels, 'channels');
     const channelsSnapshot = await getDocs(channelsRef);
-  
-    const results: any[] = [];
-  
+
+    this.results = [];
+
     for (const channelDoc of channelsSnapshot.docs) {
-      const messagesRef = collection(this.channels, `channels/${channelDoc.id}/messages`);
+      const messagesRef = collection(
+        this.channels,
+        `channels/${channelDoc.id}/messages`
+      );
       const messagesSnapshot = await getDocs(messagesRef);
-  
+
       messagesSnapshot.forEach((messageDoc) => {
         const messageData = messageDoc.data();
-  
-        // Stelle sicher, dass `text` ein String ist
+
         if (typeof messageData['text'] === 'string') {
-          const messageText = messageData['text'].toLowerCase(); // In Kleinbuchstaben umwandeln
-          const searchLower = searchText.toLowerCase(); // Suchbegriff auch in Kleinbuchstaben
-  
+          const messageText = messageData['text'].toLowerCase();
+          const searchLower = searchText.toLowerCase();
+
           if (messageText.includes(searchLower)) {
-            results.push({
+            this.results.push({
               channelId: channelDoc.id,
               messageId: messageDoc.id,
-              text: messageData['text'] // Original-Text anzeigen
+              text: messageData['text'], // Original-Text anzeigen
             });
           }
         }
       });
     }
-  
-    console.log('Suchergebnisse:', results);
+
+    console.log('Suchergebnisse:', this.results);
   }
-  
 
   setSearchText(text: string) {
     this.searchTextSig.set(text);

@@ -18,12 +18,14 @@ export class ChatroomHeaderComponent {
   usersDb = inject(UsersDbService);
   dropdown: boolean = false;
 
-  // searchText:string = '';
-
-  searchText = signal<string>(''); // Signal für den Suchtext
-  results = signal<any[]>([]); // Signal für die Suchergebnisse
+  searchText = signal<string>('');
+  results = signal<any[]>([]);
 
   constructor(private router: Router, private channelsDb: ChannelsDbService) { }
+
+  get resultsData() {
+    return this.channelsDb.results;
+  }
 
   openDropdown() {
     this.dropdown = true;

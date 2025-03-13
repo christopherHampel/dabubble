@@ -1,14 +1,21 @@
 <section class="header color">
   <img class="logo" src="/img/logo_complete.png" />
 
-  <div class="search-wrapper">
-    <input
-      (input)="searchDevspace($event)"
-      class="input-text"
-      type="text"
-      placeholder="Devspace durchsuchen"
-    />
-    <div class="search-icon"></div>
+  <div>
+    <div class="search-wrapper">
+      <input
+        (input)="searchDevspace($event)"
+        class="input-text"
+        type="text"
+        placeholder="Devspace durchsuchen"
+      />
+      <div class="search-icon"></div>
+    </div>
+    <div>
+        @for (result of resultsData; track $index) {
+            <span>{{ result.text }}</span>
+        }
+    </div>
   </div>
 
   <div
