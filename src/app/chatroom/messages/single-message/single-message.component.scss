@@ -223,13 +223,14 @@ section {
 
 .emoji-from-whom {
     display: flex;
+    color: #FFFF;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
 
     span {
-        color: #FFFF;
-        font-size: 16px;
-        font-weight: 700;
-        text-align: center;
-        width: 100%;
+        font-weight: 400;
     }
 }
 

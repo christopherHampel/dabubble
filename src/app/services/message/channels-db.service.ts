@@ -1,10 +1,16 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { collection, doc, Firestore, onSnapshot, updateDoc } from '@angular/fire/firestore';
-import { addDoc } from 'firebase/firestore';
+import { effect, inject, Injectable, signal } from '@angular/core';
+import {
+  collection,
+  doc,
+  Firestore,
+  onSnapshot,
+  updateDoc,
+} from '@angular/fire/firestore';
+import { addDoc, collectionGroup, getDocs, query, where } from 'firebase/firestore';
 import { Channel } from '../../interfaces/channel';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChannelsDbService {
   private channels = inject(Firestore);
@@ -13,31 +19,73 @@ export class ChannelsDbService {
   channelListSig = signal<Channel[]>([]);
   unsubChannelList: any;
 
+  searchTextSig = signal<string>(''); // Suchtext als Signal
+  filteredChannelsSig = signal<Channel[]>([]); // Gefilterte Channels
+
   constructor() {
     this.unsubChannelList = this.subChannelList();
+    // Effekt für Live-Suche
+    effect(() => {
+      const searchText = this.searchTextSig().toLowerCase();
+      if (searchText.length > 2) {
+        this.searchMessagesInChannels(searchText);
+      }
+    });
   }
 
+  async searchMessagesInChannels(searchText: string) {
+    const channelsRef = collection(this.channels, 'channels');
+    const channelsSnapshot = await getDocs(channelsRef);
+  
+    const results: any[] = [];
+  
+    for (const channelDoc of channelsSnapshot.docs) {
+      const messagesRef = collection(this.channels, `channels/${channelDoc.id}/messages`);
+      const messagesSnapshot = await getDocs(messagesRef);
+  
+      messagesSnapshot.forEach((messageDoc) => {
+        const messageData = messageDoc.data();
+  
+        // Stelle sicher, dass `text` ein String ist
+        if (typeof messageData['text'] === 'string') {
+          const messageText = messageData['text'].toLowerCase(); // In Kleinbuchstaben umwandeln
+          const searchLower = searchText.toLowerCase(); // Suchbegriff auch in Kleinbuchstaben
+  
+          if (messageText.includes(searchLower)) {
+            results.push({
+              channelId: channelDoc.id,
+              messageId: messageDoc.id,
+              text: messageData['text'] // Original-Text anzeigen
+            });
+          }
+        }
+      });
+    }
+  
+    console.log('Suchergebnisse:', results);
+  }
+  
+
+  setSearchText(text: string) {
+    this.searchTextSig.set(text);
+  }
 
   get channel() {
     return this.channelSig();
   }
 
-
   get channelList() {
     return this.channelListSig();
   }
-
 
   updateChannel(channel: Partial<Channel>) {
     this.channelSig.update((currentData) => ({ ...currentData!, ...channel }));
   }
 
-
   async changeChannel() {
     const channelRef = this.getSingleDocRef('channels', this.channel!.id);
     await updateDoc(channelRef, this.getCleanJson(this.channel!));
   }
-
 
   getCleanJson(channel: Channel): {} {
     return {
@@ -45,20 +93,19 @@ export class ChannelsDbService {
       name: channel.name,
       description: channel.description,
       createdBy: channel.createdBy,
-      participants: channel.participants
-    }
+      participants: channel.participants,
+    };
   }
-
 
   async addChannel() {
-    await addDoc(this.getChannelRef(), this.channelSig())
-      .then(async (docRef) => {
+    await addDoc(this.getChannelRef(), this.channelSig()).then(
+      async (docRef) => {
         updateDoc(docRef, {
-          id: docRef.id
+          id: docRef.id,
         });
-      });
+      }
+    );
   }
-
 
   setChannelObject(object: any): Channel {
     return {
@@ -66,10 +113,9 @@ export class ChannelsDbService {
       name: object.name || '',
       description: object.description || '',
       createdBy: object.createdBy || {},
-      participants: object.participants || {}
-    }
+      participants: object.participants || {},
+    };
   }
-
 
   subToChannel(id: string) {
     const channelRef = this.getSingleDocRef('channels', id);
@@ -77,7 +123,6 @@ export class ChannelsDbService {
       this.channelSig.set(this.setChannelObject(docSnapshot.data()));
     });
   }
-
 
   subChannelList() {
     return onSnapshot(this.getChannelRef(), (list) => {
@@ -89,11 +134,9 @@ export class ChannelsDbService {
     });
   }
 
-
   getChannelRef() {
     return collection(this.channels, 'channels');
   }
-
 
   getSingleDocRef(colId: string, docId: string) {
     return doc(collection(this.channels, colId), docId);

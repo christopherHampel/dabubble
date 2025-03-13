@@ -315,16 +315,19 @@ export class SingleMessageComponent {
     const names = this.getEmojiNames(emoji)
       .map((name: string) => name === this.usersService.currentUserSig()?.userName ? 'Du' : name);
   
-    if (names.length === 0) return '';
+    const sortedNames = names.filter((name: string) => name !== 'Du').concat(names.filter((name: string) => name === 'Du'));
+  
+    if (sortedNames.length === 0) return '';
   
     if (returnNames) {
-      if (names.length === 2) {
-        return names.join(' & ');
+      if (sortedNames.length === 2) {
+        return sortedNames.join(' & ');
       } else {
-        return names.slice(0, -1).join(', ') + (names.length > 2 ? ' & ' : '') + names.slice(-1);
+        return sortedNames.slice(0, -1).join(', ') + (sortedNames.length > 2 ? ' & ' : '') + sortedNames.slice(-1);
       }
     } else {
-      return names.length === 1 ? 'hat reagiert' : 'haben reagiert';
+      return sortedNames.length === 1 ? 'hat reagiert' : 'haben reagiert';
     }
-  }  
+  }
+  
 }

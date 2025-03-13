@@ -1,6 +1,5 @@
 import {
   Injectable,
-  Signal,
   WritableSignal,
   inject,
   signal,
@@ -18,10 +17,8 @@ import {
   serverTimestamp,
   orderBy,
   limit,
-  DocumentData,
   Unsubscribe,
   getDoc,
-  Timestamp,
 } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
@@ -29,7 +26,6 @@ import { UserProfile } from '../../interfaces/userProfile';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { ChatData } from '../../interfaces/chat-data';
 import { CurrentMessage } from '../../interfaces/current-message';
-import { Message } from '../../interfaces/message';
 
 @Injectable({
   providedIn: 'root',
