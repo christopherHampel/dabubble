@@ -34,6 +34,7 @@ export class DirectMessageComponent implements OnDestroy {
   emojiQuickBar:boolean = false;
   emojiService = inject(EmojisService);
   private paramMapSubscription!: Subscription;
+  dialog: boolean = false;
   
   constructor(  private route: ActivatedRoute, 
                 public chatService: ChatsService,
@@ -41,6 +42,10 @@ export class DirectMessageComponent implements OnDestroy {
 
   ngOnInit(): void {
     this.getIdFromUrl();
+  }
+
+  openDialog() {
+    this.dialog = true;
   }
   
   getIdFromUrl() {

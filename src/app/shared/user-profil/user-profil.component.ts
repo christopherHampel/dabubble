@@ -29,7 +29,7 @@ export class UserProfilComponent {
 
   getPosition(index: number) {
     const angle = (index / this.images.length) * 2 * Math.PI;
-    const radius = 130;
+    const radius = 140;
     const x = radius * Math.cos(angle);
     const y = radius * Math.sin(angle);
     return {
