@@ -15,6 +15,13 @@
           (click)="selectChat(user)"
         ></app-user-view-small>
       </div>
+
+      <div *ngIf="this.channelList">
+        <div *ngFor="let channel of getChannelList()" class="channel-view-small">
+          <div class="hashtag-icon"></div>
+          <span>{{ channel.name }}</span>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -92,7 +92,7 @@ export class ChatroomHeaderComponent {
           '/chatroom',
           { outlets: { thread: ['thread', result.channelId] } },
         ]);
-      }, 50);
+      }, 100);
     }
     this.searchTextInput = '';
     this.searchService.results = [];

@@ -8,6 +8,7 @@ import { UserProfile } from 'firebase/auth';
 import { ChatsService } from '../../../services/message/chats.service';
 import { Router } from '@angular/router';
 import { User } from '../../../interfaces/user';
+import { ChannelsDbService } from '../../../services/message/channels-db.service';
 
 @Component({
   selector: 'app-default',
@@ -24,13 +25,15 @@ import { User } from '../../../interfaces/user';
 export class DefaultComponent {
   isLoaded = false;
   userList: boolean = false;
+  channelList:boolean = false;
   searchText: string = '';
   filteredUser: any[] = [];
 
   constructor(
     private userService: UsersDbService,
     private chatService: ChatsService,
-    private router: Router
+    private router: Router,
+    private channelsDb: ChannelsDbService
   ) {}
 
   ngOnInit() {
@@ -41,13 +44,14 @@ export class DefaultComponent {
 
   searchChat() {
     if (this.searchText.startsWith('#')) {
-      console.log('Channels');
+      this.channelList = true;
     } else if (this.searchText.startsWith('@')) {
       this.userList = true;
       this.searchUserList();
       console.log(this.filteredUser);
     } else {
       this.userList = false;
+      this.channelList = false;
     }
   }
 
@@ -70,5 +74,9 @@ export class DefaultComponent {
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);
     }
+  }
+
+  getChannelList() {
+    return this.channelsDb.channelList;
   }
 }
