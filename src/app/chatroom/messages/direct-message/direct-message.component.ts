@@ -7,14 +7,23 @@ import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { Observable, Subscription } from 'rxjs';
 import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { EmojisService } from '../../../services/message/emojis.service';
-import { AuthService } from '../../../services/auth/auth.service';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { MessagesFieldComponent } from "../../../shared/messages-field/messages-field.component";
 import { ThreadsDbService } from '../../../services/message/threads-db.service';
+import { UserProfilComponent } from '../../../shared/user-profil/user-profil.component';
+import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
 
 @Component({
   selector: 'app-direct-message',
-  imports: [CommonModule, FormsModule, TextareaComponent, EmojiPickerComponentComponent, MessagesFieldComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TextareaComponent,
+    EmojiPickerComponentComponent,
+    MessagesFieldComponent,
+    UserProfilComponent,
+    TransparentBackgroundComponent
+  ],
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
 })
@@ -26,6 +35,7 @@ export class DirectMessageComponent implements OnDestroy {
   emojiQuickBar:boolean = false;
   emojiService = inject(EmojisService);
   private paramMapSubscription!: Subscription;
+  dialog: boolean = false;
   
   constructor(  private route: ActivatedRoute, 
                 public chatService: ChatsService,
@@ -34,6 +44,10 @@ export class DirectMessageComponent implements OnDestroy {
 
   ngOnInit(): void {
     this.getIdFromUrl();
+  }
+
+  openDialog() {
+    this.dialog = true;
   }
   
   getIdFromUrl() {

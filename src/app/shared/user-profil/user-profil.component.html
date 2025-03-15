@@ -1,0 +1,67 @@
+<section *ngIf="dialog" class="user-profil slide-in">
+
+    <header class="width-100-percent">
+        <h2>Profil</h2>
+        <div class="close-icon"></div>
+    </header>
+
+    <div class="image-container" [ngClass]="{'margin-top': false}">
+
+        <!-- View profil -->
+        <img class="profil-icon" [src]="selectedImage">
+
+        <!-- Edit profil -->
+        <div class="circle-container" style="display: none;">
+            <img *ngFor="let img of images; let i = index" [src]="img" class="circle-image" [ngStyle]="getPosition(i)"
+                (click)="selectImage(img)" />
+        </div>
+
+    </div>
+
+    <form class="width-100-percent" onSubmit="return false">
+
+        <!-- View profil -->
+        <div class="view-name-mail-wrapper width-100-percent">
+            <div class="name-wrapper">
+                <div class="name">
+                    <h2>Mäuschen</h2>
+                    <div>
+                        <div class="active-status offline"></div>
+                        <span class="offline-text">Abwesend</span>
+                    </div>
+                </div>
+
+                <button class="edit-button">Bearbeiten</button>
+            </div>
+
+            <div class="email-wrapper">
+                <img src="/img/mail-icon.svg" alt="">
+                <div class="email">
+                    <span>E-Mail-Adresse</span>
+                    <span>mäuschen&#64;sweet.poehnix</span>
+                </div>
+            </div>
+
+            <button type="submit" class="primary-button">Nachricht</button>
+        </div>
+
+        <!-- Edit profil -->
+        <div class="edit-name-wrapper width-100-percent" style="display: none;" [ngClass]="{'margin-top': false}">
+
+            <div class="name-input-wrapper width-100-percent">
+                <div class="email-wrapper">
+                    <img src="/img/person-icon.svg">
+                    <h2>Vollständiger Name</h2>
+                </div>
+                <input class="input-text" type="text" placeholder="Mäuschen">
+            </div>
+
+            <div class="button-wrapper">
+                <button class="gast-login-btn">Abbrechen</button>
+                <button class="primary-button">Speichern</button>
+            </div>
+        </div>
+
+    </form>
+
+</section>

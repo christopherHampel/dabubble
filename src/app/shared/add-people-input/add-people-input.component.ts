@@ -24,13 +24,18 @@ export class AddPeopleInputComponent {
   selectedUser: UserProfile = {} as UserProfile;
   selectedUserList: UserProfile[] = [];
 
-  @Input() component: 'addFriend' | 'addPeople' = 'addFriend';
+  @Input() component: 'addFriend' | 'addPeople' | 'addMembers' = 'addFriend';
   @Output() selectedUserOut = new EventEmitter<UserProfile>();
+  @Output() selectedUserListOut = new EventEmitter<UserProfile[]>();
   @ViewChild('inputField') inputFieldRef!: ElementRef<HTMLInputElement>;
+
 
   focusInput() {
     setTimeout(() => this.inputFieldRef.nativeElement.focus(), 50);
-    if (this.component === 'addPeople') {
+
+    if (this.component === 'addPeople' || this.component === 'addMembers') {
+      if (this.component === 'addPeople')
+        this.selectedUserList.length === 0 ? this.selectUser(this.usersDb.currentUser!.id) : null;
       this.resetUserName();
       this.resetSelectedUser();
     }
@@ -39,14 +44,13 @@ export class AddPeopleInputComponent {
 
   getUserList() {
     if (this.usersDb.currentUser) {
-      if (this.component === 'addFriend') {
-        return this.usersDb.userList.filter(user =>
-          user.id != this.usersDb.currentUser!.id &&
-          !this.usersDb.currentUser!.directmessagesWith.includes(user.id));
-      } else {
-        return this.usersDb.userList.filter(user =>
-          user.id != this.usersDb.currentUser!.id &&
-          !this.selectedUserList.find(selectedUser => selectedUser.id == user.id));
+      switch (this.component) {
+        case 'addFriend':
+          return this.getUserFriend();
+        case 'addPeople':
+          return this.getUserChannel();
+        case 'addMembers':
+          return this.getUserMembers();
       }
     } else {
       return [];
@@ -54,8 +58,38 @@ export class AddPeopleInputComponent {
   }
 
 
+  getUserFriend() {
+    return this.usersDb.userList.filter(user =>
+      user.id != this.usersDb.currentUser!.id &&
+      !this.usersDb.currentUser!.directmessagesWith.includes(user.id)
+    );
+  }
+
+
+  getUserChannel() {
+    return this.usersDb.userList.filter(user =>
+      user.id != this.usersDb.currentUser!.id &&
+      !this.selectedUserList.find(selectedUser => selectedUser.id == user.id)
+    );
+  }
+
+
+  getUserMembers() {
+    return this.usersDb.userList.filter(user =>
+      user.id != this.usersDb.currentUser!.id &&
+      !this.selectedUserList.find(selectedUser => selectedUser.id == user.id) &&
+      !this.channelsDb.channel!.participants.find(participant => participant.id == user.id)
+    );
+  }
+
+
   emitSelectedUser() {
     this.selectedUserOut.emit(this.selectedUser);
+  }
+
+
+  emitSelectedUserList() {
+    this.selectedUserListOut.emit(this.selectedUserList);
   }
 
 
@@ -66,20 +100,30 @@ export class AddPeopleInputComponent {
 
 
   selectUser(id: string | undefined) {
-    const user: any = this.getUserList().find(user => user.id == id);
+    let user: any = {};
+    if (this.selectedUserList.length > 0) {
+      user = this.getUserList().find(user => user.id == id);
+    } else {
+      user = this.usersDb.userList.find(user => user.id == id);
+    }
+
+    this.addSelectedUser(user);
+    this.emitSelectedUser();
+    this.selectedUserToList();
+    this.resetUserName();
+  }
+
+
+  addSelectedUser(user: any) {
     this.selectedUser = {
       id: user.id,
       userName: user.userName,
-      email: user.emai,
+      email: user.email,
       avatar: user.avatar,
       active: user.active,
       clicked: false,
       directmessagesWith: user.directmessagesWith
     }
-
-    this.emitSelectedUser();
-    this.selectedUserToList();
-    this.resetUserName();
   }
 
 
@@ -87,6 +131,7 @@ export class AddPeopleInputComponent {
     const userExist = this.selectedUserList.find(user => user.id === this.selectedUser.id);
     if (!userExist) {
       this.selectedUserList.push(this.selectedUser);
+      this.emitSelectedUserList();
     }
   }
 
@@ -124,19 +169,21 @@ export class AddPeopleInputComponent {
 
 
   async createChannel() {
-    let participants: { id: string; userName: string; avatar: string; active: boolean; }[];
-    participants = this.selectedUserList.map(user => ({
+    let participants: { id: string; createdBy: boolean; }[];
+    participants = this.selectedUserList.map((user, index) => ({
       id: user.id,
-      userName: user.userName,
-      avatar: user.avatar,
-      active: user.active
+      createdBy: index > 0 || this.component === 'addMembers' ? false : true,
     })) || [];
 
-    this.channelsDb.updateChannel({
-      participants: participants
-    })
+    if (this.component === 'addPeople') {
+      this.channelsDb.updateChannel({
+        participants: participants
+      })
 
-    await this.channelsDb.addChannel();
+      await this.channelsDb.addChannel()
+    } else {
+      await this.channelsDb.updateParticipiants(participants);
+    }
   }
 
 

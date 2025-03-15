@@ -1,0 +1,221 @@
+@use '../../chatroom/chatroom.component.scss';
+@use '../add-people-input/add-people-input.component.scss';
+
+@mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
+    display: flex;
+    flex-direction: $fD;
+    justify-content: $jC;
+    align-items: $aI;
+    gap: $g;
+}
+
+
+
+* {
+    font-family: 'Nunito';
+}
+
+
+
+/* ------- */
+/* Generic */
+/* ------- */
+.width-100-percent {
+    width: 100%;
+}
+
+.margin-top {
+    margin-top: 45px;
+}
+
+
+
+/* ------- */
+/* Section */
+/* ------- */
+.user-profil {
+    @include d-flex($fD: column, $jC: flex-start, $g: 45px);
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 500px;
+    height: max-content;
+
+    padding: 40px;
+
+    z-index: 4;
+
+    background-color: #FFFFFF;
+
+    border-radius: 30px;
+
+    filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
+}
+
+
+
+/* ------ */
+/* Header */
+/* ------ */
+header {
+    @include d-flex($jC: space-between);
+}
+
+
+
+/* ----------- */
+/* Profil icon */
+/* ----------- */
+.image-container {
+    position: relative;
+
+    @include d-flex();
+}
+
+.profil-icon {
+    width: 200px;
+    height: 200px;
+
+    border-radius: 50%;
+}
+
+.circle-container {
+    position: relative;
+    top: -25px;
+    left: calc(-50% - 25px);
+}
+
+.circle-image {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    position: absolute;
+
+    cursor: pointer;
+
+    transition: transform 0.3s;
+}
+
+.circle-image:hover {
+    transform: scale(1.1);
+}
+
+
+
+/* ------------------------ */
+/* View and edit name email */
+/* ------------------------ */
+form {
+    @include d-flex($fD: column, $g: 45px);
+}
+
+/* View name and emial */
+.view-name-mail-wrapper {
+    @include d-flex($fD: column, $g: 45px)
+}
+
+.name-wrapper {
+    @include d-flex($jC: space-between, $aI: flex-start);
+
+    width: inherit;
+}
+
+.name {
+    @include d-flex($fD: column, $aI: flex-start, $g: 15px);
+
+    &>div {
+        @include d-flex($g: 15px);
+
+        &>span {
+            font-weight: 400;
+            font-size: 20px;
+        }
+    }
+}
+
+.active-status {
+    position: static;
+
+    width: 16px;
+    height: 16px;
+
+    border-radius: 50%;
+}
+
+.online-text {
+    color: #92C83E;
+}
+
+.offline-text {
+    color: #686868;
+}
+
+.edit-button {
+    border: none;
+    background-color: transparent;
+
+    font-weight: 600;
+    font-size: 18px;
+
+    color: #535AF1;
+
+    transition: font-weight 0.2s;
+
+    &:hover {
+        cursor: pointer;
+
+        font-weight: 700;
+    }
+}
+
+.email-wrapper {
+    @include d-flex($jC: flex-start, $aI: flex-start, $g: 15px);
+
+    width: inherit;
+
+    &>img {
+        width: 30px;
+        height: 30px;
+
+        object-fit: contain;
+    }
+}
+
+.email {
+    @include d-flex($fD: column, $aI: flex-start, $g: 15px);
+
+    &>span:nth-child(1) {
+        font-weight: 700;
+        font-size: 20px;
+    }
+
+    &>span:nth-child(2) {
+        font-weight: 400;
+        font-size: 18px;
+
+        color: #1381ff;
+    }
+}
+
+/* Edit name */
+.edit-name-wrapper {
+    @include d-flex($fD: column, $g: 45px);
+}
+
+.name-input-wrapper {
+    @include d-flex($fD: column, $g: 8px);
+}
+
+.input-text {
+    border: 1px solid #ADB0D9;
+}
+
+.button-wrapper {
+    @include d-flex($g: 24px);
+}

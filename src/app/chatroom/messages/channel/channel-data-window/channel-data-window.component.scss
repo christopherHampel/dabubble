@@ -1,4 +1,5 @@
 @use '../../../chatroom.component.scss';
+@use '../channel.component.scss';
 
 @mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
     display: flex;
@@ -144,19 +145,4 @@ form {
 
 .separater {
     border: 1px solid #ADB0D9;
-}
-
-.animation {
-    opacity: 1;
-    animation: animation 0.25s;
-}
-
-@keyframes animation {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
 }

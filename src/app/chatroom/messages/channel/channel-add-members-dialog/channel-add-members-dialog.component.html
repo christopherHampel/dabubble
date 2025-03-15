@@ -1,0 +1,23 @@
+<section *ngIf="dialogOpen" class="channel-add-members-dialog animation">
+
+    <header class="width-100-percent">
+        <div class="header-dialog">
+            <h2>Leite hinzufügen</h2>
+            <div (click)="closeDialog()" class="close-icon"></div>
+        </div>
+        <div>
+            <div class="hashtag-icon"></div>
+            <span>Entwicklerteam</span>
+        </div>
+    </header>
+
+    <form onSubmit="addPeopleInput.createChannel(); closeDialog(); return false">
+
+        <app-add-people-input #addPeopleInput [component]="'addMembers'" class="width-100-percent"
+            (selectedUserListOut)="selectUserList($event)"></app-add-people-input>
+
+        <button type="submit" [disabled]="!selectedUserList.length"
+            class="primary-button">Hinzufügen</button>
+    </form>
+
+</section>

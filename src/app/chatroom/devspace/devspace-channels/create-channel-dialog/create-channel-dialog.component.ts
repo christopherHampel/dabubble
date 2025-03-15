@@ -2,7 +2,6 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelsDbService } from '../../../../services/message/channels-db.service';
-import { UsersDbService } from '../../../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-create-channel-dialog',
@@ -15,7 +14,6 @@ import { UsersDbService } from '../../../../services/usersDb/users-db.service';
 })
 export class CreateChannelDialogComponent {
   private channelsDb = inject(ChannelsDbService);
-  private usersDb = inject(UsersDbService);
 
   channelName: string = '';
   channelDescription: string = '';
@@ -45,13 +43,7 @@ export class CreateChannelDialogComponent {
   createChannel() {
     this.channelsDb.updateChannel({
       id: '',
-      createdBy: {
-        id: this.usersDb.currentUser!.id,
-        userName: this.usersDb.currentUser!.userName,
-        avatar: this.usersDb.currentUser!.avatar,
-        active: this.usersDb.currentUser!.active,
-      },
-      name: this.channelName.substring(2),
+      name: this.channelName.substring(4),
       description: this.channelDescription
     })
 

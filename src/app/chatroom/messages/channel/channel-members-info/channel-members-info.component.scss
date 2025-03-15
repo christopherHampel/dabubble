@@ -1,3 +1,5 @@
+@use '../channel.component.scss';
+
 @mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
     display: flex;
     flex-direction: $fD;
@@ -12,11 +14,14 @@
 }
 
 
-
 .width-100-percent {
     width: 100%;
 }
 
+
+header {
+    @include d-flex($jC: space-between);
+}
 
 
 .channel-members-info {
@@ -29,9 +34,11 @@
     transform: translate(0, 56px);
 
     width: 415px;
-    height: max-content;
+    max-height: 411px;
 
     padding: 40px;
+
+    overflow: hidden;
 
     background-color: #FFFFFF;
 
@@ -44,14 +51,19 @@
     filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
 }
 
-header {
-    @include d-flex($jC: space-between);
-}
-
-.member-list {
+.member-list-wrapper {
     @include d-flex($fD: column, $aI: flex-start, $g: 15px);
 
-    &>div {
+    .member-list {
+        @include d-flex($fD: column, $aI: flex-start, $jC: flex-start, $g: 13px);
+
+        width: 100%;
+        max-height: 200px;
+
+        overflow-y: auto;
+    }
+
+    &>div:nth-child(2) {
         @include d-flex($g: 15px);
 
         padding: 12px 28px;

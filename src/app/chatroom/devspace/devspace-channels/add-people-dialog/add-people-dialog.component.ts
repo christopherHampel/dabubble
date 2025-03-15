@@ -17,6 +17,7 @@ import { UserProfile } from '../../../../interfaces/userProfile';
 export class AddPeopleDialogComponent {
   selectedOption: string = 'option1';
   selectedUser: UserProfile = {} as UserProfile;
+
   @Output() dialogComponent = new EventEmitter<'none'>();
   @ViewChild('addPeopleInput') addPeopleInput!: any;
 

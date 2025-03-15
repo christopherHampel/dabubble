@@ -1,14 +1,14 @@
 <section>
 
     <div class="added-user-wrapper">
-        @if (component == 'addPeople') {
-        <div *ngIf="selectedUserList.length > 0" class="input-added-user" [class.scrolling]="isDragging" #scrollContent
+        @if (component === 'addPeople' || component === 'addMembers') {
+        <div *ngIf="component === 'addMembers' ? selectedUserList.length > 0 : selectedUserList.length > 1" class="input-added-user" [class.scrolling]="isDragging" #scrollContent
             (mousedown)="startDragging($event)"
             (mouseleave)="stopDragging()"
             (mouseup)="stopDragging()"
             (mousemove)="onDragging($event)">
             @for (selectedUser of selectedUserList; track selectedUser; let i = $index ) {
-            <div class="user-view-input">
+            <div *ngIf="component === 'addMembers' || i > 0" class="user-view-input">
                 <img src="{{selectedUser['avatar']}}" alt="">
                 <span>{{selectedUser['userName']}}</span>
                 <div (click)="removeUser(i)" class="close-icon" (mousedown)="$event.stopPropagation()"></div>
