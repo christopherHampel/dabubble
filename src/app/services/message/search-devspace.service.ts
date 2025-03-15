@@ -1,9 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Channel } from '../../interfaces/channel';
 import { collection, doc, Firestore, getDoc, getDocs } from '@angular/fire/firestore';
-import { CurrentMessage } from '../../interfaces/current-message';
-import { Message } from '../../interfaces/message';
-import { Thread } from '../../interfaces/thread';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,8 +11,6 @@ export class SearchDevspaceService {
   searchTextSig = signal<string>('');
   filteredChannelsSig = signal<Channel[]>([]);
   results: any[] = [];
-  // channels: any[] = [];
-  // messages: any[] = [];
 
   constructor() {}
 
@@ -53,23 +49,23 @@ export class SearchDevspaceService {
             });
           }
         }
-
-        if (messageData['component'] === 'threads') {
-          this.getThreadData(channelDoc.id);
-        }
       });
     }
     // console.log('Suchergebnisse:', this.results);
   }
 
-  async getThreadData(docId:string) {
-    const threadRef = doc(this.firestore, 'threads', docId);
+  async getThreadData(result:any) {
+    const threadRef = doc(this.firestore, 'threads', result.channelId);
     const docSnap = await getDoc(threadRef);
-    
+
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
+      const chatId = docSnap.data()['chatId'];
+      // this.threadsDb.currentThreadId.set(chatId);
+      // this.threadsDb.subscribeToThread(chatId);
+      // this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
+      return chatId;
     } else {
-      console.log("No Thread Data");
+      return 'No Data'
     }
   }
 }

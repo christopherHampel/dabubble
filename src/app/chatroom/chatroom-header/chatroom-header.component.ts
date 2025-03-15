@@ -7,6 +7,8 @@ import { TransparentBackgroundComponent } from '../../shared/transparent-backgro
 import { FormsModule } from '@angular/forms';
 import { ChannelsDbService } from '../../services/message/channels-db.service';
 import { SearchDevspaceService } from '../../services/message/search-devspace.service';
+import { doc } from 'firebase/firestore';
+import { ThreadsDbService } from '../../services/message/threads-db.service';
 
 @Component({
   selector: 'app-chatroom-header',
@@ -18,14 +20,15 @@ export class ChatroomHeaderComponent {
   private auth = inject(AuthService);
   usersDb = inject(UsersDbService);
   dropdown: boolean = false;
-  searchTextInput:string = '';
+  searchTextInput: string = '';
 
   searchText = signal<string>('');
   results = signal<any[]>([]);
 
   constructor(
     private router: Router,
-    private searchService: SearchDevspaceService
+    private searchService: SearchDevspaceService,
+    private threadsDb: ThreadsDbService
   ) {}
 
   get resultsData() {
@@ -53,14 +56,43 @@ export class ChatroomHeaderComponent {
     this.searchService.setSearchText(this.searchTextInput);
   }
 
-  goToSearchResult(result:any) {
-    if(result.component === 'channels') {
-        this.router.navigate(['/chatroom', { outlets: { chats: ['channel', result.channelId], thread: null } }]); 
-    } else if(result.component === 'messages') {
-      this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', result.channelId], thread: null}}]);
+  async goToSearchResult(result: any) {
+    if (result.component === 'channels') {
+      this.router.navigate([
+        '/chatroom',
+        { outlets: { chats: ['channel', result.channelId], thread: null } },
+      ]);
+    } else if (result.component === 'messages') {
+      this.router.navigate([
+        '/chatroom',
+        {
+          outlets: {
+            chats: ['direct-message', result.channelId],
+            thread: null,
+          },
+        },
+      ]);
     } else {
       console.log('Go to threads');
-      // this.router.navigate(['/chatroom', { outlets: { thread: ['thread', this.threadsDb.currentThreadId()] } }]);
+      const chatId = await this.searchService.getThreadData(result);
+      console.log('ChatId:', chatId);
+      this.router.navigate([
+        '/chatroom',
+        { outlets: { chats: ['direct-message', chatId], thread: null } },
+      ]);
+      setTimeout(() => {
+        console.log('Thread:', result.channelId);
+        this.threadsDb.currentThreadId.set(result.channelId);
+        this.threadsDb.subscribeToThread(result.channelId);
+        this.threadsDb.subMessageList(result.channelId);
+
+        console.log(this.threadsDb.currentThreadId(), this.threadsDb.messageListSig());
+        
+        this.router.navigate([
+          '/chatroom',
+          { outlets: { thread: ['thread', result.channelId] } },
+        ]);
+      }, 50);
     }
     this.searchTextInput = '';
     this.searchService.results = [];
