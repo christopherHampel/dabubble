@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, inject, signal, ViewChild, WritableSignal } from '@angular/core';
+import { Component, inject, signal, ViewChild, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChannelsDbService } from '../../../services/message/channels-db.service';
 import { ActivatedRoute } from '@angular/router';
@@ -37,7 +37,7 @@ export class ChannelComponent {
   chatId: string = '';
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
 
-  @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
+  // @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
 
   dataWindow: boolean = false;
   membersInfo: boolean = false;
@@ -45,7 +45,7 @@ export class ChannelComponent {
 
   @ViewChild('channelDataWindow') channelDataWindow!: any;
   @ViewChild('channelAddMembersInfo') channelAddMembersInfo!: any;
-  @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
+  // @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -59,6 +59,10 @@ export class ChannelComponent {
       this.chatId = params['id'];
       this.getMessages();
     });
+  }
+
+  get getChannelName() {
+    return this.channelsDb.channelSig()?.name;
   }
 
   getMessages() {
@@ -101,7 +105,8 @@ export class ChannelComponent {
     this.emojiService.addEmoji(event, this.chatId, 'channels');
   }
 
-  // ngAfterViewInit() {
-  //   this.scrollService.setScrollContainer(this.myScrollContainer);
-  // }
+  openChannelSig() {
+    console.log(this.channelsDb.channelSig()?.name);
+    
+  }
 }

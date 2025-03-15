@@ -5,14 +5,11 @@ import {
   Firestore,
   onSnapshot,
   updateDoc,
+  arrayUnion,
 } from '@angular/fire/firestore';
-import { addDoc, getDocs } from 'firebase/firestore';
-import { Channel } from '../../interfaces/channel';
-import { SearchDevspaceService } from './search-devspace.service';
-import { inject, Injectable, signal } from '@angular/core';
-import { arrayUnion, collection, doc, Firestore, onSnapshot, updateDoc } from '@angular/fire/firestore';
 import { addDoc } from 'firebase/firestore';
 import { Channel } from '../../interfaces/channel';
+import { SearchDevspaceService } from './search-devspace.service';
 import { UserProfile } from '../../interfaces/userProfile';
 import { UsersDbService } from '../usersDb/users-db.service';
 
@@ -38,6 +35,7 @@ export class ChannelsDbService {
         this.searchService.results = [];
       }
     });
+  }
 
   get channel() {
     return this.channelSig();
@@ -101,16 +99,15 @@ export class ChannelsDbService {
     });
   }
 
-
-  loadChannelUserDatas(participants: { id: string, createdBy: boolean }[]) {
+  loadChannelUserDatas(participants: { id: string; createdBy: boolean }[]) {
     this.channelUserDataListSig.set([]);
 
-    participants.forEach(participant => {
+    participants.forEach((participant) => {
       this.usersDb.subUser(participant.id, (updateUser) => {
         const currentList = this.channelUserDataListSig();
 
         this.channelUserDataListSig.set([updateUser, ...currentList]);
-      })
+      });
     });
   }
 
@@ -122,11 +119,11 @@ export class ChannelsDbService {
       avatar: object.avatar || '',
       active: object.active || false,
       clicked: object.clicked || false,
-      directmessagesWith: object.directmessagesWith || []
-    }
+      directmessagesWith: object.directmessagesWith || [],
+    };
   }
 
-subChannelList() {
+  subChannelList() {
     onSnapshot(this.getChannelRef(), (list) => {
       const channels: Channel[] = [];
       list.forEach((item) => {
@@ -144,7 +141,9 @@ subChannelList() {
     return doc(collection(this.channels, colId), docId);
   }
 
-  async updateParticipiants(participants: {id: string; createdBy: boolean}[]) {
+  async updateParticipiants(
+    participants: { id: string; createdBy: boolean }[]
+  ) {
     const channelRef = this.getSingleDocRef('channels', this.channel!.id);
     await updateDoc(channelRef, { participants: arrayUnion(...participants) });
   }

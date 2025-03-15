@@ -192,3 +192,23 @@
         opacity: 1;
     }
 }
+
+.channel-name {
+    font-weight: 700;
+    font-size: 24px;
+    color: #000000;
+}
+
+.channel-start {
+    gap: 3px !important;
+    align-items: center !important;
+
+    span {
+        font-size: 20px;
+        color: #000000;
+    }
+
+    .channel-start-click {
+        color: #535AF1;
+    }
+}

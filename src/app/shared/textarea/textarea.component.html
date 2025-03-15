@@ -1,5 +1,5 @@
 <section>
-  <div class="send-text" (click)="$event.stopPropagation()">
+  <div class="send-text" (click)="$event.stopPropagation(); closeUserList()">
     <textarea
       #textAreaRef
       (keydown.enter)="checkTextLength($event)"
@@ -13,7 +13,7 @@
       <div>
         <div class="emoji-picker" (click)="toggleEmoji()"></div>
         <div class="tag-user">
-          <div class="at-member" (click)="toggleUserList()"></div>
+          <div class="at-member" (click)="toggleUserList(); $event.stopPropagation()"></div>
           <div *ngIf="this.userList" class="user-list">
             <app-user-view-small
               *ngFor="let user of getUserList()"

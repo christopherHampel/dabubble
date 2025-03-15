@@ -103,12 +103,9 @@ export class TextareaComponent implements OnInit {
   }
 
   toggleEmoji() {
+    this.userList = false;
     this.emojiMartOpen = !this.emojiMartOpen;
   }
-
-  // addEmojiToMessage(emoji: string) {
-  //   this.message += emoji;
-  // }
 
   addEmojiToMessage(emoji: string) {
     if (!this.textArea || !this.textArea.nativeElement) return;
@@ -132,12 +129,11 @@ export class TextareaComponent implements OnInit {
     }
      else if(this.userList) {
       this.userList = false; 
-      console.log(this.userList);
-       
     }
   }
 
   toggleUserList() {
+    this.emojiMartOpen = false;
     this.userList = !this.userList;
   }
 
@@ -186,5 +182,9 @@ export class TextareaComponent implements OnInit {
     } else {
       return 'Nachricht an ' + this.chatPartnerName;
     }
+  }
+
+  closeUserList() {
+    this.userList = false;
   }
 }

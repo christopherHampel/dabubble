@@ -5,5 +5,6 @@ export interface Channel {
     participants: {
         id: string,
         createdBy:boolean,
-    }[]
+    }[],
+    createdBy:boolean
 }
