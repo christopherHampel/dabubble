@@ -3,24 +3,30 @@ import { LoginComponent } from './login/login.component';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { interval, map, take } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { OverlayUserfeedbackComponent } from '../shared/overlay-userfeedback/overlay-userfeedback.component';
 
 @Component({
   selector: 'app-registration',
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     RouterLink,
-    RouterOutlet
+    RouterOutlet,
+    OverlayUserfeedbackComponent,
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
-  standalone: true
+  standalone: true,
 })
 export class RegistrationComponent {
+  feedback: boolean = true;
 
   images: string[] = [
     '/img/D.png',
     '/img/A.png',
     '/img/B.png',
     '/img/u.png',
+    // '/img/small_b_white.png',
+    // '/img/small_b_white.png',
     '/img/small_b1.png',
     '/img/small_b2.png',
     '/img/l.png',
@@ -28,7 +34,6 @@ export class RegistrationComponent {
   ];
 
   currentImages: string[] = [];
-
 
   constructor(private router: Router) {}
 

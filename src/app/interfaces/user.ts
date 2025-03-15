@@ -5,5 +5,5 @@ export interface User {
     avatar: string,
     active: boolean
     direktMessages: string[],
-    channels: string[]
+    channels: string[],
 }

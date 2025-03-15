@@ -53,7 +53,7 @@ export class TooltipComponent {
   }
 
   async openThread() {
-    if (this.message.associatedThreadId) {
+    if (this.message.associatedThreadId.threadId) {
       this.threadsDb.currentThreadId.set(this.message.associatedThreadId.threadId);
       this.threadsDb.subscribeToThread(this.message.associatedThreadId.threadId);
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
@@ -66,6 +66,7 @@ export class TooltipComponent {
       await this.chat.updateAssociatedThreadId(this.message.docId, this.chatId, this.threadsDb.currentThreadId(), this.component);
     }
     this.router.navigate(['/chatroom', { outlets: { thread: ['thread', this.threadsDb.currentThreadId()] } }]);
+    this.chatService.subscribeFirstThreadMessage(this.chatId, this.message.docId);
   }
 
   @HostListener('document:click', ['$event'])

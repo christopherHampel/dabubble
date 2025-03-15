@@ -1,59 +1,112 @@
 <section class="input-card">
-  <div class="input-card-container">
-    
-      <a class="back-link" [routerLink]="'/register/login'">
-        <div class="back-arrow"></div>
-      </a>
+  <a class="back-link" [routerLink]="'/register/login'">
+    <div class="back-arrow"></div>
+  </a>
 
+  <div class="head">
     <h2>Konto erstellen</h2>
-    <span>Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.</span>
-    
-    <form [formGroup]="loginForm" (ngSubmit)="getUser()">
-        <div class="input-container">
-            <div class="input-wrapper">
-              <img class="input-icon" src="/img/person-icon.svg" alt="">
-              <input id="name" formControlName="name" type="text" class="input-field" placeholder="Name und Nachname" />
-            </div>
-            <div class="form-error" *ngIf="loginForm.get('name')?.touched && loginForm.get('name')?.invalid">
-              <small *ngIf="loginForm.get('name')?.hasError('required')">Email ist erforderlich.</small>
-            </div>
-          </div>
-    
-          <div class="input-container">
-            <div class="input-wrapper">
-              <img class="input-icon" src="/img/mail-icon.svg" alt="">
-              <input id="email" formControlName="email" type="email" class="input-field" placeholder="beispielname@email.com" />
-            </div>
-            <div class="form-error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-              <small *ngIf="loginForm.get('email')?.hasError('required')">Email ist erforderlich.</small>
-              <small *ngIf="loginForm.get('email')?.hasError('email')">Bitte eine gültige Email eingeben.</small>
-            </div>
-          </div>
-
-          <div class="input-container">
-            <div class="input-wrapper">
-              <img class="input-icon" src="/img/lock-icon.svg" alt="">
-              <input id="password" formControlName="password" type="text" class="input-field" placeholder="Passwort" />
-            </div>
-            <div class="form-error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-              <small *ngIf="loginForm.get('password')?.hasError('required')">Email ist erforderlich.</small>
-              <small *ngIf="loginForm.get('password')?.hasError('password')">Bitte eine gültige password eingeben.</small>
-            </div>
-          </div>
-          <div class="checkbox-container">
-            <input type="checkbox" id="privacy" />
-            <label for="privacy">
-              Ich stimme der <a href="/datenschutz">Datenschutzerklärung</a> zu.
-            </label>
-          </div>
-          <div class="further-button">
-            <button class="main-btn"
-                (click)="getUser()"
-                [disabled]="loginForm.invalid">Weiter</button>
-          </div>
-        <!-- <button type="submit" [disabled]="loginForm.invalid">Login</button> -->
-      </form>
-      
+    <span
+      >Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues
+      DABubble-Konto.</span
+    >
   </div>
-    
-  </section>
+
+  <form [formGroup]="loginForm" (ngSubmit)="getUser()">
+    <div class="input-wrapper">
+      <img class="input-icon" src="/img/person-icon.svg" alt="" />
+      <input
+        id="name"
+        formControlName="name"
+        type="text"
+        class="input-field"
+        placeholder="Name und Nachname"
+      />
+      <div
+        class="form-error"
+        *ngIf="loginForm.get('name')?.touched && loginForm.get('name')?.invalid"
+      >
+        <small *ngIf="loginForm.get('name')?.hasError('pattern')"
+          >Bitte geben Sie Vor- und Nachname ein.</small
+        >
+        <small *ngIf="loginForm.get('name')?.hasError('required')"
+          >Bitte schreiben Sie einen Namen.</small
+        >
+      </div>
+    </div>
+
+    <div class="input-wrapper">
+      <img class="input-icon" src="/img/mail-icon.svg" alt="" />
+      <input
+        id="email"
+        formControlName="email"
+        type="email"
+        class="input-field"
+        placeholder="beispielname@email.com"
+      />
+      <div
+        class="form-error"
+        *ngIf="
+          loginForm.get('email')?.touched && loginForm.get('email')?.invalid
+        "
+      >
+        <small *ngIf="loginForm.get('email')?.hasError('required')"
+          >*Diese E-Mail-Adresse ist leider ungültig.</small
+        >
+      </div>
+    </div>
+
+    <div class="input-wrapper">
+      <img class="input-icon" src="/img/lock-icon.svg" alt="" />
+      <input
+        id="password"
+        formControlName="password"
+        type="password"
+        class="input-field"
+        placeholder="Passwort"
+      />
+      <div
+        class="form-error"
+        *ngIf="
+          loginForm.get('password')?.touched &&
+          loginForm.get('password')?.invalid
+        "
+      >
+        <small *ngIf="loginForm.get('password')?.hasError('required')"
+          >Bitte geben Sie ein Passwort ein.</small
+        >
+        <small
+          class="password-style"
+          *ngIf="loginForm.get('password')?.hasError('pattern')"
+          >Das Passwort muss mindestens 6 Zeichen lang sein, eine Zahl, einen
+          Großbuchstaben, einen Kleinbuchstaben und ein Sonderzeichen
+          enthalten.</small
+        >
+      </div>
+    </div>
+
+    <div class="checkbox-container">
+      <input type="checkbox" id="privacy" formControlName="privacy" />
+      <label for="privacy"
+        >Ich stimme der
+        <a [routerLink]="['/register/privacy-police']">Datenschutzerklärung</a> zu.</label
+      >
+    </div>
+
+    <div class="further-button">
+      <button
+        class="main-btn"
+        (click)="getUser()"
+        [disabled]="loginForm.invalid"
+        [ngClass]="{ disabled: loginForm.invalid, enabled: loginForm.valid }"
+      >
+        Weiter
+      </button>
+      <div class="tooltip-button">
+        <span
+          >Bitte alle Felder ausfüllen, sowie die Datenschutzerklärung
+          akzeptieren.</span
+        >
+      </div>
+    </div>
+  </form>
+</section>

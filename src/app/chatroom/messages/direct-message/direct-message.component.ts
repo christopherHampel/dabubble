@@ -9,6 +9,7 @@ import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-pi
 import { EmojisService } from '../../../services/message/emojis.service';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { MessagesFieldComponent } from "../../../shared/messages-field/messages-field.component";
+import { ThreadsDbService } from '../../../services/message/threads-db.service';
 import { UserProfilComponent } from '../../../shared/user-profil/user-profil.component';
 import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
 
@@ -38,7 +39,8 @@ export class DirectMessageComponent implements OnDestroy {
   
   constructor(  private route: ActivatedRoute, 
                 public chatService: ChatsService,
-                private usersService: UsersDbService) { }
+                private usersService: UsersDbService,
+                private threadsDB: ThreadsDbService) { }
 
   ngOnInit(): void {
     this.getIdFromUrl();
@@ -53,6 +55,7 @@ export class DirectMessageComponent implements OnDestroy {
       const newChatId = params.get('id');
       if (newChatId && newChatId !== this.chatId) {
         this.chatId = newChatId;
+        this.threadsDB.closeThread();
         this.chatService.getChatInformationen(this.chatId, "messages");
         this.chatMessages$ = this.chatService.messages$;
       }
@@ -62,11 +65,11 @@ export class DirectMessageComponent implements OnDestroy {
   ngOnDestroy(): void {
     if (this.paramMapSubscription) {
       this.paramMapSubscription.unsubscribe();
-    }
+      this.threadsDB.closeThread(); 
+    } 
   }
 
   addEmoji(event:string) {
-    console.log(event);
     this.emojiService.addEmoji(event, this.chatId, 'messages');
   }
 

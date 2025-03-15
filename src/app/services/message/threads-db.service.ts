@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import {
   addDoc,
   collection,
@@ -17,6 +17,7 @@ import { UsersDbService } from '../usersDb/users-db.service';
 import { map, Observable } from 'rxjs';
 import { CurrentMessage } from '../../interfaces/current-message';
 import { Router } from '@angular/router';
+import { SearchDevspaceService } from './search-devspace.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,19 @@ export class ThreadsDbService {
   threadData = signal<any>(null);
   unsubMessageList: any;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private searchService: SearchDevspaceService
+  ) {
+    effect(() => {
+      const searchText = this.searchService.searchTextSig().toLowerCase();
+      if (searchText.length > 0) {
+        this.searchService.searchMessagesInChannels(searchText, 'threads');
+      } else {
+        this.searchService.results = [];
+      }
+    });
+  }
 
   get messageList() {
     return this.messageListSig();
@@ -45,7 +58,6 @@ export class ThreadsDbService {
   ) {
     const firstThreadMessage = true;
     await addDoc(this.getThredRef(), thread).then(async (docRef) => {
-      await this.addMessageToThread(docRef.id, message, firstThreadMessage);
       this.currentThreadId.set(docRef.id);
       this.unsubMessageList = this.subMessageList(docRef.id);
       updateDoc(docRef, {
@@ -54,6 +66,10 @@ export class ThreadsDbService {
         currentMessageId: currentMessage.docId,
         text: message.text,
         component: component,
+        threadMessageData: {
+          chatId: chatId,
+          messageId: message.docId,
+        },
       });
     });
   }
@@ -65,7 +81,6 @@ export class ThreadsDbService {
   ) {
     const threadRef = doc(this.getThredRef(), threadId);
     const messageRef = collection(threadRef, 'messages');
-
     let messageType;
     if (typeof message === 'string') {
       messageType = this.getCleanJsonMessage(
@@ -78,7 +93,8 @@ export class ThreadsDbService {
             avatar: this.usersDb.currentUser!.avatar,
           },
           text: message,
-          component: '',
+          component: 'threads',
+          chatId: this.currentThreadId(),
           firstMessageOfTheDay: false,
           createdAt: serverTimestamp(),
           emojis: [],
@@ -98,8 +114,7 @@ export class ThreadsDbService {
       updateDoc(docRef, {
         docId: docRef.id,
       });
-      this.updateLastMessageDocId(docRef.id, threadRef)
-
+      this.updateLastMessageDocId(docRef.id, threadRef);
     });
   }
 
@@ -121,7 +136,8 @@ export class ThreadsDbService {
       createdAt: object.createdAt || '',
       firstMessageOfTheDay: object.firstMessageOfTheDay || false,
       emojis: object.emojis || [],
-      component: '',
+      component: 'threads',
+      chatId: object.chatId || '',
     };
   }
 
@@ -146,6 +162,8 @@ export class ThreadsDbService {
   ): {} {
     return {
       docId: '',
+      chatId: this.currentThreadId(),
+      component: 'threads',
       firstThreadMessage: firstThreadMessage,
       accociatedThreadId: threadId,
       messageAuthor: {

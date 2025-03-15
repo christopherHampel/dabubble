@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Auth, sendPasswordResetEmail } from '@angular/fire/auth';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -14,7 +20,12 @@ import { RouterLink } from '@angular/router';
 export class ResetPasswordComponent {
   loginFormEmail: FormGroup;
 
-  constructor(private fb: FormBuilder, private auth: Auth) {
+  constructor(
+    private fb: FormBuilder,
+    private auth: Auth,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.loginFormEmail = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
     });
@@ -26,10 +37,12 @@ export class ResetPasswordComponent {
     const email = this.loginFormEmail.value.email;
     try {
       await sendPasswordResetEmail(this.auth, email);
-      alert('E-Mail wurde gesendet.');
+      this.authService.userFeedback('E-Mail gesendet');
+      setTimeout( () => {
+        this.router.navigate(['/register/login']);
+      }, 1500)
     } catch (error) {
       console.error('Fehler beim Senden der E-Mail:', error);
-      alert('Fehler beim Senden der E-Mail.');
     }
   }
 }

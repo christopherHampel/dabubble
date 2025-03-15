@@ -31,7 +31,6 @@ export class UsersDbService {
     })
   }
 
-
   get currentUser() {
     return this.currentUserSig();
   }

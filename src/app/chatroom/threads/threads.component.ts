@@ -2,10 +2,10 @@ import {
   Component,
   effect,
   ElementRef,
+  HostListener,
   inject,
   QueryList,
   signal,
-  SimpleChanges,
   ViewChild,
   ViewChildren,
   WritableSignal,
@@ -17,10 +17,9 @@ import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ActivatedRoute } from '@angular/router';
 import { ScrollService } from '../../services/message/scroll.service';
 import { Thread } from '../../interfaces/thread';
-import { Observable, Subscription } from 'rxjs';
-import { AuthService } from '../../services/auth/auth.service';
-import { MessagesFieldComponent } from '../../shared/messages-field/messages-field.component';
 import { ChatsService } from '../../services/message/chats.service';
+import { EmojiPickerComponentComponent } from '../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
+import { EmojisService } from '../../services/message/emojis.service';
 
 @Component({
   selector: 'app-threads',
@@ -28,7 +27,7 @@ import { ChatsService } from '../../services/message/chats.service';
     CommonModule,
     TextareaComponent,
     SingleMessageComponent,
-    MessagesFieldComponent,
+    EmojiPickerComponentComponent,
   ],
   templateUrl: './threads.component.html',
   styleUrl: './threads.component.scss',
@@ -42,32 +41,25 @@ export class ThreadsComponent {
   @ViewChildren(SingleMessageComponent)
   messageComponents!: QueryList<SingleMessageComponent>;
 
-  threadData: Thread = {
-    docId: '',
-    participiants: [],
-    participiantsDetails: {},
-    // threadName: ''
-  };
-  hasScrolled: boolean = false;
-  private paramMapSubscription!: Subscription;
-  chatId: string = '';
-  chatMessages$!: Observable<any[]>;
+  // threadData: Thread = {
+  //   docId: '',
+  //   participiants: [],
+  //   participiantsDetails: {},
+  // };
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private scrollService: ScrollService,
-    private authService: AuthService,
-    private route: ActivatedRoute,
-    private chatService: ChatsService
+    public emojiService: EmojisService,
+    public chatService: ChatsService
   ) {
     effect(() => {
       let currentDocId = this.lastMessageDocId();
-      console.log(currentDocId)
       if (currentDocId) {
         this.scrollService.scrollToBottom();
-      } 
-      if(this.threadsDb.currentThreadId()) {
+      }
+      if (this.threadsDb.currentThreadId()) {
         this.chatService.watchLastMessageDocId(
           this.threadsDb.currentThreadId(),
           'threads',
@@ -79,34 +71,39 @@ export class ThreadsComponent {
 
   ngOnInit(): void {
     this.subscribeThreadData();
+    // console.log(this.chatService.firstThreadMessage()); // hier wichtig!!
+    
     this.chatService.watchLastMessageDocId(
       this.threadsDb.currentThreadId(),
       'threads',
       this.lastMessageDocId
-    );
+    );        
   }
 
   subscribeThreadData() {
     this.activatedRoute.params.subscribe((params) => {
       this.threadsDb.currentThreadId.set(params['threadId']);
+      // console.log(this.threadsDb.currentThreadId());
+      
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
       this.threadsDb.subscribeToThread(this.threadsDb.currentThreadId());
     });
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes[this.threadsDb.currentThreadId()]) {
-  //     // this.scrollService.hasScrolled = false;
-  //     this.currentDocId = this.lastMessageDocId();
-  //   }
-  // }
+  addEmoji(event: string) {
+    this.emojiService.addEmoji(
+      event,
+      this.threadsDb.currentThreadId(),
+      'threads'
+    );
+  }
 
   ngAfterViewInit() {
-    this.scrollService.setScrollContainerThread(this.myScrollContainerThread);
+    this.setScrollContainer();
+  }
 
-    if(this.threadsDb.currentThreadId()) {
-      
-    }
+  setScrollContainer() {
+    this.scrollService.setScrollContainerThread(this.myScrollContainerThread);
   }
 
   closeThread() {
@@ -123,6 +120,25 @@ export class ThreadsComponent {
       setTimeout(() => {
         this.scrollService.hasScrolled = true;
       }, 300);
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside() {
+    if (this.emojiService.emojiPickerOpenThreads) {
+      this.emojiService.emojiPickerOpenThreads = false;
+    }
+  }
+
+  getThreadAnswers() {
+    let threadAnswers = this.chatService.firstThreadMessage().associatedThreadId.count;
+
+    if(threadAnswers == 0) {
+      return ''
+    } else if(threadAnswers == 1) {
+      return threadAnswers + ' Antwort'
+    } else {
+      return threadAnswers + ' Antworten'
     }
   }
 }

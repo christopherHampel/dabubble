@@ -10,60 +10,55 @@ import { AuthService } from '../../services/auth/auth.service';
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  standalone: true
+  standalone: true,
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   private auth = inject(AuthService);
   loginForm: FormGroup;
   signOut = false;
   errorMessage: string | null = null;
-  //private auth = inject(AuthService);
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
-  }
-
-  ngOnInit() {
-    this.auth.currentAuthUser.subscribe((user) => {
-      if (user) {
-        // this.router.navigateByUrl('/chatroom');
-      }
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
   onLogin() {
     const rawForm = this.loginForm.getRawValue();
-    this.auth.login(rawForm.email, rawForm.password)
-      .then(() => {
-        // this.router.navigateByUrl('/chatroom');
-        this.router.navigate(['/chatroom']);
-      })
-
+    this.auth
+    .login(rawForm.email, rawForm.password)
+    .then(() => {
+      this.forwardToChatroom();
+    })
+    .catch( () => {
+      console.log('Fehlerhafte Anmeldedaten');
+      this.loginForm.setErrors({ invalidCredentials: true });
+    })
   }
 
   onGaestLogin() {
-    this.auth.login('gaest@gaest.com', '123456')
-      .then(() => {
-        this.router.navigateByUrl('/chatroom');
-      })
+    this.auth.login('gaest@gaest.com', '123456Aa!').then(() => {
+      this.forwardToChatroom();
+    });
   }
 
-  onLoginWithGoogle() {
-    this.auth.loginWithGoogle()
-      .then(() => {
-        this.router.navigateByUrl('/chatroom');
-      })
+  onLoginWithGoogle(e: any) {
+    e.preventdefault();
+    this.auth.loginWithGoogle().then(() => {
+      this.forwardToChatroom();
+    });
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      console.log('Formularwert:', this.loginForm.value);
-      this.onLogin();
-    } else {
-      console.log('Formular ist ungültig');
-    }
+  forwardToChatroom() {
+    this.authService.userFeedback('Anmelden');
+    setTimeout(() => {
+      this.router.navigate(['/chatroom']);
+    }, 1500);
   }
 }

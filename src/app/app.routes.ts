@@ -11,6 +11,8 @@ import { ResetPasswordComponent } from './registration/reset-password/reset-pass
 import { NewPasswordComponent } from './registration/new-password/new-password.component';
 import { ThreadsComponent } from './chatroom/threads/threads.component';
 import { DefaultComponent } from './chatroom/messages/default/default.component';
+import { ImprintComponent } from './registration/imprint/imprint.component';
+import { PrivacyPoliceComponent } from './registration/privacy-police/privacy-police.component';
 
 export const routes: Routes = [
   {
@@ -22,6 +24,8 @@ export const routes: Routes = [
       { path: 'choose-avatar', component: ChooseAvatarComponent },
       { path: 'reset-password', component: ResetPasswordComponent },
       { path: 'new-password', component: NewPasswordComponent },
+      { path: 'imprint', component: ImprintComponent },
+      { path: 'privacy-police', component: PrivacyPoliceComponent },
       { path: '', redirectTo: 'login', pathMatch: 'full' }
     ]
   },

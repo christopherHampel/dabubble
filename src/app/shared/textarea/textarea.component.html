@@ -1,14 +1,15 @@
 <section>
-  <div class="send-text">
+  <div class="send-text" (click)="$event.stopPropagation()">
     <textarea
-      (keydown.enter)="sendText($event)"
+      #textAreaRef
+      (keydown.enter)="checkTextLength($event)"
       (keydown)="detectAtSymbol($event)"
       (keyup)="autoGrowTextZone($event)"
       [(ngModel)]="message"
-      placeholder="Nachricht an {{ chatPartnerName }}"
+      placeholder="{{ this.getPlaceholder() }}"
     ></textarea>
-    
-    <div class="reactions" (click)="preventClose($event)">
+
+    <div class="reactions">
       <div>
         <div class="emoji-picker" (click)="toggleEmoji()"></div>
         <div class="tag-user">
@@ -22,13 +23,14 @@
           </div>
         </div>
       </div>
-      <a (click)="sendText($event)"><img src="/img/send.png" alt="send" /></a>
+      <a (click)="checkTextLength($event)"><img src="/img/send.png" alt="send" /></a>
     </div>
   </div>
   <div
     class="emoji-component"
     *ngIf="emojiMartOpen"
-    (click)="preventClose($event)">
+    (click)="$event.stopPropagation()"
+  >
     <app-emoji-picker-component
       (emojiSelected)="addEmojiToMessage($event)"
     ></app-emoji-picker-component>

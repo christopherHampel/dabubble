@@ -1,3 +1,4 @@
+
 import { Component, ElementRef, inject, signal, ViewChild, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChannelsDbService } from '../../../services/message/channels-db.service';
@@ -6,7 +7,6 @@ import { EmojisService } from '../../../services/message/emojis.service';
 import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { TextareaComponent } from '../../../shared/textarea/textarea.component';
 import { ChatsService } from '../../../services/message/chats.service';
-import { SingleMessageComponent } from '../single-message/single-message.component';
 import { ScrollService } from '../../../services/message/scroll.service';
 import { MessagesFieldComponent } from '../../../shared/messages-field/messages-field.component';
 import { ChannelDataWindowComponent } from './channel-data-window/channel-data-window.component';
@@ -21,7 +21,6 @@ import { ChannelAddMembersDialogComponent } from './channel-add-members-dialog/c
     CommonModule,
     EmojiPickerComponentComponent,
     TextareaComponent,
-    SingleMessageComponent,
     MessagesFieldComponent,
     ChannelDataWindowComponent,
     ChannelMembersInfoComponent,
@@ -37,6 +36,8 @@ export class ChannelComponent {
   usersDb = inject(UsersDbService);
   chatId: string = '';
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
+
+  @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
 
   dataWindow: boolean = false;
   membersInfo: boolean = false;

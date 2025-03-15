@@ -4,6 +4,9 @@
 /* nunito-200 - latin */
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
+// * {
+//   background: #ECEEFE;
+// }
 
 html {
   @include mat.theme((color: (theme-type: light,
@@ -13,6 +16,15 @@ html {
       typography: Roboto,
       density: 0,
     ));
+}
+
+/* figtree-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/figtree-v6-latin-regular.woff2') format('woff2');
 }
 
 /* nunito-200 - latin */
@@ -253,27 +265,6 @@ body {
   border-radius: 30px;
 }
 
-.back-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 65px;
-  left: 32px;
-
-  .back-arrow {
-    background-image: url("../public/img/arrow_back.svg");
-    width: 40px;
-    height: 40px;
-
-    &:hover {
-      cursor: pointer;
-      border-radius: 50%;
-      background-image: url("../public/img/arrow_back_hover.svg");
-    }
-  }
-}
-
 .card {
   background-color: #ffff;
   display: flex;
@@ -341,11 +332,11 @@ body {
   }
 }
 
-.further-button {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
+// .further-button {
+//   width: 100%;
+//   display: flex;
+//   justify-content: flex-end;
+// }
 
 /* ----- */
 /* Icons */

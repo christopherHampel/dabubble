@@ -1,27 +1,54 @@
 <section class="header color">
-    <img class="logo" src="/img/logo_complete.png">
+  <img class="logo" src="/img/logo_complete.png" />
 
+  <div class="search-container">
     <div class="search-wrapper">
-        <input class="input-text" type="text" placeholder="Devspace durchsuchen">
-        <div>
-            <div class="search-icon"></div>
-        </div>
+      <input
+        (input)="searchDevspace()"
+        [(ngModel)]="searchTextInput"
+        class="input-text"
+        type="text"
+        placeholder="Devspace durchsuchen"
+      />
+      <div class="search-icon"></div>
+    </div>
+    <div class="search-results" *ngIf="resultsData.length > 0">
+        @for (result of resultsData; track $index) {
+          <div (click)="goToSearchResult(result)" class="search-single-result">
+            <span>{{ result.component }}</span>
+            <span>{{ result.text }}</span>
+          </div>
+        }
+    </div>
+  </div>
+
+  <div
+    *ngIf="usersDb.currentUser as user"
+    (click)="openDropdown()"
+    class="user-profil-wrapper"
+  >
+    <div class="user-profil">
+      <h2>{{ user.userName }}</h2>
+      <div>
+        <img src="{{ user.avatar || '/img/empty_profile.png' }}" alt="" />
+        <div
+          class="active-status"
+          [ngClass]="{ online: user.active, offline: !user.active }"
+        ></div>
+      </div>
+      <div class="arrow-drop-down-icon"></div>
     </div>
 
-    <div *ngIf="usersDb.currentUser as user" (click)="openDropdown()" class="user-profil-wrapper">
-        <div class="user-profil">
-            <h2>{{user.userName}}</h2>
-            <div>
-                <img src="{{user.avatar || '/img/empty_profile.png'}}" alt="">
-                <div class="active-status" [ngClass]="{'online': user.active, 'offline': !user.active}"></div>
-            </div>
-            <div class="arrow-drop-down-icon"></div>
-        </div>
-
-        <ul [ngStyle]="{'display': dropdown ? 'flex' : 'none'}" class="dropdown-profil animation">
-            <button>Profil</button>
-            <button (click)="onLogout()">Log out</button>
-        </ul>
-    </div>
+    <ul
+      [ngStyle]="{ display: dropdown ? 'flex' : 'none' }"
+      class="dropdown-profil animation"
+    >
+      <button>Profil</button>
+      <button (click)="onLogout()">Log out</button>
+    </ul>
+  </div>
 </section>
-<app-transparent-background [backgroundOpen]="dropdown" (backgroundClose)="closeDropdown(!$event)"></app-transparent-background>
+<app-transparent-background
+  [backgroundOpen]="dropdown"
+  (backgroundClose)="closeDropdown(!$event)"
+></app-transparent-background>

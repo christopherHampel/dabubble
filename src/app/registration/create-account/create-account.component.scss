@@ -1,22 +1,33 @@
 @use "../registration.component.scss";
 
 .input-card {
-  height: 669px;
+  gap: 40px;
 }
 
-h2 {
-  text-align: center;
-  color: rgba(68, 77, 242, 1);
-  font-size: 2.8rem;
-  font-weight: 700;
-  font-family: "Nunito";
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 40px 67px 0 67px;
+
+  h2 {
+    text-align: center;
+    color: rgba(68, 77, 242, 1);
+    font-size: 2.8rem;
+    font-weight: 700;
+    font-family: "Nunito";
+  }
+
+  span {
+    width: 486px;
+    text-align: center;
+  }
 }
 
-span {
-  font-size: 1.25rem;
-  font-weight: 400;
-  text-align: center;
-  padding: 2rem;
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;    
 }
 
 .input-icon {
@@ -25,17 +36,12 @@ span {
   margin-top: 18px;
 }
 
-.further-button {
-  width: 31rem;
-}
-
 .checkbox-container {
-  width: 31rem;
+  width: 100%;
   display: flex;
-  align-items: center;
+  align-items: center ;
   justify-content: flex-start;
   gap: 8px;
-  margin-bottom: 30px;
   font-family: "Karla", sans-serif;
   font-size: 1rem;
   font-weight: 400;
@@ -79,7 +85,6 @@ span {
     a {
       color: rgba(68, 77, 242, 1);
       text-decoration: none;
-      padding: 0.2rem 0.5rem;
       border-radius: 12px;
       transition: background-color 0.3s, color 0.3s;
 

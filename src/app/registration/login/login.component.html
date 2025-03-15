@@ -1,48 +1,87 @@
 <section class="input-card">
-  <div class="input-card-container">
+  <div class="head">
     <h2>Anmeldung</h2>
-    <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
-
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="input-container">
-        <div class="input-field">
-          <img class="input-icon" src="/img/mail-icon.svg" alt="">
-          <input id="email" placeholder="YourEmail@email.com" formControlName="email" type="email" />
-        </div>
-        <div class="form-error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-          <small *ngIf="loginForm.get('email')?.hasError('required')">Email ist erforderlich.</small>
-          <small *ngIf="loginForm.get('email')?.hasError('email')">Bitte eine gültige Email eingeben.</small>
-        </div>
-      </div>
-
-      <div class="input-container">
-        <div class="input-field">
-          <img class="input-icon" src="/img/lock-icon.svg" alt="">
-          <input id="password" placeholder="password" formControlName="password" type="password" />
-        </div>
-        <div class="form-error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-          <small *ngIf="loginForm.get('password')?.hasError('required')">Passwort ist erforderlich.</small>
-          <small *ngIf="loginForm.get('password')?.hasError('minlength')">Passwort muss mindestens 6 Zeichen lang
-            sein.</small>
-        </div>
-      </div>
-      <div class="login-options">
-        <a [routerLink]="'/register/reset-password'">Passwort vergessen?</a>
-        <div class="divider">
-          <span>ODER</span>
-        </div>
-        <div class="google-login-container">
-          <button (click)="onLoginWithGoogle()" class="google-login">
-            <img src="/img/Google-icon.svg" alt="Google Icon" />
-            Anmelden mit Google
-          </button>
-        </div>
-      </div>
-      <div class="btn-container login-btn-container">
-        <button class="main-btn" type="submit" [disabled]="loginForm.invalid">Login</button>
-        <button (click)="onGaestLogin()" class="gast-login-btn" type="submit">Guest Login</button>
-      </div>
-
-    </form>
+    <span
+      >Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
+      verwendest.</span
+    >
   </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <div class="input-wrapper">
+      <img class="input-icon" src="/img/mail-icon.svg" alt="" />
+      <input
+        id="email"
+        placeholder="beispielname@email.com"
+        formControlName="email"
+        type="email"
+      />
+      <div
+        class="form-error"
+        *ngIf="
+          loginForm.get('email')?.touched && loginForm.get('email')?.invalid
+        "
+      >
+        <small *ngIf="loginForm.get('email')?.hasError('required')"
+          >Email ist erforderlich.</small
+        >
+        <small *ngIf="loginForm.get('email')?.hasError('email')"
+          >Bitte eine gültige Email eingeben.</small
+        >
+      </div>
+    </div>
+
+    <div class="input-wrapper">
+      <img class="input-icon" src="/img/lock-icon.svg" alt="" />
+      <input
+        id="password"
+        placeholder="Passwort"
+        formControlName="password"
+        type="password"
+      />
+      <div
+      class="form-error"
+      *ngIf="
+        loginForm.get('password')?.touched && loginForm.get('password')?.invalid
+      "
+    >
+      <small *ngIf="loginForm.get('password')?.hasError('required')"
+        >Passwort ist erforderlich.</small
+      >
+      <small *ngIf="loginForm.get('password')?.hasError('minlength')"
+        >Passwort muss mindestens 6 Zeichen lang sein.</small
+      >
+    </div>
+    </div>
+
+    <a class="style-a" [routerLink]="'/register/reset-password'">Passwort vergessen?</a>
+
+    <div class="or-and-google">
+      <div class="divider">
+        <div></div>
+        <span>ODER</span>
+        <div></div>
+      </div>
+
+      <div class="google-login-container">
+        <button (click)="onLoginWithGoogle($event)" class="google-login">
+          <img src="/img/Google-icon.svg" alt="Google Icon" />
+          Anmelden mit Google
+        </button>
+      </div>
+    </div>
+
+    <div class="btn-container login-btn-container">
+      <button class="main-btn" type="submit" [disabled]="loginForm.invalid">
+        Login
+      </button>
+      <button (click)="onGaestLogin()" class="gast-login-btn" type="submit">
+        Guest Login
+      </button>
+    </div>
+    <div class="form-error login-error" *ngIf="loginForm.errors && loginForm.errors['invalidCredentials']">
+      <small>Email oder Passwort ist falsch.</small>
+    </div>
+    
+  </form>
 </section>

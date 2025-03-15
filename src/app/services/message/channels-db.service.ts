@@ -1,3 +1,14 @@
+import { effect, inject, Injectable, signal } from '@angular/core';
+import {
+  collection,
+  doc,
+  Firestore,
+  onSnapshot,
+  updateDoc,
+} from '@angular/fire/firestore';
+import { addDoc, getDocs } from 'firebase/firestore';
+import { Channel } from '../../interfaces/channel';
+import { SearchDevspaceService } from './search-devspace.service';
 import { inject, Injectable, signal } from '@angular/core';
 import { arrayUnion, collection, doc, Firestore, onSnapshot, updateDoc } from '@angular/fire/firestore';
 import { addDoc } from 'firebase/firestore';
@@ -6,7 +17,7 @@ import { UserProfile } from '../../interfaces/userProfile';
 import { UsersDbService } from '../usersDb/users-db.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChannelsDbService {
   private channels = inject(Firestore);
@@ -17,66 +28,67 @@ export class ChannelsDbService {
   channelListSig = signal<Channel[]>([]);
   unsubChannelList: any;
 
-  constructor() {
+  constructor(private searchService: SearchDevspaceService) {
     this.subChannelList();
-  }
-
+    effect(() => {
+      const searchText = this.searchService.searchTextSig().toLowerCase();
+      if (searchText.length > 0) {
+        this.searchService.searchMessagesInChannels(searchText, 'channels');
+      } else {
+        this.searchService.results = [];
+      }
+    });
 
   get channel() {
     return this.channelSig();
   }
 
-
   get channelUserDataList() {
     return this.channelUserDataListSig();
   }
-
 
   get channelList() {
     return this.channelListSig();
   }
 
-
   updateChannel(channel: Partial<Channel>) {
     this.channelSig.update((currentData) => ({ ...currentData!, ...channel }));
   }
-
 
   async changeChannel() {
     const channelRef = this.getSingleDocRef('channels', this.channel!.id);
     await updateDoc(channelRef, this.getCleanJson(this.channel!));
   }
 
-
   getCleanJson(channel: Channel): {} {
     return {
       id: channel.id,
       name: channel.name,
       description: channel.description,
-      participants: channel.participants
-    }
+      createdBy: channel.createdBy,
+      participants: channel.participants,
+    };
   }
-
 
   async addChannel() {
-    await addDoc(this.getChannelRef(), this.channelSig())
-      .then(async (docRef) => {
+    await addDoc(this.getChannelRef(), this.channelSig()).then(
+      async (docRef) => {
         updateDoc(docRef, {
-          id: docRef.id
+          id: docRef.id,
         });
-      });
+      }
+    );
   }
-
 
   setChannelObject(object: any): Channel {
     return {
       id: object.id || '',
       name: object.name || '',
       description: object.description || '',
-      participants: object.participants || {}
-    }
+      createdBy: object.createdBy || {},
+      participants: object.participants || {},
+    };
   }
-
 
   subToChannel(id: string) {
     const channelRef = this.getSingleDocRef('channels', id);
@@ -102,7 +114,6 @@ export class ChannelsDbService {
     });
   }
 
-
   setUserObject(object: any, id: string): UserProfile {
     return {
       id: id || '',
@@ -115,8 +126,7 @@ export class ChannelsDbService {
     }
   }
 
-
-  subChannelList() {
+subChannelList() {
     onSnapshot(this.getChannelRef(), (list) => {
       const channels: Channel[] = [];
       list.forEach((item) => {
@@ -126,16 +136,13 @@ export class ChannelsDbService {
     });
   }
 
-
   getChannelRef() {
     return collection(this.channels, 'channels');
   }
 
-
   getSingleDocRef(colId: string, docId: string) {
     return doc(collection(this.channels, colId), docId);
   }
-
 
   async updateParticipiants(participants: {id: string; createdBy: boolean}[]) {
     const channelRef = this.getSingleDocRef('channels', this.channel!.id);

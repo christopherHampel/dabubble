@@ -1,151 +1,155 @@
 * {
-    font-family: 'Nunito';
+  font-family: "Nunito";
 }
 
 section {
-    height: calc(100vh - 102px - 16px);
+  height: calc(100vh - 102px - 16px);
+}
+
+.distance-chatroom {
+  margin-left: 40px;
+  // margin-right: 20px;
 }
 
 .card {
-    width: 450px;
+  width: 450px;
 
-    padding: 0;
+  padding: 0;
 }
 
 .thread-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+
+  padding: 32px 40px;
+
+  box-shadow: 0px 2px 10px 0px rgba(0 0 0 / 8%);
+
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+
+  .thread-title {
+    flex: 1.75;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-start;
 
-    width: 100%;
+    span {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      /* number of lines to show */
+      line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+  }
 
-    padding: 32px 40px;
-
-    box-shadow: 0px 2px 10px 0px rgba(0 0 0 / 8%);
-
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-
-    .thread-title {
-        flex: 1.75;
-        display: flex;
-        justify-content: flex-start;
-
-        span {
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            /* number of lines to show */
-            line-clamp: 1;
-            -webkit-box-orient: vertical;
-        }
+  & > div {
+    & > h2 {
+      font-size: 24px;
     }
 
-    &>div {
-
-        &>h2 {
-            font-size: 24px;
-        }
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 5px;
-
-        div {
-            &>span {
-                color: #797EF3;
-
-                font-weight: 400;
-                font-size: 14px;
-            }
-        }
-    }
-}
-
-.message-field {
-    overflow-y: scroll;
-    scroll-behavior: smooth;
-    display: grid;
-    flex: 1;
-    scrollbar-width: none;
-    position: relative;
-
-    .flex-end {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        position: relative;
-    }
-
-    div {
-        width: 100%;
-    }
-}
-
-.message-wrapper {
-    padding: 10px 20px;
-
-    &:first-child {
-        margin-top: auto;
-    }
-}
-
-.separater {
-    width: auto;
-    height: 1px;
-    flex-grow: 1;
-
-    background-color: #ADB0D9;
-
-    border-radius: 0.75px;
-}
-
-.textarea-component {
-    padding: 32px 20px;
-}
-
-.thread-title-tooltip {
-    position: relative;
-
-    .tooltip {
-        position: absolute;
-        z-index: 10;
-        padding: 24px;
-        color: #797EF3;
-        visibility: hidden;
-        background-color: #FFFF;
-        border: 1px solid #ADB0D9;
-        border-radius: 30px;
-    }
-}
-
-.thread-title-tooltip:hover .tooltip {
-    visibility: visible;
-}
-
-.answers {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 5px;
 
-    color: #ADB0D9;
+    div {
+      & > span {
+        color: #797ef3;
 
-    padding-left: 10px;
-    padding-right: 10px;
-
-    span {
-        white-space: nowrap;
+        font-weight: 400;
+        font-size: 14px;
+      }
     }
+  }
+}
+
+.message-field {
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  display: grid;
+  flex: 1;
+  scrollbar-width: none;
+  position: relative;
+
+  .flex-end {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+  }
+
+  div {
+    width: 100%;
+  }
+}
+
+.message-wrapper {
+  padding: 10px 20px;
+
+  &:first-child {
+    margin-top: auto;
+  }
 }
 
 .separater {
-    width: auto;
-    height: 1px;
-    flex-grow: 1;
+  width: auto;
+  height: 1px;
+  flex-grow: 1;
 
-    background-color: #ADB0D9;
+  background-color: #adb0d9;
 
-    border-radius: 0.75px;
+  border-radius: 0.75px;
+}
+
+.textarea-component {
+  padding: 32px 20px;
+}
+
+.thread-title-tooltip {
+  position: relative;
+
+  .tooltip {
+    position: absolute;
+    z-index: 10;
+    padding: 24px;
+    color: #797ef3;
+    visibility: hidden;
+    background-color: #ffff;
+    border: 1px solid #adb0d9;
+    border-radius: 30px;
+  }
+}
+
+.thread-title-tooltip:hover .tooltip {
+  visibility: visible;
+}
+
+.answers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  color: #adb0d9;
+
+  padding-left: 10px;
+  padding-right: 10px;
+
+  span {
+    white-space: nowrap;
+  }
+}
+
+.separater {
+  width: auto;
+  height: 1px;
+  flex-grow: 1;
+
+  background-color: #adb0d9;
+
+  border-radius: 0.75px;
 }

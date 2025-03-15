@@ -1,0 +1,6 @@
+<section *ngIf="feedback">
+    <div>
+        <img *ngIf="feedbackMessage == 'E-Mail gesendet'" src="/img/send_white.png" alt="">
+        <span>{{ feedbackMessage }}</span>
+    </div>
+</section>
