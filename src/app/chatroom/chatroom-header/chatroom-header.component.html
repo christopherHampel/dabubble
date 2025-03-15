@@ -1,19 +1,23 @@
 <section class="header color">
   <img class="logo" src="/img/logo_complete.png" />
 
-  <div>
+  <div class="search-container">
     <div class="search-wrapper">
       <input
-        (input)="searchDevspace($event)"
+        (input)="searchDevspace()"
+        [(ngModel)]="searchTextInput"
         class="input-text"
         type="text"
         placeholder="Devspace durchsuchen"
       />
       <div class="search-icon"></div>
     </div>
-    <div>
+    <div class="search-results" *ngIf="resultsData.length > 0">
         @for (result of resultsData; track $index) {
+          <div (click)="goToSearchResult(result)" class="search-single-result">
+            <span>{{ result.component }}</span>
             <span>{{ result.text }}</span>
+          </div>
         }
     </div>
   </div>

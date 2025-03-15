@@ -8,6 +8,7 @@ import {
 } from '@angular/fire/firestore';
 import { addDoc, getDocs } from 'firebase/firestore';
 import { Channel } from '../../interfaces/channel';
+import { SearchDevspaceService } from './search-devspace.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,58 +20,16 @@ export class ChannelsDbService {
   channelListSig = signal<Channel[]>([]);
   unsubChannelList: any;
 
-  searchTextSig = signal<string>(''); // Suchtext als Signal
-  filteredChannelsSig = signal<Channel[]>([]); // Gefilterte Channels
-  results: any[] = [];
-
-  constructor() {
+  constructor(private searchService: SearchDevspaceService) {
     this.unsubChannelList = this.subChannelList();
     effect(() => {
-      const searchText = this.searchTextSig().toLowerCase();
-      if (searchText.length > 2) {
-        this.searchMessagesInChannels(searchText);
+      const searchText = this.searchService.searchTextSig().toLowerCase();
+      if (searchText.length > 0) {
+        this.searchService.searchMessagesInChannels(searchText, 'channels');
       } else {
-        this.results = [];
+        this.searchService.results = [];
       }
     });
-  }
-
-  async searchMessagesInChannels(searchText: string) {
-    const channelsRef = collection(this.channels, 'channels');
-    const channelsSnapshot = await getDocs(channelsRef);
-
-    this.results = [];
-
-    for (const channelDoc of channelsSnapshot.docs) {
-      const messagesRef = collection(
-        this.channels,
-        `channels/${channelDoc.id}/messages`
-      );
-      const messagesSnapshot = await getDocs(messagesRef);
-
-      messagesSnapshot.forEach((messageDoc) => {
-        const messageData = messageDoc.data();
-
-        if (typeof messageData['text'] === 'string') {
-          const messageText = messageData['text'].toLowerCase();
-          const searchLower = searchText.toLowerCase();
-
-          if (messageText.includes(searchLower)) {
-            this.results.push({
-              channelId: channelDoc.id,
-              messageId: messageDoc.id,
-              text: messageData['text'], // Original-Text anzeigen
-            });
-          }
-        }
-      });
-    }
-
-    console.log('Suchergebnisse:', this.results);
-  }
-
-  setSearchText(text: string) {
-    this.searchTextSig.set(text);
   }
 
   get channel() {

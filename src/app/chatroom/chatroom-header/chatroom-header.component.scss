@@ -160,6 +160,33 @@
     animation: animation 0.25s;
 }
 
+.search-container {
+    position: relative;
+
+    .search-results {
+        position: absolute;
+        top: 110%;
+        z-index: 5;
+        background-color: #FFFF;
+        min-height: 100px;
+        width: 100%;
+        box-shadow: 5px 5px 15px 5px #000000;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .search-single-result {
+            display: flex;
+            flex-direction: column;
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(0, 0, 0, 0.2);
+            }
+        }
+    }
+}
+
 @keyframes animation {
     from {
         opacity: 0;

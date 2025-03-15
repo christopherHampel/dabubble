@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  WritableSignal,
-  inject,
-  signal,
-} from '@angular/core';
+import { Injectable, WritableSignal, effect, inject, signal } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import {
   collection,
@@ -26,6 +21,7 @@ import { UserProfile } from '../../interfaces/userProfile';
 import { UsersDbService } from '../usersDb/users-db.service';
 import { ChatData } from '../../interfaces/chat-data';
 import { CurrentMessage } from '../../interfaces/current-message';
+import { SearchDevspaceService } from './search-devspace.service';
 
 @Injectable({
   providedIn: 'root',
@@ -160,8 +156,18 @@ export class ChatsService {
 
   constructor(
     public usersService: UsersDbService,
-    public authService: AuthService
-  ) {}
+    public authService: AuthService,
+    private searchService: SearchDevspaceService
+  ) {
+    effect(() => {
+      const searchText = this.searchService.searchTextSig().toLowerCase();
+      if (searchText.length > 0) {
+        this.searchService.searchMessagesInChannels(searchText, 'messages');
+      } else {
+        this.searchService.results = [];
+      }
+    });
+  }
 
   private checkCurrentUser() {
     const currentUser = this.usersService.currentUserSig();

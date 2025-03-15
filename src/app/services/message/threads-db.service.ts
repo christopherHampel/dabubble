@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import {
   addDoc,
   collection,
@@ -17,6 +17,7 @@ import { UsersDbService } from '../usersDb/users-db.service';
 import { map, Observable } from 'rxjs';
 import { CurrentMessage } from '../../interfaces/current-message';
 import { Router } from '@angular/router';
+import { SearchDevspaceService } from './search-devspace.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,19 @@ export class ThreadsDbService {
   threadData = signal<any>(null);
   unsubMessageList: any;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private searchService: SearchDevspaceService
+  ) {
+    effect(() => {
+      const searchText = this.searchService.searchTextSig().toLowerCase();
+      if (searchText.length > 0) {
+        this.searchService.searchMessagesInChannels(searchText, 'threads');
+      } else {
+        this.searchService.results = [];
+      }
+    });
+  }
 
   get messageList() {
     return this.messageListSig();
@@ -55,8 +68,8 @@ export class ThreadsDbService {
         component: component,
         threadMessageData: {
           chatId: chatId,
-          messageId: message.docId
-        }
+          messageId: message.docId,
+        },
       });
     });
   }
@@ -101,8 +114,7 @@ export class ThreadsDbService {
       updateDoc(docRef, {
         docId: docRef.id,
       });
-      this.updateLastMessageDocId(docRef.id, threadRef)
-
+      this.updateLastMessageDocId(docRef.id, threadRef);
     });
   }
 
