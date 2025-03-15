@@ -63,7 +63,7 @@
   ></app-messages-field>
 
   <div class="textarea-component">
-    <div class="communication-with">
+    <div class="communication-with" *ngIf="(chatMessages$ | async)?.length === 0" >
         <span class="channel-name"># {{ getChannelName }}</span>
         <div class="channel-start">
             <span>Du hast diesen Channel heute erstellt. Das ist der Anfang des Channels </span>

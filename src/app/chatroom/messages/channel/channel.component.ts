@@ -1,5 +1,10 @@
-
-import { Component, inject, signal, ViewChild, WritableSignal } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  ViewChild,
+  WritableSignal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChannelsDbService } from '../../../services/message/channels-db.service';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +19,7 @@ import { ChannelMembersInfoComponent } from './channel-members-info/channel-memb
 import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { ChannelAddMembersDialogComponent } from './channel-add-members-dialog/channel-add-members-dialog.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-channel',
@@ -25,7 +31,7 @@ import { ChannelAddMembersDialogComponent } from './channel-add-members-dialog/c
     ChannelDataWindowComponent,
     ChannelMembersInfoComponent,
     TransparentBackgroundComponent,
-    ChannelAddMembersDialogComponent
+    ChannelAddMembersDialogComponent,
   ],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss',
@@ -36,8 +42,7 @@ export class ChannelComponent {
   usersDb = inject(UsersDbService);
   chatId: string = '';
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
-
-  // @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
+  chatMessages$!: Observable<any[]>;
 
   dataWindow: boolean = false;
   membersInfo: boolean = false;
@@ -45,19 +50,19 @@ export class ChannelComponent {
 
   @ViewChild('channelDataWindow') channelDataWindow!: any;
   @ViewChild('channelAddMembersInfo') channelAddMembersInfo!: any;
-  // @ViewChild('myScrollContainer') private myScrollContainer!: ElementRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     public emojiService: EmojisService,
-    private scrollService: ScrollService,
-    public chatService: ChatsService) { }
+    public chatService: ChatsService
+  ) {}
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(async (params) => {
       this.channelsDb.subToChannel(params['id']);
       this.chatId = params['id'];
       this.getMessages();
+      this.chatMessages$ = this.chatService.messages$;
     });
   }
 
@@ -84,13 +89,11 @@ export class ChannelComponent {
     }
   }
 
-
   openAddMembers(event: boolean) {
     this.membersInfo = !event;
     this.addMembers = event;
     this.channelAddMembersInfo.resetAfterViewChecked();
   }
-
 
   closeDialog(event: boolean) {
     this.dataWindow = event;
@@ -107,6 +110,5 @@ export class ChannelComponent {
 
   openChannelSig() {
     console.log(this.channelsDb.channelSig()?.name);
-    
   }
 }
