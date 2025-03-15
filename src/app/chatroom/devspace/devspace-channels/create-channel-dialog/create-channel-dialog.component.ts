@@ -43,7 +43,7 @@ export class CreateChannelDialogComponent {
   createChannel() {
     this.channelsDb.updateChannel({
       id: '',
-      name: this.channelName.substring(2),
+      name: this.channelName.substring(4),
       description: this.channelDescription
     })
 

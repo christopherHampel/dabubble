@@ -98,7 +98,7 @@ export class ChannelDataWindowComponent {
 
   async saveChannel() {
     this.channelsDb.updateChannel({
-      name: this.channelName.substring(2),
+      name: this.channelName.substring(4),
       description: this.channelDescription
     })
 
