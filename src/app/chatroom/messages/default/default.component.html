@@ -16,9 +16,9 @@
         ></app-user-view-small>
       </div>
 
-      <div *ngIf="this.channelList">
-        <div *ngFor="let channel of getChannelList()" class="channel-view-small">
-          <div class="hashtag-icon"></div>
+      <div class="user-list channel-list" *ngIf="this.channelList">
+        <div *ngFor="let channel of getChannelList()" class="">
+          <span class="hashtag-icon"></span>
           <span>{{ channel.name }}</span>
         </div>
       </div>
