@@ -40,12 +40,6 @@ export class ThreadsComponent {
   private myScrollContainerThread!: ElementRef;
   @ViewChildren(SingleMessageComponent)
   messageComponents!: QueryList<SingleMessageComponent>;
-
-  // threadData: Thread = {
-  //   docId: '',
-  //   participiants: [],
-  //   participiantsDetails: {},
-  // };
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
 
   constructor(
@@ -70,6 +64,7 @@ export class ThreadsComponent {
   }
 
   ngOnInit(): void {
+    
     this.subscribeThreadData();
     // console.log(this.chatService.firstThreadMessage()); // hier wichtig!!
     

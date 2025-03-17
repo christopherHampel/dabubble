@@ -61,12 +61,16 @@ export class TooltipComponent {
       let thread: any = {
         chatId: '',
         threadName: this.message.messageAuthor.name
-      }      
+      }  
+          
       await this.threadsDb.addThread(thread, this.message, this.chatId, this.message, this.component);
       await this.chat.updateAssociatedThreadId(this.message.docId, this.chatId, this.threadsDb.currentThreadId(), this.component);
     }
     this.router.navigate(['/chatroom', { outlets: { thread: ['thread', this.threadsDb.currentThreadId()] } }]);
-    this.chatService.subscribeFirstThreadMessage(this.chatId, this.message.docId);
+    this.chatService.subscribeFirstThreadMessage(this.chatId, this.message.docId, this.message.component);
+    setTimeout(() => {
+      console.log(this.chatService.firstThreadMessage());
+    }, 1000)
   }
 
   @HostListener('document:click', ['$event'])

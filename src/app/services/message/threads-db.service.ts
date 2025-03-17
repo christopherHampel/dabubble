@@ -56,7 +56,6 @@ export class ThreadsDbService {
     currentMessage: CurrentMessage,
     component: string
   ) {
-    const firstThreadMessage = true;
     await addDoc(this.getThredRef(), thread).then(async (docRef) => {
       this.currentThreadId.set(docRef.id);
       this.unsubMessageList = this.subMessageList(docRef.id);
@@ -69,6 +68,7 @@ export class ThreadsDbService {
         threadMessageData: {
           chatId: chatId,
           messageId: message.docId,
+          originalChat: message.component,
         },
       });
     });
@@ -77,7 +77,8 @@ export class ThreadsDbService {
   async addMessageToThread(
     threadId: string,
     message: Message | string,
-    firstThreadMessage: boolean
+    firstThreadMessage: boolean,
+    startThreadMessage:any
   ) {
     const threadRef = doc(this.getThredRef(), threadId);
     const messageRef = collection(threadRef, 'messages');
@@ -100,13 +101,15 @@ export class ThreadsDbService {
           emojis: [],
         },
         threadId,
-        firstThreadMessage
+        firstThreadMessage,
+        startThreadMessage
       );
     } else {
       messageType = this.getCleanJsonMessage(
         message,
         threadId,
-        firstThreadMessage
+        firstThreadMessage,
+        startThreadMessage
       );
     }
 
@@ -158,7 +161,8 @@ export class ThreadsDbService {
   getCleanJsonMessage(
     message: Message,
     threadId: string,
-    firstThreadMessage: boolean
+    firstThreadMessage: boolean,
+    startThreadMessage: any
   ): {} {
     return {
       docId: '',
@@ -175,6 +179,8 @@ export class ThreadsDbService {
       createdAt: message.createdAt,
       firstMessageOfTheDay: '',
       emojis: message.emojis,
+      originalChat: startThreadMessage.component,
+      originalChatId: startThreadMessage.docId,
     };
   }
 

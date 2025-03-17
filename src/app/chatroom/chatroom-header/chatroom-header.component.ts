@@ -9,6 +9,7 @@ import { ChannelsDbService } from '../../services/message/channels-db.service';
 import { SearchDevspaceService } from '../../services/message/search-devspace.service';
 import { doc } from 'firebase/firestore';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
+import { ChatsService } from '../../services/message/chats.service';
 
 @Component({
   selector: 'app-chatroom-header',
@@ -28,7 +29,8 @@ export class ChatroomHeaderComponent {
   constructor(
     private router: Router,
     private searchService: SearchDevspaceService,
-    private threadsDb: ThreadsDbService
+    private threadsDb: ThreadsDbService,
+    private chatService: ChatsService
   ) {}
 
   get resultsData() {
@@ -57,10 +59,12 @@ export class ChatroomHeaderComponent {
   }
 
   async goToSearchResult(result: any) {
+    console.log(result);
+    debugger
     if (result.component === 'channels') {
       this.router.navigate([
         '/chatroom',
-        { outlets: { chats: ['channel', result.channelId], thread: null } },
+        { outlets: { chats: ['channels', result.channelId], thread: null } },
       ]);
     } else if (result.component === 'messages') {
       this.router.navigate([
@@ -73,20 +77,23 @@ export class ChatroomHeaderComponent {
         },
       ]);
     } else {
-      console.log('Go to threads');
       const chatId = await this.searchService.getThreadData(result);
-      console.log('ChatId:', chatId);
-      this.router.navigate([
-        '/chatroom',
-        { outlets: { chats: ['direct-message', chatId], thread: null } },
-      ]);
-      setTimeout(() => {
-        console.log('Thread:', result.channelId);
+      if(result.originalChat === 'channels') {
+        this.router.navigate([
+          '/chatroom',
+          { outlets: { chats: ['channels', chatId], thread: null } },
+        ]);
+      } else {
+        this.router.navigate([
+          '/chatroom',
+          { outlets: { chats: ['direct-message', chatId], thread: null } },
+        ]);
+      }
+      setTimeout(() => {                
+        this.chatService.subscribeFirstThreadMessage(chatId, result.originalChatId, result.originalChat);
         this.threadsDb.currentThreadId.set(result.channelId);
         this.threadsDb.subscribeToThread(result.channelId);
-        this.threadsDb.subMessageList(result.channelId);
-
-        console.log(this.threadsDb.currentThreadId(), this.threadsDb.messageListSig());
+        this.threadsDb.subMessageList(result.channelId);        
         
         this.router.navigate([
           '/chatroom',

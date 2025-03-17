@@ -39,7 +39,7 @@ export class TextareaComponent implements OnInit {
   @Input() message: string = '';
   @Input() chatPartnerName: string = '';
   @Input() component: string = '';
-  @Input() id: string = '';
+  // @Input() id: string = '';
 
   chatId: string = '';
   userList: boolean = false;
@@ -73,6 +73,7 @@ export class TextareaComponent implements OnInit {
     if (this.component == 'threads') {
       this.sendNewThread();
     } else {
+      
       await this.chatService.addMessageToChat(
         this.message,
         this.chatId,
@@ -84,14 +85,17 @@ export class TextareaComponent implements OnInit {
 
   async sendNewThread() {
     const firstThreadMessage = false;
+    const startThreadMessage = this.chatService.firstThreadMessage();
+    console.log(startThreadMessage);
+    
     await this.threadDb.addMessageToThread(
       this.threadDb.currentThreadId(),
       this.message,
-      firstThreadMessage
+      firstThreadMessage,
+      startThreadMessage
     );
     await this.chatService.updateThreadAnswersCount(
       this.threadDb.currentThreadId(),
-      this.component
     );
   }
 

@@ -33,19 +33,21 @@ export class SearchDevspaceService {
 
       messagesSnapshot.forEach((messageDoc) => {
         const messageData = messageDoc.data();
-
+        console.log(messageData);
+        
+        
         if (typeof messageData['text'] === 'string') {
           const messageText = messageData['text'].toLowerCase();
           const searchLower = searchText.toLowerCase();
 
           if (messageText.includes(searchLower)) {
-            // console.log('Message:', messageData);
-
             this.results.push({
               channelId: channelDoc.id,
               messageId: messageDoc.id,
               component: messageData['component'],
               text: messageData['text'],
+              originalChat: messageData['originalChat'],
+              originalChatId: messageData['originalChatId'],
             });
           }
         }
@@ -60,9 +62,6 @@ export class SearchDevspaceService {
 
     if (docSnap.exists()) {
       const chatId = docSnap.data()['chatId'];
-      // this.threadsDb.currentThreadId.set(chatId);
-      // this.threadsDb.subscribeToThread(chatId);
-      // this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
       return chatId;
     } else {
       return 'No Data'

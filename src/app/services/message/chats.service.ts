@@ -374,7 +374,6 @@ export class ChatsService {
 
   async updateThreadAnswersCount(
     currentThreadId: string,
-    component: string
   ): Promise<void> {
     const docRef = this.getSingleDocRef('threads', currentThreadId);
     const docSnapshot = await getDoc(docRef);
@@ -387,7 +386,7 @@ export class ChatsService {
         chatId,
         currentMessageId,
         currentThreadId,
-        threadData['component']
+        threadData['component'],
       );
     }
   }
@@ -396,7 +395,7 @@ export class ChatsService {
     chatId: string,
     currentMessageId: string,
     currentThreadId: string,
-    component: string
+    component: string,
   ): Promise<void> {
     const querySnapshot = await this.getQuerySnapshot(
       currentMessageId,
@@ -442,8 +441,8 @@ export class ChatsService {
     });
   }
 
-  subscribeFirstThreadMessage(chatId: string, docId: string) {
-    const messagesCollection = this.getSubColMessages(chatId, 'messages');
+  subscribeFirstThreadMessage(chatId: string, docId: string, component:string) {
+    const messagesCollection = this.getSubColMessages(chatId, component);
     const messageDocRef = doc(messagesCollection, docId);
 
     onSnapshot(messageDocRef, (docSnapshot) => {
