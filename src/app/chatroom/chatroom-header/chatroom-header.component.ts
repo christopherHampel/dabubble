@@ -64,7 +64,7 @@ export class ChatroomHeaderComponent {
     if (result.component === 'channels') {
       this.router.navigate([
         '/chatroom',
-        { outlets: { chats: ['channels', result.channelId], thread: null } },
+        { outlets: { chats: ['channel', result.channelId], thread: null } },
       ]);
     } else if (result.component === 'messages') {
       this.router.navigate([
@@ -78,10 +78,12 @@ export class ChatroomHeaderComponent {
       ]);
     } else {
       const chatId = await this.searchService.getThreadData(result);
-      if(result.originalChat === 'channels') {
+      const channel = 'channel';
+      debugger
+      if(result.originalChat == 'channels') {
         this.router.navigate([
           '/chatroom',
-          { outlets: { chats: ['channels', chatId], thread: null } },
+          { outlets: { chats: [channel, chatId], thread: null } },
         ]);
       } else {
         this.router.navigate([
