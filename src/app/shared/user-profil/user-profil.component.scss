@@ -100,10 +100,22 @@ header {
     cursor: pointer;
 
     transition: transform 0.3s;
+
+    animation: visible 0.5s linear;
 }
 
 .circle-image:hover {
     transform: scale(1.1);
+}
+
+@keyframes visible {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 
@@ -206,6 +218,8 @@ form {
 /* Edit name */
 .edit-name-wrapper {
     @include d-flex($fD: column, $g: 45px);
+
+    animation: visible 0.5s linear;
 }
 
 .name-input-wrapper {

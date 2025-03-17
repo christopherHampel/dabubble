@@ -1,5 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, effect, inject, Input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChatsService } from '../../services/message/chats.service';
+import { UsersDbService } from '../../services/usersDb/users-db.service';
+import { UserProfile } from '../../interfaces/userProfile';
 
 @Component({
   selector: 'app-user-profil',
@@ -10,6 +13,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './user-profil.component.scss'
 })
 export class UserProfilComponent {
+  chatService = inject(ChatsService);
+  usersDb = inject(UsersDbService);
+  chatPartnerSig = signal<UserProfile>({} as UserProfile);
+  edit: boolean = false;
+  @Input() useAs: 'view' | 'edit' = 'view';
+  @Input() chatData: any;
   @Input() dialog: boolean = false;
 
   images = [
@@ -23,6 +32,17 @@ export class UserProfilComponent {
 
   selectedImage = this.images[0];
 
+  constructor() {
+    effect(() => {
+      console.log(this.chatService.chatPartnerId);
+      if (this.chatService.chatPartner) {
+        this.usersDb.subUser(this.chatService.chatPartner.id, (updateUser) => {
+          this.chatPartnerSig.set(updateUser);
+        });
+      }
+    })
+  }
+
   selectImage(img: string) {
     this.selectedImage = img;
   }
@@ -34,7 +54,15 @@ export class UserProfilComponent {
     const y = radius * Math.sin(angle);
     return {
       top: `${x}px`,
-      left:`${y}px`
+      left: `${y}px`,
     };
+  }
+
+  openEdit() {
+    this.edit = true;
+  }
+
+  closeEdit() {
+    this.edit = false;
   }
 }

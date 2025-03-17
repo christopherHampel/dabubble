@@ -34,12 +34,17 @@ export class ChatsService {
   private messagesSubject = new BehaviorSubject<CurrentMessage[]>([]);
   public messages$ = this.messagesSubject.asObservable();
 
-  chatPartner: { name: string; avatar: string } = { name: '', avatar: '' };
+  chatPartner: { name: string; avatar: string, id: string } = { name: '', avatar: '', id: '' };
+  chatPartnerIdSig = signal<string | null>(null);
   private unsubMessage: Unsubscribe | null = null;
   private unsubChatInfo: Unsubscribe | null = null;
   chatData!: ChatData;
   menu: boolean = false;
   currentChatId!: string;
+
+  get chatPartnerId() {
+    return this.chatPartnerIdSig();
+  }
 
   getChatCollection(component: string) {
     return collection(this.firestore, component);
@@ -112,6 +117,9 @@ export class ChatsService {
         avatar:
           this.usersService.currentUserSig()?.avatar ||
           '/img/empty_profile.png',
+        id:
+          this.usersService.currentUserSig()?.id ||
+          ''
       };
     }
     if (this.chatData && this.chatData.participantsDetails) {
@@ -120,6 +128,8 @@ export class ChatsService {
       );
 
       if (otherParticipantId) {
+        this.chatPartnerIdSig.set(otherParticipantId);
+
         const otherParticipantDetails =
           this.chatData.participantsDetails[otherParticipantId];
         this.chatPartner = {
@@ -129,6 +139,9 @@ export class ChatsService {
           avatar: otherParticipantDetails
             ? otherParticipantDetails.avatar
             : '/img/empty_profile.png',
+          id: otherParticipantDetails
+            ? otherParticipantId
+            : ''
         };
       }
     }
