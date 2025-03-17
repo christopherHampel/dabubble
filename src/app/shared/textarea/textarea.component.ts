@@ -87,7 +87,7 @@ export class TextareaComponent implements OnInit {
     const firstThreadMessage = false;
     const startThreadMessage = this.chatService.firstThreadMessage();
     console.log(startThreadMessage);
-    
+    debugger
     await this.threadDb.addMessageToThread(
       this.threadDb.currentThreadId(),
       this.message,
