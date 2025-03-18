@@ -1,8 +1,9 @@
-import { Component, effect, inject, Input, signal } from '@angular/core';
+import { Component, effect, EventEmitter, inject, Input, Output, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatsService } from '../../services/message/chats.service';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
 import { UserProfile } from '../../interfaces/userProfile';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profil',
@@ -17,9 +18,11 @@ export class UserProfilComponent {
   usersDb = inject(UsersDbService);
   chatPartnerSig = signal<UserProfile>({} as UserProfile);
   edit: boolean = false;
-  @Input() useAs: 'view' | 'edit' = 'view';
-  @Input() chatData: any;
-  @Input() dialog: boolean = false;
+
+  @Input() userSig?: Signal<UserProfile>;
+  @Input() useAs: 'view' | 'edit' | 'info' = 'view';
+  @Input() dialogOpen: boolean = false;
+  @Output() dialogClose = new EventEmitter<boolean>();
 
   images = [
     '/img/elias_neumann.png',
@@ -32,15 +35,20 @@ export class UserProfilComponent {
 
   selectedImage = this.images[0];
 
-  constructor() {
+  constructor(private router: Router) {
     effect(() => {
-      console.log(this.chatService.chatPartnerId);
-      if (this.chatService.chatPartner) {
+      if (this.chatService.chatPartnerId && this.useAs === 'view') {
         this.usersDb.subUser(this.chatService.chatPartner.id, (updateUser) => {
-          this.chatPartnerSig.set(updateUser);
+          this.chatPartnerSig.set(updateUser as UserProfile);
         });
+      } else if (this.userSig && this.useAs === 'info') {
+        this.chatPartnerSig.set(this.userSig())
       }
     })
+  }
+
+  get chatPartner() {
+    return this.chatPartnerSig();
   }
 
   selectImage(img: string) {
@@ -64,5 +72,19 @@ export class UserProfilComponent {
 
   closeEdit() {
     this.edit = false;
+  }
+
+  closeDialog() {
+    this.dialogClose.emit(true);
+  }
+
+  async selectChat() {
+    try {
+      const chatId = await this.chatService.setPrivateChat(this.chatPartner, "messages");
+      this.chatService.currentChatId = chatId;
+      this.router.navigate(['/chatroom', { outlets: { chats: ['direct-message', chatId], thread: null } }]);
+    } catch (error) {
+      console.error('Fehler beim Erstellen des Chats:', error);
+    }
   }
 }

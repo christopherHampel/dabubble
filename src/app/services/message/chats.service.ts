@@ -128,8 +128,6 @@ export class ChatsService {
       );
 
       if (otherParticipantId) {
-        this.chatPartnerIdSig.set(otherParticipantId);
-
         const otherParticipantDetails =
           this.chatData.participantsDetails[otherParticipantId];
         this.chatPartner = {
@@ -145,6 +143,8 @@ export class ChatsService {
         };
       }
     }
+    
+    this.chatPartnerIdSig.set(this.chatPartner.id);
   }
 
   async getMessagesFromChat(chatId: string, component: string) {
@@ -454,7 +454,7 @@ export class ChatsService {
     });
   }
 
-  subscribeFirstThreadMessage(chatId: string, docId: string, component:string) {
+  subscribeFirstThreadMessage(chatId: string, docId: string, component: string) {
     const messagesCollection = this.getSubColMessages(chatId, component);
     const messageDocRef = doc(messagesCollection, docId);
 

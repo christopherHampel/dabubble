@@ -1,8 +1,11 @@
-<section *ngIf="dialog && chatPartnerSig() as chatPartner" class="user-profil slide-in">
+<section *ngIf="dialogOpen && chatPartnerSig() as chatPartner" class="user-profil slide-in">
 
     <header class="width-100-percent">
-        <h2>Profil</h2>
-        <div class="close-icon"></div>
+        <h2 *ngIf="!edit; else editHeadline">Profil</h2>
+        <ng-template #editHeadline>
+            <h2>Dein Profil bearbeiten</h2>
+        </ng-template>
+        <div (click)="closeDialog()" class="close-icon"></div>
     </header>
 
     <div class="image-container" [ngClass]="{'margin-top': edit}">
@@ -34,7 +37,7 @@
                     </div>
                 </div>
 
-                <button (click)="openEdit()" class="edit-button">Bearbeiten</button>
+                <button *ngIf="useAs === 'edit'" (click)="openEdit()" class="edit-button">Bearbeiten</button>
             </div>
 
             <div class="email-wrapper">
@@ -45,7 +48,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="primary-button">Nachricht</button>
+            <button type="button" (click)="selectChat(); closeDialog()" class="primary-button">Nachricht</button>
         </div>
 
         <!-- Edit profil -->
@@ -61,7 +64,7 @@
 
             <div class="button-wrapper">
                 <button type="button" (click)="closeEdit()" class="gast-login-btn">Abbrechen</button>
-                <button type="submit" class="primary-button">Speichern</button>
+                <button type="button" class="primary-button">Speichern</button>
             </div>
         </div>
 

@@ -1,14 +1,16 @@
-import { Component, effect, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, effect, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserViewSmallComponent } from '../../../../shared/user-view-small/user-view-small.component';
 import { ChannelsDbService } from '../../../../services/message/channels-db.service';
 import { UserProfile } from '../../../../interfaces/userProfile';
+import { UserProfilComponent } from '../../../../shared/user-profil/user-profil.component';
 
 @Component({
   selector: 'app-channel-members-info',
   imports: [
     CommonModule,
-    UserViewSmallComponent
+    UserViewSmallComponent,
+    UserProfilComponent
   ],
   templateUrl: './channel-members-info.component.html',
   styleUrl: './channel-members-info.component.scss'
@@ -16,6 +18,8 @@ import { UserProfile } from '../../../../interfaces/userProfile';
 export class ChannelMembersInfoComponent {
   channelsDb = inject(ChannelsDbService);
   channelUserDataListReverse: UserProfile[] = [];
+  dialog: boolean = false;
+  user = signal<UserProfile>({} as UserProfile);
 
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
@@ -40,5 +44,12 @@ export class ChannelMembersInfoComponent {
   closeDialog() {
     this.dialogOpen = false;
     this.dialogClose.emit(true);
+  }
+
+
+  openDialog(user: UserProfile){
+    console.log(user);
+    this.user.set(user);
+    this.dialog = true;
   }
 }

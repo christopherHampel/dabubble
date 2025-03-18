@@ -51,6 +51,10 @@ export class DirectMessageComponent implements OnDestroy {
     this.dialog = true;
   }
 
+  closeDialog(event: boolean) {
+    this.dialog = event;
+  }
+
   getIdFromUrl() {
     this.paramMapSubscription = this.route.paramMap.subscribe(params => {
       const newChatId = params.get('id');

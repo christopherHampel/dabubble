@@ -31,7 +31,7 @@ import { Observable } from 'rxjs';
     ChannelDataWindowComponent,
     ChannelMembersInfoComponent,
     TransparentBackgroundComponent,
-    ChannelAddMembersDialogComponent,
+    ChannelAddMembersDialogComponent
   ],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss',
