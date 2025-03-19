@@ -40,17 +40,19 @@ export class SearchDevspaceService {
           const messageText = messageData['text'].toLowerCase();
           const searchLower = searchText.toLowerCase();
           const searchResult = this.returnSearchResult(messageData);
+          console.log(searchResult);
+          
 
           if (messageText.includes(searchLower)) {
             this.results.push({
               searchResult
             });
-            this.results = Array.from(new Map(this.results.map(item => [item.messageId, item])).values());
+            // this.results = Array.from(new Map(this.results.map(item => [item.messageId, item])).values());
           }
         }
       });
     }
-    console.log('Suchergebnisse:', this.results);
+    // console.log('Suchergebnisse:', this.results);
   }
 
   returnSearchResult(messageData:any) {
@@ -59,9 +61,8 @@ export class SearchDevspaceService {
       messageId: messageData['docId'],
       component: messageData['component'],
       text: messageData['text'],
-      originalChat: messageData['originalChatInfo']['originalChat'] || '',
-      originalChatId: messageData['originalChatInfo']['originalChatId'] || '',
-      originalMessage: messageData['originalChatInfo']['originalMessage'] || '',
+      chatPartner: messageData.chatPartner,
+      originalChatInfo: messageData.originalChatInfo || {},
     }
   }
 

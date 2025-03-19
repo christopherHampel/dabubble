@@ -109,8 +109,8 @@ export class ChatroomHeaderComponent {
     setTimeout(() => {
       this.chatService.subscribeFirstThreadMessage(
         threadData.chatId,
-        resultData.originalChatId,
-        resultData.originalChat
+        resultData.originalChatInfo.originalChatId,
+        resultData.originalChatInfo.originalChat
       );
       this.threadsDb.currentThreadId.set(resultData.channelId);
       this.threadsDb.subscribeToThread(resultData.channelId);
@@ -121,5 +121,13 @@ export class ChatroomHeaderComponent {
         { outlets: { thread: ['thread', resultData.channelId] } },
       ]);
     }, 100);
+  }
+
+  getChatIcon(result:any) {    
+    if(result.searchResult.originalChatInfo.originalChat === 'channels') {
+      return '#'
+    } else {
+      return '@'
+    }
   }
 }

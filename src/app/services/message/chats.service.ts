@@ -251,19 +251,11 @@ export class ChatsService {
     return docRef.id;
   }
 
-  async addMessageToChat(
-    text: string,
-    chatId: string,
-    component: string,
-    mentionedUsers: any
-  ): Promise<void> {
-    const chatRef = doc(this.getChatCollection(component), chatId);
+  async addMessageToChat(messageAccesories:any): Promise<void> {
+    const chatRef = doc(this.getChatCollection(messageAccesories.component), messageAccesories.chatId);
     const messagesRef = collection(chatRef, 'messages');
     const messageContent = await this.newMessageContent(
-      text,
-      chatId,
-      component,
-      mentionedUsers
+      messageAccesories
     );
 
     await addDoc(messagesRef, {
@@ -277,13 +269,8 @@ export class ChatsService {
     });
   }
 
-  async newMessageContent(
-    text: string,
-    chatId: string,
-    component: string,
-    mentionedUsers: string
-  ): Promise<any> {
-    const isFirstMessageOfDay = await this.checkFirstMessage(chatId, component);
+  async newMessageContent(messageAccesories:any): Promise<any> {
+    const isFirstMessageOfDay = await this.checkFirstMessage(messageAccesories.chatId, messageAccesories.component);
 
     return {
       docId: '',
@@ -297,13 +284,14 @@ export class ChatsService {
         id: this.getUserId() || '',
         avatar: this.getUserAvatar() || '',
       },
-      text: text,
-      mentionedUsers: mentionedUsers,
+      text: messageAccesories.message,
+      mentionedUsers: messageAccesories.mentionedUsers,
       createdAt: serverTimestamp(),
       firstMessageOfTheDay: isFirstMessageOfDay,
       emojis: [],
-      component: component,
-      chatId: chatId,
+      component: messageAccesories.component,
+      chatId: messageAccesories.chatId,
+      chatPartner: messageAccesories.chatPartner,
     };
   }
 

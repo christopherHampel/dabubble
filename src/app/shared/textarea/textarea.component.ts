@@ -68,17 +68,15 @@ export class TextareaComponent implements OnInit {
     }
   }
 
-  async sendText() {
-    const mentionedUsers = this.extractMentionedUsers(this.message);
+  async sendText() {    
+    const messageAccesories = this.getMessagemessageAccesories();
+    console.log(messageAccesories);
+    
     if (this.component == 'threads') {
       this.sendNewThread();
     } else {
-      
       await this.chatService.addMessageToChat(
-        this.message,
-        this.chatId,
-        this.component,
-        mentionedUsers
+        messageAccesories
       );
     }
   }
@@ -86,8 +84,6 @@ export class TextareaComponent implements OnInit {
   async sendNewThread() {
     const firstThreadMessage = false;
     const startThreadMessage = this.chatService.firstThreadMessage();
-    console.log(startThreadMessage);
-    debugger
     await this.threadDb.addMessageToThread(
       this.threadDb.currentThreadId(),
       this.message,
@@ -97,6 +93,18 @@ export class TextareaComponent implements OnInit {
     await this.chatService.updateThreadAnswersCount(
       this.threadDb.currentThreadId(),
     );
+  }
+
+  getMessagemessageAccesories() {
+    const mentionedUsers = this.extractMentionedUsers(this.message);
+
+    return {
+      message: this.message,
+      chatId: this.chatId,
+      component: this.component,
+      chatPartner: this.chatPartnerName,
+      mentionedUsers
+    }
   }
 
   autoGrowTextZone(e: any) {
