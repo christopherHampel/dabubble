@@ -20,6 +20,7 @@ import { TransparentBackgroundComponent } from '../../../shared/transparent-back
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { ChannelAddMembersDialogComponent } from './channel-add-members-dialog/channel-add-members-dialog.component';
 import { Observable } from 'rxjs';
+import { ThreadsDbService } from '../../../services/message/threads-db.service';
 
 @Component({
   selector: 'app-channel',
@@ -54,13 +55,15 @@ export class ChannelComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     public emojiService: EmojisService,
-    public chatService: ChatsService
+    public chatService: ChatsService,
+    private threadsDb: ThreadsDbService
   ) {}
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(async (params) => {
       this.channelsDb.subToChannel(params['id']);
       this.chatId = params['id'];
+      this.threadsDb.closeThread();
       this.getMessages();
       this.chatMessages$ = this.chatService.messages$;
     });

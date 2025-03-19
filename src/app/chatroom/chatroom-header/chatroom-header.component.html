@@ -15,8 +15,8 @@
     <div class="search-results" *ngIf="resultsData.length > 0">
         @for (result of resultsData; track $index) {
           <div (click)="goToSearchResult(result)" class="search-single-result">
-            <span>{{ result.component }}</span>
-            <span>{{ result.text }}</span>
+            <span>{{ result.searchResult.component }}</span>
+            <span>{{ result.searchResult.text }}</span>
           </div>
         }
     </div>

@@ -39,21 +39,29 @@ export class SearchDevspaceService {
         if (typeof messageData['text'] === 'string') {
           const messageText = messageData['text'].toLowerCase();
           const searchLower = searchText.toLowerCase();
+          const searchResult = this.returnSearchResult(messageData, channelDoc, messageDoc)
 
           if (messageText.includes(searchLower)) {
             this.results.push({
-              channelId: channelDoc.id,
-              messageId: messageDoc.id,
-              component: messageData['component'],
-              text: messageData['text'],
-              originalChat: messageData['originalChat'],
-              originalChatId: messageData['originalChatId'],
+              searchResult
             });
+            this.results = Array.from(new Map(this.results.map(item => [item.messageId, item])).values());
           }
         }
       });
     }
-    // console.log('Suchergebnisse:', this.results);
+    console.log('Suchergebnisse:', this.results);
+  }
+
+  returnSearchResult(messageData:any, channelDoc:any, messageDoc:any) {
+    return {
+      channelId: channelDoc.id,
+      messageId: messageDoc.id,
+      component: messageData['component'],
+      text: messageData['text'],
+      originalChat: messageData['originalChat'],
+      originalChatId: messageData['originalChatId'],
+    }
   }
 
   async getThreadData(result:any) {

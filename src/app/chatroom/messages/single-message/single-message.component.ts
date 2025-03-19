@@ -15,11 +15,16 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { Timestamp } from 'firebase/firestore';
 import { EmojisService } from '../../../services/message/emojis.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { EmojiPickerComponentComponent } from "../../../shared/textarea/emoji-picker-component/emoji-picker-component.component";
+import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 
 @Component({
   selector: 'app-single-message',
-  imports: [CommonModule, FormsModule, TooltipComponent, EmojiPickerComponentComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TooltipComponent,
+    EmojiPickerComponentComponent,
+  ],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss',
 })
@@ -36,7 +41,7 @@ export class SingleMessageComponent {
   isEditing: boolean = false;
   emojiQuickBar: boolean = false;
   currentDate: any = '';
-  emojiPickerEdit:boolean = false;
+  emojiPickerEdit: boolean = false;
 
   constructor(
     public chatService: ChatsService,
@@ -108,20 +113,14 @@ export class SingleMessageComponent {
     e.target.style.height = e.target.scrollHeight + 25 + 'px';
   }
 
-  addEmoji(emoji: string) {    
+  addEmoji(emoji: string) {
     this.emojiService.currentMessage = this.currentMessage;
-    // if (this.component == 'threads') {
-    //   this.chatService.component.set(this.component);
-    //   this.emojiService.addEmoji(
-    //     emoji,
-    //     this.currentMessage.associatedThreadId,
-    //     this.component
-    //   );
-    //   this.chatService.component.set('chat');
-    // } else {
-      // this.emojiService.addEmoji(emoji, this.chatId, this.component);
-      this.emojiService.addEmoji(emoji, this.currentMessage.chatId, this.currentMessage.component);
-    // }
+
+    this.emojiService.addEmoji(
+      emoji,
+      this.currentMessage.chatId,
+      this.currentMessage.component
+    );
     this.emojiQuickBar = !this.emojiQuickBar;
   }
 
@@ -132,7 +131,10 @@ export class SingleMessageComponent {
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
 
-    this.currentMessage.text = this.currentMessage.text.substring(0, start) + emoji + this.currentMessage.text.substring(end);
+    this.currentMessage.text =
+      this.currentMessage.text.substring(0, start) +
+      emoji +
+      this.currentMessage.text.substring(end);
 
     setTimeout(() => {
       textarea.selectionStart = textarea.selectionEnd = start + emoji.length;
@@ -245,8 +247,8 @@ export class SingleMessageComponent {
       this.isEditing = false;
     }
 
-    if(this.emojiPickerEdit) {
-      this.emojiPickerEdit = false
+    if (this.emojiPickerEdit) {
+      this.emojiPickerEdit = false;
     }
   }
 
@@ -312,22 +314,28 @@ export class SingleMessageComponent {
   }
 
   getFormattedEmojiNames(emoji: any, returnNames: boolean): string {
-    const names = this.getEmojiNames(emoji)
-      .map((name: string) => name === this.usersService.currentUserSig()?.userName ? 'Du' : name);
-  
-    const sortedNames = names.filter((name: string) => name !== 'Du').concat(names.filter((name: string) => name === 'Du'));
-  
+    const names = this.getEmojiNames(emoji).map((name: string) =>
+      name === this.usersService.currentUserSig()?.userName ? 'Du' : name
+    );
+
+    const sortedNames = names
+      .filter((name: string) => name !== 'Du')
+      .concat(names.filter((name: string) => name === 'Du'));
+
     if (sortedNames.length === 0) return '';
-  
+
     if (returnNames) {
       if (sortedNames.length === 2) {
         return sortedNames.join(' & ');
       } else {
-        return sortedNames.slice(0, -1).join(', ') + (sortedNames.length > 2 ? ' & ' : '') + sortedNames.slice(-1);
+        return (
+          sortedNames.slice(0, -1).join(', ') +
+          (sortedNames.length > 2 ? ' & ' : '') +
+          sortedNames.slice(-1)
+        );
       }
     } else {
       return sortedNames.length === 1 ? 'hat reagiert' : 'haben reagiert';
     }
   }
-  
 }
