@@ -169,18 +169,26 @@
         z-index: 5;
         background-color: #FFFF;
         width: 100%;
-        box-shadow: 5px 5px 15px 5px #000000;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
         gap: 10px;
+        border: 1px solid black;
+        border-radius: 30px;
 
         .search-single-result {
             display: flex;
-            flex-direction: column;
+            gap: 24px;
+            padding: 15px 25px;
+            font-size: 18px;
+
             &:hover {
                 cursor: pointer;
                 background-color: rgba(0, 0, 0, 0.2);
+            }
+
+            .chat-info {
+                display: flex;
             }
         }
     }
