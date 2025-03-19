@@ -3,57 +3,43 @@
 
   <div class="search-container">
     <div class="search-wrapper">
-      <input
-        (input)="searchDevspace()"
-        [(ngModel)]="searchTextInput"
-        class="input-text"
-        type="text"
-        placeholder="Devspace durchsuchen"
-      />
+      <input (input)="searchDevspace()" [(ngModel)]="searchTextInput" class="input-text" type="text"
+        placeholder="Devspace durchsuchen" />
       <div class="search-icon"></div>
     </div>
     <div class="search-results" *ngIf="resultsData.length > 0">
-        @for (result of resultsData; track $index) {
-          <div (click)="goToSearchResult(result)" class="search-single-result">
-            <div *ngIf="result.searchResult.component == 'threads'">
-              <span>Ursprungsnachricht:</span>
-              <span>{{ result.searchResult.originalChat }}</span>
-              <span>{{ result.searchResult.originalMessage }}</span>
-            </div>
-            <span>{{ result.searchResult.component }}</span>
-            <span>{{ result.searchResult.text }}</span>
-          </div>
-        }
+      @for (result of resultsData; track $index) {
+      <div (click)="goToSearchResult(result)" class="search-single-result">
+        <div *ngIf="result.searchResult.component == 'threads'">
+          <span>Ursprungsnachricht:</span>
+          <span>{{ result.searchResult.originalChat }}</span>
+          <span>{{ result.searchResult.originalMessage }}</span>
+        </div>
+        <span>{{ result.searchResult.component }}</span>
+        <span>{{ result.searchResult.text }}</span>
+      </div>
+      }
     </div>
   </div>
 
-  <div
-    *ngIf="usersDb.currentUser as user"
-    (click)="openDropdown()"
-    class="user-profil-wrapper"
-  >
+  <div *ngIf="usersDb.currentUser as user" (click)="openDropdown()" class="user-profil-wrapper">
     <div class="user-profil">
       <h2>{{ user.userName }}</h2>
       <div>
         <img src="{{ user.avatar || '/img/empty_profile.png' }}" alt="" />
-        <div
-          class="active-status"
-          [ngClass]="{ online: user.active, offline: !user.active }"
-        ></div>
+        <div class="active-status" [ngClass]="{ online: user.active, offline: !user.active }"></div>
       </div>
       <div class="arrow-drop-down-icon"></div>
     </div>
 
-    <ul
-      [ngStyle]="{ display: dropdown ? 'flex' : 'none' }"
-      class="dropdown-profil animation"
-    >
-      <button>Profil</button>
+    <ul [ngStyle]="{ display: dropdown ? 'flex' : 'none' }" class="dropdown-profil animation">
+      <button (click)="openDialog(user)">Profil</button>
       <button (click)="onLogout()">Log out</button>
     </ul>
+
+    <app-user-profil [dialogOpen]="dialog" [useAs]="'edit'" [userSig]="userSig"></app-user-profil>
   </div>
 </section>
-<app-transparent-background
-  [backgroundOpen]="dropdown"
-  (backgroundClose)="closeDropdown(!$event)"
-></app-transparent-background>
+
+<app-transparent-background [backgroundOpen]="dropdown"
+  (backgroundClose)="closeDropdown(!$event)"></app-transparent-background>

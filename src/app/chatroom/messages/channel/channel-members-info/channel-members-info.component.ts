@@ -4,6 +4,7 @@ import { UserViewSmallComponent } from '../../../../shared/user-view-small/user-
 import { ChannelsDbService } from '../../../../services/message/channels-db.service';
 import { UserProfile } from '../../../../interfaces/userProfile';
 import { UserProfilComponent } from '../../../../shared/user-profil/user-profil.component';
+import { UsersDbService } from '../../../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-channel-members-info',
@@ -17,9 +18,10 @@ import { UserProfilComponent } from '../../../../shared/user-profil/user-profil.
 })
 export class ChannelMembersInfoComponent {
   channelsDb = inject(ChannelsDbService);
+  usersDb = inject(UsersDbService);
   channelUserDataListReverse: UserProfile[] = [];
   dialog: boolean = false;
-  user = signal<UserProfile>({} as UserProfile);
+  userSig = signal<UserProfile>({} as UserProfile);
 
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
@@ -48,8 +50,7 @@ export class ChannelMembersInfoComponent {
 
 
   openDialog(user: UserProfile){
-    console.log(user);
-    this.user.set(user);
+    this.userSig.set(user);
     this.dialog = true;
   }
 }

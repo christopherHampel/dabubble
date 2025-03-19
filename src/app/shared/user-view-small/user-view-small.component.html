@@ -1,4 +1,5 @@
-<div *ngIf="user && usersDb.currentUser as currentUser" class="user-view-small" [ngClass]="{'selected': user.id === selectedUserId}">
+<div *ngIf="user && usersDb.currentUser as currentUser" class="user-view-small"
+    [ngClass]="{'selected': user.id === selectedUserId}" [ngStyle]="{ 'cursor': setCursorDefault(user.id) ? 'default' : 'pointer' }">
     <div>
         <img src="{{user.avatar}}" alt="Avatar">
         <div class="active-status" [ngClass]="{'online': user.active, 'offline': !user.active}"
@@ -6,6 +7,6 @@
     </div>
     <span *ngIf="user.id !== currentUser.id; else du">{{user.userName}}</span>
     <ng-template #du>
-       <span>{{user.userName}} (Du)</span>
+        <span>{{user.userName}} (Du)</span>
     </ng-template>
 </div>

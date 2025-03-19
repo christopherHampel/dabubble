@@ -1,4 +1,4 @@
-<section *ngIf="dialogOpen && channelUserDataListReverse" class="channel-members-info animation">
+<section *ngIf="dialogOpen && channelUserDataListReverse" class="channel-members-info animation" [ngClass]="{ 'z-index-3': dialog }">
 
         <header class="width-100-percent">
             <h2>Mitglieder</h2>
@@ -8,7 +8,7 @@
         <div class="member-list-wrapper width-100-percent">
             <div class="member-list">
                 <app-user-view-small *ngFor="let user of channelUserDataListReverse"
-                    [user]="user" (click)="openDialog(user)"></app-user-view-small>
+                    [user]="user" (click)="user.id !== usersDb.currentUser?.id ? openDialog(user) : null" [cursorDefault]="true"></app-user-view-small>
             </div>
 
             <div (click)="openAddMembers()">
@@ -21,4 +21,5 @@
 
 </section>
 
-<app-user-profil [dialogOpen]="dialog" [useAs]="'info'" [userSig]="user"></app-user-profil>
+<app-user-profil [dialogOpen]="dialog" (dialogClose)="dialog = !$event" [useAs]="'info'" [userSig]="userSig"></app-user-profil>
+<div *ngIf="dialog" (click)="dialog = false" class="background-user-profil"></div>

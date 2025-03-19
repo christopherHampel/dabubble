@@ -18,6 +18,10 @@
     width: 100%;
 }
 
+.z-index-3 {
+    z-index: 3 !important;
+}
+
 
 header {
     @include d-flex($jC: space-between);
@@ -103,4 +107,14 @@ header {
             }
         }
     }
+}
+
+.background-user-profil {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 4;
 }

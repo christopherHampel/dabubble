@@ -9,6 +9,8 @@ import { SearchDevspaceService } from '../../services/message/search-devspace.se
 import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ChatsService } from '../../services/message/chats.service';
 import { SingleMessageComponent } from '../messages/single-message/single-message.component';
+import { UserProfilComponent } from '../../shared/user-profil/user-profil.component';
+import { UserProfile } from '../../interfaces/userProfile';
 
 @Component({
   selector: 'app-chatroom-header',
@@ -17,6 +19,7 @@ import { SingleMessageComponent } from '../messages/single-message/single-messag
     TransparentBackgroundComponent,
     FormsModule,
     SingleMessageComponent,
+    UserProfilComponent
   ],
   templateUrl: './chatroom-header.component.html',
   styleUrl: './chatroom-header.component.scss',
@@ -26,9 +29,11 @@ export class ChatroomHeaderComponent {
   usersDb = inject(UsersDbService);
   dropdown: boolean = false;
   searchTextInput: string = '';
+  dialog: boolean = false;
 
   searchText = signal<string>('');
   results = signal<any[]>([]);
+  userSig = signal<UserProfile>({} as UserProfile);
 
   constructor(
     private router: Router,
@@ -39,6 +44,11 @@ export class ChatroomHeaderComponent {
 
   get resultsData() {
     return this.searchService.results;
+  }
+
+  openDialog(user: UserProfile) {
+    this.dialog = true;
+    this.userSig.set(user);
   }
 
   openDropdown() {

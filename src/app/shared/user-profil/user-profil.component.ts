@@ -42,7 +42,9 @@ export class UserProfilComponent {
           this.chatPartnerSig.set(updateUser as UserProfile);
         });
       } else if (this.userSig && this.useAs === 'info') {
-        this.chatPartnerSig.set(this.userSig())
+        this.chatPartnerSig.set(this.userSig());
+      } else if (this.userSig && this.useAs === 'edit') {
+        this.chatPartnerSig.set(this.userSig());
       }
     })
   }
