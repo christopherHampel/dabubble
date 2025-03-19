@@ -1,45 +1,27 @@
 <section *ngIf="channelsDb.channel as channel" class="card">
   <div class="message-head">
     <div class="head-left-wrapper">
-      <div
-        (click)="openDialog('dataWindow')"
-        class="head-left"
-        [ngClass]="{ 'head-left-highlight': dataWindow }"
-      >
+      <div (click)="openDialog('dataWindow')" class="head-left" [ngClass]="{ 'head-left-highlight': dataWindow }">
         <div class="hashtag-icon"></div>
         <h2>{{ channel.name }}</h2>
         <div class="arrow-drop-down-icon"></div>
       </div>
 
-      <app-channel-data-window
-        #channelDataWindow
-        [dialogOpen]="dataWindow"
-        (dialogClose)="closeDialog(!$event)"
-      ></app-channel-data-window>
+      <app-channel-data-window #channelDataWindow [dialogOpen]="dataWindow"
+        (dialogClose)="closeDialog(!$event)"></app-channel-data-window>
     </div>
 
     <div *ngIf="channelsDb.channelUserDataList" class="head-right">
-      <div
-        class="members-info-wrapper"
-        [ngClass]="{ 'members-info-wrapper-highlight': membersInfo }"
-      >
+      <div class="members-info-wrapper" [ngClass]="{ 'members-info-wrapper-highlight': membersInfo }">
         <div (click)="openDialog('membersInfo')">
           <div>
-            <img
-              *ngFor="let user of channelsDb.channelUserDataList"
-              src="{{ user.avatar }}"
-              alt=""
-            />
+            <img *ngFor="let user of channelsDb.channelUserDataList" src="{{ user.avatar }}" alt="" />
           </div>
           <span>{{ channelsDb.channelUserDataList.length }} </span>
         </div>
 
-        <app-channel-members-info
-          [dialogOpen]="membersInfo"
-          (addMembersOpen)="(false)"
-          (dialogClose)="closeDialog(!$event)"
-          (addMembersOpen)="openAddMembers($event)"
-        ></app-channel-members-info>
+        <app-channel-members-info [dialogOpen]="membersInfo" (addMembersOpen)="(false)"
+          (dialogClose)="closeDialog(!$event)" (addMembersOpen)="openAddMembers($event)"></app-channel-members-info>
       </div>
 
       <div class="add-members-wrapper">
@@ -47,46 +29,32 @@
           <div [ngClass]="{ 'person-add-icon-highlight': addMembers }"></div>
         </div>
 
-        <app-channel-add-members-dialog
-          #channelAddMembersInfo
-          [dialogOpen]="addMembers"
-          (dialogClose)="closeDialog(!$event)"
-        ></app-channel-add-members-dialog>
+        <app-channel-add-members-dialog #channelAddMembersInfo [dialogOpen]="addMembers"
+          (dialogClose)="closeDialog(!$event)"></app-channel-add-members-dialog>
       </div>
     </div>
   </div>
 
-  <app-messages-field
-    class="message-field"
-    [chatId]="chatId"
-    [component]="'channels'"
-  ></app-messages-field>
+  <app-messages-field class="message-field" [chatId]="chatId" [component]="'channels'"></app-messages-field>
 
   <div class="textarea-component">
-    <div class="communication-with" *ngIf="(chatMessages$ | async)?.length === 0" >
-        <span class="channel-name"># {{ getChannelName }}</span>
-        <div class="channel-start">
-            <span>Du hast diesen Channel heute erstellt. Das ist der Anfang des Channels </span>
-            <img src="/img/tag.png" alt="#">
-            <span class="channel-start-click">{{ getChannelName }}</span>
-        </div>
+    <div class="communication-with" *ngIf="(chatMessages$ | async)?.length === 0">
+      <span class="channel-name"># {{ getChannelName }}</span>
+      <div class="channel-start">
+        <span>Du hast diesen Channel heute erstellt. Das ist der Anfang des Channels </span>
+        <img src="/img/tag.png" alt="#">
+        <span class="channel-start-click">{{ getChannelName }}</span>
+      </div>
     </div>
 
     <div class="textarea-emojipicker">
       <div class="emoji-component" *ngIf="this.emojiService.emojiPickerOpen">
-        <app-emoji-picker-component
-          (emojiSelected)="this.addEmoji($event)"
-        ></app-emoji-picker-component>
+        <app-emoji-picker-component (emojiSelected)="this.addEmoji($event)"></app-emoji-picker-component>
       </div>
-      <app-textarea
-        [chatPartnerName]="channel.name"
-        [component]="'channels'"
-      ></app-textarea>
+      <app-textarea [chatPartnerName]="channel.name" [component]="'channels'"></app-textarea>
     </div>
   </div>
 </section>
 
-<app-transparent-background
-  [backgroundOpen]="dataWindow || membersInfo || addMembers"
-  (backgroundClose)="closeDialog(!$event)"
-></app-transparent-background>
+<app-transparent-background [backgroundOpen]="dataWindow || membersInfo || addMembers"
+  (backgroundClose)="closeDialog(!$event)"></app-transparent-background>

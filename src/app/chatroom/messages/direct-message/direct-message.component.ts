@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, effect } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChatsService } from '../../../services/message/chats.service';
@@ -32,15 +32,16 @@ export class DirectMessageComponent implements OnDestroy {
 
   chatId!: string;
   chatMessages$!: Observable<any[]>;
-  emojiQuickBar:boolean = false;
+  emojiQuickBar: boolean = false;
   emojiService = inject(EmojisService);
   private paramMapSubscription!: Subscription;
   dialog: boolean = false;
-  
-  constructor(  private route: ActivatedRoute, 
-                public chatService: ChatsService,
-                private usersService: UsersDbService,
-                private threadsDB: ThreadsDbService) { }
+
+  constructor(private route: ActivatedRoute,
+    public chatService: ChatsService,
+    private usersService: UsersDbService,
+    private threadsDB: ThreadsDbService) {
+  }
 
   ngOnInit(): void {
     this.getIdFromUrl();
@@ -49,7 +50,11 @@ export class DirectMessageComponent implements OnDestroy {
   openDialog() {
     this.dialog = true;
   }
-  
+
+  closeDialog(event: boolean) {
+    this.dialog = event;
+  }
+
   getIdFromUrl() {
     this.paramMapSubscription = this.route.paramMap.subscribe(params => {
       const newChatId = params.get('id');
@@ -60,16 +65,16 @@ export class DirectMessageComponent implements OnDestroy {
         this.chatMessages$ = this.chatService.messages$;
       }
     });
-  } 
+  }
 
   ngOnDestroy(): void {
     if (this.paramMapSubscription) {
       this.paramMapSubscription.unsubscribe();
-      this.threadsDB.closeThread(); 
-    } 
+      this.threadsDB.closeThread();
+    }
   }
 
-  addEmoji(event:string) {
+  addEmoji(event: string) {
     this.emojiService.addEmoji(event, this.chatId, 'messages');
   }
 

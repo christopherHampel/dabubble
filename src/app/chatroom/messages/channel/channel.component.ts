@@ -32,7 +32,7 @@ import { ThreadsDbService } from '../../../services/message/threads-db.service';
     ChannelDataWindowComponent,
     ChannelMembersInfoComponent,
     TransparentBackgroundComponent,
-    ChannelAddMembersDialogComponent,
+    ChannelAddMembersDialogComponent
   ],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss',

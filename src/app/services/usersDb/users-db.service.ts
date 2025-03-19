@@ -78,13 +78,11 @@ export class UsersDbService {
   }
 
 
-  subUser(id: string, callback?: (user: UserProfile) => void) {
+  subUser(id: string, callback: (user: UserProfile) => void) {
     return onSnapshot(this.getSingleDocRef('users', id), (doc) => {
       const updateUser = this.setUserObject(doc.data(), id)
 
-      if (callback) {
         callback(updateUser);
-      }
     });
   }
 

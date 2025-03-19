@@ -4,6 +4,7 @@
         <div (click)="openDialog()" class="user-profil">
             <img [src]="this.chatService.chatPartner.avatar || 'img/empty_profile.png'" alt="">
             <h2>{{ this.chatService.chatPartner.name }}</h2>
+            <h2>{{ this.chatService.chatPartner.id }}</h2>
         </div>
     </div>
 
@@ -40,5 +41,5 @@
 
 </section>
 
-<app-user-profil [dialog]="dialog"></app-user-profil>
-<app-transparent-background [backgroundOpen]="dialog"></app-transparent-background>
+<app-user-profil [dialogOpen]="dialog" (dialogClose)="closeDialog(!$event)" [useAs]="'view'"></app-user-profil>
+<app-transparent-background [backgroundOpen]="dialog" (backgroundClose)="closeDialog(!$event)"></app-transparent-background>

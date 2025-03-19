@@ -1,5 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, effect, EventEmitter, inject, Input, Output, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChatsService } from '../../services/message/chats.service';
+import { UsersDbService } from '../../services/usersDb/users-db.service';
+import { UserProfile } from '../../interfaces/userProfile';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profil',
@@ -10,7 +14,15 @@ import { CommonModule } from '@angular/common';
   styleUrl: './user-profil.component.scss'
 })
 export class UserProfilComponent {
-  @Input() dialog: boolean = false;
+  chatService = inject(ChatsService);
+  usersDb = inject(UsersDbService);
+  chatPartnerSig = signal<UserProfile>({} as UserProfile);
+  edit: boolean = false;
+
+  @Input() userSig?: Signal<UserProfile>;
+  @Input() useAs: 'view' | 'edit' | 'info' = 'view';
+  @Input() dialogOpen: boolean = false;
+  @Output() dialogClose = new EventEmitter<boolean>();
 
   images = [
     '/img/elias_neumann.png',
@@ -23,6 +35,22 @@ export class UserProfilComponent {
 
   selectedImage = this.images[0];
 
+  constructor(private router: Router) {
+    effect(() => {
+      if (this.chatService.chatPartnerId && this.useAs === 'view') {
+        this.usersDb.subUser(this.chatService.chatPartner.id, (updateUser) => {
+          this.chatPartnerSig.set(updateUser as UserProfile);
+        });
+      } else if (this.userSig && this.useAs === 'info') {
+        this.chatPartnerSig.set(this.userSig())
+      }
+    })
+  }
+
+  get chatPartner() {
+    return this.chatPartnerSig();
+  }
+
   selectImage(img: string) {
     this.selectedImage = img;
   }
@@ -34,7 +62,29 @@ export class UserProfilComponent {
     const y = radius * Math.sin(angle);
     return {
       top: `${x}px`,
-      left:`${y}px`
+      left: `${y}px`,
     };
+  }
+
+  openEdit() {
+    this.edit = true;
+  }
+
+  closeEdit() {
+    this.edit = false;
+  }
+
+  closeDialog() {
+    this.dialogClose.emit(true);
+  }
+
+  async selectChat() {
+    try {
+      const chatId = await this.chatService.setPrivateChat(this.chatPartner, "messages");
+      this.chatService.currentChatId = chatId;
+      this.router.navigate(['/chatroom', { outlets: { chats: ['direct-message', chatId], thread: null } }]);
+    } catch (error) {
+      console.error('Fehler beim Erstellen des Chats:', error);
+    }
   }
 }
