@@ -32,7 +32,7 @@ export class ChatroomHeaderComponent {
 
   constructor(
     private router: Router,
-    private searchService: SearchDevspaceService,
+    public searchService: SearchDevspaceService,
     private threadsDb: ThreadsDbService,
     private chatService: ChatsService
   ) {}
@@ -83,22 +83,22 @@ export class ChatroomHeaderComponent {
   }
 
   async goToThreads(resultData: any) {
-    const chatId = await this.searchService.getThreadData(resultData);
+    const threadData = await this.searchService.getThreadData(resultData);
     const channel = 'channel';
     if (resultData.originalChat == 'channels') {
       this.router.navigate([
         '/chatroom',
-        { outlets: { chats: [channel, chatId], thread: null } },
+        { outlets: { chats: [channel, threadData.chatId], thread: null } },
       ]);
     } else {
       this.router.navigate([
         '/chatroom',
-        { outlets: { chats: ['direct-message', chatId], thread: null } },
+        { outlets: { chats: ['direct-message', threadData.chatId], thread: null } },
       ]);
     }
     setTimeout(() => {
       this.chatService.subscribeFirstThreadMessage(
-        chatId,
+        threadData.chatId,
         resultData.originalChatId,
         resultData.originalChat
       );

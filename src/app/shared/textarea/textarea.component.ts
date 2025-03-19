@@ -39,7 +39,7 @@ export class TextareaComponent implements OnInit {
   @Input() message: string = '';
   @Input() chatPartnerName: string = '';
   @Input() component: string = '';
-  // @Input() id: string = '';
+  @Input() condition: boolean = false;
 
   chatId: string = '';
   userList: boolean = false;
@@ -107,8 +107,10 @@ export class TextareaComponent implements OnInit {
   }
 
   toggleEmoji() {
-    this.userList = false;
-    this.emojiMartOpen = !this.emojiMartOpen;
+    if(!this.condition) {
+      this.userList = false;
+      this.emojiMartOpen = !this.emojiMartOpen;
+    }
   }
 
   addEmojiToMessage(emoji: string) {
@@ -137,8 +139,10 @@ export class TextareaComponent implements OnInit {
   }
 
   toggleUserList() {
-    this.emojiMartOpen = false;
-    this.userList = !this.userList;
+    if(!this.condition) {
+      this.emojiMartOpen = false;
+      this.userList = !this.userList;
+    }
   }
 
   detectAtSymbol(event: KeyboardEvent) {

@@ -41,6 +41,7 @@ section {
         border: none;
         outline: none;
         resize: none;
+        background: transparent;
         @include styleFont;
 
         &::placeholder {
@@ -68,11 +69,13 @@ section {
 a {
     width: 40px;
     height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-image: url('./../../../../public/img/send.png');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
 
     &:hover {
+        background-image: url('./../../../../public/img/send_hover.png');
         cursor: pointer;
     }
 }

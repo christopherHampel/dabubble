@@ -41,11 +41,12 @@
 
   .user-list {
     position: absolute;
-    top: 100%;
+    top: 120%;
     left: 0;
-    height: 300px;
     overflow-y: auto;
-    width: auto;
+    width: 100%;
+    background-color: #FFFF;
+    z-index: 3;
   }
 }
 
@@ -58,4 +59,19 @@
         display: flex;
         align-items: center;
     }
+}
+
+.single-channel {
+  border: none !important;
+
+  span {
+    font-size: 18px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    border-radius: 35px;
+    background-color: #eceefe;
+    width: auto;
+  }
 }

@@ -39,7 +39,7 @@ export class SearchDevspaceService {
         if (typeof messageData['text'] === 'string') {
           const messageText = messageData['text'].toLowerCase();
           const searchLower = searchText.toLowerCase();
-          const searchResult = this.returnSearchResult(messageData, channelDoc, messageDoc)
+          const searchResult = this.returnSearchResult(messageData);
 
           if (messageText.includes(searchLower)) {
             this.results.push({
@@ -53,14 +53,15 @@ export class SearchDevspaceService {
     console.log('Suchergebnisse:', this.results);
   }
 
-  returnSearchResult(messageData:any, channelDoc:any, messageDoc:any) {
+  returnSearchResult(messageData:any) {
     return {
-      channelId: channelDoc.id,
-      messageId: messageDoc.id,
+      channelId: messageData['chatId'],
+      messageId: messageData['docId'],
       component: messageData['component'],
       text: messageData['text'],
-      originalChat: messageData['originalChat'],
-      originalChatId: messageData['originalChatId'],
+      originalChat: messageData['originalChatInfo']['originalChat'] || '',
+      originalChatId: messageData['originalChatInfo']['originalChatId'] || '',
+      originalMessage: messageData['originalChatInfo']['originalMessage'] || '',
     }
   }
 
@@ -70,9 +71,16 @@ export class SearchDevspaceService {
 
     if (docSnap.exists()) {
       const chatId = docSnap.data()['chatId'];
-      return chatId;
+      const text = docSnap.data()['text'];
+      return {
+        chatId: chatId,
+        text: text
+      };
     } else {
-      return 'No Data'
+      return {
+        chatId: '',
+        text: ''
+      }
     }
   }
 }

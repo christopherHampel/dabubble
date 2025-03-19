@@ -51,7 +51,7 @@
       <div class="emoji-component" *ngIf="this.emojiService.emojiPickerOpen">
         <app-emoji-picker-component (emojiSelected)="this.addEmoji($event)"></app-emoji-picker-component>
       </div>
-      <app-textarea [chatPartnerName]="channel.name" [component]="'channels'"></app-textarea>
+      <app-textarea [chatPartnerName]="channel.name" [component]="'channels'" [condition]="false"></app-textarea>
     </div>
   </div>
 </section>

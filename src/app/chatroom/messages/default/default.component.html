@@ -17,7 +17,7 @@
       </div>
 
       <div class="user-list channel-list" *ngIf="this.channelList">
-        <div *ngFor="let channel of getChannelList()" class="">
+        <div *ngFor="let channel of getChannelList()" class="single-channel">
           <span class="hashtag-icon"></span>
           <span>{{ channel.name }}</span>
         </div>
@@ -28,6 +28,6 @@
   <div></div>
 
   <div class="textarea">
-    <app-textarea></app-textarea>
+    <app-textarea [chatPartnerName]="'...'" [condition]="true"></app-textarea>
   </div>
 </section>

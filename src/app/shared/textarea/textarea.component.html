@@ -7,6 +7,7 @@
       (keyup)="autoGrowTextZone($event)"
       [(ngModel)]="message"
       placeholder="{{ this.getPlaceholder() }}"
+      disabled="{{ condition }}"
     ></textarea>
 
     <div class="reactions">
@@ -23,7 +24,7 @@
           </div>
         </div>
       </div>
-      <a (click)="checkTextLength($event)"><img src="/img/send.png" alt="send" /></a>
+      <a (click)="checkTextLength($event)"></a>
     </div>
   </div>
   <div
@@ -36,3 +37,4 @@
     ></app-emoji-picker-component>
   </div>
 </section>
+<!-- <img src="/img/send.png" alt="send" /> -->

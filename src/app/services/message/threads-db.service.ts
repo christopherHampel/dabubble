@@ -179,8 +179,11 @@ export class ThreadsDbService {
       createdAt: message.createdAt,
       firstMessageOfTheDay: '',
       emojis: message.emojis,
-      originalChat: startThreadMessage.component,
-      originalChatId: startThreadMessage.docId,
+      originalChatInfo: {
+        originalChat: startThreadMessage.component,
+        originalChatId: startThreadMessage.docId,
+        originalMessage: startThreadMessage.text,
+      }
     };
   }
 

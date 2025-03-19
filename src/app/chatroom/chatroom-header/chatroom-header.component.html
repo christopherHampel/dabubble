@@ -15,6 +15,11 @@
     <div class="search-results" *ngIf="resultsData.length > 0">
         @for (result of resultsData; track $index) {
           <div (click)="goToSearchResult(result)" class="search-single-result">
+            <div *ngIf="result.searchResult.component == 'threads'">
+              <span>Ursprungsnachricht:</span>
+              <span>{{ result.searchResult.originalChat }}</span>
+              <span>{{ result.searchResult.originalMessage }}</span>
+            </div>
             <span>{{ result.searchResult.component }}</span>
             <span>{{ result.searchResult.text }}</span>
           </div>

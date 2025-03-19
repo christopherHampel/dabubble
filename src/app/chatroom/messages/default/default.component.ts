@@ -48,7 +48,9 @@ export class DefaultComponent {
     } else if (this.searchText.startsWith('@')) {
       this.userList = true;
       this.searchUserList();
-      console.log(this.filteredUser);
+    } else if(this.searchText) {
+      this.userList = true;
+      this.searchByEmail();
     } else {
       this.userList = false;
       this.channelList = false;
@@ -60,6 +62,13 @@ export class DefaultComponent {
 
     this.filteredUser = this.userService.userList.filter((user) =>
       user.userName.includes(query)
+    );
+  }
+
+  searchByEmail() {
+    const query = this.searchText;
+    this.filteredUser = this.userService.userList.filter((user) =>
+      user.email.includes(query)
     );
   }
 

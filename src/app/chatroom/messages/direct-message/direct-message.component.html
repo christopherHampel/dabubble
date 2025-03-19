@@ -4,7 +4,6 @@
         <div (click)="openDialog()" class="user-profil">
             <img [src]="this.chatService.chatPartner.avatar || 'img/empty_profile.png'" alt="">
             <h2>{{ this.chatService.chatPartner.name }}</h2>
-            <h2>{{ this.chatService.chatPartner.id }}</h2>
         </div>
     </div>
 
@@ -35,7 +34,7 @@
             <div class="emoji-component" *ngIf="this.emojiService.emojiPickerOpen">
                 <app-emoji-picker-component (emojiSelected)="this.addEmoji($event)"></app-emoji-picker-component>
             </div>
-            <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'messages'"></app-textarea>
+            <app-textarea [chatPartnerName]="this.chatService.chatPartner.name" [component]="'messages'" [condition]="false"></app-textarea>
         </div>
     </div>
 
