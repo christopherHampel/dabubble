@@ -94,11 +94,10 @@ export class ChatroomHeaderComponent {
 
   async goToThreads(resultData: any) {
     const threadData = await this.searchService.getThreadData(resultData);
-    const channel = 'channel';
-    if (resultData.originalChat == 'channels') {
+    if (resultData.originalChatInfo.originalChat == 'channels') {
       this.router.navigate([
         '/chatroom',
-        { outlets: { chats: [channel, threadData.chatId], thread: null } },
+        { outlets: { chats: ['channel', threadData.chatId], thread: null } },
       ]);
     } else {
       this.router.navigate([
