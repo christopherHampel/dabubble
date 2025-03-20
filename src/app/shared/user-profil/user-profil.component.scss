@@ -1,5 +1,6 @@
 @use '../../chatroom/chatroom.component.scss';
 @use '../add-people-input/add-people-input.component.scss';
+@use '../../chatroom/chatroom-header/chatroom-header.component.scss';
 
 @mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
     display: flex;
@@ -28,30 +29,48 @@
     margin-top: 45px;
 }
 
+.position-fixed {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+.position-absolute {
+    position: absolute;
+
+    top: 106%;
+    left: calc(-50% - 30px);
+}
+
+.border-radius-view-info {
+    border-radius: 30px;
+}
+
+.border-radius-edit {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
 
 
 /* ------- */
 /* Section */
 /* ------- */
-.user-profil {
+.user-profil-window {
     @include d-flex($fD: column, $jC: flex-start, $g: 45px);
-
-    position: fixed;
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
 
     width: 500px;
     height: max-content;
 
     padding: 40px;
 
-    z-index: 4;
+    z-index: 5;
 
     background-color: #FFFFFF;
-
-    border-radius: 30px;
 
     filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
 }

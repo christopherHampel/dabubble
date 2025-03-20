@@ -1,4 +1,6 @@
-<section *ngIf="dialogOpen && chatPartnerSig() as chatPartner" class="user-profil slide-in">
+<section *ngIf="dialogOpen && chatPartnerSig() as chatPartner" class="user-profil-window"
+    [ngClass]="{ 'border-radius-edit': useAs === 'edit', 'position-absolute': useAs === 'edit', 'animation': useAs === 'edit',
+    'border-radius-view-info': useAs !== 'edit', 'position-fixed': useAs !== 'edit', 'slide-in': useAs !== 'edit' }">
 
     <header class="width-100-percent">
         <h2 *ngIf="!edit; else editHeadline">Profil</h2>
@@ -15,8 +17,8 @@
 
         <!-- Edit profil -->
         <div *ngIf="edit" class="circle-container">
-            <img *ngFor="let img of images; let i = index" [src]="img" class="circle-image" [ngStyle]="edit ? getPosition(i) : null"
-                (click)="selectImage(img)" />
+            <img *ngFor="let img of images; let i = index" [src]="img" class="circle-image"
+                [ngStyle]="edit ? getPosition(i) : null" (click)="selectImage(img)" />
         </div>
 
     </div>
@@ -29,7 +31,8 @@
                 <div class="name">
                     <h2>{{chatPartner.userName}}</h2>
                     <div>
-                        <div class="active-status" [ngClass]="{'online': chatPartner.active, 'offline': !chatPartner.active}"></div>
+                        <div class="active-status"
+                            [ngClass]="{'online': chatPartner.active, 'offline': !chatPartner.active}"></div>
                         <span *ngIf="chatPartner.active; else abwesend" class="online-text">Aktiv</span>
                         <ng-template #abwesend>
                             <span class="offline-text">Abwesend</span>
@@ -48,7 +51,8 @@
                 </div>
             </div>
 
-            <button type="button" (click)="selectChat(); closeDialog()" class="primary-button">Nachricht</button>
+            <button *ngIf="useAs !== 'edit'" type="button" (click)="selectChat(); closeDialog()"
+                class="primary-button">Nachricht</button>
         </div>
 
         <!-- Edit profil -->
