@@ -31,17 +31,30 @@ export class ThreadsDbService {
   threadData = signal<any>(null);
   unsubMessageList: any;
 
+  private searchAbortController: AbortController | null = null;
+  private searchTimeout: any = null;
+
   constructor(
     private router: Router,
     private searchService: SearchDevspaceService
   ) {
     effect(() => {
       const searchText = this.searchService.searchTextSig().toLowerCase();
-      if (searchText.length > 0) {
-        this.searchService.searchMessagesInChannels(searchText, 'threads');
-      } else {
+  
+      if (searchText.length === 0) {
         this.searchService.results = [];
+        return;
       }
+  
+      if (this.searchAbortController) {
+        this.searchAbortController.abort();
+      }
+      this.searchAbortController = new AbortController();
+  
+      clearTimeout(this.searchTimeout);
+      this.searchTimeout = setTimeout(() => {
+        this.searchService.searchMessagesInChannels(searchText, 'threads');
+      }, 300);
     });
   }
 
@@ -55,7 +68,7 @@ export class ThreadsDbService {
     chatId: string,
     currentMessage: CurrentMessage,
     component: string
-  ) {
+  ) {    
     await addDoc(this.getThredRef(), thread).then(async (docRef) => {
       this.currentThreadId.set(docRef.id);
       this.unsubMessageList = this.subMessageList(docRef.id);
@@ -183,6 +196,7 @@ export class ThreadsDbService {
         originalChat: startThreadMessage.component,
         originalChatId: startThreadMessage.docId,
         originalMessage: startThreadMessage.text,
+        originalChatName: startThreadMessage.chatPartner
       }
     };
   }

@@ -1,6 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Channel } from '../../interfaces/channel';
 import { collection, doc, Firestore, getDoc, getDocs } from '@angular/fire/firestore';
+import { CurrentMessage } from '../../interfaces/current-message';
+import { Message } from '../../interfaces/message';
 
 @Injectable({
   providedIn: 'root',
@@ -19,43 +21,48 @@ export class SearchDevspaceService {
   }
 
   async searchMessagesInChannels(searchText: string, component: string) {
+    this.results = []; // Ergebnisse zurücksetzen
+  
+    const channels = await this.getChannels(component);
+  
+    for (const channelDoc of channels) {
+      const messages = await this.getMessages(component, channelDoc.id);
+      this.filterAndStoreResults(messages, searchText);
+    }
+
+    console.log(this.results);
+    
+  }
+  
+  private async getChannels(component: string) {
     const channelsRef = collection(this.firestore, component);
     const channelsSnapshot = await getDocs(channelsRef);
-
-    this.results = [];
-
-    for (const channelDoc of channelsSnapshot.docs) {
-      const messagesRef = collection(
-        this.firestore,
-        `${component}/${channelDoc.id}/messages`
-      );
-      const messagesSnapshot = await getDocs(messagesRef);
-
-      messagesSnapshot.forEach((messageDoc) => {
-        const messageData = messageDoc.data();
-        console.log(messageData);
-        
-        
-        if (typeof messageData['text'] === 'string') {
-          const messageText = messageData['text'].toLowerCase();
-          const searchLower = searchText.toLowerCase();
-          const searchResult = this.returnSearchResult(messageData);
-          console.log(searchResult);
-          
-
-          if (messageText.includes(searchLower)) {
-            this.results.push({
-              searchResult
-            });
-            // this.results = Array.from(new Map(this.results.map(item => [item.messageId, item])).values());
-          }
-        }
-      });
-    }
-    // console.log('Suchergebnisse:', this.results);
+    return channelsSnapshot.docs;
   }
-
-  returnSearchResult(messageData:any) {
+  
+  private async getMessages(component: string, channelId: string) {
+    const messagesRef = collection(this.firestore, `${component}/${channelId}/messages`);
+    const messagesSnapshot = await getDocs(messagesRef);
+    return messagesSnapshot.docs.map((doc) => doc.data());
+  }
+  
+  private filterAndStoreResults(messages: any[], searchText: string) {
+    const searchLower = searchText.toLowerCase();
+  
+    for (const messageData of messages) {
+      if (typeof messageData['text'] === 'string') {
+        const messageText = messageData['text'].toLowerCase();
+  
+        if (messageText.includes(searchLower)) {
+          const searchResult = this.returnSearchResult(messageData as CurrentMessage);
+          this.results.push({ searchResult });
+        }
+      }
+    }
+  }
+  
+  returnSearchResult(messageData:CurrentMessage) {
+    
     return {
       channelId: messageData['chatId'],
       messageId: messageData['docId'],

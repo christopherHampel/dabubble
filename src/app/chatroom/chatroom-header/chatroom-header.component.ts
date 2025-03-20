@@ -9,6 +9,7 @@ import { SearchDevspaceService } from '../../services/message/search-devspace.se
 import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ChatsService } from '../../services/message/chats.service';
 import { SingleMessageComponent } from '../messages/single-message/single-message.component';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 @Component({
   selector: 'app-chatroom-header',
@@ -114,7 +115,39 @@ export class ChatroomHeaderComponent {
   }
 
   getChatIcon(result:any) {    
-    if(result.searchResult.originalChatInfo.originalChat === 'channels') {
+    if(result.searchResult.component === 'channels') {
+      return '#'
+    } else if(result.searchResult.component === 'threads') {
+      let originalComponent = this.getOriginalComponent(result);
+      return originalComponent
+    } else {
+      return '@'
+    }
+  }
+
+  getChatPartner(result:any) {
+    const resultData = result.searchResult;    
+    
+    if(resultData.component == 'channels') {
+      return resultData.chatPartner.chatPartner;
+    } else if(resultData.component == 'messages') {
+      let chatPartner = this.checkChatPartner(resultData.chatPartner.chatPartner, resultData.chatPartner.currentUser);
+      return chatPartner;
+    } else {      
+      const data = resultData.originalChatInfo.originalChatName
+      const originalText = resultData.originalChatInfo.originalMessage;
+      let chatPartner = this.checkChatPartner(data.chatPartner, data.currentUser);
+      return chatPartner + ' ' + 'Thread von Nachricht:' + originalText;
+    }
+  }
+
+  checkChatPartner(chatPartner: string, storedUser:string) {
+    const currentUser = this.usersDb.currentUserSig()?.userName;
+    return currentUser === storedUser ? chatPartner : storedUser;
+  }
+
+  getOriginalComponent(result:any) {
+    if(result.searchResult.originalChatInfo.originalChat == 'channels') {
       return '#'
     } else {
       return '@'

@@ -24,16 +24,28 @@ export class ChannelsDbService {
   channelUserDataListSig = signal<UserProfile[]>([]);
   channelListSig = signal<Channel[]>([]);
   unsubChannelList: any;
+  private searchAbortController: AbortController | null = null;
+  private searchTimeout: any = null;
 
   constructor(private searchService: SearchDevspaceService) {
     this.subChannelList();
     effect(() => {
       const searchText = this.searchService.searchTextSig().toLowerCase();
-      if (searchText.length > 0) {
-        this.searchService.searchMessagesInChannels(searchText, 'channels');
-      } else {
+  
+      if (searchText.length === 0) {
         this.searchService.results = [];
+        return;
       }
+  
+      if (this.searchAbortController) {
+        this.searchAbortController.abort();
+      }
+      this.searchAbortController = new AbortController();
+  
+      clearTimeout(this.searchTimeout);
+      this.searchTimeout = setTimeout(() => {
+        this.searchService.searchMessagesInChannels(searchText, 'channels');
+      }, 300);
     });
   }
 

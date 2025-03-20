@@ -102,7 +102,10 @@ export class TextareaComponent implements OnInit {
       message: this.message,
       chatId: this.chatId,
       component: this.component,
-      chatPartner: this.chatPartnerName,
+      chatPartner: {
+        chatPartner: this.chatPartnerName,
+        currentUser: this.userService.currentUserSig()?.userName,
+      },
       mentionedUsers
     }
   }

@@ -310,6 +310,7 @@ export class SingleMessageComponent {
   // }
 
   addEmojiEditMessage() {
+    debugger;
     this.emojiPickerEdit = !this.emojiPickerEdit;
   }
 

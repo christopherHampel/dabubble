@@ -34,6 +34,9 @@ export class ChatsService {
   private messagesSubject = new BehaviorSubject<CurrentMessage[]>([]);
   public messages$ = this.messagesSubject.asObservable();
 
+  private searchAbortController: AbortController | null = null;
+  private searchTimeout: any = null;
+
   chatPartner: { name: string; avatar: string, id: string } = { name: '', avatar: '', id: '' };
   chatPartnerIdSig = signal<string | null>(null);
   private unsubMessage: Unsubscribe | null = null;
@@ -174,11 +177,21 @@ export class ChatsService {
   ) {
     effect(() => {
       const searchText = this.searchService.searchTextSig().toLowerCase();
-      if (searchText.length > 0) {
-        this.searchService.searchMessagesInChannels(searchText, 'messages');
-      } else {
+  
+      if (searchText.length === 0) {
         this.searchService.results = [];
+        return;
       }
+  
+      if (this.searchAbortController) {
+        this.searchAbortController.abort();
+      }
+      this.searchAbortController = new AbortController();
+  
+      clearTimeout(this.searchTimeout);
+      this.searchTimeout = setTimeout(() => {
+        this.searchService.searchMessagesInChannels(searchText, 'messages');
+      }, 300);
     });
   }
 

@@ -16,24 +16,16 @@
         @for (result of resultsData; track $index) {
           <div (click)="goToSearchResult(result)" class="search-single-result">
             <div class="chat-info">
-              <span *ngIf="result.searchResult.originalChatInfo.originalChat == 'channels'">#</span>
-              <span *ngIf="result.searchResult.originalChatInfo.originalChat != 'channels'">&#64;</span>
-              <span>{{ result.searchResult.chatPartner }}</span>
+              <!-- <span *ngIf="result.searchResult.originalChatInfo.originalChat == 'channels'">#</span>
+              <span *ngIf="result.searchResult.originalChatInfo.originalChat != 'channels'">&#64;</span> -->
+              <span>{{ getChatIcon(result) }}</span>
+              <span>{{ getChatPartner(result) }}</span>
+              <!-- <span *ngIf="result.searchResult.component == 'threads'">{{ result.searchResult.originalChatInfo.originalChat }}</span> -->
             </div>
             <div>
               <span>{{ result.searchResult.text }}</span>
             </div>
           </div>
-
-          <!-- <div (click)="goToSearchResult(result)" class="search-single-result">
-            <div *ngIf="result.searchResult.component == 'threads'">
-              <span>Ursprungsnachricht:</span>
-              <span>{{ result.searchResult.originalChatInfo.originalChat }}</span>
-              <span>{{ result.searchResult.originalChatInfo.originalMessage }}</span>
-            </div>
-            <span>{{ result.searchResult.component }}</span>
-            <span>{{ result.searchResult.text }}</span>
-          </div> -->
         }
     </div>
   </div>
