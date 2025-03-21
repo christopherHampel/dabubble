@@ -139,4 +139,9 @@ export class UsersDbService {
     const userRef = this.getSingleDocRef('users', userId);
     updateDoc(userRef, { active: active });
   }
+
+  updateCurrentUserProfil(userName: string, avatar: string) {
+    const userRef = this.getSingleDocRef('users', this.currentUser!.id);
+    updateDoc(userRef, { userName: userName, avatar: avatar });
+  }
 }

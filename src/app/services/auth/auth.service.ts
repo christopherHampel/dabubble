@@ -1,5 +1,4 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { FirebaseApp } from '@angular/fire/app';
 import {
   Auth,
   createUserWithEmailAndPassword,
@@ -17,7 +16,6 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private firebaseapp = inject(FirebaseApp);
   private auth = inject(Auth);
   currentAuthUser = user(this.auth);
   feedback = signal<boolean>(false);
@@ -46,6 +44,13 @@ export class AuthService {
     });
 
     return userCredential.user.uid;
+  }
+
+  async updateCurrentUser(userName: string, avatar: string) {
+    await updateProfile(this.auth.currentUser!, {
+      displayName: userName,
+      photoURL: avatar
+    });
   }
 
   async login(email: string, password: string) {

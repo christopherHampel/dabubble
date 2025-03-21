@@ -13,7 +13,7 @@
     <div class="image-container" [ngClass]="{'margin-top': edit}">
 
         <!-- View profil -->
-        <img class="profil-icon" [src]="chatPartner.avatar">
+        <img class="profil-icon" [src]="selectedImage">
 
         <!-- Edit profil -->
         <div *ngIf="edit" class="circle-container">
@@ -63,12 +63,12 @@
                     <img src="/img/person-icon.svg">
                     <h2>Vollständiger Name</h2>
                 </div>
-                <input class="input-text" type="text" placeholder="{{chatPartner.userName}}">
+                <input [(ngModel)]="userName" name="userName" class="input-text" type="text" placeholder="{{chatPartner.userName}}" autocomplete="off">
             </div>
 
             <div class="button-wrapper">
                 <button type="button" (click)="closeEdit()" class="gast-login-btn">Abbrechen</button>
-                <button type="button" class="primary-button">Speichern</button>
+                <button type="button" (click)="updateUser()" class="primary-button">Speichern</button>
             </div>
         </div>
 

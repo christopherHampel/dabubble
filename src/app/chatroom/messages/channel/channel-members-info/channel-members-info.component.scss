@@ -18,10 +18,6 @@
     width: 100%;
 }
 
-.z-index-3 {
-    z-index: 3 !important;
-}
-
 
 header {
     @include d-flex($jC: space-between);
@@ -117,4 +113,6 @@ header {
     right: 0;
 
     z-index: 4;
+
+    background-color: rgba(0 0 0 / 32%);
 }

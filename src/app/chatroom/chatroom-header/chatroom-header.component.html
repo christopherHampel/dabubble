@@ -37,9 +37,10 @@
       <button (click)="onLogout()">Log out</button>
     </ul>
 
-    <app-user-profil [dialogOpen]="dialog" [useAs]="'edit'" [userSig]="userSig"></app-user-profil>
+    <app-user-profil [dialogOpen]="dialog" (dialogClose)="dialog = !$event" [useAs]="'edit'" [userSig]="userSig"></app-user-profil>
   </div>
 </section>
 
 <app-transparent-background [backgroundOpen]="dropdown"
   (backgroundClose)="closeDropdown(!$event)"></app-transparent-background>
+<div *ngIf="dialog" (click)="dialog = false" class="background-user-profil"></div>

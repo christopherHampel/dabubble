@@ -4,11 +4,14 @@ import { ChatsService } from '../../services/message/chats.service';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
 import { UserProfile } from '../../interfaces/userProfile';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-user-profil',
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   templateUrl: './user-profil.component.html',
   styleUrl: './user-profil.component.scss'
@@ -16,8 +19,12 @@ import { Router } from '@angular/router';
 export class UserProfilComponent {
   chatService = inject(ChatsService);
   usersDb = inject(UsersDbService);
+  auth = inject(AuthService);
   chatPartnerSig = signal<UserProfile>({} as UserProfile);
   edit: boolean = false;
+  userName: string = '';
+  selectedImage: string = '';
+  manuelUpdatUser: boolean = false;
 
   @Input() userSig?: Signal<UserProfile>;
   @Input() useAs: 'view' | 'edit' | 'info' = 'view';
@@ -33,20 +40,24 @@ export class UserProfilComponent {
     '/img/steffen_hoffmann.png'
   ]
 
-  selectedImage = this.images[0];
-
   constructor(private router: Router) {
     effect(() => {
+      if (this.manuelUpdatUser) return;
+
       if (this.chatService.chatPartnerId && this.useAs === 'view') {
         this.usersDb.subUser(this.chatService.chatPartner.id, (updateUser) => {
           this.chatPartnerSig.set(updateUser as UserProfile);
         });
-      } else if (this.userSig && this.useAs === 'info') {
-        this.chatPartnerSig.set(this.userSig());
-      } else if (this.userSig && this.useAs === 'edit') {
+      } else if (this.userSig && this.useAs !== 'view') {
         this.chatPartnerSig.set(this.userSig());
       }
+
+      this.selectedImage = this.chatPartner.avatar;
     })
+  }
+
+  ngOnChanges() {
+    this.closeEdit();
   }
 
   get chatPartner() {
@@ -74,6 +85,7 @@ export class UserProfilComponent {
 
   closeEdit() {
     this.edit = false;
+    this.userName = '';
   }
 
   closeDialog() {
@@ -88,5 +100,17 @@ export class UserProfilComponent {
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);
     }
+  }
+
+  async updateUser() {
+    this.manuelUpdatUser = true;
+    if (this.userName === '') this.userName = this.chatPartner.userName;
+
+    await this.auth.updateCurrentUser(this.userName, this.selectedImage);
+    this.usersDb.updateCurrentUserProfil(this.userName, this.selectedImage);
+    this.chatPartnerSig.update((currentDate) => ({...currentDate, userName: this.userName, avatar: this.selectedImage}));
+
+    this.closeEdit();
+    setTimeout(() => this.manuelUpdatUser = false, 500);
   }
 }
