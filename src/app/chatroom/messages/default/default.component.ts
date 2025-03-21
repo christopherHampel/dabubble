@@ -26,9 +26,10 @@ import { Channel } from '../../../interfaces/channel';
 export class DefaultComponent {
   isLoaded = false;
   userList: boolean = false;
-  channelList:boolean = false;
+  channelList: boolean = false;
   searchText: string = '';
   filteredUser: any[] = [];
+  filteredChannels: any[] = [];
 
   constructor(
     private userService: UsersDbService,
@@ -46,10 +47,11 @@ export class DefaultComponent {
   searchChat() {
     if (this.searchText.startsWith('#')) {
       this.channelList = true;
+      this.searchChannels();
     } else if (this.searchText.startsWith('@')) {
       this.userList = true;
       this.searchUserList();
-    } else if(this.searchText) {
+    } else if (this.searchText) {
       this.userList = true;
       this.searchByEmail();
     } else {
@@ -59,18 +61,29 @@ export class DefaultComponent {
   }
 
   searchUserList() {
-    const query = this.searchText.substring(1);
-
+    const query = this.searchText.substring(1).toLowerCase();
     this.filteredUser = this.userService.userList.filter((user) =>
-      user.userName.includes(query)
+      user.userName.toLowerCase().includes(query)
     );
   }
 
   searchByEmail() {
-    const query = this.searchText;
+    const query = this.searchText.toLowerCase();
     this.filteredUser = this.userService.userList.filter((user) =>
-      user.email.includes(query)
+      user.email.toLowerCase().includes(query)
     );
+  }
+
+  searchChannels() {
+    const query = this.searchText.substring(1).toLowerCase();
+    const channels = this.getChannelList();
+    this.filteredChannels = [];
+
+    for (let i = 0; i < channels.length; i++) {
+      if (channels[i].name.toLowerCase().includes(query)) {
+        this.filteredChannels.push(channels[i]);
+      }
+    }
   }
 
   async selectChat(user: any) {
@@ -86,8 +99,11 @@ export class DefaultComponent {
     }
   }
 
-  selectChannel(channel:Channel) {
-    this.router.navigate(['/chatroom', { outlets: { chats: ['channel', channel.id], thread: null } }]);
+  selectChannel(channel: Channel) {
+    this.router.navigate([
+      '/chatroom',
+      { outlets: { chats: ['channel', channel.id], thread: null } },
+    ]);
   }
 
   getChannelList() {
