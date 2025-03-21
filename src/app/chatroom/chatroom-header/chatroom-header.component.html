@@ -11,11 +11,8 @@
         @for (result of resultsData; track $index) {
           <div (click)="goToSearchResult(result)" class="search-single-result">
             <div class="chat-info">
-              <!-- <span *ngIf="result.searchResult.originalChatInfo.originalChat == 'channels'">#</span>
-              <span *ngIf="result.searchResult.originalChatInfo.originalChat != 'channels'">&#64;</span> -->
               <span>{{ getChatIcon(result) }}</span>
               <span>{{ getChatPartner(result) }}</span>
-              <!-- <span *ngIf="result.searchResult.component == 'threads'">{{ result.searchResult.originalChatInfo.originalChat }}</span> -->
             </div>
             <div>
               <span>{{ result.searchResult.text }}</span>

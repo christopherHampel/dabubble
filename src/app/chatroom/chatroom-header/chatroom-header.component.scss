@@ -173,8 +173,10 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        border: 1px solid black;
+        border: 1px solid #adb0d9;
         border-radius: 30px;
+        color: #797ef3;
+        padding: 24px;
 
         .search-single-result {
             display: flex;
@@ -184,7 +186,8 @@
 
             &:hover {
                 cursor: pointer;
-                background-color: rgba(0, 0, 0, 0.2);
+                background-color: #ECEEFE;
+                border-radius: 30px;            
             }
 
             .chat-info {

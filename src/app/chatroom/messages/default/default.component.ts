@@ -9,6 +9,7 @@ import { ChatsService } from '../../../services/message/chats.service';
 import { Router } from '@angular/router';
 import { User } from '../../../interfaces/user';
 import { ChannelsDbService } from '../../../services/message/channels-db.service';
+import { Channel } from '../../../interfaces/channel';
 
 @Component({
   selector: 'app-default',
@@ -83,6 +84,10 @@ export class DefaultComponent {
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);
     }
+  }
+
+  selectChannel(channel:Channel) {
+    this.router.navigate(['/chatroom', { outlets: { chats: ['channel', channel.id], thread: null } }]);
   }
 
   getChannelList() {

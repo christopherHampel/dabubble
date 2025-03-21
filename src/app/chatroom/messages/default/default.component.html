@@ -17,7 +17,7 @@
       </div>
 
       <div class="user-list channel-list" *ngIf="this.channelList">
-        <div *ngFor="let channel of getChannelList()" class="single-channel">
+        <div (click)="selectChannel(channel)" *ngFor="let channel of getChannelList()" class="single-channel">
           <span class="hashtag-icon"></span>
           <span>{{ channel.name }}</span>
         </div>
