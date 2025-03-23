@@ -6,6 +6,8 @@ import {
   onSnapshot,
   updateDoc,
   arrayUnion,
+  query,
+  where,
 } from '@angular/fire/firestore';
 import { addDoc } from 'firebase/firestore';
 import { Channel } from '../../interfaces/channel';
@@ -28,24 +30,30 @@ export class ChannelsDbService {
   private searchTimeout: any = null;
 
   constructor(private searchService: SearchDevspaceService) {
-    this.subChannelList();
+    effect(() => {
+      if (this.usersDb.currentUser) {
+        this.subChannelList();
+      }
+    })
+
     effect(() => {
       const searchText = this.searchService.searchTextSig().toLowerCase();
-  
+
       if (searchText.length === 0) {
         this.searchService.results = [];
         return;
       }
-  
+
       if (this.searchAbortController) {
         this.searchAbortController.abort();
       }
       this.searchAbortController = new AbortController();
-  
+
       clearTimeout(this.searchTimeout);
       this.searchTimeout = setTimeout(() => {
         this.searchService.searchMessagesInChannels(searchText, 'channels');
       }, 300);
+
     });
   }
 
@@ -136,10 +144,17 @@ export class ChannelsDbService {
   }
 
   subChannelList() {
+    const channelsRef = this.getChannelRef();
+    const filterChannels = query(channelsRef, where('participants', 'array-contains', this.usersDb.currentUser!.id));
+
     onSnapshot(this.getChannelRef(), (list) => {
       const channels: Channel[] = [];
       list.forEach((item) => {
-        channels.push(this.setChannelObject(item.data()));
+        const channel = this.setChannelObject(item.data());
+        const currentUser = this.usersDb.currentUser;
+        if (channel.participants.find(participant => participant.id === currentUser!.id)) {
+          channels.push(this.setChannelObject(item.data()));
+        }
       });
       this.channelListSig.set(channels);
     });

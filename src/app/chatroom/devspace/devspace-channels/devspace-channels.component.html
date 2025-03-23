@@ -22,14 +22,16 @@
 
     <!-- Add user -->
     <div class="add-user-or-channel-view"
-        [ngClass]="{'fold-in-add-channel': !channelsOpen, 'fold-out-add-channel': channelsOpen}"
-        (click)="openDialog()">
+        [ngClass]="{'fold-in-add-channel': !channelsOpen, 'fold-out-add-channel': channelsOpen}" (click)="openDialog()">
         <div class="add-circle-icon" [ngClass]="{'add-circle-icon-hover': dialog}"></div>
         <span>Channel hinzufügen</span>
     </div>
 
 </section>
 
-<app-create-channel-dialog #channelDialog (dialogComponent)="closeDialog($event)" [ngStyle]="{'display': dialogComponent === 'createChannel' ? 'flex' : 'none'}"></app-create-channel-dialog>
-<app-add-people-dialog #peopleDialog (dialogComponent)="closeDialog($event)" [ngStyle]="{'display': dialogComponent === 'addPeople' ? 'flex' : 'none'}"></app-add-people-dialog>
-<app-transparent-background [backgroundOpen]="dialog" (backgroundClose)="closeDialog('none')"></app-transparent-background>
+<app-create-channel-dialog #channelDialog (dialogComponent)="closeDialog($event)"
+    [ngStyle]="{'display': dialogComponent === 'createChannel' ? 'flex' : 'none'}"></app-create-channel-dialog>
+<app-add-people-dialog #peopleDialog (dialogComponent)="closeDialog($event)"
+    [ngStyle]="{'display': dialogComponent === 'addPeople' ? 'flex' : 'none'}"></app-add-people-dialog>
+<app-transparent-background [backgroundOpen]="dialog"
+    (backgroundClose)="closeDialog('none')"></app-transparent-background>

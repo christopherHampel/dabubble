@@ -41,8 +41,7 @@
 .position-absolute {
     position: absolute;
 
-    top: 106%;
-    left: calc(-50% - 30px);
+    transform: translate(-100%, 4px);
 }
 
 .border-radius-view-info {
