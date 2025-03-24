@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
 import { SearchDevspaceService } from '../../services/message/search-devspace.service';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ChatsService } from '../../services/message/chats.service';
-import { SingleMessageComponent } from '../messages/single-message/single-message.component';
 import { UserProfilComponent } from '../../shared/user-profil/user-profil.component';
 import { UserProfile } from '../../interfaces/userProfile';
 
@@ -18,7 +17,6 @@ import { UserProfile } from '../../interfaces/userProfile';
     CommonModule,
     TransparentBackgroundComponent,
     FormsModule,
-    SingleMessageComponent,
     UserProfilComponent
   ],
   templateUrl: './chatroom-header.component.html',
