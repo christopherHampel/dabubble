@@ -1,11 +1,13 @@
 <section class="header color">
-  <img class="logo" src="/img/logo_complete.png" />
+  <div class="logo-container">
+    <img class="logo" src="/img/logo_complete.png" />
+  </div>
 
   <div class="search-container">
     <div class="search-wrapper">
       <input (input)="searchDevspace()" [(ngModel)]="searchTextInput" class="input-text" type="text"
         placeholder="Devspace durchsuchen" />
-      <div class="search-icon"></div>
+      <div class="search-icon"><img src="/img/search_icon.svg" alt=""></div>
     </div>
     <div class="search-results" *ngIf="resultsData.length > 0">
         @for (result of resultsData; track $index) {
