@@ -9,18 +9,19 @@
         placeholder="Devspace durchsuchen" />
       <div class="search-icon"><img src="/img/search_icon.svg" alt=""></div>
     </div>
-    <div class="search-results" *ngIf="resultsData.length > 0">
-        @for (result of resultsData; track $index) {
-          <div (click)="goToSearchResult(result)" class="search-single-result">
-            <div class="chat-info">
-              <span>{{ getChatIcon(result) }}</span>
-              <span>{{ getChatPartner(result) }}</span>
-            </div>
-            <div>
-              <span>{{ result.searchResult.text }}</span>
-            </div>
+    <div [ngClass]="get()">
+      <div *ngIf="this.searchService.isLoading()" class="loading-spinner"></div>
+        <div *ngIf="!this.searchService.isLoading() && resultsData.length > 0">
+        <div *ngFor="let result of resultsData" (click)="goToSearchResult(result)" class="search-single-result">
+          <div class="chat-info">
+            <span>{{ getChatIcon(result) }}</span>
+            <span>{{ getChatPartner(result) }}</span>
           </div>
-        }
+          <div>
+            <span>{{ result.searchResult.text }}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

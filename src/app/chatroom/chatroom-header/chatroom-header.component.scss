@@ -44,27 +44,6 @@
         &:hover {
             cursor: pointer;
         }
-
-        // display: flex;
-        // justify-content: center;
-        // align-items: center;
-
-        // max-height: 55px;
-
-        // padding: 17.5px 45px;
-
-        // background-color: #FFFFFF;
-
-        // border-radius: 42px;
-        // border-top-left-radius: 0;
-        // border-bottom-left-radius: 0;
-    }
-
-    &:focus-within {
-
-        // .search-icon {
-        //     background-image: url('/img/search_focus_icon.svg');
-        // }
     }
 }
 
@@ -78,14 +57,16 @@
 }
 
 .user-profil {
+    width: 440px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     gap: 20px;
 
     h2 {
         font-size: 32px;
         font-weight: 700;
+        text-wrap: nowrap;
     }
 
     img {
@@ -236,3 +217,18 @@
 .logo-container {
     width: 390px;
 }
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 10px auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

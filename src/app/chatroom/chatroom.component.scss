@@ -15,7 +15,8 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  // gap: 40px;
+
+  position: relative;
 
   padding-bottom: 16px;
   margin-right: 20px;
@@ -194,4 +195,9 @@
   border-top-right-radius: 20px;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
+}
+
+.position-absolute {
+  // position: absolute;
+  // width: 400px;
 }

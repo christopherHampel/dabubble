@@ -159,4 +159,12 @@ export class ChatroomHeaderComponent {
       return '@'
     }
   }
+
+  get() {
+    if(this.searchService.isLoading() || this.resultsData.length > 0) {
+      return 'search-results'
+    } else {
+      return ''
+    }
+  }
 }

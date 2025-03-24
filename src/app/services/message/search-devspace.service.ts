@@ -12,6 +12,8 @@ export class SearchDevspaceService {
 
   searchTextSig = signal<string>('');
   filteredChannelsSig = signal<Channel[]>([]);
+  isLoading = signal<boolean>(false);
+
   results: any[] = [];
 
   constructor() {}
@@ -21,7 +23,8 @@ export class SearchDevspaceService {
   }
 
   async searchMessagesInChannels(searchText: string, component: string) {
-    this.results = []; // Ergebnisse zurücksetzen
+    this.isLoading.set(true);
+    this.results = [];
   
     const channels = await this.getChannels(component);
   
@@ -29,9 +32,7 @@ export class SearchDevspaceService {
       const messages = await this.getMessages(component, channelDoc.id);
       this.filterAndStoreResults(messages, searchText);
     }
-
-    console.log(this.results);
-    
+    this.isLoading.set(false); // Spinner deaktivieren
   }
   
   private async getChannels(component: string) {

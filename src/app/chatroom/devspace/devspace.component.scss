@@ -96,9 +96,22 @@
   flex-direction: column;
   gap: 13px;
 
-  overflow-y: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  li {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+
+    span {
+      flex-grow: 1;
+      min-width: 0; /* WICHTIG: Verhindert, dass das Flex-Element überläuft */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block; /* Oder inline-block */
+    }
+  }
 
   padding-inline-start: 20px;
 }

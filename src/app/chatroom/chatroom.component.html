@@ -3,13 +3,13 @@
     <app-chatroom-header></app-chatroom-header>
 
     <section class="communication-wrapper color">
-      <div class="devspace-area">
+      <div class="devspace-area position-absolute">
         <app-devspace></app-devspace>
       </div>
-      <div class="channel-messages">
+      <div class="channel-messages position-absolute">
         <app-messages [currentUser]="currentUser"></app-messages>
       </div>
-      <div class="threads-area">
+      <div class="threads-area position-absolute">
         <app-thread-router-outlet></app-thread-router-outlet>
       </div>
     </section>
