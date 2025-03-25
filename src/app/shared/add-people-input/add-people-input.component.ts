@@ -170,19 +170,26 @@ export class AddPeopleInputComponent {
 
   async createChannel() {
     let participants: { id: string; createdBy: boolean; }[];
+    let participantIds: string[] = [];
+    
     participants = this.selectedUserList.map((user, index) => ({
       id: user.id,
       createdBy: index > 0 || this.component === 'addMembers' ? false : true,
     })) || [];
 
+    this.selectedUserList.forEach(user => {
+      participantIds.push(user.id);
+    });
+
     if (this.component === 'addPeople') {
       this.channelsDb.updateChannel({
-        participants: participants
+        participants: participants,
+        participantIds: participantIds
       })
 
       await this.channelsDb.addChannel()
     } else {
-      await this.channelsDb.updateParticipiants(participants);
+      await this.channelsDb.updateParticipiants(participants, participantIds);
     }
   }
 

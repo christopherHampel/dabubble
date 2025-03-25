@@ -8,7 +8,7 @@
         <div (click)="closeDialog()" class="close-icon"></div>
     </header>
 
-    <form onsubmit="return false">
+    <form onsubmit="leaveChannel(); return false">
 
         <div class="box width-100-percent">
             <div class="width-100-percent">
@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <button class="primary-button" type="submit">Channel verlassen</button>
+        <button class="primary-button" type="button" (click)="leaveChannel()">Channel verlassen</button>
 
     </form>
 

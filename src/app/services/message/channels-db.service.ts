@@ -83,8 +83,8 @@ export class ChannelsDbService {
       id: channel.id,
       name: channel.name,
       description: channel.description,
-      createdBy: channel.createdBy,
       participants: channel.participants,
+      participantIds: channel.participantIds
     };
   }
 
@@ -103,8 +103,8 @@ export class ChannelsDbService {
       id: object.id || '',
       name: object.name || '',
       description: object.description || '',
-      createdBy: object.createdBy || {},
       participants: object.participants || {},
+      participantIds: object.participantIds || []
     };
   }
 
@@ -114,6 +114,8 @@ export class ChannelsDbService {
       const channelData = this.setChannelObject(docSnapshot.data());
 
       this.channelSig.set(channelData);
+
+      console.log(this.channelSig());
 
       this.loadChannelUserDatas(channelData.participants);
     });
@@ -145,16 +147,12 @@ export class ChannelsDbService {
 
   subChannelList() {
     const channelsRef = this.getChannelRef();
-    const filterChannels = query(channelsRef, where('participants', 'array-contains', this.usersDb.currentUser!.id));
+    const filterChannels = query(channelsRef, where('participantIds', 'array-contains', this.usersDb.currentUser!.id));
 
-    onSnapshot(this.getChannelRef(), (list) => {
+    onSnapshot(filterChannels, (list) => {
       const channels: Channel[] = [];
       list.forEach((item) => {
-        const channel = this.setChannelObject(item.data());
-        const currentUser = this.usersDb.currentUser;
-        if (channel.participants.find(participant => participant.id === currentUser!.id)) {
-          channels.push(this.setChannelObject(item.data()));
-        }
+        channels.push(this.setChannelObject(item.data()));
       });
       this.channelListSig.set(channels);
     });
@@ -169,9 +167,13 @@ export class ChannelsDbService {
   }
 
   async updateParticipiants(
-    participants: { id: string; createdBy: boolean }[]
+    participants: { id: string; createdBy: boolean }[],
+    participantIds: string[]
   ) {
     const channelRef = this.getSingleDocRef('channels', this.channel!.id);
-    await updateDoc(channelRef, { participants: arrayUnion(...participants) });
+    await updateDoc(channelRef, {
+      participants: arrayUnion(...participants),
+      participantIds: arrayUnion(...participantIds)
+    });
   }
 }

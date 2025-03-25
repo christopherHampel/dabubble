@@ -6,5 +6,5 @@ export interface Channel {
         id: string,
         createdBy:boolean,
     }[],
-    createdBy:boolean
+    participantIds: string[]
 }

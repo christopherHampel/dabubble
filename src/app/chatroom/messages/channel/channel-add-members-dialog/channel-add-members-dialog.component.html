@@ -11,12 +11,12 @@
         </div>
     </header>
 
-    <form onSubmit="addPeopleInput.createChannel(); closeDialog(); return false">
+    <form onSubmit="return false">
 
         <app-add-people-input #addPeopleInput [component]="'addMembers'" class="width-100-percent"
             (selectedUserListOut)="selectUserList($event)"></app-add-people-input>
 
-        <button type="submit" [disabled]="!selectedUserList.length"
+        <button type="button" (click)="updateChannel()" [disabled]="!selectedUserList.length"
             class="primary-button">Hinzufügen</button>
     </form>
 

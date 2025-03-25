@@ -2,6 +2,8 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelsDbService } from '../../../../services/message/channels-db.service';
+import { UsersDbService } from '../../../../services/usersDb/users-db.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-channel-data-window',
@@ -14,6 +16,7 @@ import { ChannelsDbService } from '../../../../services/message/channels-db.serv
 })
 export class ChannelDataWindowComponent {
   channelsDb = inject(ChannelsDbService);
+  userDb = inject(UsersDbService);
   editNameButton: string = 'Bearbeiten';
   editDescriptionButton: string = 'Bearbeiten';
   channelNameEdit: boolean = false;
@@ -21,6 +24,8 @@ export class ChannelDataWindowComponent {
   channelName: string = '';
   channelDescription: string = '';
   createdUser: any;
+ 
+  constructor(private router: Router) { }
 
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
@@ -103,5 +108,32 @@ export class ChannelDataWindowComponent {
     })
 
     await this.channelsDb.changeChannel();
+  }
+
+
+  async leaveChannel() {
+    let participants: { id: string, createdBy: boolean }[];
+    let participantIds: string[] = [];
+
+    participants = this.channelsDb.channel?.participants
+      .filter(participant => participant.id !== this.userDb.currentUser?.id)
+      .map((participant, index) => ({
+        id: participant.id,
+        createdBy: index === 0 ? true : participant.createdBy
+      })) || [];
+
+    this.channelsDb.channel?.participantIds.forEach(id => {
+      if (id !== this.userDb.currentUser?.id) participantIds.push(id);
+    });
+
+    this.channelsDb.updateChannel({
+      participants: participants,
+      participantIds: participantIds
+    });
+
+    await this.channelsDb.changeChannel();
+
+    this.closeDialog();
+    this.router.navigate(['/chatroom']);
   }
 }

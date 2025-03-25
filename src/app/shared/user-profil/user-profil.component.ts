@@ -25,6 +25,7 @@ export class UserProfilComponent {
   userName: string = '';
   selectedImage: string = '';
   manuelUpdatUser: boolean = false;
+  counter: number = 0;
 
   @Input() userSig?: Signal<UserProfile>;
   @Input() useAs: 'view' | 'edit' | 'info' = 'view';
@@ -42,17 +43,27 @@ export class UserProfilComponent {
 
   constructor(private router: Router) {
     effect(() => {
+      this.counter++;
+      console.log('NOT view: ', this.counter);
+
       if (this.manuelUpdatUser) return;
+
+      if (this.userSig && this.useAs !== 'view') {
+        this.chatPartnerSig.set(this.userSig());
+      }
+
+      this.selectedImage = this.chatPartner.avatar;
+    });
+
+    effect(() => {
+      this.counter++;
+      console.log('IS view: ', this.counter);
 
       if (this.chatService.chatPartnerId && this.useAs === 'view') {
         this.usersDb.subUser(this.chatService.chatPartner.id, (updateUser) => {
           this.chatPartnerSig.set(updateUser as UserProfile);
         });
-      } else if (this.userSig && this.useAs !== 'view') {
-        this.chatPartnerSig.set(this.userSig());
       }
-
-      this.selectedImage = this.chatPartner.avatar;
     })
   }
 

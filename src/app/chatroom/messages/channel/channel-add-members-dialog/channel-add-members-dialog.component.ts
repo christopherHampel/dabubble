@@ -43,4 +43,10 @@ export class ChannelAddMembersDialogComponent {
   resetAfterViewChecked() {
     this.afterViewCheckedFlag = true;
   }
+
+  async updateChannel() {
+    await this.addPeopleInput.createChannel();
+
+    this.closeDialog();
+  }
 }
