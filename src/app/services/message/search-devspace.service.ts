@@ -32,7 +32,7 @@ export class SearchDevspaceService {
       const messages = await this.getMessages(component, channelDoc.id);
       this.filterAndStoreResults(messages, searchText);
     }
-    this.isLoading.set(false); // Spinner deaktivieren
+    this.isLoading.set(false);
   }
   
   private async getChannels(component: string) {
