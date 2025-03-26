@@ -5,7 +5,6 @@ import { AddPeopleDialogComponent } from './add-people-dialog/add-people-dialog.
 import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
 import { ChannelsDbService } from '../../../services/message/channels-db.service';
 import { Router } from '@angular/router';
-import { UsersDbService } from '../../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-devspace-channels',
@@ -20,7 +19,6 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
 })
 export class DevspaceChannelsComponent {
   private channelsDb = inject(ChannelsDbService);
-  private usersDb = inject(UsersDbService);
 
   channelsOpen: boolean = true;
   dialog: boolean = false;

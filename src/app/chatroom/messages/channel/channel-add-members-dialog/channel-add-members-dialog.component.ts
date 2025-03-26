@@ -45,6 +45,8 @@ export class ChannelAddMembersDialogComponent {
   }
 
   async updateChannel() {
+    debugger;
+
     await this.addPeopleInput.createChannel();
 
     this.closeDialog();

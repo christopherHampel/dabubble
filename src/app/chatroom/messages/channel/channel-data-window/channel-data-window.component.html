@@ -13,7 +13,7 @@
         <div class="box width-100-percent">
             <div class="width-100-percent">
                 <span class="headline">Channel Name</span>
-                <button ([ngModel])="editNameButton" class="edit-button"
+                <button class="edit-button"
                     (click)="editChannelName(); saveChannel()">{{editNameButton}}</button>
             </div>
             <div *ngIf="!channelNameEdit">
@@ -27,7 +27,7 @@
         <div class="box width-100-percent">
             <div class="width-100-percent">
                 <span class="headline">Beschreibung</span>
-                <button ([ngModel])="editDescriptionButton" class="edit-button"
+                <button class="edit-button"
                     (click)="editChannelDescription(); saveChannel()">{{editDescriptionButton}}</button>
             </div>
             <p *ngIf="!channelDescriptionEdit">

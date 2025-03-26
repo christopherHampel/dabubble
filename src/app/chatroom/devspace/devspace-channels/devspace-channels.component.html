@@ -10,7 +10,7 @@
         <div (click)="openDialog()" class="add-icon"></div>
     </div>
 
-    <ul class="channels-directmessages-list">
+    <ul class="channels-directmessages-list" [ngStyle]="{ 'display': getChannelList().length > 0 ? 'flex' : 'none'}">
         <li *ngFor="let channel of getChannelList()" class="channel-view-small"
             [ngClass]="{'fold-in-channels': !channelsOpen, 'fold-out-channels': channelsOpen}"
             [ngClass]="{'selected': channel.id === selectedChannelId}"
