@@ -10,7 +10,7 @@
     align-items: center;
     gap: 40px;
 
-    padding: 16px 32px;
+    padding-bottom: 16px;
 }
 
 .logo {
@@ -57,7 +57,7 @@
 }
 
 .user-profil {
-    width: 440px;
+    width: 400px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -66,7 +66,7 @@
     h2 {
         font-size: 32px;
         font-weight: 700;
-        text-wrap: nowrap;
+        text-align: center;
     }
 
     img {
@@ -215,7 +215,7 @@
 }
 
 .logo-container {
-    width: 390px;
+    width: 400px;
 }
 
 .loading-spinner {
