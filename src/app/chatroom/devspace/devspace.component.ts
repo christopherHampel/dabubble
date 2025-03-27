@@ -6,6 +6,7 @@ import { HideOrShowNavbarComponent } from './hide-or-show-navbar/hide-or-show-na
 import { Router } from '@angular/router';
 import { ChatsService } from '../../services/message/chats.service';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
+import { ResizeService } from '../../services/responsive/resize.service';
 
 @Component({
   selector: 'app-devspace',
@@ -19,13 +20,17 @@ import { ThreadsDbService } from '../../services/message/threads-db.service';
   styleUrl: './devspace.component.scss',
 })
 export class DevspaceComponent {
-  devspaceClose: boolean = false;
+  // devspaceClose: boolean = false;
 
   constructor(
     private route: Router,
-    private chatService: ChatsService,
-    private threadService: ThreadsDbService
+    private threadService: ThreadsDbService,
+    private resizeService: ResizeService
   ) {}
+
+  get devSpaceClose() {
+    return this.resizeService.devSpaceClose()
+  }
 
   goToDefault() {
     if (this.threadService.currentThreadId()) {

@@ -9,6 +9,7 @@ import { ChatData } from '../../../../interfaces/chat-data';
 import { Router } from '@angular/router';
 import { CurrentMessage } from '../../../../interfaces/current-message';
 import { EmojisService } from '../../../../services/message/emojis.service';
+import { ResizeService } from '../../../../services/responsive/resize.service';
 
 @Component({
   selector: 'app-tooltip',
@@ -32,7 +33,8 @@ export class TooltipComponent {
   constructor(
     private router: Router, 
     public chatService: ChatsService,
-    private emojiService: EmojisService) { }
+    private emojiService: EmojisService,
+    private resizeService: ResizeService) { }
 
   editMessage() {
     this.isEditing = true;
@@ -53,6 +55,7 @@ export class TooltipComponent {
   }
 
   async openThread() {
+    this.resizeService.checkDevspaceOpen();
     if (this.message.associatedThreadId.threadId) {
       this.threadsDb.currentThreadId.set(this.message.associatedThreadId.threadId);
       this.threadsDb.subscribeToThread(this.message.associatedThreadId.threadId);
