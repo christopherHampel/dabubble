@@ -121,7 +121,7 @@ export class AddPeopleInputComponent {
       email: user.email,
       avatar: user.avatar,
       active: user.active,
-      clicked: false,
+      channelFriendHighlighted: user.channelFriendHighlighted,
       directmessagesWith: user.directmessagesWith
     }
   }

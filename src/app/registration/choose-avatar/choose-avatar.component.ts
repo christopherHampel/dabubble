@@ -70,7 +70,7 @@ export class ChooseAvatarComponent {
       email: this.email,
       avatar: this.currentAvatar,
       active: false,
-      clicked: false,
+      channelFriendHighlighted: '',
       directmessagesWith: [],
     };
     await this.usersDb.addUser(user);

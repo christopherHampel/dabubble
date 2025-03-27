@@ -13,9 +13,6 @@ export class UsersDbService {
   currentUserSig = signal<UserProfile | null>(null);
   userSig = signal<UserProfile | null>(null);
   userListSig = signal<UserProfile[]>([]);
-  unsubUser: any;
-  unsubUserList: any;
-
 
   constructor() {
     this.auth.currentAuthUser.subscribe((user) => {
@@ -46,12 +43,6 @@ export class UsersDbService {
   }
 
 
-  ngOnDestroy() {
-    this.unsubUser();
-    this.unsubUserList();
-  }
-
-
   async addUser(user: any) {
     const userRef = doc(this.getUserRef(), user.id);
     await setDoc(userRef, user);
@@ -72,7 +63,7 @@ export class UsersDbService {
       email: object.email || '',
       avatar: object.avatar || '',
       active: object.active || false,
-      clicked: object.clicked || false,
+      channelFriendHighlighted: object.clicked || object.channelFriendHighlighted,
       directmessagesWith: object.directmessagesWith || []
     }
   }
@@ -105,7 +96,7 @@ export class UsersDbService {
       email: user.email,
       avatar: user.avatar,
       active: user.active,
-      clicked: user.clicked,
+      channelFriendHighlighted: user.channelFriendHighlighted,
       directmessagesWith: user.directmessagesWith
     }
   }
@@ -143,5 +134,10 @@ export class UsersDbService {
   updateCurrentUserProfil(userName: string, avatar: string) {
     const userRef = this.getSingleDocRef('users', this.currentUser!.id);
     updateDoc(userRef, { userName: userName, avatar: avatar });
+  }
+
+  updateChanelFriendHighlighted(id: string) {
+    const userRef = this.getSingleDocRef('users', this.currentUser!.id);
+    updateDoc(userRef, { channelFriendHighlighted: id })
   }
 }

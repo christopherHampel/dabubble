@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ChatsService } from '../../../services/message/chats.service';
@@ -22,12 +22,16 @@ import { UserViewSmallComponent } from '../../../shared/user-view-small/user-vie
 export class DevspaceDirectmessagesComponent {
   usersDb = inject(UsersDbService);
   dialog: boolean = false;
-  selectedUserId: string = '';
+  selectedUserIdSig = signal<string>('');
   directmessagesOpen: boolean = true;
 
   constructor(private chatService: ChatsService, private router: Router) {
-    console.log(this.selectedUserId);
-   }
+    effect(() => {
+      if (this.usersDb.currentUser?.channelFriendHighlighted) {
+        this.selectedUserIdSig.set(this.usersDb.currentUser.channelFriendHighlighted);
+      }
+    })
+  }
 
   openDirectmessages() {
     if (this.directmessagesOpen) {
@@ -39,7 +43,8 @@ export class DevspaceDirectmessagesComponent {
 
 
   selectUser(id: string) {
-    this.selectedUserId = id;
+    this.usersDb.updateChanelFriendHighlighted(id);
+    this.selectedUserIdSig.set(id);
   }
 
 

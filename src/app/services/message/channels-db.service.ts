@@ -140,7 +140,7 @@ export class ChannelsDbService {
       email: object.email || '',
       avatar: object.avatar || '',
       active: object.active || false,
-      clicked: object.clicked || false,
+      channelFriendHighlighted: object.clicked || false,
       directmessagesWith: object.directmessagesWith || [],
     };
   }

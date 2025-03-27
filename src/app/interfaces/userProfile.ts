@@ -4,6 +4,6 @@ export interface UserProfile {
     email: string,
     avatar: string,
     active: boolean,
-    clicked: false,
+    channelFriendHighlighted: string,
     directmessagesWith: string[]
 }
