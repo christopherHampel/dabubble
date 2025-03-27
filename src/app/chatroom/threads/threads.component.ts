@@ -20,6 +20,7 @@ import { Thread } from '../../interfaces/thread';
 import { ChatsService } from '../../services/message/chats.service';
 import { EmojiPickerComponentComponent } from '../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
 import { EmojisService } from '../../services/message/emojis.service';
+import { ResizeService } from '../../services/responsive/resize.service';
 
 @Component({
   selector: 'app-threads',
@@ -46,7 +47,8 @@ export class ThreadsComponent {
     private activatedRoute: ActivatedRoute,
     private scrollService: ScrollService,
     public emojiService: EmojisService,
-    public chatService: ChatsService
+    public chatService: ChatsService,
+    private resize: ResizeService
   ) {
     effect(() => {
       let currentDocId = this.lastMessageDocId();
@@ -102,6 +104,7 @@ export class ThreadsComponent {
   }
 
   closeThread() {
+    this.resize.setDevSpaceClose(false);
     this.threadsDb.closeThread();
   }
 

@@ -36,7 +36,7 @@ export class ThreadsDbService {
 
   constructor(
     private router: Router,
-    private searchService: SearchDevspaceService
+    private searchService: SearchDevspaceService,
   ) {
     effect(() => {
       const searchText = this.searchService.searchTextSig().toLowerCase();
@@ -139,7 +139,6 @@ export class ThreadsDbService {
       docId: object.docId || '',
       participiants: object.participiants || '',
       participiantsDetails: object.participiantsDetails || {},
-      // threadName: object.threadName || ''
     };
   }
 
