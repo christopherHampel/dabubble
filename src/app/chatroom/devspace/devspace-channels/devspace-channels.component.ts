@@ -1,10 +1,11 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, effect, inject, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreateChannelDialogComponent } from './create-channel-dialog/create-channel-dialog.component';
 import { AddPeopleDialogComponent } from './add-people-dialog/add-people-dialog.component';
 import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
 import { ChannelsDbService } from '../../../services/message/channels-db.service';
 import { Router } from '@angular/router';
+import { UsersDbService } from '../../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-devspace-channels',
@@ -19,20 +20,28 @@ import { Router } from '@angular/router';
 })
 export class DevspaceChannelsComponent {
   private channelsDb = inject(ChannelsDbService);
+  usersDb = inject(UsersDbService);
 
   channelsOpen: boolean = true;
   dialog: boolean = false;
-  selectedChannelId: string = '';
+  selectedChannelIdSig = signal<string>('');
   dialogComponent: 'none' | 'createChannel' | 'addPeople' = 'none';
 
   @ViewChild('channelDialog') channelDialog!: any;
   @ViewChild('peopleDialog') peopleDialog!: any;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) { 
+    effect(() => {
+      if (this.usersDb.currentUser?.channelFriendHighlighted) {
+        this.selectedChannelIdSig.set(this.usersDb.currentUser.channelFriendHighlighted);
+      }
+    })
+  }
 
 
   selectChannel(id: string) {
-    this.selectedChannelId = id;
+    this.usersDb.updateChanelFriendHighlighted(id);
+    this.selectedChannelIdSig.set(id);
   }
 
 
