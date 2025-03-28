@@ -55,8 +55,8 @@ export class ChooseAvatarComponent {
     this.auth
       .register(this.userName, this.email, this.password, this.currentAvatar)
       .then(async (uid) => {
-        this.auth.logout();
         await this.saveUser(uid);
+        setTimeout(() => this.auth.logout(), 500);
       })
       .catch(() => {
         this.router.navigateByUrl('/register/create-account');

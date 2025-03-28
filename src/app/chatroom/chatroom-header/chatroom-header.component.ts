@@ -60,7 +60,7 @@ export class ChatroomHeaderComponent {
   onLogout() {
     if (this.usersDb.currentUser) {
       this.usersDb.updateUserStatus(this.usersDb.currentUser.id, false);
-      this.usersDb.updateClickStatus(this.usersDb.currentUser.id, false);
+      this.usersDb.updateChanelFriendHighlighted('');
       this.auth.logout();
       this.router.navigateByUrl('/register/login');
     }
@@ -120,7 +120,7 @@ export class ChatroomHeaderComponent {
     }, 100);
   }
 
-  getChatIcon(result:any) {    
+  getChatIcon(result:any) {
     if(result.searchResult.component === 'channels') {
       return '#'
     } else if(result.searchResult.component === 'threads') {
@@ -132,14 +132,14 @@ export class ChatroomHeaderComponent {
   }
 
   getChatPartner(result:any) {
-    const resultData = result.searchResult;    
-    
+    const resultData = result.searchResult;
+
     if(resultData.component == 'channels') {
       return resultData.chatPartner.chatPartner;
     } else if(resultData.component == 'messages') {
       let chatPartner = this.checkChatPartner(resultData.chatPartner.chatPartner, resultData.chatPartner.currentUser);
       return chatPartner;
-    } else {      
+    } else {
       const data = resultData.originalChatInfo.originalChatName
       const originalText = resultData.originalChatInfo.originalMessage;
       let chatPartner = this.checkChatPartner(data.chatPartner, data.currentUser);

@@ -12,7 +12,7 @@
     <form class="create-channel-form" action="">
         <div>
             <p><b>Channel-Name</b></p>
-            <input name="channelName" [(ngModel)]="channelName" (ngModelChange)="updateValue($event)"
+            <input #inputField name="channelName" [(ngModel)]="channelName" (ngModelChange)="updateValue($event)"
                 (keydown)="onKeyDown($event)" class="input-text" type="text" placeholder="#   z.B. Kooperationsprojekt" autocomplete="off">
         </div>
 

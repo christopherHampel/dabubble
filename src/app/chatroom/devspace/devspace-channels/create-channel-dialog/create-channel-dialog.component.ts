@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import {Component, ElementRef, EventEmitter, inject, Output, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelsDbService } from '../../../../services/message/channels-db.service';
@@ -19,6 +19,12 @@ export class CreateChannelDialogComponent {
   channelDescription: string = '';
 
   @Output() dialogComponent = new EventEmitter<'none' | 'addPeople'>();
+  @ViewChild('inputField') inputFieldRef!: ElementRef<HTMLInputElement>;
+
+  focusInput() {
+    setTimeout(() => this.inputFieldRef.nativeElement.focus(), 50);
+  }
+
 
   closeDialog() {
     this.dialogComponent.emit('none');

@@ -30,7 +30,7 @@ export class DevspaceChannelsComponent {
   @ViewChild('channelDialog') channelDialog!: any;
   @ViewChild('peopleDialog') peopleDialog!: any;
 
-  constructor(private router: Router) { 
+  constructor(private router: Router) {
     effect(() => {
       if (this.usersDb.currentUser?.channelFriendHighlighted) {
         this.selectedChannelIdSig.set(this.usersDb.currentUser.channelFriendHighlighted);
@@ -49,7 +49,7 @@ export class DevspaceChannelsComponent {
     return this.channelsDb.channelList;
   }
 
-  
+
   openChannels() {
     if (this.channelsOpen) {
       this.channelsOpen = false;
@@ -62,6 +62,7 @@ export class DevspaceChannelsComponent {
   openDialog() {
     this.dialogComponent = 'createChannel';
     this.dialog = true;
+    this.channelDialog.focusInput();
   }
 
 

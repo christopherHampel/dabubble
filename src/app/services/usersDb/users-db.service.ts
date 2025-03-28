@@ -70,11 +70,16 @@ export class UsersDbService {
 
 
   subUser(id: string, callback: (user: UserProfile) => void) {
-    return onSnapshot(this.getSingleDocRef('users', id), (doc) => {
-      const updateUser = this.setUserObject(doc.data(), id)
+    try {
+      return onSnapshot(this.getSingleDocRef('users', id), (doc) => {
+        const updateUser = this.setUserObject(doc.data(), id)
 
         callback(updateUser);
-    });
+      });
+    } catch (error) {
+      console.log('Fehler userName: ', error);
+      return;
+    }
   }
 
 
@@ -117,12 +122,6 @@ export class UsersDbService {
 
   getSingleDocRef(colId: string, docId: string) {
     return doc(collection(this.usersDb, colId), docId);
-  }
-
-
-  updateClickStatus(userId: string, clicked: boolean) {
-    const userRef = this.getSingleDocRef('users', userId);
-    updateDoc(userRef, { clicked: clicked });
   }
 
 
