@@ -5,7 +5,6 @@
             <img [src]="this.chatService.chatPartner.avatar || 'img/empty_profile.png'" alt="">
             <h2>{{ this.chatService.chatPartner.name }}</h2>
         </div>
-        <button (click)="back()">Zurück</button>
     </div>
     
     <app-messages-field class="message-field" [chatId]="chatId" [component]="'messages'"></app-messages-field>

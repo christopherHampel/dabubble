@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UserViewSmallComponent } from '../../../../shared/user-view-small/user-view-small.component';
 import { FormsModule } from '@angular/forms';
 import { UsersDbService } from '../../../../services/usersDb/users-db.service';
@@ -21,6 +21,8 @@ export class SearchFieldComponent {
   filteredUser: any[] = [];
   filteredChannels: any[] = [];
   isLoaded = false;
+
+  @Input() placeholder:string = '';
 
   constructor(
     private userService: UsersDbService,

@@ -48,6 +48,10 @@ export class ChatroomComponent {
     return this.resize.isSmallScreen
   }
 
+  goBackDevspace() {
+    this.resize.setZIndexChats(false);
+  }
+
   get zIndexChats() {
     return this.resize.zIndexChats();
   }
@@ -55,4 +59,8 @@ export class ChatroomComponent {
   get getCurrentUserImage(): string {
     return this.usersDb.currentUserSig()?.avatar || 'assets/default-avatar.png';
   }
+
+  openMobileWrapper() {
+    this.resize.setMobileWrapper(!this.resize.wrapperMobile());
+  }  
 }

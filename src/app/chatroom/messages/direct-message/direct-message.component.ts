@@ -41,7 +41,6 @@ export class DirectMessageComponent implements OnDestroy {
     public chatService: ChatsService,
     private usersService: UsersDbService,
     private threadsDB: ThreadsDbService,
-    private resize: ResizeService
   ) {}
 
   ngOnInit(): void {
@@ -88,9 +87,5 @@ export class DirectMessageComponent implements OnDestroy {
 
   showProfile() {
     console.log('Profil anzeigen!');
-  }
-
-  back() {
-    this.resize.setZIndexChats(false);
   }
 }

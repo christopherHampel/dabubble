@@ -1,9 +1,23 @@
 <div class="bg-color">
   <div class="color chatroom max-width">
-    <!-- <app-chatroom-header></app-chatroom-header> -->
+    <div class="chatroom-header">
+      <app-chatroom-header></app-chatroom-header>
+    </div>
     <div class="devspace-mobil">
-      <div><img src="/img/logo_complete.png" alt=""></div>
-      <div><img class="profil-image" [src]="getCurrentUserImage" alt="User Avatar"></div>
+      <div>
+        @if (!zIndexChats) {
+          <img src="/img/logo_complete.png" alt="DABubble Logo">
+        } @else {
+          <div class="devspace-logo">
+            <div (click)="goBackDevspace()">
+              <img src="/img/arrow_back.svg" alt="Go Back">
+            </div>
+            <img src="/img/workspace_logo.png" alt="Devspace Logo">
+            <span>Devspace</span>
+          </div>
+        }
+      </div>
+      <div (click)="openMobileWrapper()"><img class="profil-image" [src]="getCurrentUserImage" alt="User Avatar"></div>
   </div>
 
     <section class="communication-wrapper color">

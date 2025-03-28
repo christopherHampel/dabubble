@@ -1,10 +1,13 @@
 <div class="search-chats">
+  <div class="search-wrapper">
     <input
       [(ngModel)]="searchText"
       (input)="searchChat()"
       type="text"
-      placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
+      placeholder="{{ placeholder }}"
     />
+    <div class="search-icon"><img src="/img/search_icon.svg" alt=""></div>
+  </div>
     <div *ngIf="this.userList" class="user-list">
       <app-user-view-small
         *ngFor="let user of filteredUser"

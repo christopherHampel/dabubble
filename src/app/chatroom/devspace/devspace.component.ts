@@ -34,6 +34,10 @@ export class DevspaceComponent {
     return this.resize.devSpaceClose()
   }
 
+  get wrapperMobile() {
+    return this.resize.wrapperMobile()
+  }
+
   goToDefault() {
     if (this.threadService.currentThreadId()) {
       this.threadService.closeThread();

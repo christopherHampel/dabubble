@@ -28,3 +28,9 @@
         transform: translateX(50%);
     }
 }
+
+@media(max-width: 960px) {
+    .message-head {
+        border-radius: 0;
+    }
+}

@@ -212,11 +212,29 @@
   }
 }
 
+.devspace-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  div {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  span {
+    font-weight: bold;
+    font-size: 20px;
+  }
+}
+
 @media(max-width:960px) {
   .devspace-area {
     position: absolute;
     width: 100%;
     z-index: 5;
+    overflow-y: hidden;
   }
 
   .channel-messages {
@@ -237,5 +255,9 @@
 
   .devspace-mobil {
     display: flex;
+  }
+
+  .chatroom-header {
+    display: none;
   }
 }

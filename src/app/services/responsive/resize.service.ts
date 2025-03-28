@@ -7,7 +7,8 @@ export class ResizeService {
 
   isSmallScreen: boolean = false;
   devSpaceClose = signal<boolean>(false);
-  zIndexChats = signal<boolean>(false); 
+  zIndexChats = signal<boolean>(false);
+  wrapperMobile = signal<boolean>(false); 
 
   constructor() { }
 
@@ -28,5 +29,9 @@ export class ResizeService {
 
   setZIndexChats(value:boolean) {
     this.zIndexChats.set(value);
+  }
+
+  setMobileWrapper(value:boolean) {
+    this.wrapperMobile.set(value);
   }
 }

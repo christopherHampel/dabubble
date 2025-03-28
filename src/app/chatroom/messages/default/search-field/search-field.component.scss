@@ -27,3 +27,32 @@
       color: #686868;
     }
   }
+
+  .search-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+
+    .search-icon {
+        background-color: #FFFF;
+        position: absolute;
+        right: 0;
+
+        img {
+            position: absolute;
+            top: 50%;
+            transform: translate(calc(-100% - 45px), -50%);
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+  @media(min-width: 960px) {
+    .search-icon {
+      display: none;
+    }
+  }
