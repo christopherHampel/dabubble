@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThreadsDbService } from '../../../services/message/threads-db.service';
 import { ResizeService } from '../../../services/responsive/resize.service';
@@ -10,7 +10,9 @@ import { ResizeService } from '../../../services/responsive/resize.service';
   styleUrl: './hide-or-show-navbar.component.scss'
 })
 export class HideOrShowNavbarComponent {
-  isClosed: boolean = false;
+  // isClosed: boolean = false;
+  isClosed = signal<boolean>(false);
+
   // @Output() navbarClose = new EventEmitter<boolean>();
 
   constructor(private threadsDb: ThreadsDbService, private resizeService: ResizeService) {}
@@ -20,12 +22,18 @@ export class HideOrShowNavbarComponent {
   }
 
   closeDevspace() {
-      if(!this.isClosed) {
-        this.resizeService.setDevSpaceClose(false);
-        this.threadsDb.closeThread();
-      } else {
+      if(!this.isClosed()) {
         this.resizeService.setDevSpaceClose(true);
+        this.setIsClosed(true);
+        // this.isClosed = true;
+      } else {
+        this.resizeService.setDevSpaceClose(false);
+        this.setIsClosed(false);
       }
-      // this.navbarClose.emit(this.isClosed);
+      this.threadsDb.closeThread();
+  }
+
+  setIsClosed(value:boolean) {
+    this.isClosed.set(value);
   }
 }

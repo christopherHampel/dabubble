@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ChatsService } from '../../services/message/chats.service';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ResizeService } from '../../services/responsive/resize.service';
+import { UsersDbService } from '../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-devspace',
@@ -26,7 +27,7 @@ export class DevspaceComponent {
     private route: Router,
     private threadService: ThreadsDbService,
     private resizeService: ResizeService
-  ) {}
+    ) {}
 
   get devSpaceClose() {
     return this.resizeService.devSpaceClose()
