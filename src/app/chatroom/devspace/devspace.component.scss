@@ -252,3 +252,9 @@
     display: block;
   }
 }
+
+@media(min-width: 960px) {
+  .user-profil-wrapper-mobile {
+    display: none;
+  }
+}
