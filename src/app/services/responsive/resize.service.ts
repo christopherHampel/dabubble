@@ -9,7 +9,7 @@ export class ResizeService {
   isSmallScreen: boolean = false;
   devSpaceClose = signal<any>(false);
 
-  constructor(private threadsDb: ThreadsDbService) { }
+  constructor() { }
 
   setDevSpaceClose(value:boolean) {
     this.devSpaceClose.set(value);

@@ -20,8 +20,12 @@ export class HideOrShowNavbarComponent {
   }
 
   closeDevspace() {
-      this.isClosed = !this.isClosed;
+      if(!this.isClosed) {
+        this.resizeService.setDevSpaceClose(false);
+        this.threadsDb.closeThread();
+      } else {
+        this.resizeService.setDevSpaceClose(true);
+      }
       // this.navbarClose.emit(this.isClosed);
-      this.resizeService.setDevSpaceClose(this.isClosed);
   }
 }
