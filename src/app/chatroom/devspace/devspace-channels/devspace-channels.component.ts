@@ -6,6 +6,7 @@ import { TransparentBackgroundComponent } from '../../../shared/transparent-back
 import { ChannelsDbService } from '../../../services/message/channels-db.service';
 import { Router } from '@angular/router';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
+import { ResizeService } from '../../../services/responsive/resize.service';
 
 @Component({
   selector: 'app-devspace-channels',
@@ -30,7 +31,7 @@ export class DevspaceChannelsComponent {
   @ViewChild('channelDialog') channelDialog!: any;
   @ViewChild('peopleDialog') peopleDialog!: any;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private resize: ResizeService) {
     effect(() => {
       if (this.usersDb.currentUser?.channelFriendHighlighted) {
         this.selectedChannelIdSig.set(this.usersDb.currentUser.channelFriendHighlighted);
@@ -40,6 +41,7 @@ export class DevspaceChannelsComponent {
 
 
   selectChannel(id: string) {
+    this.resize.setZIndexChats(true);
     this.usersDb.updateChanelFriendHighlighted(id);
     this.selectedChannelIdSig.set(id);
   }
