@@ -8,6 +8,7 @@ import { ChatsService } from '../../services/message/chats.service';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ResizeService } from '../../services/responsive/resize.service';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
+import { SearchFieldComponent } from "../messages/default/search-field/search-field.component";
 
 @Component({
   selector: 'app-devspace',
@@ -16,27 +17,28 @@ import { UsersDbService } from '../../services/usersDb/users-db.service';
     DevspaceChannelsComponent,
     DevspaceDirectmessagesComponent,
     HideOrShowNavbarComponent,
-  ],
+    SearchFieldComponent
+],
   templateUrl: './devspace.component.html',
   styleUrl: './devspace.component.scss',
 })
 export class DevspaceComponent {
-  // devspaceClose: boolean = false;
 
   constructor(
     private route: Router,
     private threadService: ThreadsDbService,
-    private resizeService: ResizeService
+    private resize: ResizeService
     ) {}
 
   get devSpaceClose() {
-    return this.resizeService.devSpaceClose()
+    return this.resize.devSpaceClose()
   }
 
   goToDefault() {
     if (this.threadService.currentThreadId()) {
       this.threadService.closeThread();
     }
+    this.resize.setZIndexChats(true);
     this.route.navigate(['/chatroom']);
   }
 }

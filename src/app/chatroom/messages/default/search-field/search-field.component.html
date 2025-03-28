@@ -1,0 +1,22 @@
+<div class="search-chats">
+    <input
+      [(ngModel)]="searchText"
+      (input)="searchChat()"
+      type="text"
+      placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
+    />
+    <div *ngIf="this.userList" class="user-list">
+      <app-user-view-small
+        *ngFor="let user of filteredUser"
+        [user]="user"
+        (click)="selectChat(user)"
+      ></app-user-view-small>
+    </div>
+
+    <div class="user-list channel-list" *ngIf="filteredChannels.length > 0">
+      <div (click)="selectChannel(channel)" *ngFor="let channel of filteredChannels" class="single-channel">
+        <span class="hashtag-icon"></span>
+        <span>{{ channel.name }}</span>
+      </div>
+    </div>
+  </div>

@@ -11,6 +11,43 @@
   animation: slide-out 0.5s;
 }
 
+.devspace-new-icon {
+  width: 40px;
+  height: 40px;
+  background-image: url('/img/devspace_new_icon.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  &:hover {
+    cursor: pointer;
+    background-image: url('/img/devspace_new_hover_icon.svg');
+  }
+}
+
+.channels-directmessages {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  position: relative;
+}
+
+.mobile-position {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: none;
+  padding: 12.5px;
+  background-color: #444DF2;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
 @keyframes slide-out {
   from {
     opacity: 1;
@@ -131,5 +168,13 @@
 
   .card {
     border-radius: 0;
+  }
+
+  .mobile-position {
+    display: flex;
+  }
+
+  .devspace-head {
+    display: none;
   }
 }

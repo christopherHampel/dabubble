@@ -8,9 +8,19 @@
         <div (click)="goToDefault()" class="devspace-new-icon"></div>
     </div>
 
-    <app-devspace-channels class="child-component"></app-devspace-channels>
+    <div>
+        <app-search-field></app-search-field>
+    </div>
 
-    <app-devspace-directmessages class="child-component"></app-devspace-directmessages>
+    <div class="channels-directmessages">
+        <app-devspace-channels class="child-component"></app-devspace-channels>
+
+        <app-devspace-directmessages class="child-component"></app-devspace-directmessages>
+
+        <div (click)="goToDefault()" class="mobile-position">
+            <img src="/img/edit_white.png" alt="">
+        </div>
+    </div>
 
 </section>
 
