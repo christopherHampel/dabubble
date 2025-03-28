@@ -7,6 +7,7 @@ import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.
 import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
 import { UserProfile } from '../../../interfaces/userProfile';
 import { UserViewSmallComponent } from '../../../shared/user-view-small/user-view-small.component';
+import { ResizeService } from '../../../services/responsive/resize.service';
 
 @Component({
   selector: 'app-devspace-directmessages',
@@ -25,7 +26,7 @@ export class DevspaceDirectmessagesComponent {
   selectedUserIdSig = signal<string>('');
   directmessagesOpen: boolean = true;
 
-  constructor(private chatService: ChatsService, private router: Router) {
+  constructor(private chatService: ChatsService, private router: Router, private resize: ResizeService) {
     effect(() => {
       if (this.usersDb.currentUser?.channelFriendHighlighted) {
         this.selectedUserIdSig.set(this.usersDb.currentUser.channelFriendHighlighted);
@@ -71,6 +72,7 @@ export class DevspaceDirectmessagesComponent {
     try {
       const chatId = await this.chatService.setPrivateChat(user, "messages");
       this.chatService.currentChatId = chatId;
+      this.resize.setZIndexChats(true);
       this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', chatId], thread: null}}]);
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);

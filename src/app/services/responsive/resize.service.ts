@@ -1,5 +1,4 @@
 import { Injectable, signal } from '@angular/core';
-import { ThreadsDbService } from '../message/threads-db.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,22 +6,32 @@ import { ThreadsDbService } from '../message/threads-db.service';
 export class ResizeService {
 
   isSmallScreen: boolean = false;
-  devSpaceClose = signal<any>(false);
+  devSpaceClose = signal<boolean>(false);
+  zIndexChats = signal<boolean>(false);
+  wrapperMobile = signal<boolean>(false); 
 
-  constructor(private threadsDb: ThreadsDbService) { }
+  constructor() { }
 
   setDevSpaceClose(value:boolean) {
     this.devSpaceClose.set(value);
   }
 
   checkDevspaceOpen() {
-    this.checkScreenSize();
+    this.checkScreenSize(1440);
     if(this.isSmallScreen) {
       this.setDevSpaceClose(true)
     }
   }
 
-  private checkScreenSize() {
-    this.isSmallScreen = window.innerWidth < 1440;
+  checkScreenSize(value:number) {
+    this.isSmallScreen = window.innerWidth < value && window.innerWidth > 960;
+  }
+
+  setZIndexChats(value:boolean) {
+    this.zIndexChats.set(value);
+  }
+
+  setMobileWrapper(value:boolean) {
+    this.wrapperMobile.set(value);
   }
 }

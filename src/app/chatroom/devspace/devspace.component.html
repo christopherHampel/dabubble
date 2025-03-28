@@ -8,11 +8,34 @@
         <div (click)="goToDefault()" class="devspace-new-icon"></div>
     </div>
 
-    <app-devspace-channels class="child-component"></app-devspace-channels>
+    <div class="search-field">
+        <app-search-field [placeholder]="'Gehe zu...'"></app-search-field>
+    </div>
 
-    <app-devspace-directmessages class="child-component"></app-devspace-directmessages>
+    <div class="channels-directmessages">
+        <app-devspace-channels class="child-component"></app-devspace-channels>
+
+        <app-devspace-directmessages class="child-component"></app-devspace-directmessages>
+
+        <div (click)="goToDefault()" class="mobile-position">
+            <img src="/img/edit_white.png" alt="">
+        </div>
+    </div>
+
+    <div class="user-profil-wrapper-mobile slide-in" [ngClass]="wrapperMobile ? 'slide-in-active': ''">
+        <div class="close-button"></div>
+        <div class="overconatiner-select-btn">
+            <div class="select">
+                <img src="/img/empty_profile.png" alt="">
+                <span>Profil</span>
+            </div>
+            <div class="select">
+                <img src="/img/empty_profile.png" alt="">
+                <span>Log out</span>
+            </div>
+        </div>
+    </div>
 
 </section>
 
 <app-hide-or-show-navbar></app-hide-or-show-navbar>
-<!-- <app-hide-or-show-navbar (navbarClose)="devspaceClose = $event"></app-hide-or-show-navbar> -->

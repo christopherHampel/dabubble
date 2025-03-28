@@ -395,19 +395,6 @@ body {
   background-size: contain;
 }
 
-.devspace-new-icon {
-  width: 40px;
-  height: 40px;
-  background-image: url('/img/devspace_new_icon.svg');
-  background-repeat: no-repeat;
-  background-size: contain;
-
-  &:hover {
-    cursor: pointer;
-    background-image: url('/img/devspace_new_hover_icon.svg');
-  }
-}
-
 .arrow-drop-down-icon {
   width: 30px;
   height: 30px;

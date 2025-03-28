@@ -147,3 +147,19 @@ section {
 
   border-radius: 0.75px;
 }
+
+@media(max-width: 960px) {
+  .card {
+    width: auto;
+  }
+
+  .distance-chatroom {
+    margin-left: 0;
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .thread-head {
+    border-radius: 0;
+  }
+}

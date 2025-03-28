@@ -1,15 +1,33 @@
 <div class="bg-color">
   <div class="color chatroom max-width">
-    <app-chatroom-header></app-chatroom-header>
+    <div class="chatroom-header">
+      <app-chatroom-header></app-chatroom-header>
+    </div>
+    <div class="devspace-mobil">
+      <div>
+        @if (!zIndexChats) {
+          <img src="/img/logo_complete.png" alt="DABubble Logo">
+        } @else {
+          <div class="devspace-logo">
+            <div (click)="goBackDevspace()">
+              <img src="/img/arrow_back.svg" alt="Go Back">
+            </div>
+            <img src="/img/workspace_logo.png" alt="Devspace Logo">
+            <span>Devspace</span>
+          </div>
+        }
+      </div>
+      <div (click)="openMobileWrapper()"><img class="profil-image" [src]="getCurrentUserImage" alt="User Avatar"></div>
+  </div>
 
     <section class="communication-wrapper color">
-      <div class="devspace-area position-absolute">
+      <div class="devspace-area">
         <app-devspace></app-devspace>
       </div>
-      <div class="channel-messages position-absolute">
+      <div class="channel-messages" [ngStyle]="{'z-index': zIndexChats ? '6' : '4' }">
         <app-messages [currentUser]="currentUser"></app-messages>
       </div>
-      <div class="threads-area position-absolute">
+      <div class="threads-area">
         <app-thread-router-outlet></app-thread-router-outlet>
       </div>
     </section>

@@ -11,6 +11,44 @@
   animation: slide-out 0.5s;
 }
 
+.devspace-new-icon {
+  width: 40px;
+  height: 40px;
+  background-image: url('/img/devspace_new_icon.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  &:hover {
+    cursor: pointer;
+    background-image: url('/img/devspace_new_hover_icon.svg');
+  }
+}
+
+.channels-directmessages {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  position: relative;
+  overflow: auto;
+}
+
+.mobile-position {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: none;
+  padding: 12.5px;
+  background-color: #444DF2;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
 @keyframes slide-out {
   from {
     opacity: 1;
@@ -66,7 +104,6 @@
 
 .distance-chatroom {
   margin-right: 40px;
-//   margin-left: 20px;
 }
 
 .padding-card {
@@ -123,4 +160,101 @@
   width: 100%;
 
   font-weight: 700;
+}
+
+.search-field {
+  display: none;
+}
+
+.user-profil-wrapper-mobile.slide-in-active {
+  bottom: 0;
+}
+
+.user-profil-wrapper-mobile {
+  padding: 30px 26px;
+  transition: bottom .5s ease-in-out;
+  position: absolute;
+  bottom: -100%;
+  right: 0;
+  left: 0;
+  background-color: #FFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  box-shadow: 0px -3px 10px 0px #00000033;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+
+  .overconatiner-select-btn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .close-button {
+    width: 62px;
+    height: 6px;
+    border-radius: 23px;
+    background: #D9D9D9;
+  }
+
+  .select {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 30px;
+
+    img {
+      width: 30px;
+      height: 30px;
+    }
+
+    span {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 100%;
+      color: black;
+    }
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    bottom: -100%;
+  }
+  100% {
+    bottom: 0;
+  }
+}
+
+@media(max-width:960px) {
+  .distance-chatroom {
+    margin-right: 0;
+  }
+
+  .card {
+    border-radius: 0;
+  }
+
+  .mobile-position {
+    display: flex;
+  }
+
+  .devspace-head {
+    display: none;
+  }
+
+  .search-field {
+    display: block;
+  }
+}
+
+@media(min-width: 960px) {
+  .user-profil-wrapper-mobile {
+    display: none;
+  }
 }

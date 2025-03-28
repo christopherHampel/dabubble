@@ -198,7 +198,66 @@
   border-bottom-right-radius: 20px;
 }
 
-.position-absolute {
-  // position: absolute;
-  // width: 400px;
+.devspace-mobil {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  background: #ECEEFE;
+  padding: 15px 16px;
+
+  .profil-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+}
+
+.devspace-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  div {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  span {
+    font-weight: bold;
+    font-size: 20px;
+  }
+}
+
+@media(max-width:960px) {
+  .devspace-area {
+    position: absolute;
+    width: 100%;
+    z-index: 5;
+    overflow-y: hidden;
+  }
+
+  .channel-messages {
+    position: absolute;
+    z-index: 6;
+    width: 100%;
+  }
+
+  .threads-area {
+    position: absolute;
+    z-index: 7;
+    width: 100%;
+  }
+
+  .bg-color {
+    padding: 0;
+  }
+
+  .devspace-mobil {
+    display: flex;
+  }
+
+  .chatroom-header {
+    display: none;
+  }
 }
