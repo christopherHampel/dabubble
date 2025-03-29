@@ -105,3 +105,9 @@ a {
         flex-direction: column;
     }
 }
+
+@media(max-width: 960px) {
+    .send-text {
+        gap: 20px;
+    }
+}

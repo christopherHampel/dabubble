@@ -3,7 +3,7 @@
     scroll-behavior: smooth;
     display: grid;
     flex: 1;
-    scrollbar-width: none;
+    // scrollbar-width: none;
     position: relative;
 
     .flex-end {
@@ -28,4 +28,10 @@
 
 .d-none {
     display: none;
+}
+
+@media(max-width: 500px) {
+    .message-wrapper {
+        padding: 10px;
+    }
 }

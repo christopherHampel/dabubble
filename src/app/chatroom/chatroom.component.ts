@@ -24,7 +24,9 @@ import { ResizeService } from '../services/responsive/resize.service';
 export class ChatroomComponent {
   currentUser: string = '';
   private auth = inject(AuthService);
-  private userDb = inject(UsersDbService)
+  private userDb = inject(UsersDbService);
+
+  editProfile:boolean = false;
 
   constructor(private router: Router, private resize: ResizeService, private usersDb: UsersDbService) { }
 
@@ -60,7 +62,25 @@ export class ChatroomComponent {
     return this.usersDb.currentUserSig()?.avatar || 'assets/default-avatar.png';
   }
 
+  get wrapperMobile() {
+    return this.resize.wrapperMobile()
+  }
+
   openMobileWrapper() {
     this.resize.setMobileWrapper(!this.resize.wrapperMobile());
   }  
+
+  logout() {
+    if (this.usersDb.currentUser) {
+      this.usersDb.updateUserStatus(this.usersDb.currentUser.id, false);
+      this.usersDb.updateChanelFriendHighlighted('');
+      this.auth.logout();
+      this.router.navigateByUrl('/register/login');
+      this.openMobileWrapper();
+    }
+  }
+
+  showProfile() {
+    this.editProfile = !this.editProfile;    
+  }
 }

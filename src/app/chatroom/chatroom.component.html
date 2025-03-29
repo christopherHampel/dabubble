@@ -6,7 +6,9 @@
     <div class="devspace-mobil">
       <div>
         @if (!zIndexChats) {
-          <img src="/img/logo_complete.png" alt="DABubble Logo">
+          <div class="dabubble-logo">
+            <img src="/img/logo_complete.png" alt="DABubble Logo">
+          </div>
         } @else {
           <div class="devspace-logo">
             <div (click)="goBackDevspace()">
@@ -24,12 +26,26 @@
       <div class="devspace-area">
         <app-devspace></app-devspace>
       </div>
-      <div class="channel-messages" [ngStyle]="{'z-index': zIndexChats ? '6' : '4' }">
+      <div class="channel-messages" [ngStyle]="{'z-index': zIndexChats ? '6' : '1' }">
         <app-messages [currentUser]="currentUser"></app-messages>
       </div>
       <div class="threads-area">
         <app-thread-router-outlet></app-thread-router-outlet>
       </div>
     </section>
+
+    <div class="user-profil-wrapper-mobile slide-in" [ngClass]="wrapperMobile ? 'slide-in-active': ''">
+      <div (click)="openMobileWrapper()" class="close-button"></div>
+      <div class="overconatiner-select-btn">
+          <div (click)="showProfile()" class="select">
+              <img src="/img/empty_profile.png" alt="">
+              <span>Profil</span>
+          </div>
+          <div (click)="logout()" class="select">
+              <img src="/img/empty_profile.png" alt="">
+              <span>Log out</span>
+          </div>
+      </div>
+    </div>
   </div>
 </div>

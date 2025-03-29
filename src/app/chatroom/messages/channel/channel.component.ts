@@ -21,6 +21,7 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { ChannelAddMembersDialogComponent } from './channel-add-members-dialog/channel-add-members-dialog.component';
 import { Observable } from 'rxjs';
 import { ThreadsDbService } from '../../../services/message/threads-db.service';
+import { ResizeService } from '../../../services/responsive/resize.service';
 
 @Component({
   selector: 'app-channel',
@@ -32,7 +33,7 @@ import { ThreadsDbService } from '../../../services/message/threads-db.service';
     ChannelDataWindowComponent,
     ChannelMembersInfoComponent,
     TransparentBackgroundComponent,
-    ChannelAddMembersDialogComponent
+    ChannelAddMembersDialogComponent,
   ],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss',
@@ -56,7 +57,8 @@ export class ChannelComponent {
     private activatedRoute: ActivatedRoute,
     public emojiService: EmojisService,
     public chatService: ChatsService,
-    private threadsDb: ThreadsDbService
+    private threadsDb: ThreadsDbService,
+    private resize: ResizeService
   ) {}
 
   ngOnInit() {
@@ -78,6 +80,15 @@ export class ChannelComponent {
   }
 
   openDialog(child: string) {
+    let under500 = this.checkScreenSize();
+    if (under500) {
+      this.membersInfo = true;
+    } else {
+      this.switchChannelInfo(child);
+    }
+  }
+
+  switchChannelInfo(child: string) {
     switch (child) {
       case 'dataWindow':
         this.dataWindow = true;
@@ -90,6 +101,10 @@ export class ChannelComponent {
         this.channelAddMembersInfo.resetAfterViewChecked();
         break;
     }
+  }
+
+  checkScreenSize() {
+    return window.innerWidth < 501;
   }
 
   openAddMembers(event: boolean) {

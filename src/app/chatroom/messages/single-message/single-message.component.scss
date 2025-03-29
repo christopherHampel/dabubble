@@ -346,3 +346,37 @@ section {
     right: 105%;
     z-index: 10;
 }
+
+@media(max-width: 500px) {
+    section {
+        padding: unset
+    }
+
+    .own-message {
+        gap: 15px;
+    }
+}
+
+@media(max-width: 400px) {
+    .time-username {
+        flex-direction: column-reverse;
+        gap: 0;
+        align-items: flex-end;
+        span {
+            font-size: 14px;
+        }
+    }
+
+    .avatar-message {
+        img {
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+    .answers-from-thread {
+        span {
+            display: none;
+        }
+    }
+}

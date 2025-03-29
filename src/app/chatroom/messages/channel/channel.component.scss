@@ -212,3 +212,20 @@
         color: #535AF1;
     }
 }
+
+@media(max-width: 500px) {
+    .head-left {
+        .hashtag-icon {
+            width: 32px;
+            height: 27px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+    }
+    
+    .members-info {
+        display: none !important;
+    }
+}

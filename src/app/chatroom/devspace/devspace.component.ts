@@ -4,11 +4,11 @@ import { DevspaceChannelsComponent } from './devspace-channels/devspace-channels
 import { DevspaceDirectmessagesComponent } from './devspace-directmessages/devspace-directmessages.component';
 import { HideOrShowNavbarComponent } from './hide-or-show-navbar/hide-or-show-navbar.component';
 import { Router } from '@angular/router';
-import { ChatsService } from '../../services/message/chats.service';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ResizeService } from '../../services/responsive/resize.service';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
 import { SearchFieldComponent } from "../messages/default/search-field/search-field.component";
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-devspace',
@@ -17,7 +17,7 @@ import { SearchFieldComponent } from "../messages/default/search-field/search-fi
     DevspaceChannelsComponent,
     DevspaceDirectmessagesComponent,
     HideOrShowNavbarComponent,
-    SearchFieldComponent
+    SearchFieldComponent,
 ],
   templateUrl: './devspace.component.html',
   styleUrl: './devspace.component.scss',
@@ -27,15 +27,14 @@ export class DevspaceComponent {
   constructor(
     private route: Router,
     private threadService: ThreadsDbService,
-    private resize: ResizeService
+    private resize: ResizeService,
+    public usersDb: UsersDbService,
+    private auth: AuthService,
+    private router: Router
     ) {}
 
   get devSpaceClose() {
     return this.resize.devSpaceClose()
-  }
-
-  get wrapperMobile() {
-    return this.resize.wrapperMobile()
   }
 
   goToDefault() {
@@ -45,4 +44,8 @@ export class DevspaceComponent {
     this.resize.setZIndexChats(true);
     this.route.navigate(['/chatroom']);
   }
+
+  openMobileWrapper() {
+    this.resize.setMobileWrapper(!this.resize.wrapperMobile());
+  } 
 }

@@ -141,3 +141,15 @@ section {
     border: 1px solid black;
     width: 300px;
 }
+
+@media(max-width: 500px) {
+    .card {
+        min-width: unset;
+    }
+
+    .user-profil {
+        h2 {
+            font-size: 20px;
+        }
+    }
+}

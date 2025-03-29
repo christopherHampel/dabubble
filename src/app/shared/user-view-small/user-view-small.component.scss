@@ -51,3 +51,10 @@
     color: #535Af1;
     background-color: #ECEEFE;
 }
+
+@media(max-width: 500px) {
+    .user-view-small {
+        width: unset;
+        padding: 0;
+    }
+}

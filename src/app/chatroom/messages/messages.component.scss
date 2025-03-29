@@ -32,5 +32,12 @@
 @media(max-width: 960px) {
     .message-head {
         border-radius: 0;
+        padding: 10px 16px;
+    }
+}
+
+@media(max-width: 500px) {
+    .textarea-component {
+        padding: 16px;
     }
 }
