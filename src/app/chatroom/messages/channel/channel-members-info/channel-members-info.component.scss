@@ -116,3 +116,11 @@ header {
 
     background-color: rgba(0 0 0 / 32%);
 }
+
+@media(max-width: 500px) {
+    .channel-members-info {
+        right: 10%;
+        left: 10%;
+        width: unset;
+    }
+}

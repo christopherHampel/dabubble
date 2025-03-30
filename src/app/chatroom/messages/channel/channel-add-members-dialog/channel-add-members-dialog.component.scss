@@ -76,3 +76,10 @@ form {
 
     @include d-flex($fD: column, $aI: flex-end, $g: 20px);
 }
+
+@media(max-width: 500px) {
+    .channel-add-members-dialog {
+        width: unset;
+        right: 50%;
+    }
+}
