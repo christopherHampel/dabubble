@@ -1,4 +1,4 @@
-<section class="card distance-chatroom">
+<section class="card distance-chatroom" [ngClass]="{ 'slide-out': threadClose, 'slide-in': !threadClose }">
   <div class="thread-head">
     <div class="thread-title">
       <h2>Thread</h2>

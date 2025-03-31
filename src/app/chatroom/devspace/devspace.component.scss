@@ -4,13 +4,6 @@
   justify-content: flex-start;
 }
 
-.slide-out {
-  opacity: 0;
-  display: none;
-  margin-left: -500px;
-  animation: slide-out 0.5s;
-}
-
 .devspace-new-icon {
   width: 40px;
   height: 40px;
@@ -47,6 +40,13 @@
     width: 24px;
     height: 24px;
   }
+}
+
+.slide-out {
+  opacity: 0;
+  display: none;
+  margin-left: -500px;
+  animation: slide-out 0.5s;
 }
 
 @keyframes slide-out {

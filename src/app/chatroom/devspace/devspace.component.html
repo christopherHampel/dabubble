@@ -1,26 +1,27 @@
-<section class="card padding-card distance-chatroom" [ngClass]="{'slide-out': devSpaceClose, 'slide-in': !devSpaceClose }">
+<section class="card padding-card distance-chatroom"
+         [ngClass]="{'slide-out': devSpaceClose, 'slide-in': !devSpaceClose }">
 
-    <div class="devspace-head">
-        <div>
-            <img src="/img/workspace_logo.png" alt="">
-            <span>Devspace</span>
-        </div>
-        <div (click)="goToDefault()" class="devspace-new-icon"></div>
+  <div class="devspace-head">
+    <div>
+      <img src="/img/workspace_logo.png" alt="">
+      <span>Devspace</span>
     </div>
+    <div (click)="goToDefault()" class="devspace-new-icon"></div>
+  </div>
 
-    <div class="search-field">
-        <app-search-field [placeholder]="'Gehe zu...'"></app-search-field>
+  <div class="search-field">
+    <app-search-field [placeholder]="'Gehe zu...'"></app-search-field>
+  </div>
+
+  <div class="channels-directmessages">
+    <app-devspace-channels class="child-component"></app-devspace-channels>
+
+    <app-devspace-directmessages class="child-component"></app-devspace-directmessages>
+
+    <div (click)="goToDefault()" class="mobile-position">
+      <img src="/img/edit_white.png" alt="">
     </div>
-
-    <div class="channels-directmessages">
-        <app-devspace-channels class="child-component"></app-devspace-channels>
-
-        <app-devspace-directmessages class="child-component"></app-devspace-directmessages>
-
-        <div (click)="goToDefault()" class="mobile-position">
-            <img src="/img/edit_white.png" alt="">
-        </div>
-    </div>
+  </div>
 </section>
 
 <app-hide-or-show-navbar></app-hide-or-show-navbar>

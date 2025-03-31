@@ -162,3 +162,45 @@ section {
     border-radius: 0;
   }
 }
+
+.slide-out {
+  opacity: 0;
+  display: none;
+  margin-right: -500px;
+  animation: slide-out 0.5s;
+}
+
+@keyframes slide-out {
+  from {
+    opacity: 1;
+    display: flex;
+    margin-right: 0;
+  }
+
+  to {
+    opacity: 0;
+    display: none;
+    margin-right: -500px;
+  }
+}
+
+.slide-in {
+  opacity: 1;
+  display: flex;
+  margin-right: 0;
+  animation: slide-in 0.5s;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    display: none;
+    margin-right: -500px;
+  }
+
+  to {
+    opacity: 1;
+    display: flex;
+    margin-right: 0;
+  }
+}

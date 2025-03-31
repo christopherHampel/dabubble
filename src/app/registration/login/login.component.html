@@ -64,7 +64,7 @@
       </div>
 
       <div class="google-login-container">
-        <button (click)="onLoginWithGoogle($event)" class="google-login">
+        <button type="button" (click)="onLoginWithGoogle()" class="google-login">
           <img src="/img/Google-icon.svg" alt="Google Icon" />
           Anmelden mit Google
         </button>
@@ -75,13 +75,13 @@
       <button class="main-btn" type="submit" [disabled]="loginForm.invalid">
         Login
       </button>
-      <button (click)="onGaestLogin()" class="gast-login-btn" type="submit">
+      <button type="button" (click)="onGaestLogin()" class="gast-login-btn" type="submit">
         Guest Login
       </button>
     </div>
     <div class="form-error login-error" *ngIf="loginForm.errors && loginForm.errors['invalidCredentials']">
       <small>Email oder Passwort ist falsch.</small>
     </div>
-    
+
   </form>
 </section>

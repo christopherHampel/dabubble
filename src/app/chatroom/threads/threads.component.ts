@@ -36,6 +36,7 @@ import { ResizeService } from '../../services/responsive/resize.service';
 })
 export class ThreadsComponent {
   threadsDb = inject(ThreadsDbService);
+  threadClose: boolean = false;
 
   @ViewChild('myScrollContainerThread')
   private myScrollContainerThread!: ElementRef;
@@ -66,22 +67,22 @@ export class ThreadsComponent {
   }
 
   ngOnInit(): void {
-    
+
     this.subscribeThreadData();
     // console.log(this.chatService.firstThreadMessage()); // hier wichtig!!
-    
+
     this.chatService.watchLastMessageDocId(
       this.threadsDb.currentThreadId(),
       'threads',
       this.lastMessageDocId
-    );        
+    );
   }
 
   subscribeThreadData() {
     this.activatedRoute.params.subscribe((params) => {
       this.threadsDb.currentThreadId.set(params['threadId']);
       // console.log(this.threadsDb.currentThreadId());
-      
+
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
       this.threadsDb.subscribeToThread(this.threadsDb.currentThreadId());
     });
@@ -104,8 +105,11 @@ export class ThreadsComponent {
   }
 
   closeThread() {
-    this.resize.setDevSpaceClose(false);
-    this.threadsDb.closeThread();
+    this.threadClose = true;
+    setTimeout(() => {
+      this.resize.setDevSpaceClose(false);
+      this.threadsDb.closeThread();
+    }, 500);
   }
 
   scrollDown() {

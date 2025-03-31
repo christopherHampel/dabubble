@@ -1,9 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
+import {CommonModule} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
+import {Router, RouterLink} from '@angular/router';
+import {AuthService} from '../../services/auth/auth.service';
+import {UserProfile} from '../../interfaces/userProfile';
+import {UsersDbService} from '../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +16,7 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class LoginComponent {
   private auth = inject(AuthService);
+  private usersDb = inject(UsersDbService);
   loginForm: FormGroup;
   signOut = false;
   errorMessage: string | null = null;
@@ -30,16 +33,17 @@ export class LoginComponent {
   }
 
   onLogin() {
+    debugger;
     const rawForm = this.loginForm.getRawValue();
     this.auth
-    .login(rawForm.email, rawForm.password)
-    .then(() => {
-      this.forwardToChatroom();
-    })
-    .catch( () => {
-      console.log('Fehlerhafte Anmeldedaten');
-      this.loginForm.setErrors({ invalidCredentials: true });
-    })
+      .login(rawForm.email, rawForm.password)
+      .then(() => {
+        this.forwardToChatroom();
+      })
+      .catch(() => {
+        console.log('Fehlerhafte Anmeldedaten');
+        this.loginForm.setErrors({invalidCredentials: true});
+      })
   }
 
   onGaestLogin() {
@@ -48,11 +52,16 @@ export class LoginComponent {
     });
   }
 
-  onLoginWithGoogle(e: any) {
-    e.preventdefault();
-    this.auth.loginWithGoogle().then(() => {
-      this.forwardToChatroom();
-    });
+  onLoginWithGoogle() {
+    this.auth.loginWithGoogle()
+      .then(async () => {
+        this.auth.currentAuthUser.subscribe(async (user) => {
+          if (user) {
+            await this.newUser(user);
+            this.forwardToChatroom();
+          }
+        })
+      });
   }
 
   forwardToChatroom() {
@@ -60,5 +69,19 @@ export class LoginComponent {
     setTimeout(() => {
       this.router.navigate(['/chatroom']);
     }, 1500);
+  }
+
+  async newUser(authUser: any) {
+    debugger;
+    let user: UserProfile = {
+      id: authUser.uid,
+      userName: 'Wurst',
+      email: authUser.email,
+      avatar: '/img/empty_profile.png',
+      active: false,
+      channelFriendHighlighted: '',
+      directmessagesWith: [],
+    };
+    await this.usersDb.addUser(user);
   }
 }
