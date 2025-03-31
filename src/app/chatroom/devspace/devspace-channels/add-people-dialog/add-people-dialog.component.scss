@@ -129,3 +129,10 @@ input[type="radio"]:checked+label::before {
 .dropdown-add-user.collapsed {
     display: none;
 }
+
+@media(max-width: 760px) {
+    .add-people-dialog {
+        width: 95%;
+        height: unset;
+    }
+}

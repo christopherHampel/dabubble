@@ -65,6 +65,10 @@
   }
 }
 
+// .devspace-area {
+//   width: 440px;
+// }
+
 .channel-view-small.selected {
   font-weight: 700;
 
@@ -186,7 +190,7 @@
   justify-content: center;
   gap: 15px;
 
-  width: 335px;
+  // width: 335px;
 
   padding: 20px 21px;
 
@@ -295,6 +299,16 @@
   }
 }
 
+@media(max-width: 1250px) {
+  .devspace-mobil {
+    display: flex;
+  }
+
+  .chatroom-header {
+    display: none;
+  }
+}
+
 @media(max-width:960px) {
   .devspace-area {
     position: absolute;
@@ -317,14 +331,6 @@
   .bg-color {
     padding: 0;
   }
-
-  .devspace-mobil {
-    display: flex;
-  }
-
-  .chatroom-header {
-    display: none;
-  }
 }
 
 @media(max-width: 500px) {
@@ -333,5 +339,13 @@
       width: 161.5px;
       height: 45px;
     }
+  }
+
+  .dropdown-add-user {
+    width: 260px;
+  }
+
+  .input-text, .textarea-text {
+    font-size: 14px;
   }
 }

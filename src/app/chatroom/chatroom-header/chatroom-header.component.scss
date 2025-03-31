@@ -10,7 +10,7 @@
     align-items: center;
     gap: 40px;
 
-    padding-bottom: 16px;
+    padding: 25px 45px;
 }
 
 .logo {
@@ -57,14 +57,15 @@
 }
 
 .user-profil {
-    width: 400px;
+    width: 355px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 20px;
 
     h2 {
-        font-size: 32px;
+        width:100%;
+        font-size: 24px;
         font-weight: 700;
         text-align: center;
     }
@@ -172,6 +173,7 @@
         border-radius: 30px;
         color: #797ef3;
         padding: 24px;
+        max-height: 400px;
 
         .search-single-result {
             display: flex;
@@ -215,7 +217,7 @@
 }
 
 .logo-container {
-    width: 400px;
+    width: 355px;
 }
 
 .loading-spinner {
@@ -231,4 +233,8 @@
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+
+  .test {
+    color: red
   }

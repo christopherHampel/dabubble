@@ -15,7 +15,7 @@
         <div *ngFor="let result of resultsData" (click)="goToSearchResult(result)" class="search-single-result">
           <div class="chat-info">
             <span>{{ getChatIcon(result) }}</span>
-            <span>{{ getChatPartner(result) }}</span>
+            <span class="test">{{ getChatPartner(result) }}</span>
           </div>
           <div>
             <span>{{ result.searchResult.text }}</span>
