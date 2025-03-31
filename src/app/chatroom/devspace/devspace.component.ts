@@ -41,7 +41,7 @@ export class DevspaceComponent {
     if (this.threadService.currentThreadId()) {
       this.threadService.closeThread();
     }
-    this.resize.setZIndexChats(true);
+    this.resize.checkSiteWidth(960);
     this.route.navigate(['/chatroom']);
   }
 

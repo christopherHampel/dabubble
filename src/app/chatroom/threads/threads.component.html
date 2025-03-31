@@ -23,9 +23,9 @@
         [chatId]="threadsDb.currentThreadId()"
       ></app-single-message>
 
-      <div class="answers">
+      <div *ngIf="this.chatService.firstThreadMessage().associatedThreadId.count > 0"  class="answers">
         <span>{{ getThreadAnswers() }}</span>
-        <div *ngIf="this.chatService.firstThreadMessage().associatedThreadId.count > 0" class="separater"></div>
+        <div class="separater"></div>
       </div>
 
       <div

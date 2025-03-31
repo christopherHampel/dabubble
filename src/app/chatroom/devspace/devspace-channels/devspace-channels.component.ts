@@ -41,7 +41,7 @@ export class DevspaceChannelsComponent {
 
 
   selectChannel(id: string) {
-    this.resize.setZIndexChats(true);
+    this.resize.checkSiteWidth(960);
     this.usersDb.updateChanelFriendHighlighted(id);
     this.selectedChannelIdSig.set(id);
   }

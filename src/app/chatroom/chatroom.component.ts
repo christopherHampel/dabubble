@@ -83,4 +83,8 @@ export class ChatroomComponent {
   showProfile() {
     this.editProfile = !this.editProfile;    
   }
+
+  // checkWindowWidth(value:number) {
+  //   return window.innerWidth < value;
+  // }
 }

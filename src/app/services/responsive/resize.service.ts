@@ -24,7 +24,7 @@ export class ResizeService {
   }
 
   checkScreenSize(value:number) {
-    this.isSmallScreen = window.innerWidth < value && window.innerWidth > 960;
+    this.isSmallScreen = window.innerWidth < value;
   }
 
   setZIndexChats(value:boolean) {
@@ -33,5 +33,12 @@ export class ResizeService {
 
   setMobileWrapper(value:boolean) {
     this.wrapperMobile.set(value);
+  }
+
+  checkSiteWidth(value:number) {
+    this.checkScreenSize(value);
+    if(this.isSmallScreen) {
+      this.setZIndexChats(true);
+    }
   }
 }

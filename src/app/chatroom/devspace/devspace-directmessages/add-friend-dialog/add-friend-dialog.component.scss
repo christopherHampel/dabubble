@@ -45,3 +45,15 @@ form {
         width: 100%;
     }
 }
+
+@media(max-width: 580px) {
+    .add-friend-dialog {
+        width: 95%;
+    }
+}
+
+@media(max-width: 400px) {
+    h2 {
+        font-size: 18px;
+    }
+}
