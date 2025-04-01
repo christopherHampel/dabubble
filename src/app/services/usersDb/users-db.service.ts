@@ -57,6 +57,7 @@ export class UsersDbService {
 
 
   setUserObject(object: any, id: string): UserProfile {
+    console.log(object, id);
     return {
       id: id || '',
       userName: object.userName || '',
@@ -72,9 +73,11 @@ export class UsersDbService {
   subUser(id: string, callback: (user: UserProfile) => void) {
     try {
       return onSnapshot(this.getSingleDocRef('users', id), (doc) => {
-        const updateUser = this.setUserObject(doc.data(), id)
+        if(doc.exists()) {
+          const updateUser = this.setUserObject(doc.data(), id)
+          callback(updateUser);
+        }
 
-        callback(updateUser);
       });
     } catch (error) {
       console.log('Fehler userName: ', error);
