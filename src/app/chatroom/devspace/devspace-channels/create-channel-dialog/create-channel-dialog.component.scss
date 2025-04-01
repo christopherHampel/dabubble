@@ -19,7 +19,7 @@
     gap: 20px;
 
     width: 872px;
-    // height: 539px;
+    height: max-content;
 
     padding: 40px;
 
@@ -62,6 +62,14 @@
 
 @media(max-width: 960px) {
     .create-channel-dialog {
-        width: 95%;
+      width: calc(100vw - 32px);
     }
+}
+
+@media(max-width: 600px) {
+  .create-channel-dialog {
+    padding: 16px;
+
+    border-radius: 20px;
+  }
 }
