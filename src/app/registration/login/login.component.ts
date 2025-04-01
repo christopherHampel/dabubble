@@ -6,6 +6,7 @@ import {Router, RouterLink} from '@angular/router';
 import {AuthService} from '../../services/auth/auth.service';
 import {UserProfile} from '../../interfaces/userProfile';
 import {UsersDbService} from '../../services/usersDb/users-db.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +34,6 @@ export class LoginComponent {
   }
 
   onLogin() {
-    debugger;
     const rawForm = this.loginForm.getRawValue();
     this.auth
       .login(rawForm.email, rawForm.password)
@@ -52,15 +52,30 @@ export class LoginComponent {
     });
   }
 
+  // onLoginWithGoogle() {
+  //   this.auth.loginWithGoogle()
+  //     .then(async () => {
+  //       this.auth.currentAuthUser.subscribe(async (user) => {
+  //         if (user) {
+  //           await this.newUser(user);
+  //           this.forwardToChatroom();
+  //         }
+  //       })
+  //     });
+  // }
+
   onLoginWithGoogle() {
     this.auth.loginWithGoogle()
-      .then(async () => {
-        this.auth.currentAuthUser.subscribe(async (user) => {
+      .then(() => {
+        this.auth.currentAuthUser.pipe(take(1)).subscribe(async (user) => {
           if (user) {
-            await this.newUser(user);
+            const existingUser = await this.usersDb.getUserById(user.uid);
+            if (!existingUser) {
+              await this.newUser(user);
+            }
             this.forwardToChatroom();
           }
-        })
+        });
       });
   }
 
@@ -72,7 +87,6 @@ export class LoginComponent {
   }
 
   async newUser(authUser: any) {
-    debugger;
     let user: UserProfile = {
       id: authUser.uid,
       userName: 'Wurst',

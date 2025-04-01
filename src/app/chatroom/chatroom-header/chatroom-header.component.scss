@@ -235,6 +235,14 @@
     100% { transform: rotate(360deg); }
   }
 
-  .test {
-    color: red
-  }
+.weight-bold {
+    font-weight: bold;
+}
+
+.thread-result {
+    display: flex;
+}
+
+.thread-from-message {
+    color: black;
+}

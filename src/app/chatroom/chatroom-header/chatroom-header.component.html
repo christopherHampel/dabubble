@@ -12,10 +12,27 @@
     <div [ngClass]="get()">
       <div *ngIf="this.searchService.isLoading()" class="loading-spinner"></div>
         <div *ngIf="!this.searchService.isLoading() && resultsData.length > 0">
-        <div *ngFor="let result of resultsData" (click)="goToSearchResult(result)" class="search-single-result">
+        <div *ngFor="let result of resultsData" (click)="goToSearchResult(result)" class="search-single-result" [ngStyle]="result.searchResult.component == 'threads' ? {'flex-direction': 'column', 'gap': '0', 'align-items': 'center'}: {}">
           <div class="chat-info">
-            <span>{{ getChatIcon(result) }}</span>
-            <span class="test">{{ getChatPartner(result) }}</span>
+            @if(result.searchResult.component == 'channels') {
+              <span>#</span>
+              <span>{{ result.searchResult.chatPartner.chatPartner }}</span>
+            } @else if (result.searchResult.component == 'messages') {
+              <span>(at)</span>
+              <span class="weight-bold">{{ this.checkChatPartner(result.searchResult.chatPartner.chatPartner, result.searchResult.chatPartner.currentUser) }}</span>
+            } @else {
+              <div class="thread-result">
+                <span>{{ getChatIcon(result) }}</span>
+                <span class="chat-partner">{{ this.checkChatPartner(result.searchResult.originalChatInfo.originalChatName.chatPartner, result.searchResult.originalChatInfo.originalChatName.currentUser) }}</span>
+                <span>-></span>
+                <div>
+                  <span class="thread-from-message">Thread von Nachricht:</span>
+                  <span>{{ result.searchResult.originalChatInfo.originalMessage }}</span>
+                </div>
+              </div>
+            }
+            <!-- <span>{{ getChatIcon(result) }}</span>
+            <span>{{ getChatPartner(result) }}</span> -->
           </div>
           <div>
             <span>{{ result.searchResult.text }}</span>

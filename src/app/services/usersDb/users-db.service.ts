@@ -1,5 +1,5 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
-import { arrayUnion, collection, doc, Firestore, onSnapshot, setDoc, updateDoc } from '@angular/fire/firestore';
+import { arrayUnion, collection, doc, Firestore, getDoc, onSnapshot, setDoc, updateDoc } from '@angular/fire/firestore';
 import { UserProfile } from '../../interfaces/userProfile';
 import { AuthService } from '../auth/auth.service';
 
@@ -138,5 +138,16 @@ export class UsersDbService {
   updateChanelFriendHighlighted(id: string) {
     const userRef = this.getSingleDocRef('users', this.currentUser!.id);
     updateDoc(userRef, { channelFriendHighlighted: id })
+  }
+
+  async getUserById(userId: string): Promise<any | null> {
+    const userRef = doc(this.usersDb, `users/${userId}`);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      return userSnap.data(); // Der Benutzer existiert
+    } else {
+      return null; // Benutzer nicht gefunden
+    }
   }
 }
