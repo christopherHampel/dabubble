@@ -1,37 +1,37 @@
-<section class="add-people-dialog slide-in"
-    [ngClass]="{'height-option1': selectedOption === 'option1', 'height-option2': selectedOption === 'option2'}">
-    <header class="header-dialog">
-        <h2>Leute hinzufügen</h2>
-        <div (click)="closeDialog()" class="close-icon"></div>
-    </header>
+<section class="add-people-dialog slide-in">
 
-    <form action="">
-        <div class="radio-button">
-            <input [(ngModel)]="selectedOption" name="option" type="radio" value="option1">
-            <label for="">
-                <p>
-                    Alle Mitglieder von <span class="color-blue">Office Team</span> hinzufügen
-                </p>
-            </label>
-        </div>
+  <header class="header-dialog">
+    <h2>Leute hinzufügen</h2>
+    <div (click)="closeDialog()" class="close-icon"></div>
+  </header>
 
-        <div>
-            <div class="radio-button">
-                <input (click)="focusInput()" [(ngModel)]="selectedOption" name="option" type="radio"
-                    value="option2">
-                <label for="">
-                    <p>
-                        Bestimmte Leute hinzufügen
-                    </p>
-                </label>
-            </div>
+  <form action="">
+    <div class="radio-button">
+      <input [(ngModel)]="selectedOption" name="option" type="radio" value="option1">
+      <label for="">
+        <p>
+          Alle Mitglieder von <span class="color-blue">Office Team</span> hinzufügen
+        </p>
+      </label>
+    </div>
 
-            <app-add-people-input #addPeopleInput [component]="'addPeople'" class="input-text"
-                [ngClass]="{'collapsed': selectedOption === 'option1'}" class="width-100-percent"
-                (selectedUserOut)="selectUser($event)"></app-add-people-input>
-        </div>
+    <div>
+      <div class="radio-button">
+        <input (click)="focusInput()" [(ngModel)]="selectedOption" name="option" type="radio"
+               value="option2">
+        <label for="">
+          <p>
+            Bestimmte Leute hinzufügen
+          </p>
+        </label>
+      </div>
 
-        <button (click)="createChannel()" [disabled]="buttonDisabled()" class="primary-button">Erstellen</button>
-    </form>
+      <app-add-people-input #addPeopleInput [component]="'addPeople'" class="input-text"
+                            [ngClass]="{'collapsed': selectedOption === 'option1'}" class="width-100-percent"
+                            (selectedUserOut)="selectUser($event)"></app-add-people-input>
+    </div>
+
+    <button (click)="createChannel()" [disabled]="buttonDisabled()" class="primary-button">Erstellen</button>
+  </form>
 
 </section>

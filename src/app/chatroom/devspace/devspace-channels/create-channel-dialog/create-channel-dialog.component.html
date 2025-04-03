@@ -1,28 +1,35 @@
 <section class="create-channel-dialog slide-in">
-    <header class="header-dialog">
-        <h2>Channel erstellen</h2>
-        <div (click)="closeDialog()" class="close-icon"></div>
-    </header>
 
+  <header class="header-dialog">
+    <h2>Channel erstellen</h2>
+    <div (click)="closeDialog()" class="close-icon"></div>
+  </header>
+
+  <div>
+    <p>
+      Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein
+      <br>
+      "# Marketing" zum Beispiel.
+    </p>
+  </div>
+
+  <form class="create-channel-form" action="">
     <div>
-        <span>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein</span>
-        <span>#marketing zum Beispiel.</span>
+      <p><b>Channel-Name</b></p>
+      <input #inputField name="channelName" [(ngModel)]="channelName" (ngModelChange)="updateValue($event)"
+             (keydown)="onKeyDown($event)" class="input-text" type="text" placeholder="#   z.B. Kooperationsprojekt"
+             autocomplete="off">
     </div>
 
-    <form class="create-channel-form" action="">
-        <div>
-            <p><b>Channel-Name</b></p>
-            <input #inputField name="channelName" [(ngModel)]="channelName" (ngModelChange)="updateValue($event)"
-                (keydown)="onKeyDown($event)" class="input-text" type="text" placeholder="#   z.B. Kooperationsprojekt" autocomplete="off">
-        </div>
-
-        <div>
-            <p><b>Beschreibung</b> <span class="color-light-gray"> (optional)</span></p>
-            <textarea [(ngModel)]="channelDescription" name="channelDescription" class="textarea-text"
+    <div>
+      <p><b>Beschreibung</b> <span class="color-light-gray"> (optional)</span></p>
+      <textarea [(ngModel)]="channelDescription" name="channelDescription" class="textarea-text"
                 placeholder="Dein Text hier" maxlength="120"></textarea>
-        </div>
+    </div>
 
-        <button class="primary-button" (click)="createChannel(); openDialog()"
-            [disabled]="!channelName">Erstellen</button>
-    </form>
+    <button class="primary-button" (click)="createChannel(); openDialog()"
+            [disabled]="!channelName">Erstellen
+    </button>
+  </form>
+
 </section>

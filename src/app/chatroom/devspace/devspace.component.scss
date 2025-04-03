@@ -108,12 +108,16 @@
 
 .padding-card {
   padding: 32px 30px;
+
+  @media (max-width: 500px) {
+    padding: 32px 16px;
+  }
 }
 
 .child-component {
   display: flex;
   flex-direction: column;
-  max-height: calc(50% - 60px);
+  min-height: calc(50% - 60px);
 }
 
 .channel-directmessage-section {
@@ -172,10 +176,16 @@
   }
 
   .card {
+    height: calc(100vh - 85.6px);
+
     border-radius: 0;
   }
 
   .mobile-position {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+
     display: flex;
   }
 
