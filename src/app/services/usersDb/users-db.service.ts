@@ -57,7 +57,6 @@ export class UsersDbService {
 
 
   setUserObject(object: any, id: string): UserProfile {
-    console.log(object, id);
     return {
       id: id || '',
       userName: object.userName || '',
