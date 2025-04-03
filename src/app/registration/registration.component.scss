@@ -59,7 +59,7 @@ section {
   opacity: 1;
   background-color: #444DF2;
   animation: blurBackground 3s linear forwards;
-  animation-delay: 3s;
+  animation-delay: 4s;
 }
 
 .logo-icon {
@@ -69,8 +69,8 @@ section {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); /* Perfekt in die Mitte setzen */
-  animation: switchToLeftCorner 4s ease-in-out forwards;
-  animation-delay: 3s;
+  animation: switchToLeftCorner 3s ease-in-out forwards;
+  animation-delay: 4s;
 
   img {
     position: absolute;
@@ -110,10 +110,13 @@ section {
 }
 
 @keyframes blurBackground {
-  from {
+  0% {
     opacity: 1;
   }
-  to {
+  50% {
+    opacity: 0.5;
+  }
+  100% {
     opacity: 0;
     display: none;
   }
