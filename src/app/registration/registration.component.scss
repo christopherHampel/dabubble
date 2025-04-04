@@ -236,6 +236,7 @@ section {
   background-color: #ffff;
   border-radius: 30px;
   position: relative;
+  padding: 50px 60px;
 }
 .input-card-container {
 
@@ -253,7 +254,7 @@ section {
 }
 
 input {
-  width: 31rem;
+  width: 100%;
   height: 3.7rem;
   border: 1px solid rgba(236, 238, 254, 1);
   background: rgba(236, 238, 254, 1);
@@ -326,6 +327,7 @@ form {
 
 .input-wrapper {
   position: relative;
+  width: 100%;
 }
 
 .form-error {
@@ -427,5 +429,17 @@ form {
     align-items: center;
     justify-content: center;
     max-height: unset;
+  }
+}
+
+@media(max-width: 620px) {
+  .input-card {
+    padding: 35px 20px;
+  }
+}
+
+@media(max-width: 420px) {
+  .input-card {
+    padding: 35px 10px;
   }
 }

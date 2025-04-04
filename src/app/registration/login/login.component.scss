@@ -1,10 +1,10 @@
 @use "../registration.component.scss";
 
 .head {
-  padding: 50px 60px;
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 486px;
   h2 {
     text-align: center;
     color: rgba(68, 77, 242, 1);
@@ -14,7 +14,6 @@
   }
 
   span {
-    width: 468px;
     text-align: center;
     font-size: 20px;
   }
@@ -31,6 +30,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 100%;
 }
 
 .input-icon {
@@ -122,4 +122,28 @@ form {
 .btn-container {
   padding-bottom: 44px;
   gap: 30px;
+}
+
+@media(max-width: 620px) {
+  .head {
+    width: 358px;
+
+    span {
+      font-size: 17px;
+    }
+  }
+}
+
+@media(max-width: 420px) {
+  .head {
+    width: 290px;
+
+    span {
+      font-size: 14px;
+    }
+
+    h2 {
+      font-size: 32px;
+    }
+  }
 }
