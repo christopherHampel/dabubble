@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { AddPeopleInputComponent } from '../../../../shared/add-people-input/add-people-input.component';
-import { UserProfile } from '../../../../interfaces/userProfile';
+import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {AddPeopleInputComponent} from '../../../../shared/add-people-input/add-people-input.component';
+import {UserProfile} from '../../../../interfaces/userProfile';
 
 @Component({
   selector: 'app-add-people-dialog',
@@ -17,9 +17,19 @@ import { UserProfile } from '../../../../interfaces/userProfile';
 export class AddPeopleDialogComponent {
   selectedOption: string = 'option1';
   selectedUser: UserProfile = {} as UserProfile;
+  mediaW600px: MediaQueryList = window.matchMedia("(max-width: 600px)");
+  mobileClose: boolean = false;
 
-  @Output() dialogComponent = new EventEmitter<'none'>();
+  @Output() dialogComponent = new EventEmitter<'none' | 'createChannel'>();
   @ViewChild('addPeopleInput') addPeopleInput!: any;
+
+  closeMobile() {
+    this.mobileClose = true;
+    setTimeout(() => {
+      this.mobileClose = false
+      this.dialogComponent.emit('createChannel')
+    }, 500);
+  }
 
   focusInput() {
     this.addPeopleInput.focusInput();

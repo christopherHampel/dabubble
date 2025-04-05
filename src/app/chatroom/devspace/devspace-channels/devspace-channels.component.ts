@@ -26,7 +26,8 @@ export class DevspaceChannelsComponent {
   channelsOpen: boolean = true;
   dialog: boolean = false;
   selectedChannelIdSig = signal<string>('');
-  dialogComponent: 'none' | 'createChannel' | 'addPeople' = 'none';
+  dialogComponent: 'none' | 'createChannel' | 'addPeople' | 'mobile' = 'none';
+  mediaW600px: MediaQueryList = window.matchMedia("(max-width: 600px)");
 
   @ViewChild('channelDialog') channelDialog!: any;
   @ViewChild('peopleDialog') peopleDialog!: any;
@@ -53,11 +54,7 @@ export class DevspaceChannelsComponent {
 
 
   openChannels() {
-    if (this.channelsOpen) {
-      this.channelsOpen = false;
-    } else {
-      this.channelsOpen = true;
-    }
+    this.channelsOpen = !this.channelsOpen;
   }
 
 
@@ -70,8 +67,10 @@ export class DevspaceChannelsComponent {
 
   closeDialog(event: any) {
     this.dialogComponent = event;
-    this.dialogComponent !== 'addPeople' ? this.dialog = false : true;
-    this.channelDialog.resetInputs();
+    if (this.dialogComponent === 'addPeople') {
+      this.dialog = true;
+    } else this.dialog = this.dialogComponent === 'mobile';
+    !this.mediaW600px.matches ? this.channelDialog.resetInputs() : null;
     this.peopleDialog.resetOption();
   }
 

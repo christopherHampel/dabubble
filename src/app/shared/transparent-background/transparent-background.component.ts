@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-transparent-background',
@@ -8,10 +8,17 @@ import { CommonModule } from '@angular/common';
   styleUrl: './transparent-background.component.scss'
 })
 export class TransparentBackgroundComponent {
+  mediaW600px: MediaQueryList = window.matchMedia('(max-width: 600px)');
+
   @Input() backgroundOpen: boolean = false;
   @Output() backgroundClose = new EventEmitter<boolean>();
+  @Output()dialogComponent = new EventEmitter<'createChannel'>();
 
   closeBackground() {
-    this.backgroundClose.emit(true);
+    if (!this.mediaW600px.matches) {
+      this.backgroundClose.emit(true);
+    } else {
+      this.dialogComponent.emit('createChannel');
+    }
   }
 }

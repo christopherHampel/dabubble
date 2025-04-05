@@ -17,8 +17,9 @@ export class CreateChannelDialogComponent {
 
   channelName: string = '';
   channelDescription: string = '';
+  mediaW600px: MediaQueryList = window.matchMedia('(max-width: 600px)');
 
-  @Output() dialogComponent = new EventEmitter<'none' | 'addPeople'>();
+  @Output() dialogComponent = new EventEmitter<'none' | 'addPeople' | 'mobile'>();
   @ViewChild('inputField') inputFieldRef!: ElementRef<HTMLInputElement>;
 
   focusInput() {
@@ -29,14 +30,18 @@ export class CreateChannelDialogComponent {
   closeDialog() {
     this.dialogComponent.emit('none');
 
-    this.resetInputs();
+    !this.mediaW600px.matches ? this.resetInputs() : null;
   }
 
 
   openDialog() {
-    this.dialogComponent.emit('addPeople');
+    if (!this.mediaW600px.matches) {
+      this.dialogComponent.emit('addPeople');
+    } else {
+      this.dialogComponent.emit('mobile');
+    }
 
-    this.resetInputs();
+    !this.mediaW600px.matches ? this.resetInputs() : null;
   }
 
 
@@ -53,7 +58,7 @@ export class CreateChannelDialogComponent {
       description: this.channelDescription
     })
 
-    this.resetInputs();
+    !this.mediaW600px.matches ? this.resetInputs() : null;
   }
 
 

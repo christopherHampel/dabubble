@@ -1,4 +1,5 @@
-<section class="create-channel-dialog slide-in">
+<section class="create-channel-dialog"
+         [ngClass]="{ 'slide-in': !mediaW600px.matches, 'animation': mediaW600px.matches }">
 
   <header class="header-dialog">
     <h2>Channel erstellen</h2>

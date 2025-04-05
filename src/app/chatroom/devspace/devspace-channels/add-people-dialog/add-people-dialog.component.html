@@ -1,4 +1,9 @@
-<section class="add-people-dialog slide-in">
+<section class="add-people-dialog"
+         [ngClass]="{ 'slide-in': !mediaW600px.matches, 'slide-in-bottom': mediaW600px.matches && !mobileClose, 'slide-out-bottom': mediaW600px && mobileClose }">
+
+  <div class="mobile-close-button">
+    <div (click)="closeMobile()"></div>
+  </div>
 
   <header class="header-dialog">
     <h2>Leute hinzufügen</h2>
