@@ -1,6 +1,10 @@
 @use "../registration.component.scss";
 
 .input-card {
+  padding: 0;
+}
+
+.input-card {
   gap: 40px;
 }
 
@@ -9,6 +13,7 @@
   flex-direction: column;
   gap: 32px;
   padding: 40px 67px 0 67px;
+  font-size: 20px;
 
   h2 {
     text-align: center;
@@ -28,6 +33,8 @@ form {
   display: flex;
   flex-direction: column;
   gap: 40px;    
+  width: 100%;
+  padding: 0 53px;
 }
 
 .input-icon {
@@ -93,5 +100,29 @@ form {
         color: rgba(68, 77, 242, 1);
       }
     }
+  }
+}
+
+@media (max-width: 650px) {
+  .head {
+    padding: 40px 20px 0 20px;
+    h2 {
+      font-size: 32px;
+    }
+
+    span {
+      font-size: 17px;
+      width: 358px;
+    }
+  }
+} 
+
+@media(max-width: 450px) {
+  .head {
+    gap: 18px;
+
+    span {
+      width: 290px;
+    } 
   }
 }

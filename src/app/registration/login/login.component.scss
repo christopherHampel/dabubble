@@ -69,8 +69,8 @@ form {
   gap: 15px;
   width: 100%;
 
-  div{
-    border: 1px solid #ADB0D9;
+  div {
+    border: 1px solid #adb0d9;
     flex: 1;
   }
 
@@ -114,7 +114,7 @@ form {
   }
 
   &:hover {
-    border-color: #444Df2;
+    border-color: #444df2;
     cursor: pointer;
   }
 }
@@ -124,12 +124,15 @@ form {
   gap: 30px;
 }
 
-@media(max-width: 1050px) {
+@media (max-width: 1050px) {
   .btn-container {
     padding-bottom: 0;
   }
+}
 
+@media (max-width: 620px) {
   .head {
+    width: 358px;
     h2 {
       font-size: 32px;
     }
@@ -137,12 +140,6 @@ form {
     span {
       font-size: 17px;
     }
-  }
-}
-
-@media(max-width: 620px) {
-  .head {
-    width: 358px;
   }
 
   form {
@@ -158,7 +155,7 @@ form {
   }
 }
 
-@media(max-width: 420px) {
+@media (max-width: 420px) {
   .head {
     width: 290px;
     gap: 12px;
@@ -185,12 +182,8 @@ form {
   }
 }
 
-@media(max-width: 400px) {
+@media (max-width: 400px) {
   .btn-container {
     gap: 24px;
-  }
-
-  input::placeholder {
-    font-size: 18px;
   }
 }

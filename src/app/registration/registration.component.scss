@@ -380,12 +380,22 @@ form {
   form {
     width: 290px;
   }
-  
+
   .input-card {
     padding: 20px 10px;
   }
 
   .max-width {
     gap: 8px;
+  }
+
+  input {
+    &::placeholder {
+      font-size: 14px;
+    }
+  }
+
+  .gast-login-btn .main {
+    font-size: 0.9rem;
   }
 }
