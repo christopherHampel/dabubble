@@ -124,9 +124,15 @@ form {
   gap: 30px;
 }
 
-@media(max-width: 620px) {
+@media(max-width: 1050px) {
+  .btn-container {
+    padding-bottom: 0;
+  }
+
   .head {
-    width: 358px;
+    h2 {
+      font-size: 32px;
+    }
 
     span {
       font-size: 17px;
@@ -134,9 +140,28 @@ form {
   }
 }
 
+@media(max-width: 620px) {
+  .head {
+    width: 358px;
+  }
+
+  form {
+    gap: 12px;
+  }
+
+  input {
+    height: 3rem;
+  }
+
+  .input-icon {
+    margin-top: 12px;
+  }
+}
+
 @media(max-width: 420px) {
   .head {
     width: 290px;
+    gap: 12px;
 
     span {
       font-size: 14px;
@@ -145,5 +170,27 @@ form {
     h2 {
       font-size: 32px;
     }
+  }
+
+  .or-and-google {
+    gap: 12px;
+  }
+
+  .google-login-container {
+    padding: 6px 24px;
+
+    .google-login {
+      font-size: 14px;
+    }
+  }
+}
+
+@media(max-width: 400px) {
+  .btn-container {
+    gap: 24px;
+  }
+
+  input::placeholder {
+    font-size: 18px;
   }
 }
