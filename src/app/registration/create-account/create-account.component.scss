@@ -33,8 +33,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 40px;    
-  width: 100%;
-  padding: 0 53px;
+  width: 500px;
 }
 
 .input-icon {
@@ -111,18 +110,61 @@ form {
     }
 
     span {
-      font-size: 17px;
+      font-size: 14px;
       width: 358px;
     }
   }
+
+  input {
+    height: 3rem;
+  }
+
+  .input-icon {
+    margin-top: 12px;;
+  }
+
+  form {
+    width: 358px;
+    gap: 20px;
+  }
+
+  .input-card {
+    gap: 20px;
+  }
 } 
+
+@media(max-width: 960px) {
+  .tooltip-button {
+    display: none;
+  }
+}
 
 @media(max-width: 450px) {
   .head {
     gap: 18px;
+    padding: 40px 10px 0 10px;
 
     span {
       width: 290px;
     } 
+  }
+
+  .input-card {
+    gap: 20px;
+  }
+
+  form {
+    gap: 20px;
+    width: 290px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+}
+
+@media(max-width: 400px) {
+  .head form {
+    width: 290px;;
   }
 }

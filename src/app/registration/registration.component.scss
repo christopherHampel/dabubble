@@ -374,6 +374,11 @@ form {
   .start-container {
     gap: unset;
   }
+
+  .back-link {
+    top: 40px !important;
+    left: 6px !important;
+  }
 }
 
 @media(max-width: 420px) {
