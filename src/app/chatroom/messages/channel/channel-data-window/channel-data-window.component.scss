@@ -2,147 +2,270 @@
 @use '../channel.component.scss';
 
 @mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
-    display: flex;
-    flex-direction: $fD;
-    justify-content: $jC;
-    align-items: $aI;
-    gap: $g;
+  display: flex;
+  flex-direction: $fD;
+  justify-content: $jC;
+  align-items: $aI;
+  gap: $g;
 }
-
 
 
 * {
-    font-family: 'Nunito';
+  font-family: 'Nunito';
 }
 
 .box {
-    border: 1px solid #ADB0D9;
-    border-radius: 20px;
-    padding: 20px;
+  border: 1px solid #ADB0D9;
+  border-radius: 20px;
+  padding: 20px;
 
-    transition: all 0.1s linear, border 0.15s linear;
+  transition: all 0.1s linear, border 0.15s linear;
 
-    &:has(.input-text) {
-        border: none;
+  &:has(.input-text) {
+    border: none;
 
-        padding: 0;
+    padding: 0;
+  }
+
+  &:has(.textarea-text) {
+    border: none;
+
+    padding: 0;
+
+    .separater {
+      width: calc(100% - 40px);
+
+      margin-left: 20px;
     }
-
-    &:has(.textarea-text) {
-        border: none;
-
-        padding: 0;
-
-        .separater {
-            width: calc(100% - 40px);
-
-            margin-left: 20px;
-        }
-    }
+  }
 }
 
 .width-100-percent {
-    width: 100%;
+  width: 100%;
 }
 
 .edit-button {
-    border: none;
-    background-color: transparent;
+  border: none;
+  background-color: transparent;
 
-    font-weight: 600;
-    font-size: 18px;
+  &:hover {
+    cursor: pointer;
+  }
+}
 
-    color: #535AF1;
+.edit-button-text {
+  font-weight: 600;
+  font-size: 18px;
+
+  color: #535AF1;
+}
+
+.edit-button-mobile {
+  padding: 3px;
+
+  background-color: #ECEEFE;
+
+  border-radius: 50%;
+
+  & > div {
+    width: 24px;
+    height: 24px;
+
+    background-image: url("/img/edit_mobile_icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 
     &:hover {
-        cursor: pointer;
+      //background-image: url("/img/edit_mobile_hover_icon.svg");
     }
+  }
+}
+
+.check-button-mobile {
+  padding: 3px;
+
+  background-color: #ECEEFE;
+
+  border-radius: 50%;
+
+  & > div {
+    width: 24px;
+    height: 24px;
+
+    background-image: url("/img/check_circle_mobile_icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    &:hover {
+      //background-image: url("/img/check_circle_mobile_hover_icon.svg");
+    }
+  }
 }
 
 .headline {
-    font-weight: 700;
-    font-size: 18px;
+  font-weight: 700;
+  font-size: 18px;
 
-    color: black;
+  color: black;
 }
-
 
 
 .channel-data-window {
-    @include d-flex($fD: column, $jC: flex-start, $g: 30px);
+  @include d-flex($fD: column, $jC: flex-start, $g: 30px);
 
-    position: absolute;
-    top: 0;
-    left: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
 
-    transform: translate(0, 56px);
+  transform: translate(0, 56px);
 
-    width: 872px;
-    height: max-content;
+  width: 872px;
+  height: max-content;
 
-    padding: 40px;
+  padding: 40px;
 
-    background-color: #FFFFFF;
+  background-color: #FFFFFF;
 
-    border-bottom-left-radius: 30px;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
 
-    z-index: 4;
+  z-index: 4;
 
-    filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
+  filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
 }
 
 header {
-    @include d-flex($jC: space-between);
+  @include d-flex($jC: space-between);
 
-    &>div:nth-child(1) {
-        @include d-flex($g: 15px);
-    }
+  & > div:nth-child(1) {
+    @include d-flex($g: 15px);
+  }
 }
 
 form {
-    width: 100%;
+  width: 100%;
 
-    @include d-flex($fD: column, $aI: flex-end, $g: 30px);
+  @include d-flex($fD: column, $aI: flex-end, $g: 30px);
 }
 
 .box {
-    @include d-flex($fD: column, $aI: flex-start);
+  @include d-flex($fD: column, $aI: flex-start);
 
-    &>div:nth-child(1) {
-        @include d-flex($jC: space-between);
+  & > div:nth-child(1) {
+    @include d-flex($jC: space-between);
+  }
+
+  &:has(.hashtag-icon, .input-text) {
+    gap: 20px;
+
+    & > div:nth-child(2) {
+      @include d-flex($g: 10px)
     }
+  }
 
-    &:has(.hashtag-icon, .input-text) {
-        gap: 20px;
+  &:has(.separater) {
+    gap: 30px;
 
-        &>div:nth-child(2) {
-            @include d-flex($g: 10px)
-        }
+    & > div:nth-child(4) {
+      @include d-flex($fD: column, $aI: flex-start, $g: 20px);
+
+      & > h2 {
+        font-weight: 400;
+        font-size: 24px;
+
+        color: #535AF1;
+      }
     }
+  }
 
-    &:has(.separater) {
-        gap: 30px;
-
-        &>div:nth-child(4) {
-            @include d-flex($fD: column, $aI: flex-start, $g: 20px);
-
-            &>h2 {
-                font-weight: 400;
-                font-size: 24px;
-
-                color: #535AF1;
-            }
-        }
-    }
-
-    .hashtag-icon {
-        width: 23px;
-        height: 23px;
-    }
+  .hashtag-icon {
+    width: 23px;
+    height: 23px;
+  }
 }
 
 .separater {
+  border: 1px solid #ADB0D9;
+}
+
+@media(max-width: 600px) {
+  .channel-data-window {
+    gap: 25px;
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    transform: unset;
+
+    width: unset;
+    height: unset;
+
+    padding: 0;
+
+    border-radius: 0;
+
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+
+    padding: 40px 16px 10px 16px;
+
+    box-shadow: 0px 2px 10px 0px rgba(0 0 0 / 8%);
+
+    background-color: #FFFFFF;
+  }
+
+  form {
+    padding: 0 16px 20px 16px;
+  }
+
+  .members {
+    @include d-flex($fD: column, $aI: flex-start, $g: 20px);
+
+    padding: 20px 16px;
+
     border: 1px solid #ADB0D9;
+    border-radius: 20px;
+  }
+
+  .member-list-wrapper {
+    @include d-flex($fD: column, $aI: flex-start, $g: 20px);
+  }
+
+  .member-list {
+    @include d-flex($fD: column, $aI: flex-start, $jC: flex-start, $g: 13px);
+
+    max-height: 200px;
+
+    overflow-y: scroll;
+  }
+
+  .member-add-button {
+    @include d-flex($g: 15px);
+
+    margin-left: 24px;
+
+    & > person-add-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    & > span {
+      font-weight: 400;
+      font-size: 18px;
+    }
+  }
 }
