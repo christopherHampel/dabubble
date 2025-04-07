@@ -6,7 +6,7 @@ section {
 }
 
 .vh-100 {
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .max-width {
@@ -403,5 +403,12 @@ form {
 
   .gast-login-btn .main {
     font-size: 0.9rem;
+  }
+}
+
+@media(max-height: 850px) {
+  .vh-100 {
+    min-height: 100vh;
+    height: unset;
   }
 }
