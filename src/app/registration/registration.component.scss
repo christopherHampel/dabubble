@@ -55,7 +55,7 @@ section {
   align-items: center;
   opacity: 1;
   background-color: #444DF2;
-  animation: blurBackground 3s linear forwards;
+  animation: blurBackground 2s linear forwards;
   animation-delay: 4s;
 }
 
@@ -65,7 +65,7 @@ section {
   align-items: center;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Perfekt in die Mitte setzen */
+  transform: translate(-50%, -50%);
   animation: switchToLeftCorner 1s linear forwards;
   animation-delay: 4s;
 
@@ -126,9 +126,22 @@ section {
     transform: translate(-50%, -50%);
   } 
   to {
-    top: -100px;
-    left: -100px;
-    transform: translate(0, 0);
+    top: 50px;
+    left: 15%;
+    transform: scale(0.0001);
+  }
+}
+
+@keyframes switchToCenter {
+  from {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } 
+  to {
+    top: 50px;
+    left: 50%;
+    transform: scale(0.0001);
   }
 }
 
@@ -364,16 +377,25 @@ form {
   .overlay-start-container {
     height: unset;
   }
+
+  .logo-icon {
+    animation: switchToCenter 1s linear forwards;
+    animation-delay: 4s;
+  }
+}
+
+@media(max-width: 800px) {
+  .logo-icon {
+    img {
+      width: 100px;
+    }
+  }
 }
 
 @media(max-width: 620px) {
   .input-card {
     padding: 20px 20px;
   }
-
-  // .start-container {
-  //   gap: unset;
-  // }
 
   .back-link {
     top: 40px !important;
