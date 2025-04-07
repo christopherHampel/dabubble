@@ -14,16 +14,27 @@
       <div class="width-100-percent">
         <span class="headline">Channel Name</span>
 
-        <button class="edit-button" (click)="editChannelName(); saveChannel()">
-          <div *ngIf="!mediaW600px.matches; else editMobileName">
-            <span class="edit-button-text">{{ editNameButton }}</span>
-          </div>
-        </button>
-        <ng-template #editMobileName>
-          <div [ngClass]="{ 'edit-button-mobile': !channelNameEdit, 'check-button-mobile': channelNameEdit }">
-            <div></div>
-          </div>
-        </ng-template>
+        @if (!resize.checkMediaW600px()) {
+          @if (!channelNameEdit) {
+            <button class="edit-button" (click)="editChannelName()">
+              <span class="edit-button-text">Bearbeiten</span>
+            </button>
+          } @else {
+            <button class="edit-button" (click)="editChannelName(); saveChannel()">
+              <span class="edit-button-text">Speichern</span>
+            </button>
+          }
+        } @else {
+          @if (!channelNameEdit) {
+            <button class="edit-button edit-button-mobile" (click)="editChannelName()">
+              <div></div>
+            </button>
+          } @else {
+            <button class="edit-button check-button-mobile" (click)="editChannelName(); saveChannel()">
+              <div></div>
+            </button>
+          }
+        }
 
       </div>
       <div *ngIf="!channelNameEdit">
@@ -38,16 +49,27 @@
       <div class="width-100-percent">
         <span class="headline">Beschreibung</span>
 
-        <button class="edit-button" (click)="editChannelDescription(); saveChannel()">
-          <div *ngIf="!mediaW600px; else editMobileDescription">
-            <span class="edit-button-text">{{ editDescriptionButton }}</span>
-          </div>
-        </button>
-        <ng-template #editMobileDescription>
-          <div [ngClass]="{ 'edit-button-mobile': !channelDescriptionEdit, 'check-button-mobile': channelDescriptionEdit }">
-            <div></div>
-          </div>
-        </ng-template>
+        @if (!resize.checkMediaW600px()) {
+          @if (!channelDescriptionEdit) {
+            <button class="edit-button" (click)="editChannelDescription()">
+              <span class="edit-button-text">Bearbeiten</span>
+            </button>
+          } @else {
+            <button class="edit-button" (click)="editChannelDescription(); saveChannel()">
+              <span class="edit-button-text">Speichern</span>
+            </button>
+          }
+        } @else {
+          @if (!channelDescriptionEdit) {
+            <button class="edit-button edit-button-mobile" (click)="editChannelDescription()">
+              <div></div>
+            </button>
+          } @else {
+            <button class="edit-button edit-button-mobile" (click)="editChannelDescription(); saveChannel()">
+              <div></div>
+            </button>
+          }
+        }
 
       </div>
       <p *ngIf="!channelDescriptionEdit">

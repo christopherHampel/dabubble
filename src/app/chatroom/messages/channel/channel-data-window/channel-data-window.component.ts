@@ -1,4 +1,4 @@
-import {Component, effect, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, effect, EventEmitter, inject, Input, Output, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ChannelsDbService} from '../../../../services/message/channels-db.service';
@@ -6,6 +6,7 @@ import {UsersDbService} from '../../../../services/usersDb/users-db.service';
 import {Router} from '@angular/router';
 import {UserViewSmallComponent} from '../../../../shared/user-view-small/user-view-small.component';
 import {UserProfile} from '../../../../interfaces/userProfile';
+import {ResizeService} from '../../../../services/responsive/resize.service';
 
 @Component({
   selector: 'app-channel-data-window',
@@ -20,14 +21,14 @@ import {UserProfile} from '../../../../interfaces/userProfile';
 export class ChannelDataWindowComponent {
   channelsDb = inject(ChannelsDbService);
   userDb = inject(UsersDbService);
-  editNameButton: string = 'Bearbeiten';
-  editDescriptionButton: string = 'Bearbeiten';
+  resize = inject(ResizeService);
+  editNameButton = signal<string>('Bearbeiten');
+  editDescriptionButton = signal<string>('Bearbeiten');
   channelNameEdit: boolean = false;
   channelDescriptionEdit: boolean = false;
   channelName: string = '';
   channelDescription: string = '';
   channelUserDataListReverse: UserProfile[] = [];
-  mediaW600px: MediaQueryList = window.matchMedia("(max-width: 600px)");
 
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
@@ -40,6 +41,9 @@ export class ChannelDataWindowComponent {
         this.channelUserDataListReverse.unshift(userData);
       })
     });
+
+    this.channelName = this.channelsDb.channel!.name;
+    this.channelDescription = this.channelsDb.channel!.description;
   }
 
 
@@ -57,31 +61,25 @@ export class ChannelDataWindowComponent {
 
   resetOnClose() {
     this.channelNameEdit = false;
-    this.editNameButton = 'Bearbeiten';
+    this.editNameButton.set('Bearbeiten');
     this.channelDescriptionEdit = false;
-    this.editDescriptionButton = 'Bearbeiten';
+    this.editDescriptionButton.set('Bearbeiten');
   }
 
 
   editChannelName() {
+    this.channelNameEdit = !this.channelNameEdit;
+
     if (this.channelNameEdit) {
-      this.channelNameEdit = false;
-      this.editNameButton = 'Bearbeiten';
-    } else {
-      this.channelNameEdit = true;
-      this.editNameButton = 'Speichern';
       this.channelsDb.channel ? this.updateValue(this.channelsDb.channel.name) : '';
     }
   }
 
 
   editChannelDescription() {
+    this.channelDescriptionEdit = !this.channelDescriptionEdit;
+
     if (this.channelDescriptionEdit) {
-      this.channelDescriptionEdit = false;
-      this.editDescriptionButton = 'Bearbeiten';
-    } else {
-      this.channelDescriptionEdit = true;
-      this.editDescriptionButton = 'Speichern';
       this.channelsDb.channel ? this.channelDescription = this.channelsDb.channel.description : '';
     }
   }
