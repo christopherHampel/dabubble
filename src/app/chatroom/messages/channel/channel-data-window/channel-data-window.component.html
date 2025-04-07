@@ -1,51 +1,88 @@
 <section *ngIf="dialogOpen && channelsDb.channel as channel" class="channel-data-window animation">
 
-    <header class="width-100-percent">
-        <div>
-            <div class="hashtag-icon"></div>
-            <h2>{{channel.name}}</h2>
-        </div>
-        <div (click)="closeDialog()" class="close-icon"></div>
-    </header>
+  <header class="width-100-percent">
+    <div>
+      <div class="hashtag-icon"></div>
+      <h2>{{ channel.name }}</h2>
+    </div>
+    <div (click)="closeDialog()" class="close-icon"></div>
+  </header>
 
-    <form onsubmit="leaveChannel(); return false">
+  <form onsubmit="leaveChannel(); return false">
 
-        <div class="box width-100-percent">
-            <div class="width-100-percent">
-                <span class="headline">Channel Name</span>
-                <button class="edit-button"
-                    (click)="editChannelName(); saveChannel()">{{editNameButton}}</button>
-            </div>
-            <div *ngIf="!channelNameEdit">
-                <div class="hashtag-icon"></div>
-                <span>{{channel.name}}</span>
-            </div>
-            <input class="input-text" [(ngModel)]="channelName" (ngModelChange)="updateValue($event)" name="channelName"
-                *ngIf="channelNameEdit" type="text" placeholder="#   Entwicklerteam" (keydown)="onKeyDown($event)">
-        </div>
+    <div class="box width-100-percent">
+      <div class="width-100-percent">
+        <span class="headline">Channel Name</span>
 
-        <div class="box width-100-percent">
-            <div class="width-100-percent">
-                <span class="headline">Beschreibung</span>
-                <button class="edit-button"
-                    (click)="editChannelDescription(); saveChannel()">{{editDescriptionButton}}</button>
-            </div>
-            <p *ngIf="!channelDescriptionEdit">
-                {{channel.description}}
-            </p>
-            <textarea class="textarea-text" [(ngModel)]="channelDescription" name="channelDescription"
+        <button class="edit-button" (click)="editChannelName(); saveChannel()">
+          <div *ngIf="!mediaW600px.matches; else editMobileName">
+            <span class="edit-button-text">{{ editNameButton }}</span>
+          </div>
+        </button>
+        <ng-template #editMobileName>
+          <div [ngClass]="{ 'edit-button-mobile': !channelNameEdit, 'check-button-mobile': channelNameEdit }">
+            <div></div>
+          </div>
+        </ng-template>
+
+      </div>
+      <div *ngIf="!channelNameEdit">
+        <div class="hashtag-icon"></div>
+        <span>{{ channel.name }}</span>
+      </div>
+      <input class="input-text" [(ngModel)]="channelName" (ngModelChange)="updateValue($event)" name="channelName"
+             *ngIf="channelNameEdit" type="text" placeholder="#   Entwicklerteam" (keydown)="onKeyDown($event)">
+    </div>
+
+    <div class="box width-100-percent">
+      <div class="width-100-percent">
+        <span class="headline">Beschreibung</span>
+
+        <button class="edit-button" (click)="editChannelDescription(); saveChannel()">
+          <div *ngIf="!mediaW600px; else editMobileDescription">
+            <span class="edit-button-text">{{ editDescriptionButton }}</span>
+          </div>
+        </button>
+        <ng-template #editMobileDescription>
+          <div [ngClass]="{ 'edit-button-mobile': !channelDescriptionEdit, 'check-button-mobile': channelDescriptionEdit }">
+            <div></div>
+          </div>
+        </ng-template>
+
+      </div>
+      <p *ngIf="!channelDescriptionEdit">
+        {{ channel.description }}
+      </p>
+      <textarea class="textarea-text" [(ngModel)]="channelDescription" name="channelDescription"
                 *ngIf="channelDescriptionEdit" placeholder="Dein Text hier" maxlength="120"></textarea>
-            <div class="separater width-100-percent"></div>
-            <div>
-                <span class="headline">Erstellt von</span>
-                <ng-container *ngFor="let user of channelsDb.channelUserDataList">
-                    <h2 *ngIf="getUserCreated(user.id)">{{user.userName}}</h2>
-                </ng-container>
-            </div>
+      <div class="separater width-100-percent"></div>
+      <div>
+        <span class="headline">Erstellt von</span>
+        <ng-container *ngFor="let user of channelsDb.channelUserDataList">
+          <h2 *ngIf="getUserCreated(user.id)">{{ user.userName }}</h2>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="members width-100-percent">
+      <h2 class="width-100-percent">Mitglieder</h2>
+
+      <div class="member-list-wrapper width-100-percent">
+        <div class="member-list width-100-percent">
+          <app-user-view-small *ngFor="let user of channelUserDataListReverse" [user]="user"></app-user-view-small>
         </div>
 
-        <button class="primary-button" type="button" (click)="leaveChannel()">Channel verlassen</button>
+        <div class="member-add-button">
+          <div class="person-add-icon">
+            <div></div>
+          </div>
+          <span>Mitglieder hinzufügen</span>
+        </div>
+      </div>
+    </div>
 
-    </form>
+    <button class="primary-button" type="button" (click)="leaveChannel()">Channel verlassen</button>
+
+  </form>
 
 </section>

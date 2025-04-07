@@ -1,15 +1,18 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ChannelsDbService } from '../../../../services/message/channels-db.service';
-import { UsersDbService } from '../../../../services/usersDb/users-db.service';
-import { Router } from '@angular/router';
+import {Component, effect, EventEmitter, inject, Input, Output} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {ChannelsDbService} from '../../../../services/message/channels-db.service';
+import {UsersDbService} from '../../../../services/usersDb/users-db.service';
+import {Router} from '@angular/router';
+import {UserViewSmallComponent} from '../../../../shared/user-view-small/user-view-small.component';
+import {UserProfile} from '../../../../interfaces/userProfile';
 
 @Component({
   selector: 'app-channel-data-window',
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    UserViewSmallComponent
   ],
   templateUrl: './channel-data-window.component.html',
   styleUrl: './channel-data-window.component.scss'
@@ -23,19 +26,20 @@ export class ChannelDataWindowComponent {
   channelDescriptionEdit: boolean = false;
   channelName: string = '';
   channelDescription: string = '';
-  createdUser: any;
- 
-  constructor(private router: Router) { }
+  channelUserDataListReverse: UserProfile[] = [];
+  mediaW600px: MediaQueryList = window.matchMedia("(max-width: 600px)");
 
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
 
+  constructor(private router: Router) {
+    effect(() => {
+      this.channelUserDataListReverse = [];
 
-  ngOnInit() {
-    if (this.channelsDb.channel) {
-      this.channelName = this.channelsDb.channel.name;
-      this.channelDescription = this.channelsDb.channel.description;
-    }
+      this.channelsDb.channelUserDataList.forEach(userData => {
+        this.channelUserDataListReverse.unshift(userData);
+      })
+    });
   }
 
 
