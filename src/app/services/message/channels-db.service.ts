@@ -1,4 +1,4 @@
-import { effect, inject, Injectable, signal } from '@angular/core';
+import {effect, inject, Injectable, signal} from '@angular/core';
 import {
   collection,
   doc,
@@ -9,11 +9,11 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
-import { addDoc } from 'firebase/firestore';
-import { Channel } from '../../interfaces/channel';
-import { SearchDevspaceService } from './search-devspace.service';
-import { UserProfile } from '../../interfaces/userProfile';
-import { UsersDbService } from '../usersDb/users-db.service';
+import {addDoc} from 'firebase/firestore';
+import {Channel} from '../../interfaces/channel';
+import {SearchDevspaceService} from './search-devspace.service';
+import {UserProfile} from '../../interfaces/userProfile';
+import {UsersDbService} from '../usersDb/users-db.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,9 +23,9 @@ export class ChannelsDbService {
   private usersDb = inject(UsersDbService);
 
   channelSig = signal<Channel | null>(null);
+  channelCreateSig = signal<Channel | null>(null);
   channelUserDataListSig = signal<UserProfile[]>([]);
   channelListSig = signal<Channel[]>([]);
-  unsubChannelList: any;
   private searchAbortController: AbortController | null = null;
   private searchTimeout: any = null;
 
@@ -70,12 +70,14 @@ export class ChannelsDbService {
   }
 
   updateChannel(channel: Partial<Channel>) {
-    this.channelSig.update((currentData) => ({ ...currentData!, ...channel }));
+    this.channelCreateSig.update((currentData) => ({...currentData!, ...channel}));
   }
 
   async changeChannel() {
     const channelRef = this.getSingleDocRef('channels', this.channel!.id);
-    await updateDoc(channelRef, this.getCleanJson(this.channel!));
+    await updateDoc(channelRef, this.getCleanJson(this.channelCreateSig()!)).then(() => {
+      this.channelSig.set(this.channelCreateSig() as Channel);
+    });
   }
 
   getCleanJson(channel: Channel): {} {
@@ -89,11 +91,12 @@ export class ChannelsDbService {
   }
 
   async addChannel() {
-    await addDoc(this.getChannelRef(), this.channelSig()).then(
+    await addDoc(this.getChannelRef(), this.channelCreateSig()).then(
       async (docRef) => {
-        updateDoc(docRef, {
+        await updateDoc(docRef, {
           id: docRef.id,
         });
+        this.channelSig.set(this.channelCreateSig() as Channel);
       }
     );
   }
@@ -114,8 +117,7 @@ export class ChannelsDbService {
       const channelData = this.setChannelObject(docSnapshot.data());
 
       this.channelSig.set(channelData);
-
-      console.log(this.channelSig());
+      this.channelCreateSig.set(channelData);
 
       this.loadChannelUserDatas(channelData.participants);
     });
