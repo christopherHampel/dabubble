@@ -58,3 +58,9 @@
     width: auto;
   }
 }
+
+@media(max-width: 960px) {
+  .card {
+    height: calc(100vh - 85.6px);
+  }
+}

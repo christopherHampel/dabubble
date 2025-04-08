@@ -110,4 +110,10 @@ a {
     .send-text {
         gap: 20px;
     }
+
+    .tag-user {
+        .user-list {
+            transform: translateX(-25%);
+        }
+    }
 }

@@ -1,382 +1,427 @@
 @mixin border {
-    border: 1px solid #ADB0D9;
+  border: 1px solid #adb0d9;
 }
 
 section {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 12px;
 }
 
 .own-message {
-    display: flex;
-    flex-direction: row-reverse;
-    gap: 30px;
-    justify-content: flex-start;
-    font-family: 'Nunito';
-    position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 30px;
+  justify-content: flex-start;
+  font-family: "Nunito";
+  position: relative;
 }
 
 .other-message {
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-    justify-content: flex-start;
-    font-family: 'Nunito';
-    position: relative;
-    padding: 10px 0px 10px 0;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  justify-content: flex-start;
+  font-family: "Nunito";
+  position: relative;
+  padding: 10px 0px 10px 0;
 }
 
 .flex-start {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  position: relative;
 }
 
 .friend-message {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 30px;
-    font-family: 'Nunito';
-    position: relative;
-    // padding: 10px 45px 10px 146px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 30px;
+  font-family: "Nunito";
+  position: relative;
+  // padding: 10px 45px 10px 146px;
 }
 
 .hover-effect {
-    &:hover {
-        background-color: #ECEEFE;
-        cursor: pointer;
-    }
+  &:hover {
+    background-color: #eceefe;
+    cursor: pointer;
+  }
 
-    &:hover .tooltip-message {
-        visibility: visible;
-    }
+  &:hover .tooltip-message {
+    visibility: visible;
+  }
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  position: relative;
 }
 
 .width-100 {
-    width: 150%;
+  width: 150%;
 }
 
 .time-username {
-    display: flex;
-    justify-content: flex-end;
-    gap: 20px;
-    white-space: nowrap;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  white-space: nowrap;
 
-    .username {
-        font-weight: 700;
-        font-size: 18px;
-    }
+  .username {
+    font-weight: 700;
+    font-size: 18px;
+  }
 }
 
 .message-content {
-    background-color: #797EF3;
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    padding: 15px;
-    color: #FFFF;
+  background-color: #797ef3;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  padding: 15px;
+  color: #ffff;
 }
 
 .avatar-message {
+  width: 70px;
+  height: 70px;
+  img {
     width: 70px;
     height: 70px;
-    img {
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-    }
+    border-radius: 50%;
+  }
 }
 
 .emoji-reactions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+
+  a {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    gap: 10px;
-    position: relative;
+  }
 
-    a {
-        display: flex;
-        align-items: center;
-    }
-
-    .show-reactions {
-        display: flex;
-    }
+  .show-reactions {
+    display: flex;
+  }
 }
 
 .min-width-150 {
-    min-width: 100%;
+  min-width: 100%;
 }
 
 .tooltip-message {
-    position: relative;
-    visibility: hidden;
-    background-color: #FFFF;
-    padding: 3px 15px 3px 20px;
-    @include border();
-    position: absolute;
-    top: -10px;
-    border-top-right-radius: 25px;
-    border-top-left-radius: 25px;
+  position: relative;
+  visibility: hidden;
+  background-color: #ffff;
+  padding: 3px 15px 3px 20px;
+  @include border();
+  position: absolute;
+  top: -10px;
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
 }
 
 .tooltip-position-left {
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 0;
-    left: 70px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 0;
+  left: 70px;
 }
 
 .tooltip-position-right {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 25px;
-    right: 70px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 25px;
+  right: 70px;
 }
 
 .edit-content {
-    @include border();
-    background-color: #FFFF;
-    border-radius: 20px;
-    padding: 20px;
+  @include border();
+  background-color: #ffff;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  .edittext-buttons {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 60px;
 
-    .edittext-buttons {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 60px;
-
-        .emoji-btn {
-            &:hover {
-                cursor: pointer;
-            }
-        }
+    .emoji-btn {
+      &:hover {
+        cursor: pointer;
+      }
     }
+  }
 
-    textarea {
-        border: none;
-        background: transparent;
-        outline: none;
-        resize: none;
-        font-family: 'Nunito';
-        font-size: 18px;
-        color: #686868;
-        width: 100%;
-    }
+  textarea {
+    border: none;
+    background: transparent;
+    outline: none;
+    resize: none;
+    font-family: "Nunito";
+    font-size: 18px;
+    color: #686868;
+    width: 100%;
+  }
 }
 
 .displayed-emojii {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    @include border();
-    border-radius: 20px;
-    padding: 5px 10px;
-    font-size: 16px;
-    background-color: #FFFF;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  @include border();
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: #ffff;
 }
 
 .emoji-picker {
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 
 .emoji-hover {
-    visibility: hidden;
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    background-color: #444DF2;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-    padding: 15px 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    font-family: 'Nunito';
-    font-weight: 400;
+  visibility: hidden;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  background-color: #444df2;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  font-family: "Nunito";
+  font-weight: 400;
 
-    span {
-        text-align: center;
-        white-space: nowrap;
-    }
+  span {
+    text-align: center;
+    white-space: nowrap;
+  }
 }
 
 .emoji-from-whom {
-    display: flex;
-    color: #FFFF;
-    font-size: 16px;
-    font-weight: 700;
-    text-align: center;
+  display: flex;
+  color: #ffff;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
 
-    span {
-        font-weight: 400;
-    }
+  span {
+    font-weight: 400;
+  }
 }
 
 .has-reacted {
-    color: #FFFF;
-    font-size: 16px;
+  color: #ffff;
+  font-size: 16px;
 }
 
 .show-reactions {
-    position: relative;
+  position: relative;
 }
 
 .show-reactions:hover .emoji-hover {
-    visibility: visible;
+  visibility: visible;
 }
 
 .answers-from-thread {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 
-    span {
-        font-size: 14px;
-        color: #686868;
-    }
+  div {
+    white-space: nowrap;
+  }
+
+  span {
+    font-size: 14px;
+    color: #686868;
+  }
 }
 
 .day-seperator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    .date {
-        padding: 5px 15px;
-        border: 1px solid #ADB0D9;
-        border-radius: 30px;
-    }
+  .date {
+    padding: 5px 15px;
+    border: 1px solid #adb0d9;
+    border-radius: 30px;
+  }
 
-    div {
-        border: 1px solid #ADB0D9;
-        flex: 1;
-    }
+  div {
+    border: 1px solid #adb0d9;
+    flex: 1;
+  }
 }
 
 .click-emoji {
-    position: relative;
+  position: relative;
 
-    .quick-emoji-bar {
-        position: absolute;
-        bottom: -25%;
-        right: 100%;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        border: 1px solid #ADB0D9;
-        padding: 5px 10px;
-        border-radius: 25px;
-        background-color: #FFFF;
+  .quick-emoji-bar {
+    position: absolute;
+    bottom: -25%;
+    right: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid #adb0d9;
+    padding: 5px 10px;
+    border-radius: 25px;
+    background-color: #ffff;
 
-        .quick-emoji {
-            &:hover {
-                transform: scale(1.5);
-                border-radius: 50%;
-            }
-        }
+    .quick-emoji {
+      &:hover {
+        transform: scale(1.5);
+        border-radius: 50%;
+      }
     }
+  }
 
-    a {
-        padding: 5px 0;
-    }
+  a {
+    padding: 5px 0;
+  }
 }
 @mixin iconsTextarea($image, $imageHover) {
-    background-image: url($image);
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-image: url($image);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    &:hover {
-        background-image: url($imageHover);
-        cursor: pointer;
-        background-color: #ECEEFE;
-        border-radius: 50%;
-    }
+  &:hover {
+    background-image: url($imageHover);
+    cursor: pointer;
+    background-color: #eceefe;
+    border-radius: 50%;
+  }
 }
 
 .more-emoji {
-    @include iconsTextarea('./../../../../../public/img/add_icon.png', './../../../../../public/img/add_icon_hover.png');
+  @include iconsTextarea(
+    "./../../../../../public/img/add_icon.png",
+    "./../../../../../public/img/add_icon_hover.png"
+  );
 }
 
 .bg-close-emojiQuickBar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    // background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  // background-color: rgba(0, 0, 0, 0.5);
 }
 
 .edit-btn-container {
-    display: flex;
-    gap: 32px;
+  display: flex;
+  gap: 32px;
 }
 
 .mirrored-message-content {
-    border-top-right-radius: 30px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    border-top-left-radius: 0;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  border-top-left-radius: 0;
 }
 
 .emoji-picker-edittext {
-    position: absolute;
-    right: 105%;
-    z-index: 10;
+  position: absolute;
+  right: 105%;
+  z-index: 10;
 }
 
-@media(max-width: 500px) {
-    section {
-        padding: unset
-    }
-
-    .own-message {
-        gap: 15px;
-    }
+.mobile-tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
 }
 
-@media(max-width: 400px) {
-    .time-username {
-        flex-direction: column-reverse;
-        gap: 0;
-        align-items: flex-end;
-        span {
-            font-size: 14px;
-        }
-    }
+@media(max-width: 700px) {
+  .tooltip-message {
+    top: -50px;
+  }
 
-    .avatar-message {
-        img {
-            width: 50px;
-            height: 50px;
-        }
-    }
+  .tooltip-position-left {
+    left: 20px;
+  }
 
-    .answers-from-thread {
-        span {
-            display: none;
-        }
+  .tooltip-position-right {
+    right: 20px;
+  }
+}
+
+@media (max-width: 500px) {
+  section {
+    padding: unset;
+  }
+
+  .own-message {
+    gap: 15px;
+  }
+
+  .click-emoji {
+    .quick-emoji-bar {
+      flex-direction: column;
+      gap: 4px;
+      bottom: 0;
+      z-index: 30;
     }
+  }
+
+  .answers-from-thread {
+    gap: 8px;
+    
+    div {
+        font-size: 14px;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .time-username {
+    flex-direction: column-reverse;
+    gap: 0;
+    align-items: flex-end;
+    span {
+      font-size: 14px;
+    }
+  }
+
+  .avatar-message {
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  .answers-from-thread {
+    span {
+      display: none;
+    }
+  }
 }

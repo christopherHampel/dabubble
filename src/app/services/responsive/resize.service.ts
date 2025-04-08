@@ -6,6 +6,8 @@ import { Injectable, signal } from '@angular/core';
 export class ResizeService {
 
   isSmallScreen: boolean = false;
+
+  thisThreads = signal<boolean>(false);
   devSpaceClose = signal<boolean>(false);
   zIndexChats = signal<boolean>(false);
   wrapperMobile = signal<boolean>(false); 
@@ -33,6 +35,10 @@ export class ResizeService {
 
   setMobileWrapper(value:boolean) {
     this.wrapperMobile.set(value);
+  }
+
+  setThisThreads(value:boolean) {
+    this.thisThreads.set(value);
   }
 
   checkSiteWidth(value:number) {

@@ -105,6 +105,7 @@ export class ThreadsComponent {
   }
 
   closeThread() {
+    this.resize.setThisThreads(false);
     this.threadClose = true;
     setTimeout(() => {
       this.resize.setDevSpaceClose(false);

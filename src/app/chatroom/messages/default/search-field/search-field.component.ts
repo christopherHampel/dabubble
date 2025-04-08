@@ -28,8 +28,8 @@ export class SearchFieldComponent {
     private userService: UsersDbService,
     private chatService: ChatsService,
     private channelsDb: ChannelsDbService,
-    private router: Router,
-  ) {}
+    private router: Router
+    ) {}
 
   ngOnInit() {
     setTimeout(() => {
