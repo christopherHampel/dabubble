@@ -23,6 +23,7 @@ import { ResizeService } from '../services/responsive/resize.service';
 })
 export class ChatroomComponent {
   currentUser: string = '';
+
   private auth = inject(AuthService);
   private userDb = inject(UsersDbService);
 
@@ -64,6 +65,10 @@ export class ChatroomComponent {
 
   get wrapperMobile() {
     return this.resize.wrapperMobile()
+  }
+
+  get thisThreads() {
+    return this.resize.thisThreads();
   }
 
   openMobileWrapper() {

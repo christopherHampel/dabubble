@@ -11,7 +11,7 @@
           </div>
         } @else {
           <div class="devspace-logo">
-            <div (click)="goBackDevspace()">
+            <div *ngIf="!thisThreads" (click)="goBackDevspace()">
               <img src="/img/arrow_back.svg" alt="Go Back">
             </div>
             <img src="/img/workspace_logo.png" alt="Devspace Logo">

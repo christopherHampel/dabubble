@@ -46,3 +46,9 @@ section {
 .vert {
     display: flex;
 }
+
+@media(max-width: 420px) {
+    .edit-message-menu {
+        left: 25%;
+    }
+}
