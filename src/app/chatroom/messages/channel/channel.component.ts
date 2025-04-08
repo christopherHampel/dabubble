@@ -5,23 +5,25 @@ import {
   ViewChild,
   WritableSignal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ChannelsDbService } from '../../../services/message/channels-db.service';
-import { ActivatedRoute } from '@angular/router';
-import { EmojisService } from '../../../services/message/emojis.service';
-import { EmojiPickerComponentComponent } from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
-import { TextareaComponent } from '../../../shared/textarea/textarea.component';
-import { ChatsService } from '../../../services/message/chats.service';
-import { ScrollService } from '../../../services/message/scroll.service';
-import { MessagesFieldComponent } from '../../../shared/messages-field/messages-field.component';
-import { ChannelDataWindowComponent } from './channel-data-window/channel-data-window.component';
-import { ChannelMembersInfoComponent } from './channel-members-info/channel-members-info.component';
-import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
-import { UsersDbService } from '../../../services/usersDb/users-db.service';
-import { ChannelAddMembersDialogComponent } from './channel-add-members-dialog/channel-add-members-dialog.component';
-import { Observable } from 'rxjs';
-import { ThreadsDbService } from '../../../services/message/threads-db.service';
-import { ResizeService } from '../../../services/responsive/resize.service';
+import {CommonModule} from '@angular/common';
+import {ChannelsDbService} from '../../../services/message/channels-db.service';
+import {ActivatedRoute} from '@angular/router';
+import {EmojisService} from '../../../services/message/emojis.service';
+import {
+  EmojiPickerComponentComponent
+} from '../../../shared/textarea/emoji-picker-component/emoji-picker-component.component';
+import {TextareaComponent} from '../../../shared/textarea/textarea.component';
+import {ChatsService} from '../../../services/message/chats.service';
+import {ScrollService} from '../../../services/message/scroll.service';
+import {MessagesFieldComponent} from '../../../shared/messages-field/messages-field.component';
+import {ChannelDataWindowComponent} from './channel-data-window/channel-data-window.component';
+import {ChannelMembersInfoComponent} from './channel-members-info/channel-members-info.component';
+import {TransparentBackgroundComponent} from '../../../shared/transparent-background/transparent-background.component';
+import {UsersDbService} from '../../../services/usersDb/users-db.service';
+import {ChannelAddMembersDialogComponent} from './channel-add-members-dialog/channel-add-members-dialog.component';
+import {Observable} from 'rxjs';
+import {ThreadsDbService} from '../../../services/message/threads-db.service';
+import {ResizeService} from '../../../services/responsive/resize.service';
 
 @Component({
   selector: 'app-channel',
@@ -58,8 +60,9 @@ export class ChannelComponent {
     public emojiService: EmojisService,
     public chatService: ChatsService,
     private threadsDb: ThreadsDbService,
-    private resize: ResizeService
-  ) {}
+    public resize: ResizeService
+  ) {
+  }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(async (params) => {
@@ -80,12 +83,7 @@ export class ChannelComponent {
   }
 
   openDialog(child: string) {
-    let under500 = this.checkScreenSize();
-    if (under500) {
-      this.membersInfo = true;
-    } else {
-      this.switchChannelInfo(child);
-    }
+    this.switchChannelInfo(child);
   }
 
   switchChannelInfo(child: string) {
@@ -101,10 +99,6 @@ export class ChannelComponent {
         this.channelAddMembersInfo.resetAfterViewChecked();
         break;
     }
-  }
-
-  checkScreenSize() {
-    return window.innerWidth < 501;
   }
 
   openAddMembers(event: boolean) {

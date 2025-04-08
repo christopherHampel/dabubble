@@ -191,7 +191,11 @@ form {
   border: 1px solid #ADB0D9;
 }
 
-@media(max-width: 600px) {
+.members {
+  display: none;
+}
+
+@media(max-width: 960px) {
   .channel-data-window {
     gap: 25px;
 

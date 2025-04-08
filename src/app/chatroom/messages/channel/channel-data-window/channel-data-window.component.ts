@@ -22,8 +22,6 @@ export class ChannelDataWindowComponent {
   channelsDb = inject(ChannelsDbService);
   userDb = inject(UsersDbService);
   resize = inject(ResizeService);
-  editNameButton = signal<string>('Bearbeiten');
-  editDescriptionButton = signal<string>('Bearbeiten');
   channelNameEdit: boolean = false;
   channelDescriptionEdit: boolean = false;
   channelName: string = '';
@@ -41,9 +39,6 @@ export class ChannelDataWindowComponent {
         this.channelUserDataListReverse.unshift(userData);
       })
     });
-
-    this.channelName = this.channelsDb.channel!.name;
-    this.channelDescription = this.channelsDb.channel!.description;
   }
 
 
@@ -61,25 +56,16 @@ export class ChannelDataWindowComponent {
 
   resetOnClose() {
     this.channelNameEdit = false;
-    this.editNameButton.set('Bearbeiten');
     this.channelDescriptionEdit = false;
-    this.editDescriptionButton.set('Bearbeiten');
   }
 
 
-  editChannelName() {
-    this.channelNameEdit = !this.channelNameEdit;
+  editChannel(edit: string) {
+    edit === 'name' ? this.channelNameEdit = !this.channelNameEdit :
+    edit === 'description' ? this.channelDescriptionEdit = !this.channelDescriptionEdit : null;
 
-    if (this.channelNameEdit) {
+    if (this.channelNameEdit || this.channelDescriptionEdit) {
       this.channelsDb.channel ? this.updateValue(this.channelsDb.channel.name) : '';
-    }
-  }
-
-
-  editChannelDescription() {
-    this.channelDescriptionEdit = !this.channelDescriptionEdit;
-
-    if (this.channelDescriptionEdit) {
       this.channelsDb.channel ? this.channelDescription = this.channelsDb.channel.description : '';
     }
   }
@@ -105,7 +91,7 @@ export class ChannelDataWindowComponent {
 
   async saveChannel() {
     this.channelsDb.updateChannel({
-      name: this.channelName.substring(4),
+      name: this.channelName.substring(this.channelName.includes('#') ? 4 : 0),
       description: this.channelDescription
     })
 
