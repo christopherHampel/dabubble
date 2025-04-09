@@ -205,7 +205,6 @@
 
   word-wrap: break-word;
   overflow-wrap: break-word;
-  display: flex;
 
   .channel-start-click {
     position: relative;
@@ -219,6 +218,10 @@
 
     margin-left: 36px;
 
+    &>img {
+      position: absolute;
+      right: 52px;
+    }
   }
 }
 
