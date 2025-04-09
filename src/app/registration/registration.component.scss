@@ -351,10 +351,6 @@ form {
 
   .logo {
     padding-left: 24px;
-
-    img {
-      width: 200px;
-    }
   }
 }
 
@@ -365,6 +361,7 @@ form {
     justify-content: center;
     max-height: unset;
     gap: 16px;
+    padding: 24px 0;
   }
 
   .to-signup {
@@ -386,8 +383,12 @@ form {
 }
 
 @media(max-width: 800px) {
-  .logo-icon {
-    img {
+  .logo-icon {  
+    img:first-child {
+      width: 200px;
+    }
+  
+    img:last-child {
       width: 100px;
     }
   }
@@ -426,6 +427,16 @@ form {
 
   .gast-login-btn .main {
     font-size: 0.9rem;
+  }
+
+  .logo-icon {  
+    img:first-child {
+      width: 120px;
+    }
+  
+    img:last-child {
+      width: 60px;
+    }
   }
 }
 
