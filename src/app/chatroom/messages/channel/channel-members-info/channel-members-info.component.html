@@ -1,25 +1,27 @@
 <section *ngIf="dialogOpen && channelUserDataListReverse" class="channel-members-info animation">
 
-        <header class="width-100-percent">
-            <h2>Mitglieder</h2>
-            <div (click)="closeDialog()" class="close-icon"></div>
-        </header>
+  <header class="width-100-percent">
+    <h2>Mitglieder</h2>
+    <div (click)="closeDialog()" class="close-icon"></div>
+  </header>
 
-        <div class="member-list-wrapper width-100-percent">
-            <div class="member-list">
-                <app-user-view-small *ngFor="let user of channelUserDataListReverse"
-                    [user]="user" (click)="user.id !== usersDb.currentUser?.id ? openDialog(user) : null" [cursorDefault]="true"></app-user-view-small>
-            </div>
+  <div class="member-list-wrapper width-100-percent">
+    <div class="member-list">
+      <app-user-view-small *ngFor="let user of channelUserDataListReverse"
+                           [user]="user" (click)="user.id !== usersDb.currentUser?.id ? openDialog(user) : null"
+                           [cursorDefault]="true"></app-user-view-small>
+    </div>
 
-            <div (click)="openAddMembers()">
-                <div class="person-add-icon">
-                    <div></div>
-                </div>
-                <span>Mitglieder hinzufügen</span>
-            </div>
-        </div>
+    <div (click)="openAddMembers()">
+      <div class="person-add-icon">
+        <div></div>
+      </div>
+      <span>Mitglieder hinzufügen</span>
+    </div>
+  </div>
 
 </section>
 
-<app-user-profil [dialogOpen]="dialog" (dialogClose)="dialog = !$event" [useAs]="'info'" [userSig]="userSig"></app-user-profil>
+<app-user-profil [dialogOpen]="dialog" (dialogClose)="dialog = !$event" [useAs]="'info'"
+                 [userSig]="userSig"></app-user-profil>
 <div *ngIf="dialog" (click)="dialog = false" class="background-user-profil"></div>

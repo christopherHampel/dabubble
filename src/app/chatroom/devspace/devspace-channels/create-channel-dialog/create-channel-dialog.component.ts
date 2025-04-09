@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, inject, Output, ViewChild} from '@a
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelsDbService } from '../../../../services/message/channels-db.service';
+import { ResizeService } from '../../../../services/responsive/resize.service';
 
 @Component({
   selector: 'app-create-channel-dialog',
@@ -14,10 +15,10 @@ import { ChannelsDbService } from '../../../../services/message/channels-db.serv
 })
 export class CreateChannelDialogComponent {
   private channelsDb = inject(ChannelsDbService);
+  resize = inject(ResizeService);
 
   channelName: string = '';
   channelDescription: string = '';
-  mediaW600px: MediaQueryList = window.matchMedia('(max-width: 600px)');
 
   @Output() dialogComponent = new EventEmitter<'none' | 'addPeople' | 'mobile'>();
   @ViewChild('inputField') inputFieldRef!: ElementRef<HTMLInputElement>;
@@ -30,18 +31,18 @@ export class CreateChannelDialogComponent {
   closeDialog() {
     this.dialogComponent.emit('none');
 
-    !this.mediaW600px.matches ? this.resetInputs() : null;
+    !this.resize.checkMediaW600px ? this.resetInputs() : null;
   }
 
 
   openDialog() {
-    if (!this.mediaW600px.matches) {
+    if (!this.resize.checkMediaW600px) {
       this.dialogComponent.emit('addPeople');
     } else {
       this.dialogComponent.emit('mobile');
     }
 
-    !this.mediaW600px.matches ? this.resetInputs() : null;
+    !this.resize.checkMediaW600px ? this.resetInputs() : null;
   }
 
 
@@ -58,7 +59,7 @@ export class CreateChannelDialogComponent {
       description: this.channelDescription
     })
 
-    !this.mediaW600px.matches ? this.resetInputs() : null;
+    !this.resize.checkMediaW600px ? this.resetInputs() : null;
   }
 
 

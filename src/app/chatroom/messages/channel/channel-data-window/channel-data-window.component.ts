@@ -27,9 +27,11 @@ export class ChannelDataWindowComponent {
   channelName: string = '';
   channelDescription: string = '';
   channelUserDataListReverse: UserProfile[] = [];
+  addMembers: boolean = false;
 
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
+  @Output() addMembersOpen = new EventEmitter<boolean>();
 
   constructor(private router: Router) {
     effect(() => {
@@ -39,6 +41,17 @@ export class ChannelDataWindowComponent {
         this.channelUserDataListReverse.unshift(userData);
       })
     });
+  }
+
+
+  ngOnChanges() {
+    this.addMembers = false;
+  }
+
+
+  openAddMembers() {
+    this.addMembers = true;
+    this.addMembersOpen.emit(this.addMembers);
   }
 
 

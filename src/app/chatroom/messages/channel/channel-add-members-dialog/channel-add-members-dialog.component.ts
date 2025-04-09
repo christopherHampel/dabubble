@@ -17,6 +17,7 @@ export class ChannelAddMembersDialogComponent {
   afterViewCheckedFlag: boolean = true;
 
   @Input() dialogOpen: boolean = false;
+  @Input() dialogComponent: 'dataWindow' | 'membersInfo' = 'membersInfo';
   @Output() dialogClose = new EventEmitter<boolean>();
   @ViewChild('addPeopleInput') addPeopleInput!: any;
 
