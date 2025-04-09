@@ -1,126 +1,124 @@
 @use '../channel.component.scss';
 
 @mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
-    display: flex;
-    flex-direction: $fD;
-    justify-content: $jC;
-    align-items: $aI;
-    gap: $g;
+  display: flex;
+  flex-direction: $fD;
+  justify-content: $jC;
+  align-items: $aI;
+  gap: $g;
 }
 
 
 * {
-    font-family: 'Nunito';
+  font-family: 'Nunito';
 }
 
 
 .width-100-percent {
-    width: 100%;
+  width: 100%;
 }
 
 
 header {
-    @include d-flex($jC: space-between);
+  @include d-flex($jC: space-between);
 }
 
 
 .channel-members-info {
-    @include d-flex($fD: column, $aI: flex-start, $g: 20px);
+  @include d-flex($fD: column, $aI: flex-start, $g: 20px);
 
-    position: absolute;
-    top: 0;
-    right: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
 
-    transform: translate(0, 56px);
+  transform: translate(-52px, 56px);
 
-    width: 415px;
-    max-height: 411px;
+  width: 415px;
+  max-height: 411px;
 
-    padding: 40px;
+  padding: 40px;
 
-    overflow: hidden;
+  overflow: hidden;
 
-    background-color: #FFFFFF;
+  background-color: #FFFFFF;
 
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 
-    z-index: 4;
+  z-index: 4;
 
-    filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
+  filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
 }
 
 .member-list-wrapper {
-    @include d-flex($fD: column, $aI: flex-start, $g: 15px);
+  @include d-flex($fD: column, $aI: flex-start, $g: 15px);
 
-    .member-list {
-        @include d-flex($fD: column, $aI: flex-start, $jC: flex-start, $g: 13px);
+  .member-list {
+    @include d-flex($fD: column, $aI: flex-start, $jC: flex-start, $g: 13px);
 
-        width: 100%;
-        max-height: 200px;
+    width: 100%;
+    max-height: 200px;
 
-        overflow-y: auto;
-    }
+    overflow-y: auto;
+  }
 
-    &>div:nth-child(2) {
-        @include d-flex($g: 15px);
+  & > div:nth-child(2) {
+    @include d-flex($g: 15px);
 
-        padding: 12px 28px;
+    padding: 12px 28px;
 
-        .person-add-icon {
-            width: 32px;
-            height: 32px;
+    .person-add-icon {
+      width: 32px;
+      height: 32px;
 
-            &>div {
-                &:hover {
-                    background-image: url('/img/person_add_icon.svg');
-                }
-            }
-        }
-
-        &>span {
-            font-weight: 400;
-            font-size: 18px;
-        }
-
+      & > div {
         &:hover {
-            cursor: pointer;
-
-            border-radius: 100px;
-
-            background-color: #ECEEFE;
-
-            .person-add-icon {
-
-                &>div {
-                    background-image: url('/img/person_add_hover_icon.svg');
-                }
-            }
-
-            &>span {
-                color: #535AF1;
-            }
+          background-image: url('/img/person_add_icon.svg');
         }
+      }
     }
+
+    & > span {
+      font-weight: 400;
+      font-size: 18px;
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      border-radius: 100px;
+
+      background-color: #ECEEFE;
+
+      .person-add-icon {
+
+        & > div {
+          background-image: url('/img/person_add_hover_icon.svg');
+        }
+      }
+
+      & > span {
+        color: #535AF1;
+      }
+    }
+  }
 }
 
 .background-user-profil {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
-    z-index: 4;
+  z-index: 4;
 
-    background-color: rgba(0 0 0 / 32%);
+  background-color: rgba(0 0 0 / 32%);
 }
 
-@media(max-width: 500px) {
-    .channel-members-info {
-        right: 10%;
-        left: 10%;
-        width: unset;
-    }
+@media(max-width: 600px) {
+  .channel-members-info {
+    transform: translate(0, 56px);
+  }
 }

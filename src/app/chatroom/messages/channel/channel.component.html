@@ -19,16 +19,16 @@
           </div>
           <span>{{ channelsDb.channelUserDataList.length }} </span>
         </div>
-
-        <app-channel-members-info [dialogOpen]="membersInfo" (addMembersOpen)="(false)"
-                                  (dialogClose)="closeDialog(!$event)"
-                                  (addMembersOpen)="openAddMembers($event)"></app-channel-members-info>
       </div>
 
       <div class="add-members-wrapper">
-        <div (click)="openDialog('addMembers')" class="person-add-icon">
+        <div (click)="openDialog( !resize.checkMediaW600px() ? 'addMembers' : 'membersInfo')" class="person-add-icon">
           <div [ngClass]="{ 'person-add-icon-highlight': addMembers }"></div>
         </div>
+
+        <app-channel-members-info [dialogOpen]="membersInfo"
+                                  (dialogClose)="closeDialog(!$event)"
+                                  (addMembersOpen)="openAddMembers($event)"></app-channel-members-info>
 
         <app-channel-add-members-dialog #channelAddMembersInfo [dialogOpen]="addMembers"
                                         (dialogClose)="closeDialog(!$event)"></app-channel-add-members-dialog>
@@ -42,7 +42,8 @@
     <div class="communication-with" *ngIf="(chatMessages$ | async)?.length === 0">
       <span class="channel-name"># {{ getChannelName }}</span>
       <p class="channel-start">
-        Du hast diesen Channel heute erstellt. Das ist der Anfang des Channels<span class="channel-start-click"><img src="/img/tag.png" alt="#"> {{ getChannelName }}</span>.
+        Du hast diesen Channel heute erstellt. Das ist der Anfang des Channels<span class="channel-start-click"><img
+        src="/img/tag.png" alt="#"> {{ getChannelName }}</span>.
       </p>
     </div>
 
