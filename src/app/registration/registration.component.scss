@@ -406,6 +406,10 @@ form {
     top: 40px !important;
     left: 6px !important;
   }
+
+  .max-width {
+    padding: unset;
+  }
 }
 
 @media(max-width: 420px) {
@@ -443,7 +447,7 @@ form {
   }
 
   .max-width {
-    padding: 24px 12px;
+    padding: 24px 0;
   }
 }
 

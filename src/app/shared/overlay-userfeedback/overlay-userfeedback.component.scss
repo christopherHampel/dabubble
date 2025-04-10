@@ -31,10 +31,17 @@ section {
 @keyframes showFeedback {
   0% {
     transform: translateX(300%);
-    // opacity: 0;
   }
   100% {
     transform: translateX(0);
-    // opacity: 1;
+  }
+}
+
+@media(max-width: 800px) {
+  section {
+    div {
+      padding: 24px;
+      font-size: 24px;
+    }
   }
 }
