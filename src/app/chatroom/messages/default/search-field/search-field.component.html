@@ -16,7 +16,7 @@
       ></app-user-view-small>
     </div>
 
-    <div class="user-list channel-list" *ngIf="filteredChannels.length > 0">
+    <div class="user-list channel-list" *ngIf="channelList">
       <div (click)="selectChannel(channel)" *ngFor="let channel of filteredChannels" class="single-channel">
         <span class="hashtag-icon"></span>
         <span>{{ channel.name }}</span>

@@ -120,5 +120,6 @@ header {
 @media(max-width: 600px) {
   .channel-members-info {
     transform: translate(0, 56px);
+    width: unset;
   }
 }

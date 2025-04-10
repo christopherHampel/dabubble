@@ -39,6 +39,21 @@
     }
 }
 
+.single-channel {
+  border: none !important;
+
+  span {
+    font-size: 18px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    border-radius: 35px;
+    background-color: #eceefe;
+    width: auto;
+  }
+}
+
   .search-wrapper {
     display: flex;
     justify-content: center;
