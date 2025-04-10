@@ -47,6 +47,7 @@ export class ChannelComponent {
   chatId: string = '';
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
   chatMessages$!: Observable<any[]>;
+  dialogComponent: 'dataWindow' | 'membersInfo' = 'dataWindow';
 
   dataWindow: boolean = false;
   membersInfo: boolean = false;

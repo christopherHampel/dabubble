@@ -1,4 +1,5 @@
-<section *ngIf="dialogOpen && channelsDb.channel as channel" class="channel-data-window animation">
+<section *ngIf="dialogOpen && channelsDb.channel as channel" class="channel-data-window animation"
+         [ngStyle]="{ 'z-index': addMembers ? '3' : '4' }">
 
   <header class="width-100-percent">
     <div>
@@ -94,7 +95,7 @@
           <app-user-view-small *ngFor="let user of channelUserDataListReverse" [user]="user"></app-user-view-small>
         </div>
 
-        <div class="member-add-button">
+        <div (click)="openAddMembers()" class="member-add-button">
           <div class="person-add-icon">
             <div></div>
           </div>

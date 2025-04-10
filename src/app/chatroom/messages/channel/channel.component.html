@@ -7,7 +7,7 @@
         <div class="arrow-drop-down-icon"></div>
       </div>
 
-      <app-channel-data-window #channelDataWindow [dialogOpen]="dataWindow"
+      <app-channel-data-window #channelDataWindow [dialogOpen]="dataWindow" (addMembersOpen)="addMembers = $event; dialogComponent = 'dataWindow'"
                                (dialogClose)="closeDialog(!$event)"></app-channel-data-window>
     </div>
 
@@ -28,10 +28,10 @@
 
         <app-channel-members-info [dialogOpen]="membersInfo"
                                   (dialogClose)="closeDialog(!$event)"
-                                  (addMembersOpen)="openAddMembers($event)"></app-channel-members-info>
+                                  (addMembersOpen)="openAddMembers($event); dialogComponent = 'membersInfo'"></app-channel-members-info>
 
         <app-channel-add-members-dialog #channelAddMembersInfo [dialogOpen]="addMembers"
-                                        (dialogClose)="closeDialog(!$event)"></app-channel-add-members-dialog>
+                                        (dialogClose)="closeDialog(!$event)" [dialogComponent]="dialogComponent"></app-channel-add-members-dialog>
       </div>
     </div>
   </div>

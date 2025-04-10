@@ -26,6 +26,7 @@ export class ChannelMembersInfoComponent {
   @Input() dialogOpen: boolean = false;
   @Output() dialogClose = new EventEmitter<boolean>();
   @Output() addMembersOpen = new EventEmitter<boolean>();
+  @Output() fromMembersInfo = new EventEmitter<boolean>();
 
   constructor() {
     effect(() => {
@@ -40,6 +41,7 @@ export class ChannelMembersInfoComponent {
 
   openAddMembers() {
     this.addMembersOpen.emit(true);
+    this.fromMembersInfo.emit(true);
   }
 
 
