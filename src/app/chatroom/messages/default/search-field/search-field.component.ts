@@ -7,6 +7,7 @@ import { ChatsService } from '../../../../services/message/chats.service';
 import { ChannelsDbService } from '../../../../services/message/channels-db.service';
 import { Channel } from '../../../../interfaces/channel';
 import { Router } from '@angular/router';
+import { ResizeService } from '../../../../services/responsive/resize.service';
 
 @Component({
   selector: 'app-search-field',
@@ -28,7 +29,8 @@ export class SearchFieldComponent {
     private userService: UsersDbService,
     private chatService: ChatsService,
     private channelsDb: ChannelsDbService,
-    private router: Router
+    private router: Router,
+    private resize: ResizeService
     ) {}
 
   ngOnInit() {
@@ -85,6 +87,7 @@ export class SearchFieldComponent {
 
   async selectChat(user: any) {
     try {
+      this.resize.checkSiteWidth(960);
       const chatId = await this.chatService.setPrivateChat(user, 'messages');
       this.chatService.currentChatId = chatId;
       this.router.navigate([
@@ -97,6 +100,7 @@ export class SearchFieldComponent {
   }
 
   selectChannel(channel: Channel) {
+    this.resize.checkSiteWidth(960);
     this.router.navigate([
       '/chatroom',
       { outlets: { chats: ['channel', channel.id], thread: null } },

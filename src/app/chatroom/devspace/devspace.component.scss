@@ -23,6 +23,12 @@
   gap: 25px;
   height: 100%;
   overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hannels-directmessages::-webkit-scrollbar { 
+  display: none;   
 }
 
 .mobile-position {
