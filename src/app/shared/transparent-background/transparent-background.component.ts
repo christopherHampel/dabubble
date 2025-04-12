@@ -1,6 +1,7 @@
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import { ResizeService } from '../../services/responsive/resize.service';
+import {ResizeService} from '../../services/responsive/resize.service';
+import {DialogWindowControlService} from '../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-transparent-background',
@@ -10,20 +11,13 @@ import { ResizeService } from '../../services/responsive/resize.service';
 })
 export class TransparentBackgroundComponent {
   resize = inject(ResizeService);
+  dialogControlWindow = inject(DialogWindowControlService);
 
   @Input() backgroundOpen: boolean = false;
   @Output() backgroundClose = new EventEmitter<boolean>();
-  @Output()dialogComponent = new EventEmitter<'createChannel'>();
-
-  ngOnChanges() {
-    console.log('Background: ', this.backgroundOpen);
-  }
+  @Output() dialogComponent = new EventEmitter<'createChannel'>();
 
   closeBackground() {
-    if (!this.resize.checkMediaW600px) {
-      this.backgroundClose.emit(true);
-    } else {
-      this.dialogComponent.emit('createChannel');
-    }
+    this.dialogControlWindow.resetDialogs();
   }
 }

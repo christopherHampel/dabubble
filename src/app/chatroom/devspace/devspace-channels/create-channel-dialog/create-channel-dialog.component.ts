@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelsDbService } from '../../../../services/message/channels-db.service';
 import { ResizeService } from '../../../../services/responsive/resize.service';
+import { DialogWindowControlService } from '../../../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-create-channel-dialog',
@@ -16,6 +17,7 @@ import { ResizeService } from '../../../../services/responsive/resize.service';
 export class CreateChannelDialogComponent {
   private channelsDb = inject(ChannelsDbService);
   resize = inject(ResizeService);
+  dialogWindowControl = inject(DialogWindowControlService);
 
   channelName: string = '';
   channelDescription: string = '';
@@ -29,18 +31,14 @@ export class CreateChannelDialogComponent {
 
 
   closeDialog() {
-    this.dialogComponent.emit('none');
-
+    this.dialogWindowControl.resetDialogs();
     !this.resize.checkMediaW600px ? this.resetInputs() : null;
   }
 
 
   openDialog() {
-    if (!this.resize.checkMediaW600px) {
-      this.dialogComponent.emit('addPeople');
-    } else {
-      this.dialogComponent.emit('mobile');
-    }
+    this.dialogWindowControl.closeDialog('createChannel');
+    this.dialogWindowControl.openDialog('addPeople');
 
     !this.resize.checkMediaW600px ? this.resetInputs() : null;
   }

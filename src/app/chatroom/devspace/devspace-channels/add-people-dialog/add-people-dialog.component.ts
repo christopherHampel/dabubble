@@ -1,8 +1,10 @@
-import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, inject, Output, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {AddPeopleInputComponent} from '../../../../shared/add-people-input/add-people-input.component';
 import {UserProfile} from '../../../../interfaces/userProfile';
+import { ResizeService } from '../../../../services/responsive/resize.service';
+import { DialogWindowControlService } from '../../../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-add-people-dialog',
@@ -15,6 +17,9 @@ import {UserProfile} from '../../../../interfaces/userProfile';
   styleUrl: './add-people-dialog.component.scss'
 })
 export class AddPeopleDialogComponent {
+  resize = inject(ResizeService)
+  dialogWindowControl = inject(DialogWindowControlService);
+
   selectedOption: string = 'option1';
   selectedUser: UserProfile = {} as UserProfile;
   mediaW600px: MediaQueryList = window.matchMedia("(max-width: 600px)");
@@ -40,7 +45,7 @@ export class AddPeopleDialogComponent {
   }
 
   closeDialog() {
-    this.dialogComponent.emit('none');
+    this.dialogWindowControl.resetDialogs();
     this.resetOption();
   }
 

@@ -1,5 +1,6 @@
-<section class="add-people-dialog"
-         [ngClass]="{ 'slide-in': !mediaW600px.matches, 'slide-in-bottom': mediaW600px.matches && !mobileClose, 'slide-out-bottom': mediaW600px && mobileClose }">
+<section *ngIf="dialogWindowControl.isAddPeopleOpen" class="add-people-dialog"
+         [ngClass]="{ 'slide-in': !resize.checkMediaW600px(), 'slide-in-bottom': resize.checkMediaW600px() && !mobileClose,
+         'slide-out-bottom': resize.checkMediaW600px() && mobileClose }">
 
   <div class="mobile-close-button">
     <div (click)="closeMobile()"></div>

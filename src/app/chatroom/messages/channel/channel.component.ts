@@ -24,6 +24,7 @@ import {ChannelAddMembersDialogComponent} from './channel-add-members-dialog/cha
 import {Observable} from 'rxjs';
 import {ThreadsDbService} from '../../../services/message/threads-db.service';
 import {ResizeService} from '../../../services/responsive/resize.service';
+import { DialogWindowControlService } from '../../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-channel',
@@ -44,6 +45,8 @@ import {ResizeService} from '../../../services/responsive/resize.service';
 export class ChannelComponent {
   channelsDb = inject(ChannelsDbService);
   usersDb = inject(UsersDbService);
+  dialogWindowControl = inject(DialogWindowControlService);
+
   chatId: string = '';
   lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
   chatMessages$!: Observable<any[]>;
@@ -85,6 +88,7 @@ export class ChannelComponent {
 
   openDialog(child: string) {
     this.switchChannelInfo(child);
+    this.dialogComponent = 'membersInfo';
   }
 
   switchChannelInfo(child: string) {

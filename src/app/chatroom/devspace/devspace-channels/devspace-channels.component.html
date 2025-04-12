@@ -29,9 +29,6 @@
 
 </section>
 
-<app-create-channel-dialog #channelDialog (dialogComponent)="closeDialog($event)"
-    [ngStyle]="{'display': (dialogComponent === 'createChannel' || dialogComponent === 'mobile') ? 'flex' : 'none', 'z-index': dialogComponent === 'mobile' ? '2' : 4}"></app-create-channel-dialog>
-<app-add-people-dialog #peopleDialog (dialogComponent)="closeDialog($event)"
-    [ngStyle]="{'display': (dialogComponent === 'addPeople' || dialogComponent === 'mobile') ? 'flex' : 'none'}"></app-add-people-dialog>
-<app-transparent-background [backgroundOpen]="dialog"
-    (backgroundClose)="closeDialog('none')" (dialogComponent)="dialogComponent = $event"></app-transparent-background>
+<app-create-channel-dialog #channelDialog></app-create-channel-dialog>
+<app-add-people-dialog #peopleDialog></app-add-people-dialog>
+<app-transparent-background></app-transparent-background>

@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AddPeopleInputComponent } from '../../../../shared/add-people-input/add-people-input.component';
-import { UserProfile } from '../../../../interfaces/userProfile';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {AddPeopleInputComponent} from '../../../../shared/add-people-input/add-people-input.component';
+import {UserProfile} from '../../../../interfaces/userProfile';
 
 @Component({
   selector: 'app-channel-add-members-dialog',
@@ -36,8 +36,11 @@ export class ChannelAddMembersDialogComponent {
 
   closeDialog() {
     this.dialogOpen = false;
-    this.dialogClose.emit(true);
-    this.addPeopleInput.resetSelectedUser();
+
+    if (this.dialogComponent !== 'dataWindow') {
+      this.dialogClose.emit(true);
+      this.addPeopleInput.resetSelectedUser();
+    }
   }
 
 
