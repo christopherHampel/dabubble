@@ -93,7 +93,7 @@
 
   background-color: #FFFFFF;
 
-  padding: 30px 16px 100px 16px;
+  padding: 30px 16px 200px 16px;
 
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
@@ -129,5 +129,48 @@
     width: 100%;
 
     @include d-flex($fD: column, $aI: flex-end, $g: 20px);
+  }
+}
+
+
+.slide-in-bottom {
+  opacity: 1;
+  display: flex;
+  margin-bottom: 0;
+  animation: slide-in-bottom 0.5s;
+}
+
+@keyframes slide-in-bottom {
+  from {
+    opacity: 0;
+    display: none;
+    margin-bottom: -500px;
+  }
+
+  to {
+    opacity: 1;
+    display: flex;
+    margin-bottom: 0;
+  }
+}
+
+.slide-out-bottom {
+  opacity: 0;
+  display: none;
+  margin-bottom: -500px;
+  animation: slide-out-bottom 0.5s;
+}
+
+@keyframes slide-out-bottom {
+  from {
+    opacity: 1;
+    display: flex;
+    margin-bottom: 0;
+  }
+
+  to {
+    opacity: 0;
+    display: none;
+    margin-bottom: -500px;
   }
 }

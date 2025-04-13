@@ -1,12 +1,12 @@
-<section *ngIf="dialogOpen && channelsDb.channel as channel" class="channel-data-window animation"
-         [ngStyle]="{ 'z-index': addMembers ? '3' : '4' }">
+<section *ngIf="dialogWindowControl.isDataWindowOpen && channelsDb.channel as channel"
+         class="channel-data-window animation" [ngStyle]="{ 'z-index': isMobile() ? '1' : '4' }">
 
   <header class="width-100-percent">
     <div>
       <div class="hashtag-icon"></div>
       <h2>{{ channel.name }}</h2>
     </div>
-    <div (click)="closeDialog()" class="close-icon"></div>
+    <div (click)="closeDataWindowDialog()" class="close-icon"></div>
   </header>
 
   <form onsubmit="leaveChannel(); return false">
@@ -15,7 +15,7 @@
       <div class="width-100-percent">
         <span class="headline">Channel Name</span>
 
-        @if (!resize.checkMediaW960px()) {
+        @if (!resize.checkMediaW960px) {
           @if (!channelNameEdit) {
             <button class="edit-button" (click)="editChannel('name')">
               <span class="edit-button-text">Bearbeiten</span>
@@ -50,7 +50,7 @@
       <div class="width-100-percent">
         <span class="headline">Beschreibung</span>
 
-        @if (!resize.checkMediaW960px()) {
+        @if (!resize.checkMediaW960px) {
           @if (!channelDescriptionEdit) {
             <button class="edit-button" (click)="editChannel('description')">
               <span class="edit-button-text">Bearbeiten</span>

@@ -1,2 +1,2 @@
-<section (click)="closeBackground()" [ngStyle]="{ display: dialogControlWindow.isDailogOpen ? 'block' : 'none' }"
-  class="transparent-background animation"></section>
+<section *ngIf="backgroundOpen" (click)="closeBackground()"
+         class="transparent-background animation"></section>

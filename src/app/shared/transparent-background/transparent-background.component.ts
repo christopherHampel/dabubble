@@ -14,10 +14,16 @@ export class TransparentBackgroundComponent {
   dialogControlWindow = inject(DialogWindowControlService);
 
   @Input() backgroundOpen: boolean = false;
-  @Output() backgroundClose = new EventEmitter<boolean>();
-  @Output() dialogComponent = new EventEmitter<'createChannel'>();
+  @Output() addMembersDialogClose = new EventEmitter<boolean>();
+  @Output() addPeopleDialogClose = new EventEmitter<boolean>();
 
   closeBackground() {
-    this.dialogControlWindow.resetDialogs();
+    if (this.dialogControlWindow.isDataWindowOpen && this.dialogControlWindow.isAddMembersOpen) {
+      this.addMembersDialogClose.emit(true);
+    } else if (this.dialogControlWindow.isCreateChannelOpen && this.dialogControlWindow.isAddPeopleOpen) {
+      this.addPeopleDialogClose.emit(true);
+    } else {
+      this.dialogControlWindow.resetDialogs();
+    }
   }
 }

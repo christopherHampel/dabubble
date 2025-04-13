@@ -1,9 +1,9 @@
 import {Component, ElementRef, EventEmitter, inject, Output, ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ChannelsDbService } from '../../../../services/message/channels-db.service';
-import { ResizeService } from '../../../../services/responsive/resize.service';
-import { DialogWindowControlService } from '../../../../services/dialog-window-control/dialog-window-control.service';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {ChannelsDbService} from '../../../../services/message/channels-db.service';
+import {ResizeService} from '../../../../services/responsive/resize.service';
+import {DialogWindowControlService} from '../../../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-create-channel-dialog',
@@ -26,21 +26,23 @@ export class CreateChannelDialogComponent {
   @ViewChild('inputField') inputFieldRef!: ElementRef<HTMLInputElement>;
 
   focusInput() {
+    this.resetInputs();
     setTimeout(() => this.inputFieldRef.nativeElement.focus(), 50);
   }
 
 
   closeDialog() {
+    this.resetInputs();
     this.dialogWindowControl.resetDialogs();
-    !this.resize.checkMediaW600px ? this.resetInputs() : null;
   }
 
 
-  openDialog() {
-    this.dialogWindowControl.closeDialog('createChannel');
+  openAddPeopleDialog() {
+    if (!this.resize.checkMediaW600px) {
+      this.resetInputs();
+      this.dialogWindowControl.closeDialog('createChannel');
+    }
     this.dialogWindowControl.openDialog('addPeople');
-
-    !this.resize.checkMediaW600px ? this.resetInputs() : null;
   }
 
 
@@ -57,7 +59,12 @@ export class CreateChannelDialogComponent {
       description: this.channelDescription
     })
 
-    !this.resize.checkMediaW600px ? this.resetInputs() : null;
+    !this.resize.checkMediaW600pxSig ? this.resetInputs() : null;
+  }
+
+
+  isMobile() {
+    return this.dialogWindowControl.isCreateChannelOpen && this.dialogWindowControl.isAddPeopleOpen;
   }
 
 

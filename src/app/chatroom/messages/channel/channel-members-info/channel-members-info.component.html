@@ -1,8 +1,8 @@
-<section *ngIf="dialogOpen && channelUserDataListReverse" class="channel-members-info animation">
+<section *ngIf="dialogWindowControl.isMembersInfoOpen && channelUserDataListReverse" class="channel-members-info animation">
 
   <header class="width-100-percent">
     <h2>Mitglieder</h2>
-    <div (click)="closeDialog()" class="close-icon"></div>
+    <div (click)="closeMembersInfoDialog()" class="close-icon"></div>
   </header>
 
   <div class="member-list-wrapper width-100-percent">

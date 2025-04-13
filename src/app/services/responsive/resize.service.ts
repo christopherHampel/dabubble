@@ -12,22 +12,30 @@ export class ResizeService {
   zIndexChats = signal<boolean>(false);
   wrapperMobile = signal<boolean>(false);
   mediaW960px: MediaQueryList = window.matchMedia("(max-width: 960px)");
-  checkMediaW960px = signal<boolean>(false);
+  checkMediaW960pxSig = signal<boolean>(false);
   mediaW600px: MediaQueryList = window.matchMedia("(max-width: 600px)");
-  checkMediaW600px = signal<boolean>(false);
+  checkMediaW600pxSig = signal<boolean>(false);
 
 
   constructor() {
     this.checkWindowSize();
   }
 
+  get checkMediaW960px() {
+    return this.checkMediaW960pxSig();
+  }
+
+  get checkMediaW600px() {
+    return this.checkMediaW600pxSig();
+  }
+
   checkWindowSize() {
-    this.checkMediaW960px.set(this.mediaW960px.matches);
-    this.checkMediaW600px.set(this.mediaW600px.matches);
+    this.checkMediaW960pxSig.set(this.mediaW960px.matches);
+    this.checkMediaW600pxSig.set(this.mediaW600px.matches);
 
     window.addEventListener('resize', () => {
-      this.checkMediaW960px.set(this.mediaW960px.matches);
-      this.checkMediaW600px.set(this.mediaW600px.matches);
+      this.checkMediaW960pxSig.set(this.mediaW960px.matches);
+      this.checkMediaW600pxSig.set(this.mediaW600px.matches);
     });
   }
 

@@ -73,7 +73,7 @@ export class ChatroomComponent {
 
   openMobileWrapper() {
     this.resize.setMobileWrapper(!this.resize.wrapperMobile());
-  }  
+  }
 
   logout() {
     if (this.usersDb.currentUser) {
@@ -86,7 +86,7 @@ export class ChatroomComponent {
   }
 
   showProfile() {
-    this.editProfile = !this.editProfile;    
+    this.editProfile = !this.editProfile;
   }
 
   // checkWindowWidth(value:number) {

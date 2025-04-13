@@ -17,7 +17,7 @@ import { AuthService } from '../../services/auth/auth.service';
     DevspaceChannelsComponent,
     DevspaceDirectmessagesComponent,
     HideOrShowNavbarComponent,
-    SearchFieldComponent,
+    SearchFieldComponent
 ],
   templateUrl: './devspace.component.html',
   styleUrl: './devspace.component.scss',
@@ -47,5 +47,5 @@ export class DevspaceComponent {
 
   openMobileWrapper() {
     this.resize.setMobileWrapper(!this.resize.wrapperMobile());
-  } 
+  }
 }

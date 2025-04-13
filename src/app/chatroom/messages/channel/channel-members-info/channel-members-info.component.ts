@@ -5,6 +5,7 @@ import { ChannelsDbService } from '../../../../services/message/channels-db.serv
 import { UserProfile } from '../../../../interfaces/userProfile';
 import { UserProfilComponent } from '../../../../shared/user-profil/user-profil.component';
 import { UsersDbService } from '../../../../services/usersDb/users-db.service';
+import { DialogWindowControlService } from '../../../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-channel-members-info',
@@ -19,14 +20,13 @@ import { UsersDbService } from '../../../../services/usersDb/users-db.service';
 export class ChannelMembersInfoComponent {
   channelsDb = inject(ChannelsDbService);
   usersDb = inject(UsersDbService);
+  dialogWindowControl = inject(DialogWindowControlService);
+
   channelUserDataListReverse: UserProfile[] = [];
   dialog: boolean = false;
   userSig = signal<UserProfile>({} as UserProfile);
 
-  @Input() dialogOpen: boolean = false;
-  @Output() dialogClose = new EventEmitter<boolean>();
-  @Output() addMembersOpen = new EventEmitter<boolean>();
-  @Output() fromMembersInfo = new EventEmitter<boolean>();
+  @Output() addMembersDialogFocus = new EventEmitter<boolean>();
 
   constructor() {
     effect(() => {
@@ -40,14 +40,14 @@ export class ChannelMembersInfoComponent {
 
 
   openAddMembers() {
-    this.addMembersOpen.emit(true);
-    this.fromMembersInfo.emit(true);
+    this.dialogWindowControl.closeDialog('membersInfo');
+    this.dialogWindowControl.openDialog('addMembers');
+    this.addMembersDialogFocus.emit(true);
   }
 
 
-  closeDialog() {
-    this.dialogOpen = false;
-    this.dialogClose.emit(true);
+  closeMembersInfoDialog() {
+    this.dialogWindowControl.closeDialog('membersInfo');
   }
 
 
