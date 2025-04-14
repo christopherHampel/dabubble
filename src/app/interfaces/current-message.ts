@@ -28,4 +28,4 @@ export interface CurrentMessage {
     messageAuthor: MessageAuthor,
     firstMessageOfTheDay: boolean,
     originalChatInfo: string,
-}
+}  

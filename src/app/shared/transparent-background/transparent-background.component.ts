@@ -20,7 +20,8 @@ export class TransparentBackgroundComponent {
   }
 
   closeBackground() {
-    if (!this.resize.checkMediaW600px) {
+    debugger;
+    if (!this.resize.checkMediaW600px()) {
       this.backgroundClose.emit(true);
     } else {
       this.dialogComponent.emit('createChannel');

@@ -14,6 +14,7 @@ import {
   limit,
   Unsubscribe,
   getDoc,
+  DocumentReference,
 } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
@@ -22,6 +23,9 @@ import { UsersDbService } from '../usersDb/users-db.service';
 import { ChatData } from '../../interfaces/chat-data';
 import { CurrentMessage } from '../../interfaces/current-message';
 import { SearchDevspaceService } from './search-devspace.service';
+import { IncomingMessage } from '../../interfaces/incoming-message';
+import { MessageAccesories } from '../../interfaces/message-accesories';
+import { Message } from '../../interfaces/message';
 
 @Injectable({
   providedIn: 'root',
@@ -29,13 +33,13 @@ import { SearchDevspaceService } from './search-devspace.service';
 export class ChatsService {
   firestore = inject(Firestore);
   component = signal<string>('chat');
-  firstThreadMessage = signal<any | null>(null);
+  firstThreadMessage = signal<IncomingMessage | null>(null);
 
   private messagesSubject = new BehaviorSubject<CurrentMessage[]>([]);
   public messages$ = this.messagesSubject.asObservable();
 
   private searchAbortController: AbortController | null = null;
-  private searchTimeout: any = null;
+  private searchTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
 
   chatPartner: { name: string; avatar: string, id: string } = { name: '', avatar: '', id: '' };
   chatPartnerIdSig = signal<string | null>(null);
@@ -176,6 +180,8 @@ export class ChatsService {
     private searchService: SearchDevspaceService
   ) {
     effect(() => {
+      // console.log('SearchTimeout:', this.searchTimeout);
+      
       const searchText = this.searchService.searchTextSig().toLowerCase();
   
       if (searchText.length === 0) {
@@ -264,7 +270,7 @@ export class ChatsService {
     return docRef.id;
   }
 
-  async addMessageToChat(messageAccesories:any): Promise<void> {
+  async addMessageToChat(messageAccesories:MessageAccesories): Promise<void> {
     const chatRef = doc(this.getChatCollection(messageAccesories.component), messageAccesories.chatId);
     const messagesRef = collection(chatRef, 'messages');
     const messageContent = await this.newMessageContent(
@@ -282,7 +288,7 @@ export class ChatsService {
     });
   }
 
-  async newMessageContent(messageAccesories:any): Promise<any> {
+  async newMessageContent(messageAccesories:MessageAccesories): Promise<IncomingMessage> {    
     const isFirstMessageOfDay = await this.checkFirstMessage(messageAccesories.chatId, messageAccesories.component);
 
     return {
@@ -430,7 +436,7 @@ export class ChatsService {
     });
   }
 
-  async updateLastMessageDocId(docId: string, chatRef: any) {
+  async updateLastMessageDocId(docId: string, chatRef: DocumentReference) {
     await updateDoc(chatRef, {
       lastMessageDocId: docId,
     });
@@ -460,8 +466,8 @@ export class ChatsService {
     const messageDocRef = doc(messagesCollection, docId);
 
     onSnapshot(messageDocRef, (docSnapshot) => {
-      if (docSnapshot.exists()) {
-        this.firstThreadMessage.set(docSnapshot.data());
+      if (docSnapshot.exists()) {        
+        this.firstThreadMessage.set(docSnapshot.data() as IncomingMessage);
       }
     });
   }

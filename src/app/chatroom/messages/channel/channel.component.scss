@@ -1,8 +1,8 @@
-@use '../messages.component.scss';
-@use '../direct-message/direct-message.component.scss';
+@use "../messages.component.scss";
+@use "../direct-message/direct-message.component.scss";
 
 * {
-  font-family: 'Nunito';
+  font-family: "Nunito";
 }
 
 .message-head {
@@ -34,36 +34,36 @@
     cursor: pointer;
 
     border-radius: 100px;
-    background-color: #ECEEFE;
+    background-color: #eceefe;
 
     .hashtag-icon {
-      background-image: url('/img/hashtag_hover_icon.svg');
+      background-image: url("/img/hashtag_hover_icon.svg");
     }
 
     h2 {
-      color: #535Af1;
+      color: #535af1;
     }
 
     .arrow-drop-down-icon {
-      background-image: url('/img/arrow_drop_down_profil_hover.svg');
+      background-image: url("/img/arrow_drop_down_profil_hover.svg");
     }
   }
 }
 
 .head-left-highlight {
   border-radius: 100px;
-  background-color: #ECEEFE;
+  background-color: #eceefe;
 
   .hashtag-icon {
-    background-image: url('/img/hashtag_hover_icon.svg');
+    background-image: url("/img/hashtag_hover_icon.svg");
   }
 
   h2 {
-    color: #535Af1;
+    color: #535af1;
   }
 
   .arrow-drop-down-icon {
-    background-image: url('/img/arrow_drop_down_profil_hover.svg');
+    background-image: url("/img/arrow_drop_down_profil_hover.svg");
   }
 }
 
@@ -72,7 +72,6 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-
 }
 
 .members-info-wrapper {
@@ -116,26 +115,25 @@
       cursor: pointer;
 
       border-radius: 30px;
-      background-color: #ECEEFE;
+      background-color: #eceefe;
 
       & > span {
         font-weight: 700;
 
-        color: #535Af1;
+        color: #535af1;
       }
     }
-
   }
 }
 
 .members-info-wrapper-highlight {
   border-radius: 30px;
-  background-color: #ECEEFE;
+  background-color: #eceefe;
 
   & > span {
     font-weight: 700;
 
-    color: #535Af1;
+    color: #535af1;
   }
 }
 
@@ -146,12 +144,12 @@
     cursor: pointer;
 
     border-radius: 30px;
-    background-color: #ECEEFE;
+    background-color: #eceefe;
   }
 }
 
 .person-add-icon-highlight {
-  background-image: url('/img/person_add_hover_icon.svg');
+  background-image: url("/img/person_add_hover_icon.svg");
 }
 
 .message-field {
@@ -202,6 +200,8 @@
 .channel-start {
   font-size: 20px;
   color: #000000;
+  display: flex;
+  align-items: center;
 
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -212,20 +212,52 @@
     display: inline-flex;
     align-items: center;
 
-    color: #535AF1;
+    color: #535af1;
 
     flex-wrap: wrap;
 
     margin-left: 36px;
 
-    &>img {
-      position: absolute;
-      right: 52px;
+    // &>img {
+    //   position: absolute;
+    //   right: 52px;
+    // }
+  }
+}
+
+@media(min-width: 961px) and (max-width: 1350px) {
+  .channel-start {
+    flex-direction: column;
+    align-items: unset;
+
+    .channel-start-click {
+      margin-left: 0;
     }
   }
 }
 
-@media(max-width: 600px) {
+@media(max-width: 960px) {
+  .channel-start {
+    font-size: 16px;
+    
+    .channel-start-click {
+      margin-left: 18px;
+    }
+  }
+}
+
+@media(max-width: 760px) {
+  .channel-start {
+    flex-direction: column;
+    align-items: unset;
+
+    .channel-start-click {
+      margin-left: 0;
+    }
+  }
+}
+
+@media (max-width: 600px) {
   .head-left {
     .hashtag-icon {
       width: 32px;

@@ -18,6 +18,7 @@ import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
 import { ScrollService } from '../../services/message/scroll.service';
 import { UserViewSmallComponent } from '../user-view-small/user-view-small.component';
+import { MessageAccesories } from '../../interfaces/message-accesories';
 
 @Component({
   selector: 'app-textarea',
@@ -70,13 +71,12 @@ export class TextareaComponent implements OnInit {
 
   async sendText() {    
     const messageAccesories = this.getMessagemessageAccesories();
-    console.log(messageAccesories);
     
     if (this.component == 'threads') {
       this.sendNewThread();
     } else {
       await this.chatService.addMessageToChat(
-        messageAccesories
+        messageAccesories as MessageAccesories
       );
     }
   }

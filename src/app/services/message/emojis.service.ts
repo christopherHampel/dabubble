@@ -13,9 +13,9 @@ export class EmojisService {
 
   emojiPickerOpen:boolean = false;
   emojiPickerOpenThreads:boolean = false;
-  currentMessage:any = '';
+  currentMessage!:CurrentMessage;
 
-  constructor(private usersService: UsersDbService, private chatSerive: ChatsService) { }
+  constructor(private usersService: UsersDbService, private chatSerive: ChatsService) {}
 
   async getMessageDocument(chatId: string, component:string) {
     const query = await this.chatSerive.getQuerySnapshot(this.currentMessage.docId, chatId, component);
@@ -63,13 +63,7 @@ export class EmojisService {
   }
   
   async addEmoji(emoji: string, chatId: string, component:string) {
-    // console.log(this.currentMessage);
-    
-    // debugger
-    // const messageDoc = await this.getMessageDocument(chatId, component || 'threads');
-
     const messageDoc = await this.getMessageDocument(this.currentMessage.chatId, this.currentMessage.component || 'threads');
-    // const messageDoc = await this.getMessageDocument('3ksFyMhQQd3jj5HcyE0J', 'messages');
 
     const messageData = messageDoc.data();
     let emojis = messageData['emojis'] || [];

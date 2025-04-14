@@ -134,7 +134,7 @@ export class ThreadsComponent {
   }
 
   getThreadAnswers() {
-    let threadAnswers = this.chatService.firstThreadMessage().associatedThreadId.count;
+    let threadAnswers = this.chatService.firstThreadMessage()?.associatedThreadId.count;
 
     if(threadAnswers == 0) {
       return ''
