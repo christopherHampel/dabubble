@@ -1,6 +1,7 @@
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import { ResizeService } from '../../services/responsive/resize.service';
+import {ResizeService} from '../../services/responsive/resize.service';
+import {DialogWindowControlService} from '../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-transparent-background',
@@ -10,21 +11,25 @@ import { ResizeService } from '../../services/responsive/resize.service';
 })
 export class TransparentBackgroundComponent {
   resize = inject(ResizeService);
+  dialogControlWindow = inject(DialogWindowControlService);
 
   @Input() backgroundOpen: boolean = false;
-  @Output() backgroundClose = new EventEmitter<boolean>();
-  @Output()dialogComponent = new EventEmitter<'createChannel'>();
-
-  ngOnChanges() {
-    console.log('Background: ', this.backgroundOpen);
-  }
+  @Output() addMembersDialogClose = new EventEmitter<boolean>();
+  @Output() addPeopleDialogClose = new EventEmitter<boolean>();
 
   closeBackground() {
+<<<<<<< HEAD
     debugger;
     if (!this.resize.checkMediaW600px()) {
       this.backgroundClose.emit(true);
+=======
+    if (this.dialogControlWindow.isDataWindowOpen && this.dialogControlWindow.isAddMembersOpen) {
+      this.addMembersDialogClose.emit(true);
+    } else if (this.dialogControlWindow.isCreateChannelOpen && this.dialogControlWindow.isAddPeopleOpen) {
+      this.addPeopleDialogClose.emit(true);
+>>>>>>> a45e3ae5476572487e0ab9a5f08a7e7ec2760568
     } else {
-      this.dialogComponent.emit('createChannel');
+      this.dialogControlWindow.resetDialogs();
     }
   }
 }

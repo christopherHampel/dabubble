@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { ChatsService } from '../../../services/message/chats.service';
 import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.component';
-import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
 import { UserProfile } from '../../../interfaces/userProfile';
 import { UserViewSmallComponent } from '../../../shared/user-view-small/user-view-small.component';
 import { ResizeService } from '../../../services/responsive/resize.service';
@@ -14,7 +13,6 @@ import { ResizeService } from '../../../services/responsive/resize.service';
   imports: [
     CommonModule,
     AddFriendDialogComponent,
-    TransparentBackgroundComponent,
     UserViewSmallComponent
   ],
   templateUrl: './devspace-directmessages.component.html',

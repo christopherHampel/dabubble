@@ -1,14 +1,16 @@
-<section *ngIf="dialogOpen" class="channel-add-members-dialog-mobile animation"
-         [ngClass]="{ 'channel-add-members-dialog': dialogComponent === 'membersInfo', 'channel-add-members-dialog-mobile': dialogComponent === 'dataWindow' }">
+<section *ngIf="dialogWindowControl.isAddMembersOpen" class="channel-add-members-dialog-mobile"
+         [ngClass]="{ 'channel-add-members-dialog': !isMobile(),
+         'channel-add-members-dialog-mobile': isMobile(), 'animation': !isMobile(), 'slide-in-bottom': isMobile() && !mobileClose,
+          'slide-out-bottom': isMobile() && mobileClose}">
 
-  <div class="mobile-close-button">
+  <div (click)="closeAddMembersDialog()" class="mobile-close-button">
     <div></div>
   </div>
 
   <header class="width-100-percent">
     <div class="header-dialog">
       <h2>Leite hinzufügen</h2>
-      <div (click)="closeDialog()" class="close-icon"></div>
+      <div (click)="closeAddMembersDialog()" class="close-icon"></div>
     </div>
     <div>
       <div class="hashtag-icon"></div>

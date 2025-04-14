@@ -1,9 +1,8 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
 import { Router } from '@angular/router';
-import { TransparentBackgroundComponent } from '../../shared/transparent-background/transparent-background.component';
 import { FormsModule } from '@angular/forms';
 import { SearchDevspaceService } from '../../services/message/search-devspace.service';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
@@ -15,7 +14,6 @@ import { UserProfile } from '../../interfaces/userProfile';
   selector: 'app-chatroom-header',
   imports: [
     CommonModule,
-    TransparentBackgroundComponent,
     FormsModule,
     UserProfilComponent
   ],

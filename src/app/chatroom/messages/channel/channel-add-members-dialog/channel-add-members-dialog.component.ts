@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AddPeopleInputComponent } from '../../../../shared/add-people-input/add-people-input.component';
-import { UserProfile } from '../../../../interfaces/userProfile';
+import {Component, EventEmitter, inject, Input, Output, ViewChild} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {AddPeopleInputComponent} from '../../../../shared/add-people-input/add-people-input.component';
+import {UserProfile} from '../../../../interfaces/userProfile';
+import {DialogWindowControlService} from '../../../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-channel-add-members-dialog',
@@ -13,19 +14,18 @@ import { UserProfile } from '../../../../interfaces/userProfile';
   styleUrl: './channel-add-members-dialog.component.scss'
 })
 export class ChannelAddMembersDialogComponent {
+  dialogWindowControl = inject(DialogWindowControlService);
+
   selectedUserList: UserProfile[] = [];
-  afterViewCheckedFlag: boolean = true;
+  mobileClose: boolean = false;
 
   @Input() dialogOpen: boolean = false;
   @Input() dialogComponent: 'dataWindow' | 'membersInfo' = 'membersInfo';
   @Output() dialogClose = new EventEmitter<boolean>();
   @ViewChild('addPeopleInput') addPeopleInput!: any;
 
-  ngAfterViewChecked() {
-    if (this.dialogOpen && this.addPeopleInput && this.afterViewCheckedFlag) {
-      this.afterViewCheckedFlag = false;
-      this.addPeopleInput.focusInput();
-    }
+  focusInput() {
+    this.addPeopleInput.focusInput();
   }
 
 
@@ -34,20 +34,24 @@ export class ChannelAddMembersDialogComponent {
   }
 
 
-  closeDialog() {
-    this.dialogOpen = false;
-    this.dialogClose.emit(true);
-    this.addPeopleInput.resetSelectedUser();
+  closeAddMembersDialog() {
+    this.mobileClose = true;
+
+    setTimeout(() => {
+      this.mobileClose = false;
+      this.dialogWindowControl.closeDialog('addMembers');
+    }, 500)
   }
 
-
-  resetAfterViewChecked() {
-    this.afterViewCheckedFlag = true;
-  }
 
   async updateChannel() {
     await this.addPeopleInput.createChannel();
 
-    this.closeDialog();
+    this.closeAddMembersDialog();
+  }
+
+
+  isMobile() {
+    return this.dialogWindowControl.isDataWindowOpen && this.dialogWindowControl.isAddMembersOpen;
   }
 }

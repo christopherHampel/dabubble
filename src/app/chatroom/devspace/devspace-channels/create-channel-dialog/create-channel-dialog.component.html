@@ -1,5 +1,6 @@
-<section class="create-channel-dialog"
-         [ngClass]="{ 'slide-in': !resize.checkMediaW600px, 'animation': resize.checkMediaW600px }">
+<section *ngIf="dialogWindowControl.isCreateChannelOpen" class="create-channel-dialog"
+         [ngClass]="{ 'slide-in': !resize.checkMediaW600px, 'animation': resize.checkMediaW600px }"
+         [ngStyle]="{ 'z-index': isMobile() ? '1' : '4' }">
 
   <header class="header-dialog">
     <h2>Channel erstellen</h2>
@@ -28,7 +29,7 @@
                 placeholder="Dein Text hier" maxlength="120"></textarea>
     </div>
 
-    <button class="primary-button" (click)="createChannel(); openDialog()"
+    <button class="primary-button" (click)="createChannel(); openAddPeopleDialog()"
             [disabled]="!channelName">Erstellen
     </button>
   </form>

@@ -7,13 +7,14 @@ import {Router} from '@angular/router';
 import {UserViewSmallComponent} from '../../../../shared/user-view-small/user-view-small.component';
 import {UserProfile} from '../../../../interfaces/userProfile';
 import {ResizeService} from '../../../../services/responsive/resize.service';
+import { DialogWindowControlService } from '../../../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-channel-data-window',
   imports: [
     CommonModule,
     FormsModule,
-    UserViewSmallComponent
+    UserViewSmallComponent,
   ],
   templateUrl: './channel-data-window.component.html',
   styleUrl: './channel-data-window.component.scss'
@@ -22,16 +23,15 @@ export class ChannelDataWindowComponent {
   channelsDb = inject(ChannelsDbService);
   userDb = inject(UsersDbService);
   resize = inject(ResizeService);
+  dialogWindowControl = inject(DialogWindowControlService);
+
   channelNameEdit: boolean = false;
   channelDescriptionEdit: boolean = false;
   channelName: string = '';
   channelDescription: string = '';
   channelUserDataListReverse: UserProfile[] = [];
-  addMembers: boolean = false;
 
-  @Input() dialogOpen: boolean = false;
-  @Output() dialogClose = new EventEmitter<boolean>();
-  @Output() addMembersOpen = new EventEmitter<boolean>();
+  @Output() addMembersDialogFocus = new EventEmitter<boolean>();
 
   constructor(private router: Router) {
     effect(() => {
@@ -44,14 +44,9 @@ export class ChannelDataWindowComponent {
   }
 
 
-  ngOnChanges() {
-    this.addMembers = false;
-  }
-
-
   openAddMembers() {
-    this.addMembers = true;
-    this.addMembersOpen.emit(this.addMembers);
+    this.dialogWindowControl.openDialog('addMembers')
+    this.addMembersDialogFocus.emit(true);
   }
 
 
@@ -60,10 +55,9 @@ export class ChannelDataWindowComponent {
   }
 
 
-  closeDialog() {
-    this.dialogOpen = false;
-    this.dialogClose.emit(true);
+  closeDataWindowDialog() {
     this.resetOnClose();
+    this.dialogWindowControl.closeDialog('dataWindow');
   }
 
 
@@ -81,6 +75,11 @@ export class ChannelDataWindowComponent {
       this.channelsDb.channel ? this.updateValue(this.channelsDb.channel.name) : '';
       this.channelsDb.channel ? this.channelDescription = this.channelsDb.channel.description : '';
     }
+  }
+
+
+  isMobile() {
+    return this.dialogWindowControl.isDataWindowOpen && this.dialogWindowControl.isAddMembersOpen;
   }
 
 
@@ -134,7 +133,7 @@ export class ChannelDataWindowComponent {
 
     await this.channelsDb.changeChannel();
 
-    this.closeDialog();
+    this.closeDataWindowDialog();
     this.router.navigate(['/chatroom']);
   }
 }

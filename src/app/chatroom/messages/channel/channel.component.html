@@ -1,18 +1,19 @@
 <section *ngIf="channelsDb.channel as channel" class="card">
   <div class="message-head">
     <div class="head-left-wrapper">
-      <div (click)="openDialog('dataWindow')" class="head-left" [ngClass]="{ 'head-left-highlight': dataWindow }">
+      <div (click)="openDialog('dataWindow')" class="head-left"
+           [ngClass]="{ 'head-left-highlight': dialogWindowControl.isDataWindowOpen }">
         <div class="hashtag-icon"></div>
         <h2>{{ channel.name }}</h2>
         <div class="arrow-drop-down-icon"></div>
       </div>
 
-      <app-channel-data-window #channelDataWindow [dialogOpen]="dataWindow" (addMembersOpen)="addMembers = $event; dialogComponent = 'dataWindow'"
-                               (dialogClose)="closeDialog(!$event)"></app-channel-data-window>
+      <app-channel-data-window (addMembersDialogFocus)="addMembersDialogFocus()"></app-channel-data-window>
     </div>
 
     <div *ngIf="channelsDb.channelUserDataList" class="head-right">
-      <div class="members-info-wrapper" [ngClass]="{ 'members-info-wrapper-highlight': membersInfo }">
+      <div class="members-info-wrapper"
+           [ngClass]="{ 'members-info-wrapper-highlight': dialogWindowControl.isMembersInfoOpen }">
         <div class="members-info" (click)="openDialog('membersInfo')">
           <div>
             <img *ngFor="let user of channelsDb.channelUserDataList" src="{{ user.avatar }}" alt=""/>
@@ -22,16 +23,13 @@
       </div>
 
       <div class="add-members-wrapper">
-        <div (click)="openDialog( !resize.checkMediaW600px() ? 'addMembers' : 'membersInfo')" class="person-add-icon">
-          <div [ngClass]="{ 'person-add-icon-highlight': addMembers }"></div>
+        <div (click)="openDialog( !resize.checkMediaW600px ? 'addMembers' : 'membersInfo')" class="person-add-icon">
+          <div [ngClass]="{ 'person-add-icon-highlight': dialogWindowControl.isAddMembersOpen }"></div>
         </div>
 
-        <app-channel-members-info [dialogOpen]="membersInfo"
-                                  (dialogClose)="closeDialog(!$event)"
-                                  (addMembersOpen)="openAddMembers($event); dialogComponent = 'membersInfo'"></app-channel-members-info>
+        <app-channel-members-info (addMembersDialogFocus)="addMembersDialogFocus()"></app-channel-members-info>
 
-        <app-channel-add-members-dialog #channelAddMembersInfo [dialogOpen]="addMembers"
-                                        (dialogClose)="closeDialog(!$event)" [dialogComponent]="dialogComponent"></app-channel-add-members-dialog>
+        <app-channel-add-members-dialog #addMembersDialog></app-channel-add-members-dialog>
       </div>
     </div>
   </div>
@@ -56,5 +54,5 @@
   </div>
 </section>
 
-<app-transparent-background [backgroundOpen]="dataWindow || membersInfo || addMembers"
-                            (backgroundClose)="closeDialog(!$event)"></app-transparent-background>
+<app-transparent-background [backgroundOpen]="isDialogOpen()"
+                            (addMembersDialogClose)="closeAddMembersDialog()"></app-transparent-background>

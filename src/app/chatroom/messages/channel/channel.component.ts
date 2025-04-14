@@ -24,6 +24,7 @@ import {ChannelAddMembersDialogComponent} from './channel-add-members-dialog/cha
 import {Observable} from 'rxjs';
 import {ThreadsDbService} from '../../../services/message/threads-db.service';
 import {ResizeService} from '../../../services/responsive/resize.service';
+import {DialogWindowControlService} from '../../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-channel',
@@ -44,17 +45,12 @@ import {ResizeService} from '../../../services/responsive/resize.service';
 export class ChannelComponent {
   channelsDb = inject(ChannelsDbService);
   usersDb = inject(UsersDbService);
+  dialogWindowControl = inject(DialogWindowControlService);
+
   chatId: string = '';
-  lastMessageDocId: WritableSignal<string | null> = signal<string | null>(null);
   chatMessages$!: Observable<any[]>;
-  dialogComponent: 'dataWindow' | 'membersInfo' = 'dataWindow';
 
-  dataWindow: boolean = false;
-  membersInfo: boolean = false;
-  addMembers: boolean = false;
-
-  @ViewChild('channelDataWindow') channelDataWindow!: any;
-  @ViewChild('channelAddMembersInfo') channelAddMembersInfo!: any;
+  @ViewChild('addMembersDialog') addMembersDialog!: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -84,44 +80,25 @@ export class ChannelComponent {
   }
 
   openDialog(child: string) {
-    this.switchChannelInfo(child);
+    this.dialogWindowControl.openDialog(child);
+    child === 'addMembers' ? this.addMembersDialogFocus() : null;
   }
 
-  switchChannelInfo(child: string) {
-    switch (child) {
-      case 'dataWindow':
-        this.dataWindow = true;
-        break;
-      case 'membersInfo':
-        this.membersInfo = true;
-        break;
-      case 'addMembers':
-        this.addMembers = true;
-        this.channelAddMembersInfo.resetAfterViewChecked();
-        break;
-    }
+  addMembersDialogFocus() {
+    setTimeout(() => this.addMembersDialog.focusInput(), 250);
   }
 
-  openAddMembers(event: boolean) {
-    this.membersInfo = !event;
-    this.addMembers = event;
-    this.channelAddMembersInfo.resetAfterViewChecked();
+  closeAddMembersDialog() {
+    this.addMembersDialog.closeAddMembersDialog();
   }
 
-  closeDialog(event: boolean) {
-    this.dataWindow = event;
-    this.channelDataWindow.resetOnClose();
-
-    this.membersInfo = event;
-    this.addMembers = event;
+  isDialogOpen() {
+    return this.dialogWindowControl.isDataWindowOpen || this.dialogWindowControl.isMembersInfoOpen
+      || this.dialogWindowControl.isAddMembersOpen;
   }
 
   addEmoji(event: string) {
     console.log(event);
     this.emojiService.addEmoji(event, this.chatId, 'channels');
-  }
-
-  openChannelSig() {
-    console.log(this.channelsDb.channelSig()?.name);
   }
 }

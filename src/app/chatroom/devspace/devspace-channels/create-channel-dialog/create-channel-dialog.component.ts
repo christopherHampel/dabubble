@@ -1,8 +1,9 @@
 import {Component, ElementRef, EventEmitter, inject, Output, ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ChannelsDbService } from '../../../../services/message/channels-db.service';
-import { ResizeService } from '../../../../services/responsive/resize.service';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {ChannelsDbService} from '../../../../services/message/channels-db.service';
+import {ResizeService} from '../../../../services/responsive/resize.service';
+import {DialogWindowControlService} from '../../../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-create-channel-dialog',
@@ -16,6 +17,7 @@ import { ResizeService } from '../../../../services/responsive/resize.service';
 export class CreateChannelDialogComponent {
   private channelsDb = inject(ChannelsDbService);
   resize = inject(ResizeService);
+  dialogWindowControl = inject(DialogWindowControlService);
 
   channelName: string = '';
   channelDescription: string = '';
@@ -24,25 +26,23 @@ export class CreateChannelDialogComponent {
   @ViewChild('inputField') inputFieldRef!: ElementRef<HTMLInputElement>;
 
   focusInput() {
+    this.resetInputs();
     setTimeout(() => this.inputFieldRef.nativeElement.focus(), 50);
   }
 
 
   closeDialog() {
-    this.dialogComponent.emit('none');
-
-    !this.resize.checkMediaW600px ? this.resetInputs() : null;
+    this.resetInputs();
+    this.dialogWindowControl.resetDialogs();
   }
 
 
-  openDialog() {
+  openAddPeopleDialog() {
     if (!this.resize.checkMediaW600px) {
-      this.dialogComponent.emit('addPeople');
-    } else {
-      this.dialogComponent.emit('mobile');
+      this.resetInputs();
+      this.dialogWindowControl.closeDialog('createChannel');
     }
-
-    !this.resize.checkMediaW600px ? this.resetInputs() : null;
+    this.dialogWindowControl.openDialog('addPeople');
   }
 
 
@@ -59,7 +59,12 @@ export class CreateChannelDialogComponent {
       description: this.channelDescription
     })
 
-    !this.resize.checkMediaW600px ? this.resetInputs() : null;
+    !this.resize.checkMediaW600pxSig ? this.resetInputs() : null;
+  }
+
+
+  isMobile() {
+    return this.dialogWindowControl.isCreateChannelOpen && this.dialogWindowControl.isAddPeopleOpen;
   }
 
 
