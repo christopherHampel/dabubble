@@ -280,7 +280,41 @@
       font-size: 20px;
       line-height: 100%;
       color: black;
+      margin-left: 45px;
     }
+
+    &:active {
+      background-color: #ECEEFE;
+      border-radius: 30px;
+    }
+
+    &:active span {
+      color: #535AF1;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.profile {
+  background-image: url('./../../../public/img/profile_mobile.png');
+  background-repeat: no-repeat;
+  background-position: 30px;
+
+  &:active {
+    background-image: url('./../../../public/img/profile_mobil_active.png');
+  }
+}
+
+.logout {
+  background-image: url('./../../../public/img/logout.png');
+  background-repeat: no-repeat;
+  background-position: 30px;
+
+  &:active {
+    background-image: url('./../../../public/img/logout_active.png');
   }
 }
 

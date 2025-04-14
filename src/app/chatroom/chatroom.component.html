@@ -37,12 +37,12 @@
     <div class="user-profil-wrapper-mobile slide-in" [ngClass]="wrapperMobile ? 'slide-in-active': ''">
       <div (click)="openMobileWrapper()" class="close-button"></div>
       <div class="overconatiner-select-btn">
-          <div (click)="showProfile()" class="select">
-              <img src="/img/empty_profile.png">
+          <div (click)="showProfile()" class="select profile">
+              <!-- <img src="/img/profile_mobile.png"> -->
               <span>Profil</span>
           </div>
-          <div (click)="logout()" class="select">
-              <img src="/img/empty_profile.png" alt="">
+          <div (click)="logout()" class="select logout">
+              <!-- <img src="/img/logout.png" alt=""> -->
               <span>Log out</span>
           </div>
       </div>

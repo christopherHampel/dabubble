@@ -18,16 +18,10 @@ export class TransparentBackgroundComponent {
   @Output() addPeopleDialogClose = new EventEmitter<boolean>();
 
   closeBackground() {
-<<<<<<< HEAD
-    debugger;
-    if (!this.resize.checkMediaW600px()) {
-      this.backgroundClose.emit(true);
-=======
     if (this.dialogControlWindow.isDataWindowOpen && this.dialogControlWindow.isAddMembersOpen) {
       this.addMembersDialogClose.emit(true);
     } else if (this.dialogControlWindow.isCreateChannelOpen && this.dialogControlWindow.isAddPeopleOpen) {
       this.addPeopleDialogClose.emit(true);
->>>>>>> a45e3ae5476572487e0ab9a5f08a7e7ec2760568
     } else {
       this.dialogControlWindow.resetDialogs();
     }
