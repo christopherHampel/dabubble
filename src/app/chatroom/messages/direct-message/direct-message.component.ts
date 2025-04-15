@@ -11,8 +11,7 @@ import { UsersDbService } from '../../../services/usersDb/users-db.service';
 import { MessagesFieldComponent } from '../../../shared/messages-field/messages-field.component';
 import { ThreadsDbService } from '../../../services/message/threads-db.service';
 import { UserProfilComponent } from '../../../shared/user-profil/user-profil.component';
-import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
-import { ResizeService } from '../../../services/responsive/resize.service';
+import { DialogWindowControlService } from '../../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-direct-message',
@@ -22,8 +21,7 @@ import { ResizeService } from '../../../services/responsive/resize.service';
     TextareaComponent,
     EmojiPickerComponentComponent,
     MessagesFieldComponent,
-    UserProfilComponent,
-    TransparentBackgroundComponent,
+    UserProfilComponent
   ],
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
@@ -33,26 +31,30 @@ export class DirectMessageComponent implements OnDestroy {
   chatMessages$!: Observable<any[]>;
   emojiQuickBar: boolean = false;
   emojiService = inject(EmojisService);
+  dialogWindowControl = inject(DialogWindowControlService);
   private paramMapSubscription!: Subscription;
-  dialog: boolean = false;
+  userProfil: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     public chatService: ChatsService,
     private usersService: UsersDbService,
     private threadsDB: ThreadsDbService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getIdFromUrl();
   }
 
-  openDialog() {
-    this.dialog = true;
+  openUserProfilDialog() {
+    this.dialogWindowControl.openDialog('userProfil');
+    this.userProfil = true;
+    console.log('directMessage: ', this.userProfil);
   }
 
-  closeDialog(event: boolean) {
-    this.dialog = event;
+  closeUserProfilDialog(event: boolean) {
+    this.userProfil = event;
+    console.log('directMessage: ', this.userProfil);
   }
 
   getIdFromUrl() {

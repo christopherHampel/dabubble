@@ -52,11 +52,14 @@
       <div class="arrow-drop-down-icon"></div>
     </div>
 
-    <ul [ngStyle]="{ display: dropdown ? 'flex' : 'none' }" class="dropdown-profil animation">
-      <button (click)="openDialog(user)">Profil</button>
+    <ul *ngIf="dialogWindowControl.isDropdownOpen" class="dropdown-profil animation">
+      <button (click)="openUserProfilDialog(user)">Profil</button>
       <button (click)="onLogout()">Log out</button>
     </ul>
 
-    <app-user-profil [dialogOpen]="dialog" (dialogClose)="dialog = !$event" [useAs]="'edit'" [userSig]="userSig"></app-user-profil>
+    <app-user-profil *ngIf="userProfil" (userProfilClose)="closeUserProfilDialog(!$event)" [useAs]="'edit'"
+                     [userSig]="userSig"></app-user-profil>
   </div>
 </section>
+
+<app-transparent-background [backgroundOpen]="isDialogOpen()" (click)="userProfil = false"></app-transparent-background>

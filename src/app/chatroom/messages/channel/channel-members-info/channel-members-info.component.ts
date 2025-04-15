@@ -23,7 +23,6 @@ export class ChannelMembersInfoComponent {
   dialogWindowControl = inject(DialogWindowControlService);
 
   channelUserDataListReverse: UserProfile[] = [];
-  dialog: boolean = false;
   userSig = signal<UserProfile>({} as UserProfile);
 
   @Output() addMembersDialogFocus = new EventEmitter<boolean>();
@@ -51,8 +50,8 @@ export class ChannelMembersInfoComponent {
   }
 
 
-  openDialog(user: UserProfile){
+  openUserProfilDialog(user: UserProfile){
+    this.dialogWindowControl.openDialog('userProfil');
     this.userSig.set(user);
-    this.dialog = true;
   }
 }

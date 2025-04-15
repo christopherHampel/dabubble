@@ -22,6 +22,8 @@ export class TransparentBackgroundComponent {
       this.addMembersDialogClose.emit(true);
     } else if (this.dialogControlWindow.isCreateChannelOpen && this.dialogControlWindow.isAddPeopleOpen) {
       this.addPeopleDialogClose.emit(true);
+    } else if (this.dialogControlWindow.isUserProfilOpen) {
+      this.dialogControlWindow.closeDialog('userProfil');
     } else {
       this.dialogControlWindow.resetDialogs();
     }
