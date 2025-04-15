@@ -18,21 +18,21 @@
               <span>#</span>
               <span>{{ result.searchResult.chatPartner.chatPartner }}</span>
             } @else if (result.searchResult.component == 'messages') {
-              <span>(at)</span>
+              <span>&#64;</span>
               <span class="weight-bold">{{ this.checkChatPartner(result.searchResult.chatPartner.chatPartner, result.searchResult.chatPartner.currentUser) }}</span>
             } @else {
               <div class="thread-result">
-                <span>{{ getChatIcon(result) }}</span>
-                <span class="chat-partner">{{ this.checkChatPartner(result.searchResult.originalChatInfo.originalChatName.chatPartner, result.searchResult.originalChatInfo.originalChatName.currentUser) }}</span>
-                <span>-></span>
+                <div>
+                  <span>{{ getChatIcon(result) }}</span>
+                  <span class="chat-partner">{{ this.checkChatPartner(result.searchResult.originalChatInfo.originalChatName.chatPartner, result.searchResult.originalChatInfo.originalChatName.currentUser) }}</span>
+                  <span>-></span>
+                </div>
                 <div>
                   <span class="thread-from-message">Thread von Nachricht:</span>
                   <span>{{ result.searchResult.originalChatInfo.originalMessage }}</span>
                 </div>
               </div>
             }
-            <!-- <span>{{ getChatIcon(result) }}</span>
-            <span>{{ getChatPartner(result) }}</span> -->
           </div>
           <div>
             <span>{{ result.searchResult.text }}</span>
