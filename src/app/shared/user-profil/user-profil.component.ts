@@ -1,17 +1,20 @@
-import { Component, effect, EventEmitter, inject, Input, Output, Signal, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ChatsService } from '../../services/message/chats.service';
-import { UsersDbService } from '../../services/usersDb/users-db.service';
-import { UserProfile } from '../../interfaces/userProfile';
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth/auth.service';
+import {Component, effect, EventEmitter, inject, Input, Output, Signal, signal} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ChatsService} from '../../services/message/chats.service';
+import {UsersDbService} from '../../services/usersDb/users-db.service';
+import {UserProfile} from '../../interfaces/userProfile';
+import {Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {AuthService} from '../../services/auth/auth.service';
+import {DialogWindowControlService} from '../../services/dialog-window-control/dialog-window-control.service';
+import { TransparentBackgroundComponent } from '../transparent-background/transparent-background.component';
 
 @Component({
   selector: 'app-user-profil',
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    TransparentBackgroundComponent
   ],
   templateUrl: './user-profil.component.html',
   styleUrl: './user-profil.component.scss'
@@ -20,6 +23,8 @@ export class UserProfilComponent {
   chatService = inject(ChatsService);
   usersDb = inject(UsersDbService);
   auth = inject(AuthService);
+  dialogWindowControl = inject(DialogWindowControlService);
+
   chatPartnerSig = signal<UserProfile>({} as UserProfile);
   edit: boolean = false;
   userName: string = '';
@@ -28,8 +33,7 @@ export class UserProfilComponent {
 
   @Input() userSig?: Signal<UserProfile>;
   @Input() useAs: 'view' | 'edit' | 'info' = 'view';
-  @Input() dialogOpen: boolean = false;
-  @Output() dialogClose = new EventEmitter<boolean>();
+  @Output() userProfilClose = new EventEmitter<boolean>();
 
   images = [
     '/img/elias_neumann.png',
@@ -92,15 +96,16 @@ export class UserProfilComponent {
     this.userName = '';
   }
 
-  closeDialog() {
-    this.dialogClose.emit(true);
+  closeUserProfilDialog() {
+    this.dialogWindowControl.closeDialog('userProfil');
+    this.userProfilClose.emit(true);
   }
 
   async selectChat() {
     try {
       const chatId = await this.chatService.setPrivateChat(this.chatPartner, "messages");
       this.chatService.currentChatId = chatId;
-      this.router.navigate(['/chatroom', { outlets: { chats: ['direct-message', chatId], thread: null } }]);
+      this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', chatId], thread: null}}]);
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);
     }
@@ -112,9 +117,17 @@ export class UserProfilComponent {
 
     await this.auth.updateCurrentUser(this.userName, this.selectedImage);
     this.usersDb.updateCurrentUserProfil(this.userName, this.selectedImage);
-    this.chatPartnerSig.update((currentDate) => ({...currentDate, userName: this.userName, avatar: this.selectedImage}));
+    this.chatPartnerSig.update((currentDate) => ({
+      ...currentDate,
+      userName: this.userName,
+      avatar: this.selectedImage
+    }));
 
     this.closeEdit();
     setTimeout(() => this.manuelUpdatUser = false, 500);
+  }
+
+  isDialogOpen() {
+    return this.dialogWindowControl.isUserProfilOpen;
   }
 }

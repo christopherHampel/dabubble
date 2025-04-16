@@ -1,4 +1,4 @@
-<section *ngIf="dialogOpen && chatPartnerSig() as chatPartner" class="user-profil-window"
+<section *ngIf="dialogWindowControl.isUserProfilOpen && chatPartnerSig() as chatPartner" class="user-profil-window"
     [ngClass]="{ 'border-radius-edit': useAs === 'edit', 'position-absolute': useAs === 'edit', 'animation': useAs === 'edit',
     'border-radius-view-info': useAs !== 'edit', 'position-fixed': useAs !== 'edit', 'slide-in': useAs !== 'edit' }">
 
@@ -7,7 +7,7 @@
         <ng-template #editHeadline>
             <h2>Dein Profil bearbeiten</h2>
         </ng-template>
-        <div (click)="closeDialog()" class="close-icon"></div>
+        <div (click)="closeUserProfilDialog()" class="close-icon"></div>
     </header>
 
     <div class="image-container" [ngClass]="{'margin-top': edit}">
@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <button *ngIf="useAs !== 'edit'" type="button" (click)="selectChat(); closeDialog()"
+            <button *ngIf="useAs !== 'edit'" type="button" (click)="selectChat(); closeUserProfilDialog()"
                 class="primary-button">Nachricht</button>
         </div>
 
@@ -75,3 +75,5 @@
     </form>
 
 </section>
+
+<app-transparent-background [backgroundOpen]="isDialogOpen()" (click)="closeUserProfilDialog()"></app-transparent-background>

@@ -11,7 +11,8 @@ export class DialogWindowControlService {
     {component: 'dataWindow', open: false},
     {component: 'membersInfo', open: false},
     {component: 'addMembers', open: false},
-    {component: 'userProfil', open: false}
+    {component: 'userProfil', open: false},
+    {component: 'dropdown', open: false}
   ]);
 
   constructor() {
@@ -45,6 +46,16 @@ export class DialogWindowControlService {
 
   get isAddMembersOpen() {
     return this.dialogsSig().some((dialog) => dialog.component === 'addMembers' && dialog.open);
+  }
+
+
+  get isUserProfilOpen() {
+    return this.dialogsSig().some((dialog) => dialog.component === 'userProfil' && dialog.open);
+  }
+
+
+  get isDropdownOpen() {
+    return this.dialogsSig().some((dialog) => dialog.component === 'dropdown' && dialog.open);
   }
 
 

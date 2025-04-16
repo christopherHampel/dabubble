@@ -1,12 +1,12 @@
 <section class="card">
 
     <div class="message-head">
-        <div (click)="openDialog()" class="user-profil">
+        <div (click)="openUserProfilDialog()" class="user-profil">
             <img [src]="this.chatService.chatPartner.avatar || 'img/empty_profile.png'" alt="">
             <h2>{{ this.chatService.chatPartner.name }}</h2>
         </div>
     </div>
-    
+
     <app-messages-field class="message-field" [chatId]="chatId" [component]="'messages'"></app-messages-field>
 
     <div class="textarea-component">
@@ -40,5 +40,4 @@
 
 </section>
 
-<app-user-profil [dialogOpen]="dialog" (dialogClose)="closeDialog(!$event)" [useAs]="'view'"></app-user-profil>
-<app-transparent-background [backgroundOpen]="dialog" (backgroundClose)="closeDialog(!$event)"></app-transparent-background>
+<app-user-profil *ngIf="userProfil" (userProfilClose)="closeUserProfilDialog(!$event)" [useAs]="'view'"></app-user-profil>

@@ -9,13 +9,16 @@ import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ChatsService } from '../../services/message/chats.service';
 import { UserProfilComponent } from '../../shared/user-profil/user-profil.component';
 import { UserProfile } from '../../interfaces/userProfile';
+import { TransparentBackgroundComponent } from '../../shared/transparent-background/transparent-background.component';
+import {DialogWindowControlService} from '../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-chatroom-header',
   imports: [
     CommonModule,
     FormsModule,
-    UserProfilComponent
+    UserProfilComponent,
+    TransparentBackgroundComponent
   ],
   templateUrl: './chatroom-header.component.html',
   styleUrl: './chatroom-header.component.scss',
@@ -23,9 +26,10 @@ import { UserProfile } from '../../interfaces/userProfile';
 export class ChatroomHeaderComponent {
   private auth = inject(AuthService);
   usersDb = inject(UsersDbService);
-  dropdown: boolean = false;
+  dialogWindowControl = inject(DialogWindowControlService);
+
   searchTextInput: string = '';
-  dialog: boolean = false;
+  userProfil: boolean = false;
 
   searchText = signal<string>('');
   results = signal<any[]>([]);
@@ -36,23 +40,30 @@ export class ChatroomHeaderComponent {
     public searchService: SearchDevspaceService,
     private threadsDb: ThreadsDbService,
     private chatService: ChatsService
-  ) {}
+  ) { }
 
   get resultsData() {
     return this.searchService.results;
   }
 
-  openDialog(user: UserProfile) {
-    this.dialog = true;
+  openUserProfilDialog(user: UserProfile) {
+    this.dialogWindowControl.openDialog('userProfil');
     this.userSig.set(user);
+    this.userProfil = true;
+    console.log('chatroomHeader: ', this.userProfil);
+  }
+
+  closeUserProfilDialog(event: boolean) {
+    this.userProfil = event;
+    console.log('chatroomHeader: ', this.userProfil);
+  }
+
+  isDialogOpen() {
+    return this.dialogWindowControl.isDropdownOpen;
   }
 
   openDropdown() {
-    this.dropdown = true;
-  }
-
-  closeDropdown(event: boolean) {
-    this.dropdown = event;
+    this.dialogWindowControl.openDialog('dropdown');
   }
 
   onLogout() {
