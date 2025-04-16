@@ -19,8 +19,8 @@ export class DialogWindowControlService {
   }
 
 
-  get isDailogOpen() {
-    return this.dialogsSig().some((dialog) => dialog.open);
+  get isAddFriendOpen() {
+    return this.dialogsSig().some((dialog) => dialog.component === 'addFriend' && dialog.open);
   }
 
 

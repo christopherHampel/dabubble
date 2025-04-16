@@ -86,8 +86,4 @@ export class DirectMessageComponent implements OnDestroy {
       this.chatService.chatPartner.name
     );
   }
-
-  showProfile() {
-    console.log('Profil anzeigen!');
-  }
 }

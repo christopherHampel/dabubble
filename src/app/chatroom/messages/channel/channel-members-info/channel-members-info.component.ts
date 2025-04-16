@@ -54,4 +54,9 @@ export class ChannelMembersInfoComponent {
     this.dialogWindowControl.openDialog('userProfil');
     this.userSig.set(user);
   }
+
+
+  isDialogOpen() {
+    return this.dialogWindowControl.isUserProfilOpen;
+  }
 }

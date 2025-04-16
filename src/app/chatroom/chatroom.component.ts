@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import {Component, effect, inject, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DevspaceComponent } from './devspace/devspace.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -8,6 +8,10 @@ import { Router } from '@angular/router';
 import { UsersDbService } from '../services/usersDb/users-db.service';
 import { ChatroomHeaderComponent } from './chatroom-header/chatroom-header.component';
 import { ResizeService } from '../services/responsive/resize.service';
+import { DialogWindowControlService } from '../services/dialog-window-control/dialog-window-control.service';
+import { TransparentBackgroundComponent } from '../shared/transparent-background/transparent-background.component';
+import { UserProfilComponent } from '../shared/user-profil/user-profil.component';
+import {UserProfile} from '../interfaces/userProfile';
 
 @Component({
   selector: 'app-chatroom',
@@ -16,7 +20,9 @@ import { ResizeService } from '../services/responsive/resize.service';
     DevspaceComponent,
     MessagesComponent,
     ThreadRouterOutletComponent,
-    ChatroomHeaderComponent
+    ChatroomHeaderComponent,
+    TransparentBackgroundComponent,
+    UserProfilComponent
   ],
   templateUrl: './chatroom.component.html',
   styleUrl: './chatroom.component.scss'
@@ -25,9 +31,13 @@ export class ChatroomComponent {
   currentUser: string = '';
 
   private auth = inject(AuthService);
-  private userDb = inject(UsersDbService);
+  userDb = inject(UsersDbService);
+  dialogWindowControl = inject(DialogWindowControlService);
+
+  userSig = signal<UserProfile>({} as UserProfile);
 
   editProfile:boolean = false;
+  userProfil: boolean = false;
 
   constructor(private router: Router, private resize: ResizeService, private usersDb: UsersDbService) { }
 
@@ -75,6 +85,16 @@ export class ChatroomComponent {
     this.resize.setMobileWrapper(!this.resize.wrapperMobile());
   }
 
+  openUserProfilDialog(user: UserProfile) {
+    this.dialogWindowControl.openDialog('userProfil');
+    this.userSig.set(user);
+    this.userProfil = true;
+  }
+
+  closeUserProfilDialog(event: boolean) {
+    this.userProfil = event;
+  }
+
   logout() {
     if (this.usersDb.currentUser) {
       this.usersDb.updateUserStatus(this.usersDb.currentUser.id, false);
@@ -83,10 +103,6 @@ export class ChatroomComponent {
       this.router.navigateByUrl('/register/login');
       this.openMobileWrapper();
     }
-  }
-
-  showProfile() {
-    this.editProfile = !this.editProfile;
   }
 
   // checkWindowWidth(value:number) {

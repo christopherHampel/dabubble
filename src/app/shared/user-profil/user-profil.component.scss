@@ -251,3 +251,15 @@ form {
 .button-wrapper {
     @include d-flex($g: 24px);
 }
+
+@media(max-width: 600px) {
+  .position-fixed, .position-absolute {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 30px;
+  }
+}
