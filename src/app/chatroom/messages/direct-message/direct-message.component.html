@@ -25,7 +25,7 @@
 
             <span *ngIf="!isPrivateChat()">
                 Diese Unterhaltung findet nur zwischen
-                <span class="chat-with" (click)="showProfile()">&#64;{{ this.chatService.chatPartner.name }}</span> und
+                <span class="chat-with">&#64;{{ this.chatService.chatPartner.name }}</span> und
                 dir statt.
             </span>
         </div>

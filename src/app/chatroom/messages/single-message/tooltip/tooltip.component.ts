@@ -72,9 +72,6 @@ export class TooltipComponent {
     }
     this.router.navigate(['/chatroom', { outlets: { thread: ['thread', this.threadsDb.currentThreadId()] } }]);
     this.chatService.subscribeFirstThreadMessage(this.chatId, this.message.docId, this.message.component);
-    setTimeout(() => {
-      console.log(this.chatService.firstThreadMessage());
-    }, 1000)
   }
 
   @HostListener('document:click', ['$event'])

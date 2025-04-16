@@ -67,10 +67,7 @@ export class ThreadsComponent {
   }
 
   ngOnInit(): void {
-
     this.subscribeThreadData();
-    // console.log(this.chatService.firstThreadMessage()); // hier wichtig!!
-
     this.chatService.watchLastMessageDocId(
       this.threadsDb.currentThreadId(),
       'threads',
@@ -81,8 +78,6 @@ export class ThreadsComponent {
   subscribeThreadData() {
     this.activatedRoute.params.subscribe((params) => {
       this.threadsDb.currentThreadId.set(params['threadId']);
-      // console.log(this.threadsDb.currentThreadId());
-
       this.threadsDb.subMessageList(this.threadsDb.currentThreadId());
       this.threadsDb.subscribeToThread(this.threadsDb.currentThreadId());
     });

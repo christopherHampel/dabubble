@@ -43,7 +43,6 @@ export class ChatroomComponent {
 
   onUserSelected(username: string): void {
     this.currentUser = username;
-    console.log('Aktueller Benutzer:', this.currentUser);
   }
 
   under1000px() {
@@ -60,7 +59,7 @@ export class ChatroomComponent {
   }
 
   get getCurrentUserImage(): string {
-    return this.usersDb.currentUserSig()?.avatar || 'assets/default-avatar.png';
+    return this.usersDb.currentUserSig()?.avatar || '';
   }
 
   get wrapperMobile() {
@@ -88,8 +87,4 @@ export class ChatroomComponent {
   showProfile() {
     this.editProfile = !this.editProfile;
   }
-
-  // checkWindowWidth(value:number) {
-  //   return window.innerWidth < value;
-  // }
 }
