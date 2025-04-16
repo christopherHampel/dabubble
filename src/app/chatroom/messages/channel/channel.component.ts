@@ -98,7 +98,6 @@ export class ChannelComponent {
   }
 
   addEmoji(event: string) {
-    console.log(event);
     this.emojiService.addEmoji(event, this.chatId, 'channels');
   }
 }
