@@ -252,7 +252,7 @@ form {
     @include d-flex($g: 24px);
 }
 
-@media(max-width: 600px) {
+@media(max-width: 960px) {
   .position-fixed, .position-absolute {
     position: fixed;
     top: 50%;

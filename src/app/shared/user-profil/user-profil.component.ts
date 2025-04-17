@@ -8,6 +8,7 @@ import {FormsModule} from '@angular/forms';
 import {AuthService} from '../../services/auth/auth.service';
 import {DialogWindowControlService} from '../../services/dialog-window-control/dialog-window-control.service';
 import { TransparentBackgroundComponent } from '../transparent-background/transparent-background.component';
+import { ResizeService } from '../../services/responsive/resize.service';
 
 @Component({
   selector: 'app-user-profil',
@@ -24,6 +25,7 @@ export class UserProfilComponent {
   usersDb = inject(UsersDbService);
   auth = inject(AuthService);
   dialogWindowControl = inject(DialogWindowControlService);
+  resize = inject(ResizeService);
 
   chatPartnerSig = signal<UserProfile>({} as UserProfile);
   edit: boolean = false;
