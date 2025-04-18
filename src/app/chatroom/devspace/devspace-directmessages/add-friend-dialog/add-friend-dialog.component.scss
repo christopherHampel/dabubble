@@ -133,3 +133,9 @@ form {
     margin-bottom: -500px;
   }
 }
+
+@media(max-width: 960px) {
+  .add-friend-dialog {
+    z-index: 10;
+  }
+}

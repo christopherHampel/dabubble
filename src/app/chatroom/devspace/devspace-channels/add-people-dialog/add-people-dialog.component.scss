@@ -320,3 +320,9 @@ input[type="radio"]:checked + label::before {
     }
   }
 }
+
+@media(max-width: 960px) {
+  .add-people-dialog {
+    z-index: 10;
+  }
+}
