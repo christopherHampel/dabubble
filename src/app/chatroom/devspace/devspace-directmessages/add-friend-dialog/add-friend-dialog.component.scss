@@ -135,7 +135,7 @@ form {
 }
 
 @media(max-width: 960px) {
-  .add-friend-dialog {
+  .add-friend-dialog-mobile, .add-friend-dialog {
     z-index: 10;
   }
 }
