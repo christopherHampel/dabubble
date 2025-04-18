@@ -1,33 +1,31 @@
-<section *ngIf="dialogWindowControl.isAddPeopleOpen" class="add-people-dialog"
+<section (click)="closeDropdownChannelSelelction()" *ngIf="dialogWindowControl.isAddPeopleOpen" class="add-people-dialog"
          [ngClass]="{ 'slide-in': !resize.checkMediaW600px, 'slide-in-bottom': resize.checkMediaW600px && !mobileClose,
          'slide-out-bottom': resize.checkMediaW600px && mobileClose }">
 
   <div class="mobile-close-button">
-    <div (click)="closeAddPeopleDialog()"></div>
+    <div (click)="closeAddPeopleDialogMobile()"></div>
   </div>
 
   <header class="header-dialog">
     <h2>Leute hinzufügen</h2>
-    <div (click)="closeDialog()" class="close-icon"></div>
+    <div (click)="closeAddPeopleDialog()" class="close-icon"></div>
   </header>
 
   <form action="">
-    <div class="radio-button">
+    <div class="radio-button" *ngIf="channelsDb.channelList.length > 0">
       <input [(ngModel)]="selectedOption" name="option" type="radio" value="option1">
-      <label for="">
+      <label>
         <p class="add-members-from-channel">
           Alle Mitglieder von
           <span class="wrapper">
-            <div class="label" (click)="openpdownChannelSelelction()">
-              <ng-container *ngFor="let channel of getChannelList(); let i = index">
-                <span *ngIf="i == 0" [ngClass]="{ 'highlighted-text': dropdownChannelSelelction }">{{ channel.name }}</span>
-              </ng-container>
+            <div class="label" (click)="openDropdownChannelSelelction($event)">
+                <span [ngClass]="{ 'highlighted-text': dropdownChannelSelelction }">{{ selectedChannel }}</span>
               <div class="arrow-drop-down"
                    [ngClass]="{ 'arrow-close': !dropdownChannelSelelction, 'arrow-open': dropdownChannelSelelction }"></div>
             </div>
               <div *ngIf="dropdownChannelSelelction" class="popup">
                 <ng-container *ngFor="let channel of getChannelList(); let i = index">
-                  <span *ngIf="i > 0">{{ channel.name }}</span>
+                  <span *ngIf="isSelectedChannel(i)" (click)="selectChannel(channel.name)">{{ channel.name }}</span>
                 </ng-container>
               </div>
           </span>
@@ -36,11 +34,11 @@
       </label>
     </div>
 
-    <div>
+    <div class="radio-button-two-wrapper">
       <div class="radio-button">
         <input (click)="focusInput()" [(ngModel)]="selectedOption" name="option" type="radio"
                value="option2">
-        <label for="">
+        <label>
           <p>
             Bestimmte Leute hinzufügen
           </p>
@@ -52,7 +50,9 @@
                             (selectedUserOut)="selectUser($event)"></app-add-people-input>
     </div>
 
-    <button (click)="createChannel()" [disabled]="buttonDisabled()" class="primary-button">Erstellen</button>
+    <div class="button-wrapper">
+      <button (click)="createChannel()" [disabled]="buttonDisabled()" class="primary-button">Erstellen</button>
+    </div>
   </form>
 
 </section>

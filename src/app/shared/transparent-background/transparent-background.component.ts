@@ -25,7 +25,7 @@ export class TransparentBackgroundComponent {
     } else if (this.dialogControlWindow.isUserProfilOpen) {
       this.dialogControlWindow.closeDialog('userProfil');
     } else {
-      this.dialogControlWindow.resetDialogs();
+      setTimeout(() => this.dialogControlWindow.resetDialogs(), 250);
     }
   }
 }

@@ -171,10 +171,10 @@ export class AddPeopleInputComponent {
   async createChannel() {
     let participants: { id: string; createdBy: boolean; }[];
     let participantIds: string[] = [];
-    
+
     participants = this.selectedUserList.map((user, index) => ({
       id: user.id,
-      createdBy: index > 0 || this.component === 'addMembers' ? false : true,
+      createdBy: !(index > 0 || this.component === 'addMembers'),
     })) || [];
 
     this.selectedUserList.forEach(user => {

@@ -64,7 +64,11 @@ export class DevspaceChannelsComponent {
   }
 
   closeAddPeopleDialog() {
-    this.addPeople.closeAddPeopleDialog();
+    if (this.resize.checkMediaW960px) {
+      this.addPeople.closeAddPeopleDialogMobile();
+    } else {
+      this.addPeople.closeAddPeopleDialog();
+    }
   }
 
 

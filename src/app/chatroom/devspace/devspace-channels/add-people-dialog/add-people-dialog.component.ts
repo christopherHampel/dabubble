@@ -1,11 +1,12 @@
-import {Component, EventEmitter, inject, Output, ViewChild} from '@angular/core';
+import {Component, effect, EventEmitter, inject, Output, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {AddPeopleInputComponent} from '../../../../shared/add-people-input/add-people-input.component';
 import {UserProfile} from '../../../../interfaces/userProfile';
 import {ResizeService} from '../../../../services/responsive/resize.service';
 import {DialogWindowControlService} from '../../../../services/dialog-window-control/dialog-window-control.service';
-import { ChannelsDbService } from '../../../../services/message/channels-db.service';
+import {ChannelsDbService} from '../../../../services/message/channels-db.service';
+import {UsersDbService} from '../../../../services/usersDb/users-db.service';
 
 @Component({
   selector: 'app-add-people-dialog',
@@ -21,31 +22,65 @@ export class AddPeopleDialogComponent {
   resize = inject(ResizeService)
   dialogWindowControl = inject(DialogWindowControlService);
   channelsDb = inject(ChannelsDbService);
+  private usersDb = inject(UsersDbService);
 
   selectedOption: string = 'option1';
   selectedUser: UserProfile = {} as UserProfile;
   mobileClose: boolean = false;
   dropdownChannelSelelction: boolean = false;
+  selectedChannel: string = '';
+  flag: boolean = true;
 
   @Output() dialogComponent = new EventEmitter<'none' | 'createChannel'>();
   @ViewChild('addPeopleInput') addPeopleInput!: any;
+
+  constructor() {
+    effect(() => {
+      if (!this.flag) return;
+
+      if (this.channelsDb.channelList.length > 0 && this.flag) {
+        this.flag = false;
+        this.selectedChannel = this.getChannelList()[0].name
+      }
+    })
+  }
+
+
+  isSelectedChannel(i: number) {
+    return this.channelsDb.channelList[i].name !== this.selectedChannel;
+  }
+
+
+  selectChannel(name: string) {
+    this.selectedChannel = name;
+  }
 
 
   getChannelList() {
     return this.channelsDb.channelList;
   }
 
-  openpdownChannelSelelction() {
+
+  openDropdownChannelSelelction(event: Event) {
+    event.stopPropagation();
     this.dropdownChannelSelelction = !this.dropdownChannelSelelction;
   }
 
-  closeAddPeopleDialog() {
+
+  closeDropdownChannelSelelction() {
+    this.dropdownChannelSelelction = false;
+  }
+
+
+  closeAddPeopleDialogMobile() {
     this.mobileClose = true;
 
     setTimeout(() => {
       this.resetOption();
+      this.closeDropdownChannelSelelction()
       this.mobileClose = false;
       this.dialogWindowControl.closeDialog('addPeople');
+      this.flag = true;
     }, 500);
   }
 
@@ -60,9 +95,11 @@ export class AddPeopleDialogComponent {
   }
 
 
-  closeDialog() {
+  closeAddPeopleDialog() {
     this.resetOption();
+    this.closeDropdownChannelSelelction()
     this.dialogWindowControl.resetDialogs();
+    this.flag = true;
   }
 
 
@@ -71,10 +108,44 @@ export class AddPeopleDialogComponent {
   }
 
 
-  async createChannel() {
+  createChannel() {
+    if (this.selectedOption === 'option1') {
+      this.createChannelOption1()
+    } else {
+      this.createChannelOption2()
+    }
+  }
+
+
+  async  createChannelOption1() {
+    let channel = this.channelsDb.channelList.find(channel => channel.name === this.selectedChannel);
+    let participants: { id: string; createdBy: boolean; }[] = [];
+    let participantsIds: string[] = [];
+
+    channel?.participants.forEach(participant => {
+      if (participant.id === this.usersDb.currentUser?.id) {
+        participants.unshift({id: participant.id, createdBy: true})
+        participantsIds.unshift(participant.id);
+      } else {
+        participants.push({id: participant.id, createdBy: false})
+        participantsIds.push(participant.id);
+      }
+    })
+
+    this.channelsDb.updateChannel({
+      participants: participants,
+      participantIds: participantsIds
+    });
+
+    await this.channelsDb.addChannel();
+    this.closeAddPeopleDialog();
+  }
+
+
+  async createChannelOption2() {
     await this.addPeopleInput.createChannel();
     this.addPeopleInput.resetSelectedUserList();
-    this.closeDialog();
+    this.closeAddPeopleDialog();
   }
 
 
