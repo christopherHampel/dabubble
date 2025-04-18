@@ -20,7 +20,6 @@
         <app-user-view-small *ngFor="let user of getUserList()" [user]="user" (click)="selectChat(user); selectUser(user.id)"
             [selectedUserId]="selectedUserIdSig()"
             [ngClass]="{'fold-in-directmessages': !directmessagesOpen, 'fold-out-directmessages': directmessagesOpen}"></app-user-view-small>
-
     </ul>
 
     <!-- Add user -->

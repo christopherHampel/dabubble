@@ -49,10 +49,6 @@ export class SingleMessageComponent {
     private sanitizer: DomSanitizer
   ) {}
 
-  ngOnInit() {
-    // this.currentDate = this.showDate();
-  }
-
   ngAfterViewChecked() {
     if (this.isEditing) {
       setTimeout(() => this.adjustTextAreaHeight(), 0);
@@ -298,19 +294,7 @@ export class SingleMessageComponent {
     return this.sanitizer.bypassSecurityTrustHtml(text);
   }
 
-  // addClickEventToMentions() {
-  //   setTimeout(() => { // Timeout, damit Angular das DOM fertig rendert
-  //     const mentions = this.elRef.nativeElement.querySelectorAll('.mention');
-  //     mentions.forEach((mention: HTMLElement) => {
-  //       this.renderer.listen(mention, 'click', () => {
-  //         this.openUserProfile(mention.innerText.replace('@', '')); // Entfernt das '@'
-  //       });
-  //     });
-  //   }, 0);
-  // }
-
   addEmojiEditMessage() {
-    debugger;
     this.emojiPickerEdit = !this.emojiPickerEdit;
   }
 

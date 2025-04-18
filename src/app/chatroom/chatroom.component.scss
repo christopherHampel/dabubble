@@ -327,13 +327,9 @@
   }
 }
 
-@media(max-width: 1250px) {
-  .devspace-mobil {
-    display: flex;
-  }
-
-  .chatroom-header {
-    display: none;
+@media(max-width: 1200px) {
+  .input-text {
+    font-size: 14px;
   }
 }
 
@@ -358,6 +354,14 @@
 
   .bg-color {
     padding: 0;
+  }
+
+  .devspace-mobil {
+    display: flex;
+  }
+
+  .chatroom-header {
+    display: none;
   }
 }
 

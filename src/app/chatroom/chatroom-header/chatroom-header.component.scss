@@ -251,3 +251,9 @@
 .thread-from-message {
   color: black;
 }
+
+@media(max-width: 1200px) {
+  .search-wrapper {
+    display: none;
+  }
+}
