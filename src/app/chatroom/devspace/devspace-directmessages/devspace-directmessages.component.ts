@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import {Component, effect, inject, signal, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ChatsService } from '../../../services/message/chats.service';
@@ -7,22 +7,28 @@ import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.
 import { UserProfile } from '../../../interfaces/userProfile';
 import { UserViewSmallComponent } from '../../../shared/user-view-small/user-view-small.component';
 import { ResizeService } from '../../../services/responsive/resize.service';
+import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
+import { DialogWindowControlService } from '../../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-devspace-directmessages',
   imports: [
     CommonModule,
     AddFriendDialogComponent,
-    UserViewSmallComponent
+    UserViewSmallComponent,
+    TransparentBackgroundComponent
   ],
   templateUrl: './devspace-directmessages.component.html',
   styleUrl: './devspace-directmessages.component.scss'
 })
 export class DevspaceDirectmessagesComponent {
   usersDb = inject(UsersDbService);
-  dialog: boolean = false;
+  dialogWindowControl = inject(DialogWindowControlService);
+
   selectedUserIdSig = signal<string>('');
   directmessagesOpen: boolean = true;
+
+  @ViewChild('addFriend') addFriend!: any;
 
   constructor(private chatService: ChatsService, private router: Router, private resize: ResizeService) {
     effect(() => {
@@ -47,13 +53,14 @@ export class DevspaceDirectmessagesComponent {
   }
 
 
-  openDialog() {
-    this.dialog = true;
+  openAddFriendDialog() {
+    this.dialogWindowControl.openDialog('addFriend');
+    this.addFriend.focusInput();
   }
 
 
-  closeDialog(event: boolean) {
-    this.dialog = event;
+  isDialogOpen() {
+    return this.dialogWindowControl.isAddFriendOpen
   }
 
 

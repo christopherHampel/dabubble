@@ -1,6 +1,6 @@
 <section *ngIf="dialogWindowControl.isUserProfilOpen && chatPartnerSig() as chatPartner" class="user-profil-window"
-    [ngClass]="{ 'border-radius-edit': useAs === 'edit', 'position-absolute': useAs === 'edit', 'animation': useAs === 'edit',
-    'border-radius-view-info': useAs !== 'edit', 'position-fixed': useAs !== 'edit', 'slide-in': useAs !== 'edit' }">
+    [ngClass]="{ 'border-radius-edit': useAs === 'edit', 'position-absolute': useAs === 'edit', 'animation': useAs === 'edit' && !resize.checkMediaW960px,
+    'border-radius-view-info': useAs !== 'edit', 'position-fixed': useAs !== 'edit', 'slide-in': useAs !== 'edit' || resize.checkMediaW960px }">
 
     <header class="width-100-percent">
         <h2 *ngIf="!edit; else editHeadline">Profil</h2>

@@ -34,10 +34,12 @@
       </div>
     </section>
 
-    <div class="user-profil-wrapper-mobile slide-in" [ngClass]="wrapperMobile ? 'slide-in-active': ''">
+    <div *ngIf="userDb.currentUser as user" class="user-profil-wrapper-mobile slide-in" [ngClass]="wrapperMobile ? 'slide-in-active': ''"
+    [ngStyle]="{ 'z-index': dialogWindowControl.isUserProfilOpen ? '3' : '15' }">
       <div (click)="openMobileWrapper()" class="close-button"></div>
       <div class="overconatiner-select-btn">
-          <div (click)="showProfile()" class="select profile">
+          <div (click)="openUserProfilDialog(user)" class="select profile">
+              <!-- <img src="/img/profile_mobile.png"> -->
               <span>Profil</span>
           </div>
           <div (click)="logout()" class="select logout">
@@ -47,3 +49,7 @@
     </div>
   </div>
 </div>
+
+<app-user-profil *ngIf="userProfil" (userProfilClose)="closeUserProfilDialog(!$event)" [useAs]="'edit'"
+                 [userSig]="userSig"></app-user-profil>
+<app-transparent-background [backgroundOpen]="wrapperMobile" (click)="openMobileWrapper()"></app-transparent-background>

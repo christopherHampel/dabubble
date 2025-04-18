@@ -50,12 +50,10 @@ export class ChatroomHeaderComponent {
     this.dialogWindowControl.openDialog('userProfil');
     this.userSig.set(user);
     this.userProfil = true;
-    console.log('chatroomHeader: ', this.userProfil);
   }
 
   closeUserProfilDialog(event: boolean) {
     this.userProfil = event;
-    console.log('chatroomHeader: ', this.userProfil);
   }
 
   isDialogOpen() {

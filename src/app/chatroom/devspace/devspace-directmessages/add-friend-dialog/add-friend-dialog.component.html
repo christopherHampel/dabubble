@@ -1,14 +1,21 @@
-<section class="add-friend-dialog slide-in" [ngStyle]="{'display': dialogOpen ? 'flex' : 'none'}">
+<section *ngIf="dialogWindowControl.isAddFriendOpen"
+         [ngClass]="{ 'add-friend-dialog': !resize.checkMediaW600px, 'add-friend-dialog-mobile': resize.checkMediaW600px,
+          'slide-in': !resize.checkMediaW600px, 'slide-in-bottom': resize.checkMediaW600px && !mobileClose,
+          'slide-out-bottom': resize.checkMediaW600px && mobileClose}">
+
+  <div (click)="closeAddFriendDialog()" class="mobile-close-button">
+    <div></div>
+  </div>
 
   <header class="header-dialog">
     <h2>Direktnachricht an</h2>
-    <div (click)="closeDialog()" class="close-icon"></div>
+    <div (click)="closeAddFriendDialog()" class="close-icon"></div>
   </header>
 
   <form (ngSubmit)="selectedUser['id'] ? startChat() : null">
 
     <app-add-people-input #addPeopleInput [component]="'addFriend'" class="width-100-percent"
-      (selectedUserOut)="selectUser($event)"></app-add-people-input>
+                          (selectedUserOut)="selectUser($event)"></app-add-people-input>
 
     <button class="primary-button" type="submit" [disabled]="!selectedUser['id']">Chat starten</button>
   </form>

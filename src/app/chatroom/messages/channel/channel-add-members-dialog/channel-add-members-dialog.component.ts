@@ -19,9 +19,6 @@ export class ChannelAddMembersDialogComponent {
   selectedUserList: UserProfile[] = [];
   mobileClose: boolean = false;
 
-  @Input() dialogOpen: boolean = false;
-  @Input() dialogComponent: 'dataWindow' | 'membersInfo' = 'membersInfo';
-  @Output() dialogClose = new EventEmitter<boolean>();
   @ViewChild('addPeopleInput') addPeopleInput!: any;
 
   focusInput() {

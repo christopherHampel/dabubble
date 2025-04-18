@@ -6,6 +6,8 @@ import { UserProfile } from '../../../../interfaces/userProfile';
 import { ChatsService } from '../../../../services/message/chats.service';
 import { Router } from '@angular/router';
 import { AddPeopleInputComponent } from '../../../../shared/add-people-input/add-people-input.component';
+import { DialogWindowControlService } from '../../../../services/dialog-window-control/dialog-window-control.service';
+import { ResizeService } from '../../../../services/responsive/resize.service';
 
 @Component({
   selector: 'app-add-friend-dialog',
@@ -20,32 +22,36 @@ import { AddPeopleInputComponent } from '../../../../shared/add-people-input/add
 export class AddFriendDialogComponent {
   private usersDb = inject(UsersDbService);
   private chatService = inject(ChatsService);
-  selectedUser: UserProfile = {} as UserProfile;
+  dialogWindowControl = inject(DialogWindowControlService);
+  resize = inject(ResizeService);
 
-  @Input() dialogOpen: boolean = false;
-  @Output() dialogClose = new EventEmitter<boolean>();
+  selectedUser: UserProfile = {} as UserProfile;
+  mobileClose: boolean = false;
+
   @ViewChild('addPeopleInput') addPeopleInput!: any;
 
   constructor(private router: Router) { }
 
-  ngOnChanges() {
-    if (this.dialogOpen) {
-      this.focusInput();
-    }
-  }
 
   focusInput() {
-    this.addPeopleInput.focusInput();
+    setTimeout(() => this.addPeopleInput.focusInput(), 500)
   }
+
 
   selectUser(event: any) {
     this.selectedUser = event;
   }
 
-  closeDialog() {
-    this.dialogOpen = false;
-    this.dialogClose.emit(true);
+
+  closeAddFriendDialog() {
+    this.mobileClose = true;
+
+    setTimeout(() => {
+      this.mobileClose = false;
+      this.dialogWindowControl.closeDialog('addFriend');
+    }, 500)
   }
+
 
   async startChat() {
     try {
@@ -53,9 +59,11 @@ export class AddFriendDialogComponent {
       this.chatService.currentChatId = chatId;
       this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', chatId]}}]);
       await this.usersDb.addDirectMessageWith(this.selectedUser['id']);
-      this.closeDialog();
+      this.closeAddFriendDialog();
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);
     }
   }
+
+  protected readonly close = close;
 }

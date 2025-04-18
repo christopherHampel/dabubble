@@ -5,6 +5,7 @@ import {AddPeopleInputComponent} from '../../../../shared/add-people-input/add-p
 import {UserProfile} from '../../../../interfaces/userProfile';
 import {ResizeService} from '../../../../services/responsive/resize.service';
 import {DialogWindowControlService} from '../../../../services/dialog-window-control/dialog-window-control.service';
+import { ChannelsDbService } from '../../../../services/message/channels-db.service';
 
 @Component({
   selector: 'app-add-people-dialog',
@@ -19,13 +20,24 @@ import {DialogWindowControlService} from '../../../../services/dialog-window-con
 export class AddPeopleDialogComponent {
   resize = inject(ResizeService)
   dialogWindowControl = inject(DialogWindowControlService);
+  channelsDb = inject(ChannelsDbService);
 
   selectedOption: string = 'option1';
   selectedUser: UserProfile = {} as UserProfile;
   mobileClose: boolean = false;
+  dropdownChannelSelelction: boolean = false;
 
   @Output() dialogComponent = new EventEmitter<'none' | 'createChannel'>();
   @ViewChild('addPeopleInput') addPeopleInput!: any;
+
+
+  getChannelList() {
+    return this.channelsDb.channelList;
+  }
+
+  openpdownChannelSelelction() {
+    this.dropdownChannelSelelction = !this.dropdownChannelSelelction;
+  }
 
   closeAddPeopleDialog() {
     this.mobileClose = true;

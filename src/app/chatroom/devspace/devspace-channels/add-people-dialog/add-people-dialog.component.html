@@ -15,8 +15,23 @@
     <div class="radio-button">
       <input [(ngModel)]="selectedOption" name="option" type="radio" value="option1">
       <label for="">
-        <p>
-          Alle Mitglieder von <span class="color-blue">Office Team</span> hinzufügen
+        <p class="add-members-from-channel">
+          Alle Mitglieder von
+          <span class="wrapper">
+            <div class="label" (click)="openpdownChannelSelelction()">
+              <ng-container *ngFor="let channel of getChannelList(); let i = index">
+                <span *ngIf="i == 0" [ngClass]="{ 'highlighted-text': dropdownChannelSelelction }">{{ channel.name }}</span>
+              </ng-container>
+              <div class="arrow-drop-down"
+                   [ngClass]="{ 'arrow-close': !dropdownChannelSelelction, 'arrow-open': dropdownChannelSelelction }"></div>
+            </div>
+              <div *ngIf="dropdownChannelSelelction" class="popup">
+                <ng-container *ngFor="let channel of getChannelList(); let i = index">
+                  <span *ngIf="i > 0">{{ channel.name }}</span>
+                </ng-container>
+              </div>
+          </span>
+          hinzufügen
         </p>
       </label>
     </div>

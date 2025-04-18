@@ -7,7 +7,7 @@
             <div class="account-circle-img"></div>
             <span>Direktnachrichten</span>
         </div>
-        <div (click)="openDialog()" class="add-icon"></div>
+        <div (click)="openAddFriendDialog()" class="add-icon"></div>
     </div>
 
     <ul class="channels-directmessages-list">
@@ -23,12 +23,13 @@
     </ul>
 
     <!-- Add user -->
-    <div class="add-user-or-channel-view" (click)="openDialog()"
+    <div class="add-user-or-channel-view" (click)="openAddFriendDialog()"
         [ngClass]="{'fold-in-add-directmessage': !directmessagesOpen, 'fold-out-add-directmessage': directmessagesOpen}">
-        <div class="add-circle-icon" [ngClass]="{'add-circle-icon-hover': dialog}"></div>
+        <div class="add-circle-icon" [ngClass]="{'add-circle-icon-hover': isDialogOpen()}"></div>
         <span>Benutzer hinzufügen</span>
     </div>
 
 </section>
 
-<app-add-friend-dialog [dialogOpen]="dialog" (dialogClose)="closeDialog(!$event)"></app-add-friend-dialog>
+<app-add-friend-dialog #addFriend></app-add-friend-dialog>
+<app-transparent-background [backgroundOpen]="isDialogOpen()"></app-transparent-background>

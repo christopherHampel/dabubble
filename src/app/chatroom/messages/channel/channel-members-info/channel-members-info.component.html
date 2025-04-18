@@ -1,5 +1,5 @@
 <section *ngIf="dialogWindowControl.isMembersInfoOpen && channelUserDataListReverse"
-         class="channel-members-info animation">
+         class="channel-members-info animation" [ngStyle]="{ 'z-index': isDialogOpen() ? '3' : '4' }">
 
   <header class="width-100-percent">
     <h2>Mitglieder</h2>
