@@ -24,3 +24,9 @@
         opacity: 1;
     }
 }
+
+@media(max-width: 960px) {
+    .transparent-background {
+        z-index: 6;
+    }
+}

@@ -372,6 +372,28 @@ section {
   .tooltip-position-right {
     right: 20px;
   }
+
+  .edit-content {
+    .edittext-buttons {
+      gap: 24px;
+    }
+  }
+
+  .edit-btn-container {
+    gap: 16px;
+  }
+}
+
+@media(max-width: 520px) {
+  .edit-btn-container {
+    flex-direction: column;
+  }
+
+  .edit-content {
+    .edittext-buttons {
+      align-items: unset;
+    }
+  }
 }
 
 @media (max-width: 400px) {

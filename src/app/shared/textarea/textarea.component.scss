@@ -114,6 +114,7 @@ a {
     .tag-user {
         .user-list {
             transform: translateX(-25%);
+            width: max-content;
         }
     }
 }

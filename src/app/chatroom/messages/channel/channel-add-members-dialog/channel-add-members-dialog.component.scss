@@ -172,3 +172,9 @@
     margin-bottom: -500px;
   }
 }
+
+@media(max-width: 960px) {
+  .channel-add-members-dialog {
+    z-index: 7;
+  }
+}

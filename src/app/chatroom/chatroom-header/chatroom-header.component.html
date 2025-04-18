@@ -16,7 +16,7 @@
           <div class="chat-info">
             @if(result.searchResult.component == 'channels') {
               <span>#</span>
-              <span>{{ result.searchResult.chatPartner.chatPartner }}</span>
+              <span class="weight-bold">{{ result.searchResult.chatPartner.chatPartner }}</span>
             } @else if (result.searchResult.component == 'messages') {
               <span>&#64;</span>
               <span class="weight-bold">{{ this.checkChatPartner(result.searchResult.chatPartner.chatPartner, result.searchResult.chatPartner.currentUser) }}</span>
@@ -24,11 +24,11 @@
               <div class="thread-result">
                 <div>
                   <span>{{ getChatIcon(result) }}</span>
-                  <span class="chat-partner">{{ this.checkChatPartner(result.searchResult.originalChatInfo.originalChatName.chatPartner, result.searchResult.originalChatInfo.originalChatName.currentUser) }}</span>
+                  <span class="chat-partner weight-bold">{{ this.checkChatPartner(result.searchResult.originalChatInfo.originalChatName.chatPartner, result.searchResult.originalChatInfo.originalChatName.currentUser) }}</span>
                   <span>-></span>
                 </div>
                 <div>
-                  <span class="thread-from-message">Thread von Nachricht:</span>
+                  <span class="thread-from-message">Thread von Nachricht: </span>
                   <span>{{ result.searchResult.originalChatInfo.originalMessage }}</span>
                 </div>
               </div>
