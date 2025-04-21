@@ -60,6 +60,10 @@ export class TextareaComponent implements OnInit {
     });
   }
 
+  ngAfterViewChecked() {
+    this.autoFocusTextarea();
+  }
+
   checkTextLength(e: any) {
     e.preventDefault();
 
@@ -67,6 +71,12 @@ export class TextareaComponent implements OnInit {
       this.sendText();
       this.message = '';
     }
+  }
+
+  autoFocusTextarea() {
+    setTimeout( () => {
+      this.textArea.nativeElement.focus();
+    }, 25)
   }
 
   async sendText() {    
