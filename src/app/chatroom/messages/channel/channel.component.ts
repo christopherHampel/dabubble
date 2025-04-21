@@ -50,7 +50,8 @@ export class ChannelComponent {
   chatId: string = '';
   chatMessages$!: Observable<any[]>;
 
-  @ViewChild('addMembersDialog') addMembersDialog!: any;
+  @ViewChild('membersInfo') membersInfo!: any;
+  @ViewChild('addMembers') addMembers!: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -85,11 +86,15 @@ export class ChannelComponent {
   }
 
   addMembersDialogFocus() {
-    setTimeout(() => this.addMembersDialog.focusInput(), 250);
+    setTimeout(() => this.addMembers.focusInput(), 250);
   }
 
   closeAddMembersDialog() {
-    this.addMembersDialog.closeAddMembersDialog();
+    this.addMembers.closeAddMembersDialog();
+  }
+
+  closeUserProfilDialog() {
+    this.membersInfo.closeUserProfilDialog(false);
   }
 
   isDialogOpen() {

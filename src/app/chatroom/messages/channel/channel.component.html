@@ -27,9 +27,9 @@
           <div [ngClass]="{ 'person-add-icon-highlight': dialogWindowControl.isAddMembersOpen }"></div>
         </div>
 
-        <app-channel-members-info (addMembersDialogFocus)="addMembersDialogFocus()"></app-channel-members-info>
+        <app-channel-members-info #membersInfo (addMembersDialogFocus)="addMembersDialogFocus()"></app-channel-members-info>
 
-        <app-channel-add-members-dialog #addMembersDialog></app-channel-add-members-dialog>
+        <app-channel-add-members-dialog #addMembers></app-channel-add-members-dialog>
       </div>
     </div>
   </div>
@@ -54,5 +54,5 @@
   </div>
 </section>
 
-<app-transparent-background [backgroundOpen]="isDialogOpen()"
+<app-transparent-background (click)="closeUserProfilDialog()" [backgroundOpen]="isDialogOpen()"
                             (addMembersDialogClose)="closeAddMembersDialog()"></app-transparent-background>

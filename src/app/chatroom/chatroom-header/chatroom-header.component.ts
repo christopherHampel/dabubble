@@ -34,6 +34,7 @@ export class ChatroomHeaderComponent {
   searchText = signal<string>('');
   results = signal<any[]>([]);
   userSig = signal<UserProfile>({} as UserProfile);
+  hideUserProfilSig = signal<boolean>(true);
 
   constructor(
     private router: Router,
@@ -50,10 +51,13 @@ export class ChatroomHeaderComponent {
     this.dialogWindowControl.openDialog('userProfil');
     this.userSig.set(user);
     this.userProfil = true;
+
+    setTimeout(() => this.hideUserProfilSig.set(false), 250);
   }
 
   closeUserProfilDialog(event: boolean) {
     this.userProfil = event;
+    this.hideUserProfilSig.set(true);
   }
 
   isDialogOpen() {

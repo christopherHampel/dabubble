@@ -1,79 +1,87 @@
 <section *ngIf="dialogWindowControl.isUserProfilOpen && chatPartnerSig() as chatPartner" class="user-profil-window"
-    [ngClass]="{ 'border-radius-edit': useAs === 'edit', 'position-absolute': useAs === 'edit', 'animation': useAs === 'edit' && !resize.checkMediaW960px,
-    'border-radius-view-info': useAs !== 'edit', 'position-fixed': useAs !== 'edit', 'slide-in': useAs !== 'edit' || resize.checkMediaW960px }">
+         [ngClass]="{ 'border-radius-edit': useAs === 'edit', 'position-absolute': useAs === 'edit', 'animation': useAs === 'edit' && !resize.checkMediaW960px,
+    'border-radius-view-info': useAs !== 'edit', 'position-fixed': useAs !== 'edit', 'slide-in': useAs !== 'edit' || resize.checkMediaW960px}">
 
-    <header class="width-100-percent">
-        <h2 *ngIf="!edit; else editHeadline">Profil</h2>
-        <ng-template #editHeadline>
-            <h2>Dein Profil bearbeiten</h2>
-        </ng-template>
-        <div (click)="closeUserProfilDialog()" class="close-icon"></div>
-    </header>
+  <header class="width-100-percent">
+    <h2 *ngIf="!edit; else editHeadline">Profil</h2>
+    <ng-template #editHeadline>
+      <h2>Dein Profil bearbeiten</h2>
+    </ng-template>
+    <div (click)="closeUserProfilDialog()" class="close-icon"></div>
+  </header>
 
-    <div class="image-container" [ngClass]="{'margin-top': edit}">
+  <div class="image-container" [ngClass]="{'margin-top': edit}">
 
-        <!-- View profil -->
-        <img class="profil-icon" [src]="selectedImage">
+    <!-- View profil -->
+    <img class="profil-icon" [src]="selectedImage">
 
-        <!-- Edit profil -->
-        <div *ngIf="edit" class="circle-container">
-            <img *ngFor="let img of images; let i = index" [src]="img" class="circle-image"
-                [ngStyle]="edit ? getPosition(i) : null" (click)="selectImage(img)" />
-        </div>
-
+    <!-- Edit profil -->
+    <div *ngIf="edit" class="circle-container">
+      <img *ngFor="let img of images; let i = index" [src]="img" class="circle-image"
+           [ngStyle]="edit ? getPosition(i) : null" (click)="selectImage(img)"/>
     </div>
 
-    <form class="width-100-percent" onSubmit="return false">
+  </div>
 
-        <!-- View profil -->
-        <div *ngIf="!edit" class="view-name-mail-wrapper width-100-percent">
-            <div class="name-wrapper">
-                <div class="name">
-                    <h2>{{chatPartner.userName}}</h2>
-                    <div>
-                        <div class="active-status"
-                            [ngClass]="{'online': chatPartner.active, 'offline': !chatPartner.active}"></div>
-                        <span *ngIf="chatPartner.active; else abwesend" class="online-text">Aktiv</span>
-                        <ng-template #abwesend>
-                            <span class="offline-text">Abwesend</span>
-                        </ng-template>
-                    </div>
-                </div>
+  <form class="width-100-percent" onSubmit="return false">
 
-                <button *ngIf="useAs === 'edit'" (click)="openEdit()" class="edit-button">Bearbeiten</button>
-            </div>
-
-            <div class="email-wrapper">
-                <img src="/img/mail-icon.svg" alt="">
-                <div class="email">
-                    <span>E-Mail-Adresse</span>
-                    <span>{{chatPartner.email}}</span>
-                </div>
-            </div>
-
-            <button *ngIf="useAs !== 'edit'" type="button" (click)="selectChat(); closeUserProfilDialog()"
-                class="primary-button">Nachricht</button>
+    <!-- View profil -->
+    <div *ngIf="!edit" class="view-name-mail-wrapper width-100-percent">
+      <div class="name-wrapper">
+        <div class="name">
+          <h2>{{ chatPartner.userName }}</h2>
+          <div>
+            <div class="active-status"
+                 [ngClass]="{'online': chatPartner.active, 'offline': !chatPartner.active}"></div>
+            <span *ngIf="chatPartner.active; else abwesend" class="online-text">Aktiv</span>
+            <ng-template #abwesend>
+              <span class="offline-text">Abwesend</span>
+            </ng-template>
+          </div>
         </div>
 
-        <!-- Edit profil -->
-        <div *ngIf="edit" class="edit-name-wrapper width-100-percent" [ngClass]="{'margin-top': edit}">
+        @if (!resize.checkMediaW600px) {
+          <button *ngIf="useAs === 'edit'" (click)="openEdit()" class="edit-button">Bearbeiten</button>
+        } @else {
+          <button class="edit-button edit-button-mobile" (click)="openEdit()">
+            <div></div>
+          </button>
+        }
+      </div>
 
-            <div class="name-input-wrapper width-100-percent">
-                <div class="email-wrapper">
-                    <img src="/img/person-icon.svg">
-                    <h2>Vollständiger Name</h2>
-                </div>
-                <input [(ngModel)]="userName" name="userName" class="input-text" type="text" placeholder="{{chatPartner.userName}}" autocomplete="off">
-            </div>
-
-            <div class="button-wrapper">
-                <button type="button" (click)="closeEdit()" class="gast-login-btn">Abbrechen</button>
-                <button type="button" (click)="updateUser()" class="primary-button">Speichern</button>
-            </div>
+      <div class="email-wrapper">
+        <img src="/img/mail-icon.svg" alt="">
+        <div class="email">
+          <span>E-Mail-Adresse</span>
+          <span>{{ chatPartner.email }}</span>
         </div>
+      </div>
 
-    </form>
+      <button *ngIf="useAs !== 'edit'" type="button" (click)="selectChat(); closeUserProfilDialog()"
+              class="primary-button">Nachricht
+      </button>
+    </div>
+
+    <!-- Edit profil -->
+    <div *ngIf="edit" class="edit-name-wrapper width-100-percent" [ngClass]="{'margin-top': edit}">
+
+      <div class="name-input-wrapper width-100-percent">
+        <div class="email-wrapper">
+          <img src="/img/person-icon.svg">
+          <h2>Vollständiger Name</h2>
+        </div>
+        <input [(ngModel)]="userName" name="userName" class="input-text" type="text"
+               placeholder="{{chatPartner.userName}}" autocomplete="off">
+      </div>
+
+      <div class="button-wrapper">
+        <button type="button" (click)="closeEdit()" class="gast-login-btn">Abbrechen</button>
+        <button type="button" (click)="updateUser()" class="primary-button">Speichern</button>
+      </div>
+    </div>
+
+  </form>
 
 </section>
 
-<app-transparent-background [backgroundOpen]="isDialogOpen()" (click)="closeUserProfilDialog()"></app-transparent-background>
+<app-transparent-background [backgroundOpen]="isDialogOpen()"></app-transparent-background>

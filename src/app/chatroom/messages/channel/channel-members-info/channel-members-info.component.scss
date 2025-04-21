@@ -25,7 +25,7 @@ header {
 
 
 .channel-members-info {
-  @include d-flex($fD: column, $aI: flex-start, $g: 20px);
+  @include d-flex($fD: column, $aI: flex-start, $jC: flex-start, $g: 20px);
 
   position: absolute;
   top: 0;

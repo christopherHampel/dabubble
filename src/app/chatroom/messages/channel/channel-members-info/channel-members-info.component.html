@@ -9,7 +9,8 @@
   <div class="member-list-wrapper width-100-percent">
     <div class="member-list">
       <app-user-view-small *ngFor="let user of channelUserDataListReverse"
-                           [user]="user" (click)="user.id !== usersDb.currentUser?.id ? openUserProfilDialog(user) : null"
+                           [user]="user"
+                           (click)="user.id !== usersDb.currentUser?.id ? openUserProfilDialog(user) : null"
                            [cursorDefault]="true"></app-user-view-small>
     </div>
 
@@ -23,4 +24,5 @@
 
 </section>
 
-<app-user-profil [useAs]="'info'" [userSig]="userSig"></app-user-profil>
+<app-user-profil style="position: absolute" [ngStyle]="{ 'display': hideUserProfilSig() ? 'none' : 'block' }" *ngIf="userProfil" (userProfilClose)="closeUserProfilDialog(!$event)" [useAs]="'info'"
+                 [userSig]="userSig"></app-user-profil>

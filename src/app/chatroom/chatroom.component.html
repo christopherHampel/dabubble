@@ -20,7 +20,7 @@
         }
       </div>
       <div (click)="openMobileWrapper()"><img class="profil-image" [src]="getCurrentUserImage" alt="User Avatar"></div>
-  </div>
+    </div>
 
     <section class="communication-wrapper color">
       <div class="devspace-area">
@@ -34,16 +34,17 @@
       </div>
     </section>
 
-    <div *ngIf="userDb.currentUser as user" class="user-profil-wrapper-mobile slide-in" [ngClass]="wrapperMobile ? 'slide-in-active': ''"
-    [ngStyle]="{ 'z-index': dialogWindowControl.isUserProfilOpen ? '3' : '15' }">
+    <div *ngIf="userDb.currentUser as user" class="user-profil-wrapper-mobile slide-in"
+         [ngClass]="wrapperMobile ? 'slide-in-active': ''"
+         [ngStyle]="{ 'z-index': dialogWindowControl.isUserProfilOpen ? '3' : '15' }">
       <div (click)="openMobileWrapper()" class="close-button"></div>
       <div class="overconatiner-select-btn">
-          <div (click)="openUserProfilDialog(user)" class="select profile">
-              <span>Profil</span>
-          </div>
-          <div (click)="logout()" class="select logout">
-              <span>Log out</span>
-          </div>
+        <div (click)="openUserProfilDialog(user)" class="select profile">
+          <span>Profil</span>
+        </div>
+        <div (click)="logout()" class="select logout">
+          <span>Log out</span>
+        </div>
       </div>
     </div>
   </div>
