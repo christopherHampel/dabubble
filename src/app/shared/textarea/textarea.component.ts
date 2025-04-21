@@ -16,9 +16,9 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
-import { ScrollService } from '../../services/message/scroll.service';
 import { UserViewSmallComponent } from '../user-view-small/user-view-small.component';
 import { MessageAccesories } from '../../interfaces/message-accesories';
+import { ChannelsDbService } from '../../services/message/channels-db.service';
 
 @Component({
   selector: 'app-textarea',
@@ -45,6 +45,7 @@ export class TextareaComponent implements OnInit {
   chatId: string = '';
   userList: boolean = false;
   selectedUserId: string = '';
+  channelList: boolean = false;
 
   emojiMartOpen: boolean = false;
 
@@ -52,6 +53,7 @@ export class TextareaComponent implements OnInit {
     public chatService: ChatsService,
     private route: ActivatedRoute,
     private userService: UsersDbService,
+    private channelsDb: ChannelsDbService
   ) {}
 
   ngOnInit(): void {
@@ -157,6 +159,9 @@ export class TextareaComponent implements OnInit {
      else if(this.userList) {
       this.userList = false; 
     }
+    else if(this.channelList) {
+      this.channelList = false; 
+    }
   }
 
   toggleUserList() {
@@ -170,6 +175,12 @@ export class TextareaComponent implements OnInit {
     if (event.key === '@') {
       event.preventDefault();
       this.userList = true;
+    } else if(event.key === '#') {
+      event.preventDefault();
+      this.channelList = true;
+    } else if(event.key === 'Escape') {
+      this.userList = false;
+      this.channelList = false;
     }
   }
 
@@ -215,5 +226,14 @@ export class TextareaComponent implements OnInit {
 
   closeUserList() {
     this.userList = false;
+  }
+
+  getChannelList() {
+    return this.channelsDb.channelList;
+  }
+
+  tagChannel(channelName: string) {
+    this.message += '#' + channelName;
+    this.channelList = false; 
   }
 }

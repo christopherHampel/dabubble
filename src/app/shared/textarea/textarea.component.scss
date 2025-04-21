@@ -27,6 +27,14 @@ section {
     position: relative;
 }
 
+.single-channel {
+    display: flex;
+    align-items: center;
+    span {
+        width: max-content;
+    }
+}
+
 .send-text {
     width: 100%;
     display: flex;

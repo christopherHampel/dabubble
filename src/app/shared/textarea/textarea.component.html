@@ -22,6 +22,12 @@
               (click)="tagUser(user)"
             ></app-user-view-small>
           </div>
+          <div class="user-list channel-list" *ngIf="channelList">
+            <div *ngFor="let channel of getChannelList()" class="single-channel" (click)="tagChannel(channel.name)">
+              <span class="hashtag-icon"></span>
+              <span>{{ channel.name }}</span>
+            </div>
+          </div>
         </div>
       </div>
       <a (click)="checkTextLength($event)"></a>
