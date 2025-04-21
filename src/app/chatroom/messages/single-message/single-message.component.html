@@ -72,6 +72,8 @@
                   Abbrechen
                 </button>
                 <button
+                  [disabled]="!currentMessage.text.trim()"
+                  [title]="!currentMessage.text.trim() ? 'Leere Nachrichten können nicht gespeichert werden.' : ''"
                   class="main-btn"
                   (click)="updateMessage(currentMessage)"
                 >

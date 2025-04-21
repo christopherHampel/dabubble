@@ -42,6 +42,7 @@ export class SingleMessageComponent {
   emojiQuickBar: boolean = false;
   currentDate: any = '';
   emojiPickerEdit: boolean = false;
+  originalText: string = '';
 
   constructor(
     public chatService: ChatsService,
@@ -65,6 +66,10 @@ export class SingleMessageComponent {
 
   onIsEditingChange(newValue: boolean) {
     this.isEditing = newValue;
+    setTimeout(() => {
+      this.textArea.nativeElement.focus();
+    }, 25);  
+    this.originalText = this.currentMessage.text;
   }
 
   updateMessage(currentMessage: CurrentMessage) {
@@ -82,6 +87,9 @@ export class SingleMessageComponent {
   cancelEdit() {
     this.isEditing = false;
     this.emojiPickerEdit = false;
+    if (!this.currentMessage.text.trim()) {
+      this.currentMessage.text = this.originalText;
+    }
   }
 
   getTime(): string | null {

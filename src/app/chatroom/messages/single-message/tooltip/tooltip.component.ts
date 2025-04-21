@@ -38,7 +38,6 @@ export class TooltipComponent {
 
   editMessage() {
     this.isEditing = true;
-    // this.menu = false;
     this.chatService.menu = false;
     this.isEditingChange.emit(this.isEditing);
   }
