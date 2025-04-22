@@ -36,15 +36,15 @@ export class ResizeService {
   }
 
   checkWindowSize() {
-    this.checkMediaW960pxSig.set(this.mediaW960px.matches);
-    this.checkMediaW600pxSig.set(this.mediaW600px.matches);
-    this.checkMediaW370pxSig.set(this.mediaW370px.matches);
+    // this.checkMediaW960pxSig.set(this.mediaW960px.matches);
+    // this.checkMediaW600pxSig.set(this.mediaW600px.matches);
+    // this.checkMediaW370pxSig.set(this.mediaW370px.matches);
 
-    window.addEventListener('resize', () => {
-      this.checkMediaW960pxSig.set(this.mediaW960px.matches);
-      this.checkMediaW600pxSig.set(this.mediaW600px.matches);
-      this.checkMediaW370pxSig.set(this.mediaW370px.matches);
-    });
+    // window.addEventListener('resize', () => {
+    //   this.checkMediaW960pxSig.set(this.mediaW960px.matches);
+    //   this.checkMediaW600pxSig.set(this.mediaW600px.matches);
+    //   this.checkMediaW370pxSig.set(this.mediaW370px.matches);
+    // });
   }
 
   setDevSpaceClose(value: boolean) {
