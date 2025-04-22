@@ -8,7 +8,6 @@ import { ThreadsDbService } from '../../services/message/threads-db.service';
 import { ResizeService } from '../../services/responsive/resize.service';
 import { UsersDbService } from '../../services/usersDb/users-db.service';
 import { SearchFieldComponent } from "../messages/default/search-field/search-field.component";
-import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-devspace',
@@ -29,12 +28,10 @@ export class DevspaceComponent {
     private threadService: ThreadsDbService,
     private resize: ResizeService,
     public usersDb: UsersDbService,
-    private auth: AuthService,
-    private router: Router
     ) {}
 
   get devSpaceClose() {
-    return this.resize.devSpaceClose()
+    return this.resize.devSpaceClose();
   }
 
   goToDefault() {
