@@ -39,11 +39,7 @@ export class DevspaceDirectmessagesComponent {
   }
 
   openDirectmessages() {
-    if (this.directmessagesOpen) {
-      this.directmessagesOpen = false;
-    } else {
-      this.directmessagesOpen = true;
-    }
+    this.directmessagesOpen = !this.directmessagesOpen;
   }
 
 

@@ -34,6 +34,7 @@ header {
   transform: translate(-52px, 56px);
 
   width: 415px;
+  height: max-content;
   max-height: 411px;
 
   padding: 40px;
@@ -114,6 +115,19 @@ header {
 @media(max-width: 600px) {
   .channel-members-info {
     transform: translate(0, 56px);
-    width: unset;
+  }
+}
+
+@media(max-width: 450px) {
+  .channel-members-info {
+    width: calc(100vw - 32px);
+
+    padding: 20px 16px 20px 16px;
+  }
+
+  .member-list-wrapper {
+    & > div:nth-child(2) {
+      padding: 12px 16px;
+    }
   }
 }
