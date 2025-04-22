@@ -23,8 +23,11 @@ export class ChannelMembersInfoComponent {
   dialogWindowControl = inject(DialogWindowControlService);
 
   channelUserDataListReverse: UserProfile[] = [];
-  userSig = signal<UserProfile>({} as UserProfile);
 
+  userSig = signal<UserProfile>({} as UserProfile);
+  hideUserProfilSig = signal<boolean>(true);
+
+  @Input() userProfil: boolean = false;
   @Output() addMembersDialogFocus = new EventEmitter<boolean>();
 
   constructor() {
@@ -51,8 +54,16 @@ export class ChannelMembersInfoComponent {
 
 
   openUserProfilDialog(user: UserProfile){
-    this.dialogWindowControl.openDialog('userProfil');
     this.userSig.set(user);
+    this.userProfil = true;
+    this.dialogWindowControl.openDialog('userProfil');
+
+    setTimeout(() => this.hideUserProfilSig.set(false), 250)
+  }
+
+  closeUserProfilDialog(event: boolean) {
+    this.userProfil = event;
+    this.hideUserProfilSig.set(true);
   }
 
 

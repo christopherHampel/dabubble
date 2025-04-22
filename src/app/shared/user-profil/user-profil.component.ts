@@ -80,7 +80,7 @@ export class UserProfilComponent {
 
   getPosition(index: number) {
     const angle = (index / this.images.length) * 2 * Math.PI;
-    const radius = 140;
+    const radius = !this.resize.checkMediaW370px ? 140 : 120;
     const x = radius * Math.cos(angle);
     const y = radius * Math.sin(angle);
     return {
@@ -99,8 +99,8 @@ export class UserProfilComponent {
   }
 
   closeUserProfilDialog() {
-    this.dialogWindowControl.closeDialog('userProfil');
     this.userProfilClose.emit(true);
+    this.dialogWindowControl.closeDialog('userProfil');
   }
 
   async selectChat() {

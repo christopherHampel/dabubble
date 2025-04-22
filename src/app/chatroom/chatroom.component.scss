@@ -1,12 +1,22 @@
 .chatroom {
   height: 100vh;
+
   overflow-y: hidden;
   position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .max-width {
   max-width: 1440px;
   margin: auto;
+}
+
+.chatroom-header {
+  width: 100%;
 }
 
 .bg-color {
@@ -18,6 +28,8 @@
   justify-content: space-between;
   align-items: flex-start;
   position: relative;
+
+  width: 100%;
 
   padding-bottom: 16px;
 }
@@ -202,6 +214,8 @@
   align-items: center;
   background: #ECEEFE;
   padding: 15px 16px;
+
+  width: 100%;
 
   .profil-image {
     width: 50px;

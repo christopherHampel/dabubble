@@ -15,6 +15,8 @@ export class ResizeService {
   checkMediaW960pxSig = signal<boolean>(false);
   mediaW600px: MediaQueryList = window.matchMedia("(max-width: 600px)");
   checkMediaW600pxSig = signal<boolean>(false);
+  mediaW370px: MediaQueryList = window.matchMedia("(max-width: 370px)");
+  checkMediaW370pxSig = signal<boolean>(false);
 
 
   constructor() {
@@ -29,13 +31,19 @@ export class ResizeService {
     return this.checkMediaW600pxSig();
   }
 
+  get checkMediaW370px() {
+    return this.checkMediaW370pxSig();
+  }
+
   checkWindowSize() {
     this.checkMediaW960pxSig.set(this.mediaW960px.matches);
     this.checkMediaW600pxSig.set(this.mediaW600px.matches);
+    this.checkMediaW370pxSig.set(this.mediaW370px.matches);
 
     window.addEventListener('resize', () => {
       this.checkMediaW960pxSig.set(this.mediaW960px.matches);
       this.checkMediaW600pxSig.set(this.mediaW600px.matches);
+      this.checkMediaW370pxSig.set(this.mediaW370px.matches);
     });
   }
 

@@ -1,30 +1,33 @@
 <section class="header color">
   <div class="logo-container">
-    <img class="logo" src="/img/logo_complete.png" />
+    <img class="logo" src="/img/logo_complete.png"/>
   </div>
 
   <div class="search-container">
     <div class="search-wrapper">
       <input (input)="searchDevspace()" [(ngModel)]="searchTextInput" class="input-text" type="text"
-        placeholder="Devspace durchsuchen" />
+             placeholder="Devspace durchsuchen"/>
       <div class="search-icon"><img src="/img/search_icon.svg" alt=""></div>
     </div>
     <div [ngClass]="get()">
       <div *ngIf="this.searchService.isLoading()" class="loading-spinner"></div>
-        <div *ngIf="!this.searchService.isLoading() && resultsData.length > 0">
-        <div *ngFor="let result of resultsData" (click)="goToSearchResult(result)" class="search-single-result" [ngStyle]="result.searchResult.component == 'threads' ? {'flex-direction': 'column', 'gap': '0', 'align-items': 'center'}: {}">
+      <div *ngIf="!this.searchService.isLoading() && resultsData.length > 0">
+        <div *ngFor="let result of resultsData" (click)="goToSearchResult(result)" class="search-single-result"
+             [ngStyle]="result.searchResult.component == 'threads' ? {'flex-direction': 'column', 'gap': '0', 'align-items': 'center'}: {}">
           <div class="chat-info">
-            @if(result.searchResult.component == 'channels') {
+            @if (result.searchResult.component == 'channels') {
               <span>#</span>
               <span class="weight-bold">{{ result.searchResult.chatPartner.chatPartner }}</span>
             } @else if (result.searchResult.component == 'messages') {
               <span>&#64;</span>
-              <span class="weight-bold">{{ this.checkChatPartner(result.searchResult.chatPartner.chatPartner, result.searchResult.chatPartner.currentUser) }}</span>
+              <span
+                class="weight-bold">{{ this.checkChatPartner(result.searchResult.chatPartner.chatPartner, result.searchResult.chatPartner.currentUser) }}</span>
             } @else {
               <div class="thread-result">
                 <div>
                   <span>{{ getChatIcon(result) }}</span>
-                  <span class="chat-partner weight-bold">{{ this.checkChatPartner(result.searchResult.originalChatInfo.originalChatName.chatPartner, result.searchResult.originalChatInfo.originalChatName.currentUser) }}</span>
+                  <span
+                    class="chat-partner weight-bold">{{ this.checkChatPartner(result.searchResult.originalChatInfo.originalChatName.chatPartner, result.searchResult.originalChatInfo.originalChatName.currentUser) }}</span>
                   <span>-></span>
                 </div>
                 <div>
@@ -46,7 +49,7 @@
     <div class="user-profil">
       <h2>{{ user.userName }}</h2>
       <div>
-        <img src="{{ user.avatar || '/img/empty_profile.png' }}" alt="" />
+        <img src="{{ user.avatar || '/img/empty_profile.png' }}" alt=""/>
         <div class="active-status" [ngClass]="{ online: user.active, offline: !user.active }"></div>
       </div>
       <div class="arrow-drop-down-icon"></div>
@@ -57,9 +60,11 @@
       <button (click)="onLogout()">Log out</button>
     </ul>
 
-    <app-user-profil *ngIf="userProfil" (userProfilClose)="closeUserProfilDialog(!$event)" [useAs]="'edit'"
+    <app-user-profil style="position: absolute" [ngStyle]="{ 'display': hideUserProfilSig() ? 'none' : 'block' }"
+                     *ngIf="userProfil" (userProfilClose)="closeUserProfilDialog(!$event)" [useAs]="'edit'"
                      [userSig]="userSig"></app-user-profil>
   </div>
 </section>
 
-<app-transparent-background [backgroundOpen]="isDialogOpen()" (click)="userProfil = false"></app-transparent-background>
+<app-transparent-background [backgroundOpen]="isDialogOpen()"
+                            (click)="closeUserProfilDialog(false)"></app-transparent-background>

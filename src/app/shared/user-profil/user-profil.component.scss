@@ -3,253 +3,308 @@
 @use '../../chatroom/chatroom-header/chatroom-header.component.scss';
 
 @mixin d-flex($fD: row, $jC: center, $aI: center, $g: 0) {
-    display: flex;
-    flex-direction: $fD;
-    justify-content: $jC;
-    align-items: $aI;
-    gap: $g;
+  display: flex;
+  flex-direction: $fD;
+  justify-content: $jC;
+  align-items: $aI;
+  gap: $g;
 }
-
 
 
 * {
-    font-family: 'Nunito';
+  font-family: 'Nunito';
 }
-
 
 
 /* ------- */
 /* Generic */
 /* ------- */
 .width-100-percent {
-    width: 100%;
+  width: 100%;
 }
 
 .margin-top {
-    margin-top: 45px;
+  margin-top: 45px;
 }
 
 .position-fixed {
-    position: fixed;
+  position: fixed;
 
-    top: 50%;
-    left: 50%;
+  top: 50%;
+  left: 50%;
 
-    transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .position-absolute {
-    position: absolute;
+  position: absolute;
 
-    transform: translate(-100%, 4px);
+  transform: translate(-100%, 4px);
 }
 
 .border-radius-view-info {
-    border-radius: 30px;
+  border-radius: 30px;
 }
 
 .border-radius-edit {
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
-
 
 
 /* ------- */
 /* Section */
 /* ------- */
 .user-profil-window {
-    @include d-flex($fD: column, $jC: flex-start, $g: 45px);
+  @include d-flex($fD: column, $jC: flex-start, $g: 45px);
 
-    width: 500px;
-    height: max-content;
+  width: 500px;
+  height: max-content;
 
-    padding: 40px;
+  padding: 40px;
 
-    z-index: 7;
+  z-index: 7;
 
-    background-color: #FFFFFF;
+  background-color: #FFFFFF;
 
-    filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
+  filter: drop-shadow(0px 5px 5px rgba(0 0 0 / 20%));
+
+  @media(max-width: 540px) {
+    width: calc(100vw - 32px);
+
+    padding: 45px 20px 45px 20px;
+  }
+
+  @media(max-width: 370px) {
+    padding: 45px 12px 45px 12px;
+  }
 }
-
 
 
 /* ------ */
 /* Header */
 /* ------ */
 header {
-    @include d-flex($jC: space-between);
-}
+  @include d-flex($jC: space-between);
 
+  h2 {
+    font-size: 24px;
+  }
+}
 
 
 /* ----------- */
 /* Profil icon */
 /* ----------- */
 .image-container {
-    position: relative;
+  position: relative;
 
-    @include d-flex();
+  @include d-flex();
 }
 
 .profil-icon {
-    width: 200px;
-    height: 200px;
+  width: 200px;
+  height: 200px;
 
-    border-radius: 50%;
+  border-radius: 50%;
+
+  @media(max-width: 370px) {
+    width: 170px;
+    height: 170px;
+  }
 }
 
 .circle-container {
-    position: relative;
-    top: -25px;
-    left: calc(-50% - 25px);
+  position: relative;
+  top: -25px;
+  left: calc(-50% - 25px);
 }
 
 .circle-image {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 
-    border-radius: 50%;
+  border-radius: 50%;
 
-    position: absolute;
+  position: absolute;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    transition: transform 0.3s;
+  transition: transform 0.3s;
 
-    animation: visible 0.5s linear;
+  animation: visible 0.5s linear;
 }
 
 .circle-image:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 @keyframes visible {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
-
 
 
 /* ------------------------ */
 /* View and edit name email */
 /* ------------------------ */
 form {
-    @include d-flex($fD: column, $g: 45px);
+  @include d-flex($fD: column, $g: 45px);
 }
 
 /* View name and emial */
 .view-name-mail-wrapper {
-    @include d-flex($fD: column, $g: 45px)
+  @include d-flex($fD: column, $g: 45px)
 }
 
 .name-wrapper {
-    @include d-flex($jC: space-between, $aI: flex-start);
+  @include d-flex($jC: space-between, $aI: flex-start);
 
-    width: inherit;
+  width: inherit;
 }
 
 .name {
-    @include d-flex($fD: column, $aI: flex-start, $g: 15px);
+  @include d-flex($fD: column, $aI: flex-start, $g: 15px);
 
-    &>div {
-        @include d-flex($g: 15px);
+  h2 {
+    font-size: 32px;
+  }
 
-        &>span {
-            font-weight: 400;
-            font-size: 20px;
-        }
+  @media(max-width: 370px) {
+    h2 {
+      font-size: 26px;
     }
+  }
+
+  & > div {
+    @include d-flex($g: 15px);
+
+    & > span {
+      font-weight: 400;
+      font-size: 20px;
+    }
+  }
 }
 
 .active-status {
-    position: static;
+  position: static;
 
-    width: 16px;
-    height: 16px;
+  width: 16px;
+  height: 16px;
 
-    border-radius: 50%;
+  border-radius: 50%;
 }
 
 .online-text {
-    color: #92C83E;
+  color: #92C83E;
 }
 
 .offline-text {
-    color: #686868;
+  color: #686868;
 }
 
 .edit-button {
-    border: none;
-    background-color: transparent;
+  border: none;
+  background-color: transparent;
 
-    font-weight: 600;
-    font-size: 18px;
+  font-weight: 600;
+  font-size: 18px;
 
-    color: #535AF1;
+  color: #535AF1;
 
-    transition: font-weight 0.2s;
+  transition: font-weight 0.2s;
+
+  margin-top: 8px;
+
+  @media(max-width: 370px) {
+    margin-top: 4px;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    font-weight: 700;
+  }
+}
+
+.edit-button-mobile {
+  padding: 3px;
+
+  background-color: #ECEEFE;
+
+  border-radius: 50%;
+
+  & > div {
+    width: 24px;
+    height: 24px;
+
+    background-image: url("/img/edit_mobile_icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 
     &:hover {
-        cursor: pointer;
-
-        font-weight: 700;
+      //background-image: url("/img/edit_mobile_hover_icon.svg");
     }
+  }
 }
 
 .email-wrapper {
-    @include d-flex($jC: flex-start, $aI: flex-start, $g: 15px);
+  @include d-flex($jC: flex-start, $aI: flex-start, $g: 15px);
 
-    width: inherit;
+  width: inherit;
 
-    &>img {
-        width: 30px;
-        height: 30px;
+  & > img {
+    width: 30px;
+    height: 30px;
 
-        object-fit: contain;
-    }
+    object-fit: contain;
+  }
 }
 
 .email {
-    @include d-flex($fD: column, $aI: flex-start, $g: 15px);
+  @include d-flex($fD: column, $aI: flex-start, $g: 15px);
 
-    &>span:nth-child(1) {
-        font-weight: 700;
-        font-size: 20px;
-    }
+  & > span:nth-child(1) {
+    font-weight: 700;
+    font-size: 20px;
+  }
 
-    &>span:nth-child(2) {
-        font-weight: 400;
-        font-size: 18px;
+  & > span:nth-child(2) {
+    font-weight: 400;
+    font-size: 18px;
 
-        color: #1381ff;
-    }
+    color: #1381ff;
+  }
 }
 
 /* Edit name */
 .edit-name-wrapper {
-    @include d-flex($fD: column, $g: 45px);
+  @include d-flex($fD: column, $g: 45px);
 
-    animation: visible 0.5s linear;
+  animation: visible 0.5s linear;
 }
 
 .name-input-wrapper {
-    @include d-flex($fD: column, $g: 8px);
+  @include d-flex($fD: column, $g: 8px);
 }
 
 .input-text {
-    border: 1px solid #ADB0D9;
+  border: 1px solid #ADB0D9;
 }
 
 .button-wrapper {
-    @include d-flex($g: 24px);
+  @include d-flex($g: 24px);
+
+  @media(max-width: 370px) {
+    @include d-flex($g: 8px);
+  }
 }
 
 @media(max-width: 960px) {
