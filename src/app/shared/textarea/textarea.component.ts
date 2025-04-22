@@ -7,6 +7,7 @@ import {
   Input,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -62,9 +63,15 @@ export class TextareaComponent implements OnInit {
     });
   }
 
-  ngAfterViewChecked() {
-    this.autoFocusTextarea();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['chatPartnerName'] || changes['message']) {
+      this.autoFocusTextarea();
+    }
   }
+
+  // ngAfterViewChecked() {
+    // this.autoFocusTextarea();
+  // }
 
   checkTextLength(e: any) {
     e.preventDefault();

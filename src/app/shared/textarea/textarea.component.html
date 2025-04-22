@@ -2,6 +2,7 @@
   <div class="send-text" (click)="$event.stopPropagation(); closeUserList()">
     <textarea
       #textAreaRef
+      autofocus
       (keydown.enter)="checkTextLength($event)"
       (keydown)="detectAtSymbol($event)"
       (keyup)="autoGrowTextZone($event)"
