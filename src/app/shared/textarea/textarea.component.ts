@@ -69,10 +69,6 @@ export class TextareaComponent implements OnInit {
     }
   }
 
-  // ngAfterViewChecked() {
-    // this.autoFocusTextarea();
-  // }
-
   checkTextLength(e: any) {
     e.preventDefault();
 
