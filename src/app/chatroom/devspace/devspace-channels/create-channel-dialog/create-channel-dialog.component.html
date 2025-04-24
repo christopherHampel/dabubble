@@ -16,21 +16,24 @@
   </div>
 
   <form class="create-channel-form" action="">
-    <div>
+    <div style="position:relative;">
       <p><b>Channel-Name</b></p>
       <input #inputField name="channelName" [(ngModel)]="channelName" (ngModelChange)="updateValue($event)"
              (keydown)="onKeyDown($event)" class="input-text" type="text" placeholder="#   z.B. Kooperationsprojekt"
              autocomplete="off">
+      <div *ngIf="channelExist()" class="form-error">
+        <small>Channelname existiert bereits.</small>
+      </div>
     </div>
 
-    <div>
+    <div [ngStyle]="{ 'margin-top': channelExist() ? '16px' : '0' }">
       <p><b>Beschreibung</b> <span class="color-light-gray"> (optional)</span></p>
       <textarea [(ngModel)]="channelDescription" name="channelDescription" class="textarea-text"
                 placeholder="Dein Text hier" maxlength="120"></textarea>
     </div>
 
     <button class="primary-button" (click)="createChannel(); openAddPeopleDialog()"
-            [disabled]="!channelName">Erstellen
+            [disabled]="!channelName || channelExist()">Erstellen
     </button>
   </form>
 

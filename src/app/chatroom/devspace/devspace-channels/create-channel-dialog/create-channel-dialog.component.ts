@@ -25,6 +25,12 @@ export class CreateChannelDialogComponent {
   @Output() dialogComponent = new EventEmitter<'none' | 'addPeople' | 'mobile'>();
   @ViewChild('inputField') inputFieldRef!: ElementRef<HTMLInputElement>;
 
+  channelExist() {
+    const nameWithOutHashtag = this.channelName.substring(4);
+    return this.channelsDb.channelList.find(channel => channel.name === nameWithOutHashtag);
+  }
+
+
   focusInput() {
     this.resetInputs();
     setTimeout(() => this.inputFieldRef.nativeElement.focus(), 50);

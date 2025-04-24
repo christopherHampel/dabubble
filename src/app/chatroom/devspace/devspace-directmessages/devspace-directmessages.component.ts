@@ -39,10 +39,23 @@ export class DevspaceDirectmessagesComponent {
         this.selectedUserIdSig.set(this.usersDb.currentUser.channelFriendHighlighted);
       }
 
-      if (this.flag) this.getLocalUserList = this.usersDb.userList;
-      setTimeout(() => this.flag = false, 2500);
+      this.loadUserList();
     })
   }
+
+
+  addUser(event: boolean) {
+    this.flag = event;
+
+    setTimeout(() => this.loadUserList(), 250);
+  }
+
+
+  loadUserList() {
+    if (this.flag) this.getLocalUserList = this.usersDb.userList;
+    setTimeout(() => this.flag = false, 2500);
+  }
+
 
   openDirectmessages() {
     this.directmessagesOpen = !this.directmessagesOpen;

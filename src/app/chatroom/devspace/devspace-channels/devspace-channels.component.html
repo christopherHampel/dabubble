@@ -30,6 +30,6 @@
 </section>
 
 <app-create-channel-dialog #createChannel></app-create-channel-dialog>
-<app-add-people-dialog #addPeople></app-add-people-dialog>
+<app-add-people-dialog #addPeople (loadChannelList)="addChannel($event)"></app-add-people-dialog>
 <app-transparent-background [backgroundOpen]="isDialogOpen()"
                             (click)="closeAddPeopleDialog()"></app-transparent-background>

@@ -27,7 +27,9 @@ export class AddFriendDialogComponent {
 
   selectedUser: UserProfile = {} as UserProfile;
   mobileClose: boolean = false;
+  startChatWithoutAddUser: boolean = false;
 
+  @Output() loadUserList = new EventEmitter<boolean>();
   @ViewChild('addPeopleInput') addPeopleInput!: any;
 
   constructor(private router: Router) { }
@@ -58,8 +60,9 @@ export class AddFriendDialogComponent {
       const chatId = await this.chatService.setPrivateChat(this.selectedUser, 'messages');
       this.chatService.currentChatId = chatId;
       this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', chatId]}}]);
-      await this.usersDb.addDirectMessageWith(this.selectedUser['id']);
+      if (!this.startChatWithoutAddUser) await this.usersDb.addDirectMessageWith(this.selectedUser['id']);
       this.closeAddFriendDialog();
+      this.loadUserList.emit(true);
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);
     }

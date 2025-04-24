@@ -57,6 +57,18 @@ p {
     }
 }
 
+.form-error {
+  position: absolute;
+  line-height: 12px;
+  left: 0;
+  top: calc(6px + 100%);
+
+  small {
+    color: red;
+    font-size: 14px;
+  }
+}
+
 .color-light-gray {
     color: #7B7B7B;
 }

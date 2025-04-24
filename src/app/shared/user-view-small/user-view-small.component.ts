@@ -17,6 +17,7 @@ export class UserViewSmallComponent {
   @Input() selectedUserId: string = '';
   @Input() user: any;
   @Input() cursorDefault: boolean = false;
+  @Input() alreadyAddedUsers: boolean = false;
 
   setCursorDefault(userId: string) {
     return userId === this.usersDb.currentUser?.id && this.cursorDefault;

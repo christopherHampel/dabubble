@@ -31,7 +31,7 @@ export class AddPeopleDialogComponent {
   selectedChannel: string = '';
   flag: boolean = true;
 
-  @Output() dialogComponent = new EventEmitter<'none' | 'createChannel'>();
+  @Output() loadChannelList = new EventEmitter<boolean>();
   @ViewChild('addPeopleInput') addPeopleInput!: any;
 
   constructor() {
@@ -114,6 +114,8 @@ export class AddPeopleDialogComponent {
     } else {
       this.createChannelOption2()
     }
+
+    this.loadChannelList.emit(true);
   }
 
 

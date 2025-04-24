@@ -2,59 +2,64 @@
 @use '../../chatroom/devspace/devspace.component.scss';
 
 .user-view-small {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+
+  width: max-content;
+
+  padding: 4px 20px;
+
+  transition: all 75ms;
+
+  border-radius: 35px;
+
+  & > div {
+    position: relative;
+
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 15px;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
 
-    width: max-content;
+  img {
+    width: 50px;
+    height: 50px;
 
-    padding: 4px 20px;
+    border-radius: 50%;
 
-    transition: all 75ms;
+    object-fit: contain;
+  }
 
-    border-radius: 35px;
+  span {
 
-    &>div {
-        position: relative;
+    font-size: 18px;
+  }
 
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        justify-content: flex-end;
-    }
-
-    img {
-        width: 50px;
-        height: 50px;
-
-        border-radius: 50%;
-
-        object-fit: contain;
-    }
-
-    span {
-
-        font-size: 18px;
-    }
-
-    &:hover {
-        cursor: pointer;
-
-        background-color: #ECEEFE;
-    }
+  &:hover {
+    cursor: pointer;
+    background-color: #ECEEFE;
+  }
 }
 
 .user-view-small.selected {
-    font-weight: 700;
+  font-weight: 700;
 
-    color: #535Af1;
-    background-color: #ECEEFE;
+  color: #535Af1;
+  background-color: #ECEEFE;
+}
+
+.alreadyAddedUserColor {
+  font-weight: 700;
+
+  color: #00cc00;
 }
 
 @media(max-width: 500px) {
-    .user-view-small {
-        width: unset;
-        padding: 8px;
-    }
+  .user-view-small {
+    width: unset;
+    padding: 8px;
+  }
 }

@@ -14,7 +14,7 @@
 
   <form (ngSubmit)="selectedUser['id'] ? startChat() : null">
 
-    <app-add-people-input #addPeopleInput [component]="'addFriend'" class="width-100-percent"
+    <app-add-people-input #addPeopleInput (startChatWithoutAddUser)="startChatWithoutAddUser = $event" [component]="'addFriend'" class="width-100-percent"
                           (selectedUserOut)="selectUser($event)"></app-add-people-input>
 
     <button class="primary-button" type="submit" [disabled]="!selectedUser['id']">Chat starten</button>

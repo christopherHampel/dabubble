@@ -6,8 +6,8 @@ import {ChannelsDbService} from '../../../services/message/channels-db.service';
 import {Router} from '@angular/router';
 import {UsersDbService} from '../../../services/usersDb/users-db.service';
 import {ResizeService} from '../../../services/responsive/resize.service';
-import { DialogWindowControlService } from '../../../services/dialog-window-control/dialog-window-control.service';
-import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
+import {DialogWindowControlService} from '../../../services/dialog-window-control/dialog-window-control.service';
+import {TransparentBackgroundComponent} from '../../../shared/transparent-background/transparent-background.component';
 import {Channel} from '../../../interfaces/channel';
 
 @Component({
@@ -42,9 +42,21 @@ export class DevspaceChannelsComponent {
         this.selectedChannelIdSig.set(this.usersDb.currentUser.channelFriendHighlighted);
       }
 
-      if (this.flag) this.getLocalChannelList = this.channelsDb.channelList;
-      setTimeout(() => this.flag = false, 2500);
+      this.loadChannelList();
     })
+  }
+
+
+  addChannel(event: boolean) {
+    this.flag = event;
+
+    setTimeout(() => this.loadChannelList(), 250);
+  }
+
+
+  loadChannelList() {
+    if (this.flag) this.getLocalChannelList = this.channelsDb.channelList;
+    setTimeout(() => this.flag = false, 2500);
   }
 
 
@@ -56,11 +68,7 @@ export class DevspaceChannelsComponent {
 
 
   getChannelList() {
-    if (this.channelsDb.channelList) {
-      return this.getLocalChannelList;
-    } else {
-      return [];
-    }
+    return this.getLocalChannelList;
   }
 
 

@@ -31,5 +31,5 @@
 
 </section>
 
-<app-add-friend-dialog #addFriend></app-add-friend-dialog>
+<app-add-friend-dialog #addFriend (loadUserList)="addUser($event)"></app-add-friend-dialog>
 <app-transparent-background [backgroundOpen]="isDialogOpen()"></app-transparent-background>

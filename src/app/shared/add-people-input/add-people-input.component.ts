@@ -23,10 +23,12 @@ export class AddPeopleInputComponent {
   userName: string = '';
   selectedUser: UserProfile = {} as UserProfile;
   selectedUserList: UserProfile[] = [];
+  alreadyAddedUserCheck: boolean = false;
 
   @Input() component: 'addFriend' | 'addPeople' | 'addMembers' = 'addFriend';
   @Output() selectedUserOut = new EventEmitter<UserProfile>();
   @Output() selectedUserListOut = new EventEmitter<UserProfile[]>();
+  @Output() startChatWithoutAddUser = new EventEmitter<boolean>();
   @ViewChild('inputField') inputFieldRef!: ElementRef<HTMLInputElement>;
 
 
@@ -60,9 +62,21 @@ export class AddPeopleInputComponent {
 
   getUserFriend() {
     return this.usersDb.userList.filter(user =>
-      user.id != this.usersDb.currentUser!.id &&
-      !this.usersDb.currentUser!.directmessagesWith.includes(user.id)
+      user.id != this.usersDb.currentUser!.id //&&
+      //!this.usersDb.currentUser!.directmessagesWith.includes(user.id)
     );
+  }
+
+
+  setAlreadyAddedUser(user: any) {
+    this.alreadyAddedUserCheck = this.usersDb.currentUser!.directmessagesWith.includes(user.id);
+    this.startChatWithoutAddUser.emit(this.alreadyAddedUserCheck);
+    console.log(this.alreadyAddedUserCheck);
+  }
+
+
+  alreadyAddedUser(user: any) {
+    return this.usersDb.currentUser!.directmessagesWith.includes(user.id);
   }
 
 
