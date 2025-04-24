@@ -47,22 +47,15 @@ export class LoginComponent {
   }
 
   onGaestLogin() {
-    this.auth.login('gaest@gaest.com', '123456Aa!').then(() => {
-      this.forwardToChatroom();
-    });
+    this.loginForm.setValue({
+      email: 'gast@gast.de',
+      password: '123Dd!',
+    })
+    this.onLogin();
+    // this.auth.login('gast@gast.de', '123Dd!').then(() => {
+    //   this.forwardToChatroom();
+    // });
   }
-
-  // onLoginWithGoogle() {
-  //   this.auth.loginWithGoogle()
-  //     .then(async () => {
-  //       this.auth.currentAuthUser.subscribe(async (user) => {
-  //         if (user) {
-  //           await this.newUser(user);
-  //           this.forwardToChatroom();
-  //         }
-  //       })
-  //     });
-  // }
 
   onLoginWithGoogle() {
     this.auth.loginWithGoogle()

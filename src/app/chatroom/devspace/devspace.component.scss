@@ -114,6 +114,7 @@
 
 .padding-card {
   padding: 32px 30px;
+  width: calc(328.69px + 60px);
 
   @media (max-width: 500px) {
     padding: 32px 16px;
@@ -207,5 +208,11 @@
 @media(min-width: 960px) {
   .user-profil-wrapper-mobile {
     display: none;
+  }
+}
+
+@media(max-width: 960px) {
+  .padding-card {
+    width: unset;
   }
 }
