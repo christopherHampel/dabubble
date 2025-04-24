@@ -87,9 +87,7 @@ export class SingleMessageComponent {
   cancelEdit() {
     this.isEditing = false;
     this.emojiPickerEdit = false;
-    if (!this.currentMessage.text.trim()) {
-      this.currentMessage.text = this.originalText;
-    }
+    this.currentMessage.text = this.originalText;
   }
 
   getTime(): string | null {
