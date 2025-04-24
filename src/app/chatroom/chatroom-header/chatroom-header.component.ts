@@ -70,6 +70,7 @@ export class ChatroomHeaderComponent {
 
   onLogout() {
     if (this.usersDb.currentUser) {
+      this.dialogWindowControl.resetDialogs();
       this.usersDb.updateUserStatus(this.usersDb.currentUser.id, false);
       this.usersDb.updateChanelFriendHighlighted('');
       this.auth.logout();
