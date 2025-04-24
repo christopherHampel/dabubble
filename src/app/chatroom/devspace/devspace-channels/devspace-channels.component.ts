@@ -8,6 +8,7 @@ import {UsersDbService} from '../../../services/usersDb/users-db.service';
 import {ResizeService} from '../../../services/responsive/resize.service';
 import { DialogWindowControlService } from '../../../services/dialog-window-control/dialog-window-control.service';
 import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
+import {Channel} from '../../../interfaces/channel';
 
 @Component({
   selector: 'app-devspace-channels',
@@ -27,6 +28,9 @@ export class DevspaceChannelsComponent {
 
   channelsOpen: boolean = true;
   dialog: boolean = false;
+  flag: boolean = true;
+  getLocalChannelList: Channel[] = [];
+
   selectedChannelIdSig = signal<string>('');
 
   @ViewChild('createChannel') createChannel!: any;
@@ -37,6 +41,9 @@ export class DevspaceChannelsComponent {
       if (this.usersDb.currentUser?.channelFriendHighlighted) {
         this.selectedChannelIdSig.set(this.usersDb.currentUser.channelFriendHighlighted);
       }
+
+      if (this.flag) this.getLocalChannelList = this.channelsDb.channelList;
+      setTimeout(() => this.flag = false, 2500);
     })
   }
 
@@ -49,7 +56,11 @@ export class DevspaceChannelsComponent {
 
 
   getChannelList() {
-    return this.channelsDb.channelList;
+    if (this.channelsDb.channelList) {
+      return this.getLocalChannelList;
+    } else {
+      return [];
+    }
   }
 
 

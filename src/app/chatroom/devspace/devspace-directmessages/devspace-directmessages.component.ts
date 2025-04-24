@@ -1,14 +1,14 @@
 import {Component, effect, inject, signal, ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { ChatsService } from '../../../services/message/chats.service';
-import { UsersDbService } from '../../../services/usersDb/users-db.service';
-import { AddFriendDialogComponent } from './add-friend-dialog/add-friend-dialog.component';
-import { UserProfile } from '../../../interfaces/userProfile';
-import { UserViewSmallComponent } from '../../../shared/user-view-small/user-view-small.component';
-import { ResizeService } from '../../../services/responsive/resize.service';
-import { TransparentBackgroundComponent } from '../../../shared/transparent-background/transparent-background.component';
-import { DialogWindowControlService } from '../../../services/dialog-window-control/dialog-window-control.service';
+import {CommonModule} from '@angular/common';
+import {Router} from '@angular/router';
+import {ChatsService} from '../../../services/message/chats.service';
+import {UsersDbService} from '../../../services/usersDb/users-db.service';
+import {AddFriendDialogComponent} from './add-friend-dialog/add-friend-dialog.component';
+import {UserProfile} from '../../../interfaces/userProfile';
+import {UserViewSmallComponent} from '../../../shared/user-view-small/user-view-small.component';
+import {ResizeService} from '../../../services/responsive/resize.service';
+import {TransparentBackgroundComponent} from '../../../shared/transparent-background/transparent-background.component';
+import {DialogWindowControlService} from '../../../services/dialog-window-control/dialog-window-control.service';
 
 @Component({
   selector: 'app-devspace-directmessages',
@@ -25,8 +25,11 @@ export class DevspaceDirectmessagesComponent {
   usersDb = inject(UsersDbService);
   dialogWindowControl = inject(DialogWindowControlService);
 
-  selectedUserIdSig = signal<string>('');
   directmessagesOpen: boolean = true;
+  flag: boolean = true;
+  getLocalUserList: UserProfile[] = [];
+
+  selectedUserIdSig = signal<string>('');
 
   @ViewChild('addFriend') addFriend!: any;
 
@@ -35,15 +38,14 @@ export class DevspaceDirectmessagesComponent {
       if (this.usersDb.currentUser?.channelFriendHighlighted) {
         this.selectedUserIdSig.set(this.usersDb.currentUser.channelFriendHighlighted);
       }
+
+      if (this.flag) this.getLocalUserList = this.usersDb.userList;
+      setTimeout(() => this.flag = false, 2500);
     })
   }
 
   openDirectmessages() {
-    if (this.directmessagesOpen) {
-      this.directmessagesOpen = false;
-    } else {
-      this.directmessagesOpen = true;
-    }
+    this.directmessagesOpen = !this.directmessagesOpen;
   }
 
 
@@ -66,7 +68,7 @@ export class DevspaceDirectmessagesComponent {
 
   getUserList() {
     if (this.usersDb.currentUser) {
-      return this.usersDb.userList.filter(user => this.usersDb.currentUser!.directmessagesWith.includes(user.id));
+      return this.getLocalUserList.filter(user => this.usersDb.currentUser!.directmessagesWith.includes(user.id));
     } else {
       return [];
     }

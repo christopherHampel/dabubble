@@ -178,3 +178,11 @@
     z-index: 7;
   }
 }
+
+@media(max-width: 550px) {
+  .channel-add-members-dialog {
+    width: calc(100vw - 32px);
+
+    padding: 30px 16px 30px 16px;
+  }
+}
