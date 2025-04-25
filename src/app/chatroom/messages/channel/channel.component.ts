@@ -83,6 +83,7 @@ export class ChannelComponent {
   openDialog(child: string) {
     this.dialogWindowControl.openDialog(child);
     child === 'addMembers' ? this.addMembersDialogFocus() : null;
+    this.chatService.setZIndexForNavBarButton(true);
   }
 
   addMembersDialogFocus() {
@@ -95,6 +96,7 @@ export class ChannelComponent {
 
   closeUserProfilDialog() {
     this.membersInfo.closeUserProfilDialog(false);
+    this.chatService.setZIndexForNavBarButton(false);
   }
 
   isDialogOpen() {

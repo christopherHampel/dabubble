@@ -6,6 +6,7 @@ import { UserProfile } from '../../../../interfaces/userProfile';
 import { UserProfilComponent } from '../../../../shared/user-profil/user-profil.component';
 import { UsersDbService } from '../../../../services/usersDb/users-db.service';
 import { DialogWindowControlService } from '../../../../services/dialog-window-control/dialog-window-control.service';
+import { ChatsService } from '../../../../services/message/chats.service';
 
 @Component({
   selector: 'app-channel-members-info',
@@ -30,7 +31,7 @@ export class ChannelMembersInfoComponent {
   @Input() userProfil: boolean = false;
   @Output() addMembersDialogFocus = new EventEmitter<boolean>();
 
-  constructor() {
+  constructor(private chatService: ChatsService) {
     effect(() => {
       this.channelUserDataListReverse = [];
 
@@ -50,6 +51,7 @@ export class ChannelMembersInfoComponent {
 
   closeMembersInfoDialog() {
     this.dialogWindowControl.closeDialog('membersInfo');
+    this.chatService.setZIndexForNavBarButton(false);
   }
 
 

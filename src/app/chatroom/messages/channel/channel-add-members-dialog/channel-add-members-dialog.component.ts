@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {AddPeopleInputComponent} from '../../../../shared/add-people-input/add-people-input.component';
 import {UserProfile} from '../../../../interfaces/userProfile';
 import {DialogWindowControlService} from '../../../../services/dialog-window-control/dialog-window-control.service';
+import { ChatsService } from '../../../../services/message/chats.service';
 
 @Component({
   selector: 'app-channel-add-members-dialog',
@@ -21,6 +22,8 @@ export class ChannelAddMembersDialogComponent {
 
   @ViewChild('addPeopleInput') addPeopleInput!: any;
 
+  constructor(private chatService: ChatsService) { }
+
   focusInput() {
     this.addPeopleInput.focusInput();
   }
@@ -37,6 +40,7 @@ export class ChannelAddMembersDialogComponent {
     setTimeout(() => {
       this.mobileClose = false;
       this.dialogWindowControl.closeDialog('addMembers');
+      this.chatService.setZIndexForNavBarButton(false);
     }, 500)
   }
 

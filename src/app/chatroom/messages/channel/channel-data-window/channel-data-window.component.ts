@@ -8,6 +8,7 @@ import {UserViewSmallComponent} from '../../../../shared/user-view-small/user-vi
 import {UserProfile} from '../../../../interfaces/userProfile';
 import {ResizeService} from '../../../../services/responsive/resize.service';
 import { DialogWindowControlService } from '../../../../services/dialog-window-control/dialog-window-control.service';
+import { ChatsService } from '../../../../services/message/chats.service';
 
 @Component({
   selector: 'app-channel-data-window',
@@ -33,7 +34,7 @@ export class ChannelDataWindowComponent {
 
   @Output() addMembersDialogFocus = new EventEmitter<boolean>();
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private chatService: ChatsService) {
     effect(() => {
       this.channelUserDataListReverse = [];
 
@@ -58,6 +59,7 @@ export class ChannelDataWindowComponent {
   closeDataWindowDialog() {
     this.resetOnClose();
     this.dialogWindowControl.closeDialog('dataWindow');
+    this.chatService.setZIndexForNavBarButton(false);
   }
 
 
