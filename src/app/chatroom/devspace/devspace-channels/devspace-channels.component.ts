@@ -43,6 +43,10 @@ export class DevspaceChannelsComponent {
       }
 
       this.loadChannelList();
+
+      if (this.channelsDb.triggerAddChannelSig()) {
+        this.addChannel(true);
+      }
     })
   }
 
