@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThreadsDbService } from '../../../services/message/threads-db.service';
 import { ResizeService } from '../../../services/responsive/resize.service';
+import { ChatsService } from '../../../services/message/chats.service';
 
 @Component({
   selector: 'app-hide-or-show-navbar',
@@ -10,22 +11,22 @@ import { ResizeService } from '../../../services/responsive/resize.service';
   styleUrl: './hide-or-show-navbar.component.scss'
 })
 export class HideOrShowNavbarComponent {
-  // isClosed: boolean = false;
   isClosed = signal<boolean>(false);
 
-  // @Output() navbarClose = new EventEmitter<boolean>();
-
-  constructor(private threadsDb: ThreadsDbService, private resizeService: ResizeService) {}
+  constructor(private threadsDb: ThreadsDbService, private resizeService: ResizeService, private chatService: ChatsService) {}
 
   get devSpaceClose() {
     return this.resizeService.devSpaceClose()
+  }
+
+  getZIndexForNavBar() {
+    return this.chatService.indexForNavBarButton();
   }
 
   closeDevspace() {
       if(!this.isClosed()) {
         this.resizeService.setDevSpaceClose(true);
         this.setIsClosed(true);
-        // this.isClosed = true;
       } else {
         this.resizeService.setDevSpaceClose(false);
         this.setIsClosed(false);

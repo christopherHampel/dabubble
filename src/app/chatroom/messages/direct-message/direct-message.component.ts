@@ -49,7 +49,7 @@ export class DirectMessageComponent implements OnDestroy {
   openUserProfilDialog() {
     this.dialogWindowControl.openDialog('userProfil');
     this.userProfil = true;
-    console.log('directMessage: ', this.userProfil);
+    this.chatService.setZIndexForNavBarButton(true);
   }
 
   closeUserProfilDialog(event: boolean) {

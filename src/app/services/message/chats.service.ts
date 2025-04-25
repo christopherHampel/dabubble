@@ -25,7 +25,6 @@ import { CurrentMessage } from '../../interfaces/current-message';
 import { SearchDevspaceService } from './search-devspace.service';
 import { IncomingMessage } from '../../interfaces/incoming-message';
 import { MessageAccesories } from '../../interfaces/message-accesories';
-import { Message } from '../../interfaces/message';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +47,7 @@ export class ChatsService {
   chatData!: ChatData;
   menu: boolean = false;
   currentChatId!: string;
+  indexForNavBarButton = signal<boolean>(false);
 
   get chatPartnerId() {
     return this.chatPartnerIdSig();
@@ -470,5 +470,9 @@ export class ChatsService {
         this.firstThreadMessage.set(docSnapshot.data() as IncomingMessage);
       }
     });
+  }
+
+  setZIndexForNavBarButton(value: boolean) {
+    this.indexForNavBarButton.set(value);
   }
 }
