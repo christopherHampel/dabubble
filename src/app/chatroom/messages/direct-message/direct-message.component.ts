@@ -54,7 +54,7 @@ export class DirectMessageComponent implements OnDestroy {
 
   closeUserProfilDialog(event: boolean) {
     this.userProfil = event;
-    console.log('directMessage: ', this.userProfil);
+    this.chatService.setZIndexForNavBarButton(false);
   }
 
   getIdFromUrl() {
