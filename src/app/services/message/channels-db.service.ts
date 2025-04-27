@@ -26,6 +26,9 @@ export class ChannelsDbService {
   channelCreateSig = signal<Channel | null>(null);
   channelUserDataListSig = signal<UserProfile[]>([]);
   channelListSig = signal<Channel[]>([]);
+  triggerAddChannelSig = signal<boolean>(false);
+
+
   private searchAbortController: AbortController | null = null;
   private searchTimeout: any = null;
 
@@ -67,6 +70,12 @@ export class ChannelsDbService {
 
   get channelList() {
     return this.channelListSig();
+  }
+
+  triggerAddChannel() {
+    this.triggerAddChannelSig.set(true);
+
+    setTimeout(() => this.triggerAddChannelSig.set(false), 250);
   }
 
   updateChannel(channel: Partial<Channel>) {

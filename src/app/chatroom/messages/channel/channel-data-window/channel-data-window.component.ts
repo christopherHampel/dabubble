@@ -135,6 +135,8 @@ export class ChannelDataWindowComponent {
 
     await this.channelsDb.changeChannel();
 
+    this.channelsDb.triggerAddChannel();
+
     this.closeDataWindowDialog();
     this.router.navigate(['/chatroom']);
   }
