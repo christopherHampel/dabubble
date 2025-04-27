@@ -86,6 +86,8 @@ export class TextareaComponent implements OnInit {
 
   async sendText() {    
     const messageAccesories = this.getMessagemessageAccesories();
+    this.emojiMartOpen = false;
+    this.autoFocusTextarea();
     
     if (this.component == 'threads') {
       this.sendNewThread();
