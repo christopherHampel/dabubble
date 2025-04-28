@@ -33,7 +33,7 @@
         "
       >
         <span>{{ getTime() }} Uhr</span>
-        <span class="username">{{ currentMessage.messageAuthor.name }}</span>
+        <span class="username">{{ this.usersService.currentUserSig()?.userName }}</span>
       </div>
 
       <div [ngClass]="isEditing ? 'min-width-150' : ''">

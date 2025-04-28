@@ -28,12 +28,12 @@ export class CreateAccountComponent {
       password: ['', [
         Validators.required,
         Validators.minLength(6),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{6,}$/)
       ]],
       privacy: [false, [Validators.requiredTrue]]
     });
   }
-
+  
 
   goToAvatar() {
     const rawForm = this.loginForm.getRawValue();
@@ -49,7 +49,6 @@ export class CreateAccountComponent {
 
   getUser() {
     if (this.loginForm.valid) {
-      console.log('Formularwert:', this.loginForm.value);
       this.goToAvatar();
     } else {
       console.log('Formular ist ungültig');
