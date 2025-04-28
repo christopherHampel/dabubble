@@ -10,7 +10,7 @@ import {
   user,
 } from '@angular/fire/auth';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

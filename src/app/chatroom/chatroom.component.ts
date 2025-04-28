@@ -1,4 +1,4 @@
-import {Component, effect, inject, signal} from '@angular/core';
+import {Component, effect, HostListener, inject, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DevspaceComponent } from './devspace/devspace.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -48,7 +48,18 @@ export class ChatroomComponent {
       } else {
         this.router.navigateByUrl('/register/login');
       }
-    })
+    });
+    this.checkWindowSize();
+  }
+
+  checkWindowSize() {
+    const width = window.innerWidth;
+    this.resize.setZIndexChats(width <= 960);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkWindowSize();
   }
 
   onUserSelected(username: string): void {

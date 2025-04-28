@@ -12,6 +12,15 @@
     ],
     "headers": [
       {
+        "source": "/auth/**",
+        "headers": [
+          {
+            "key": "Cross-Origin-Opener-Policy",
+            "value": "unsafe-none"
+          }
+        ]
+      },
+      {
         "source": "**",
         "headers": [
           {

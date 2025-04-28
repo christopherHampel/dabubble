@@ -52,9 +52,6 @@ export class LoginComponent {
       password: '123Dd!',
     })
     this.onLogin();
-    // this.auth.login('gast@gast.de', '123Dd!').then(() => {
-    //   this.forwardToChatroom();
-    // });
   }
 
   onLoginWithGoogle() {
