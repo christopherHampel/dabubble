@@ -49,19 +49,23 @@ export class ChooseAvatarComponent {
     }
   }
 
-  onRegister() {
-    this.authService.userFeedback('Konto erfolgreich erstellt!');
-    this.router.navigateByUrl('/register/login');
-    this.auth
-      .register(this.userName, this.email, this.password, this.currentAvatar)
-      .then(async (uid) => {
-        await this.saveUser(uid);
-          setTimeout(() => this.auth.logout(), 1000);
-      })
-      .catch(() => {
-        this.router.navigateByUrl('/register/create-account');
-      });
+  async onRegister() {
+    try {
+      const uid = await this.auth.register(this.userName, this.email, this.password, this.currentAvatar);
+      await this.saveUser(uid);
+  
+      this.authService.userFeedback('Konto erfolgreich erstellt!');
+      
+      setTimeout(() => {
+        this.auth.logout();
+        this.router.navigateByUrl('/register/login');
+      }, 1000);
+  
+    } catch (error) {
+      this.router.navigateByUrl('/register/create-account');
+    }
   }
+  
 
   async saveUser(uid: string) {
     let user: UserProfile = {
