@@ -140,6 +140,7 @@ export class AddPeopleDialogComponent {
     });
 
     await this.channelsDb.addChannel();
+    this.channelsDb.triggerNewChannel();
     this.closeAddPeopleDialog();
   }
 
@@ -147,6 +148,7 @@ export class AddPeopleDialogComponent {
   async createChannelOption2() {
     await this.addPeopleInput.createChannel();
     this.addPeopleInput.resetSelectedUserList();
+    this.channelsDb.triggerNewChannel();
     this.closeAddPeopleDialog();
   }
 

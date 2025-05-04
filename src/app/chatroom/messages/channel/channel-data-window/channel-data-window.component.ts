@@ -110,6 +110,8 @@ export class ChannelDataWindowComponent {
     })
 
     await this.channelsDb.changeChannel();
+
+    this.channelsDb.triggerAddChannel();
   }
 
 

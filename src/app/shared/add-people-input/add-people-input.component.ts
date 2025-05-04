@@ -71,7 +71,6 @@ export class AddPeopleInputComponent {
   setAlreadyAddedUser(user: any) {
     this.alreadyAddedUserCheck = this.usersDb.currentUser!.directmessagesWith.includes(user.id);
     this.startChatWithoutAddUser.emit(this.alreadyAddedUserCheck);
-    console.log(this.alreadyAddedUserCheck);
   }
 
 

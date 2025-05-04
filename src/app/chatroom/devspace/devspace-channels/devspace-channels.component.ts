@@ -47,6 +47,11 @@ export class DevspaceChannelsComponent {
       if (this.channelsDb.triggerAddChannelSig()) {
         this.addChannel(true);
       }
+
+      if (this.channelsDb.triggerNewChannelSig()) {
+        this.selectChannel(this.channelsDb.channelSig().id);
+        this.openChannel(this.channelsDb.channelSig().id);
+      }
     })
   }
 

@@ -3,14 +3,14 @@
         <div class="logo width-300 pd-top-50 flex-center">
             <img src="/img/logo_complete.png" alt="">
 
-            <section class="startscreen">
+            <section class="startscreen" [ngStyle]="{ 'display': flag ? 'none' : 'block'}">
               <div class="logo-icon">
                   <img src="/img/logo_name_white.png" alt="">
                   <img src="/img/logo_icon.png" alt="">
               </div>
           </section>
         </div>
-        
+
           <div class="overlay-start-container">
             <div class="start-container">
               <router-outlet></router-outlet>
@@ -24,7 +24,7 @@
               </div>
             </div>
           </div>
-        
+
           <div class="to-signup width-300 pd-top-50 flex-center" *ngIf="currentRoute()">
             <span>Neu bei DABubble?</span>
             <a [routerLink]="['/register/create-account']" class="signup-link style-a"

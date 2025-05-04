@@ -22,11 +22,12 @@ export class ChannelsDbService {
   private channels = inject(Firestore);
   private usersDb = inject(UsersDbService);
 
-  channelSig = signal<Channel | null>(null);
+  channelSig = signal<Channel>({} as Channel);
   channelCreateSig = signal<Channel | null>(null);
   channelUserDataListSig = signal<UserProfile[]>([]);
   channelListSig = signal<Channel[]>([]);
   triggerAddChannelSig = signal<boolean>(false);
+  triggerNewChannelSig = signal<boolean>(false);
 
 
   private searchAbortController: AbortController | null = null;
@@ -72,6 +73,12 @@ export class ChannelsDbService {
     return this.channelListSig();
   }
 
+  triggerNewChannel() {
+    this.triggerNewChannelSig.set(true);
+
+    setTimeout(() => this.triggerNewChannelSig.set(false), 250);
+  }
+
   triggerAddChannel() {
     this.triggerAddChannelSig.set(true);
 
@@ -106,6 +113,7 @@ export class ChannelsDbService {
           id: docRef.id,
         });
         this.channelSig.set(this.channelCreateSig() as Channel);
+        this.channelSig.update((currentData) => ({...currentData!, id: docRef.id}));
       }
     );
   }

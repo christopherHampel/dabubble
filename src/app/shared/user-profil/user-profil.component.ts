@@ -108,6 +108,8 @@ export class UserProfilComponent {
       const chatId = await this.chatService.setPrivateChat(this.chatPartner, "messages");
       this.chatService.currentChatId = chatId;
       this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', chatId], thread: null}}]);
+      await this.usersDb.addDirectMessageWith(this.chatPartner.id);
+      this.usersDb.triggerAddUserId(this.chatPartner.id);
     } catch (error) {
       console.error('Fehler beim Erstellen des Chats:', error);
     }

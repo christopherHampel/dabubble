@@ -40,6 +40,10 @@ export class DevspaceDirectmessagesComponent {
       }
 
       this.loadUserList();
+
+      if (this.usersDb.triggerAddUserIdSig()) {
+        this.selectUser(this.usersDb.triggerAddUserIdSig());
+      }
     })
   }
 

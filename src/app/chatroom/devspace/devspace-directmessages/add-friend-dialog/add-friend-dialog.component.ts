@@ -61,6 +61,7 @@ export class AddFriendDialogComponent {
       this.chatService.currentChatId = chatId;
       this.router.navigate(['/chatroom', {outlets: {chats: ['direct-message', chatId]}}]);
       if (!this.startChatWithoutAddUser) await this.usersDb.addDirectMessageWith(this.selectedUser['id']);
+      this.usersDb.triggerAddUserId(this.selectedUser.id);
       this.closeAddFriendDialog();
       this.loadUserList.emit(true);
     } catch (error) {

@@ -19,6 +19,7 @@ import { OverlayUserfeedbackComponent } from '../shared/overlay-userfeedback/ove
 })
 export class RegistrationComponent {
   feedback: boolean = true;
+  flag: boolean = false;
 
   images: string[] = [
     '/img/D.png',
@@ -41,6 +42,8 @@ export class RegistrationComponent {
     this.getTypewriterEffect(this.images, 200).subscribe((images) => {
       this.currentImages = images;
     });
+
+    setTimeout(() => this.flag = true, 6000);
   }
 
   getTypewriterEffect(images: string[], speed: number = 200) {

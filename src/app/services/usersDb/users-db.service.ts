@@ -13,6 +13,7 @@ export class UsersDbService {
   currentUserSig = signal<UserProfile | null>(null);
   userSig = signal<UserProfile | null>(null);
   userListSig = signal<UserProfile[]>([]);
+  triggerAddUserIdSig = signal<string>('');
 
   constructor() {
     this.auth.currentAuthUser.subscribe((user) => {
@@ -40,6 +41,12 @@ export class UsersDbService {
 
   get userList() {
     return this.userListSig();
+  }
+
+  triggerAddUserId(id: string) {
+    this.triggerAddUserIdSig.set(id);
+
+    setTimeout(() => this.triggerAddUserIdSig.set(''), 250);
   }
 
 
