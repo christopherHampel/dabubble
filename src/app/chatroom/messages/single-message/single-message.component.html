@@ -19,7 +19,7 @@
   >
     <div class="avatar-message">
       <img
-        [src]="this.usersService.currentUserSig()?.avatar || '/img/empty_profile.png'"
+        [src]="getAvatar()"
         alt=""
       />
     </div>

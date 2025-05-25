@@ -337,4 +337,12 @@ export class SingleMessageComponent {
       return this.currentMessage.messageAuthor.name;
     }
   }
+
+  getAvatar() {
+    if (this.currentMessage.messageAuthor.id === this.usersService.currentUserSig()?.id) {
+      return this.usersService.currentUserSig()?.avatar;
+    } else {
+      return this.currentMessage.messageAuthor.avatar;
+    }
+  }
 }
