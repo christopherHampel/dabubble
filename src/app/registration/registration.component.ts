@@ -26,8 +26,6 @@ export class RegistrationComponent {
     '/img/A.png',
     '/img/B.png',
     '/img/u.png',
-    // '/img/small_b_white.png',
-    // '/img/small_b_white.png',
     '/img/small_b1.png',
     '/img/small_b2.png',
     '/img/l.png',
@@ -42,7 +40,6 @@ export class RegistrationComponent {
     this.getTypewriterEffect(this.images, 200).subscribe((images) => {
       this.currentImages = images;
     });
-
     setTimeout(() => this.flag = true, 6000);
   }
 

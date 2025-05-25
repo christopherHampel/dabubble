@@ -19,7 +19,7 @@
   >
     <div class="avatar-message">
       <img
-        [src]="currentMessage.messageAuthor.avatar || '/img/empty_profile.png'"
+        [src]="this.usersService.currentUserSig()?.avatar || '/img/empty_profile.png'"
         alt=""
       />
     </div>
@@ -33,7 +33,8 @@
         "
       >
         <span>{{ getTime() }} Uhr</span>
-        <span class="username">{{ this.usersService.currentUserSig()?.userName }}</span>
+        <!-- <span class="username">{{ this.usersService.currentUserSig()?.userName }}</span> -->
+        <span class="username">{{ getChatPartnerName() }}</span>
       </div>
 
       <div [ngClass]="isEditing ? 'min-width-150' : ''">

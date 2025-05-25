@@ -329,4 +329,12 @@ export class SingleMessageComponent {
       return sortedNames.length === 1 ? 'hat reagiert' : 'haben reagiert';
     }
   }
+
+  getChatPartnerName() {
+    if (this.currentMessage.messageAuthor.id === this.usersService.currentUserSig()?.id) {
+      return this.usersService.currentUserSig()?.userName;
+    } else {
+      return this.currentMessage.messageAuthor.name;
+    }
+  }
 }

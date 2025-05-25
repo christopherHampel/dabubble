@@ -55,15 +55,16 @@ export class ChooseAvatarComponent {
       await this.saveUser(uid);
   
       this.authService.userFeedback('Konto erfolgreich erstellt!');
-  
-      await this.auth.logout();
-      this.router.navigateByUrl('/register/login');
       
+      setTimeout(() => {
+        this.auth.logout();
+        this.router.navigateByUrl('/register/login');
+      }, 1000);
+  
     } catch (error) {
       this.router.navigateByUrl('/register/create-account');
     }
   }
-  
 
   async saveUser(uid: string) {
     let user: UserProfile = {
